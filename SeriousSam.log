@@ -1,0 +1,69 @@
+
+--- Serious Engine Startup ---
+  SeriousEngine Build: 10000.7
+
+Executable: V:\Programs\SamSDK\Bin\SeriousSam.exe
+Assumed engine directory: V:\Programs\SamSDK\
+
+Examining underlying OS...
+  Type: WinNT
+  Version: 6.2, build 9200
+  Misc: 
+
+Detecting CPU...
+  Vendor: GenuineIntel
+  Type: 0, Family: 6, Model: 5, Stepping: 2
+  MMX : Yes
+  CMOV: Yes
+  Clock: 2592MHz
+
+Global memory status...
+  Physical memory used:    0/2047MB
+  Page file used:          0/4095MB
+  Virtual memory used:    80/2047MB
+  Memory load:  39%
+  Process working set: 0MB-1MB
+
+Cannot load variable from 'DefaultMod.txt':
+Cannot open file `V:\Programs\SamSDK\DefaultMod.txt' (No such file or directory) ()
+Current mod: <none>
+Cannot load variable from 'ModExt.txt':
+Cannot open file `V:\Programs\SamSDK\ModExt.txt' (No such file or directory) ()
+Loading group files...
+
+Cannot open file `V:\Programs\SamSDK\Data\NoCRC.lst' (No such file or directory) ()
+Detecting input devices...
+  joysticks found: 16
+  joysticks allowed: 8
+  joy 1:  error 0x000000a5
+  joy 2:  error 0x000000a5
+  joy 3:  error 0x000000a5
+  joy 4:  error 0x000000a5
+  joy 5:  error 0x000000a5
+  joy 6:  error 0x000000a5
+  joy 7:  error 0x000000a5
+  joy 8:  error 0x000000a5
+
+Desktop settings...
+  Color Depth: 32bit
+  Screen: 1536x864
+  Virtual screen: 1536x864
+  Monitors directly reported: 1
+
+Current display: 'CDD' version 1025 - 1920x1080x32
+
+Initializing sound...
+  vorbisfile.dll loaded, ogg playing enabled
+MPX playing disabled: Cannot load amp11lib.dll.
+  Detected devices: 2
+    device 0: Realtek HD Audio 2nd output (Re
+      ver: 2560, id: 1.100
+      form: 0x000fffff, ch: 2, support: 0x0000002e
+    device 1: Динамики (Realtek(R) Audio)
+      ver: 2560, id: 1.100
+      form: 0x000fffff, ch: 2, support: 0x0000002e
+
+  CDS: mode reset to original desktop settings
+FatalError:
+Cannot initialize classes:
+Cannot open file `V:\Programs\SamSDK\Classes\Player.ecl' (No such file or directory) ()

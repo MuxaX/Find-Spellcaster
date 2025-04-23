@@ -1,0 +1,94 @@
+//=====================================================
+Crashed at: 11/03/21 09:28:24
+Version: 10000.7
+Exception code: C0000005 ACCESS_VIOLATION
+Fault address:  600E7AB8 01:00026AB8 V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\Engine.dll
+
+Registers:
+EAX:07B80000
+EBX:600E7AA0
+ECX:0019F350
+EDX:0019F300
+ESI:02838248
+EDI:54545256
+CS:EIP:0023:600E7AB8
+SS:ESP:002B:0019F2AC  EBP:0019F2B8
+DS:002B  ES:002B  FS:0053  GS:002B
+Flags:00010202
+
+manual stack frame walk begin:
+Address   Frame     Logical addr  Module
+600E7AB8 0019F2B8 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\Engine.dll 0001:00026AB8
+00403062 0019F3CC $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\SeriousEditor32.exe 0001:00002062
+0042A2AC 0019F46C $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\SeriousEditor32.exe 0001:000292AC
+6C371F1B 0019F4E8 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:00000F1B
+6C371CEA 0019F508 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:00000CEA
+6C371C73 0019F568 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:00000C73
+6C371BFB 0019F584 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:00000BFB
+6C371BBA 0019F5B0 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:00000BBA
+76E2348B 0019F5DC $adr: C:\Windows\System32\USER32.dll 0001:0004248B
+76E1A42A 0019F6C0 $adr: C:\Windows\System32\USER32.dll 0001:0003942A
+76E1A02A 0019F724 $adr: C:\Windows\System32\USER32.dll 0001:0003902A
+76E21339 0019F770 $adr: C:\Windows\System32\USER32.dll 0001:00040339
+77B74E9D 0019FAD4 $adr: C:\Windows\SYSTEM32\ntdll.dll 0001:00073E9D
+76E11C27 0019FBB8 $adr: C:\Windows\System32\USER32.dll 0001:00030C27
+76E0AA18 0019FBF8 $adr: C:\Windows\System32\USER32.dll 0001:00029A18
+6C37DDCC 0019FC68 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:0000CDCC
+6C37C376 0019FCA8 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:0000B376
+6C37C12D 0019FCE8 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:0000B12D
+6C382167 0019FE78 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:00011167
+00444D2C 0019FEB0 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\SeriousEditor32.exe 0001:00043D2C
+6C37B4F3 0019FF70 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:0000A4F3
+76FDFA29 0019FF80 $adr: C:\Windows\System32\KERNEL32.DLL 0001:0000FA29
+77B67A9E 0019FFDC $adr: C:\Windows\SYSTEM32\ntdll.dll 0001:00066A9E
+77B67A6E 0019FFEC $adr: C:\Windows\SYSTEM32\ntdll.dll 0001:00066A6E
+
+manual stack frame walk end:
+
+//=====================================================
+Crashed at: 04/04/22 23:09:33
+Version: 10000.7
+Exception code: C0000005 ACCESS_VIOLATION
+Fault address:  600E7AB8 01:00026AB8 V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\Engine.dll
+
+Registers:
+EAX:03E70000
+EBX:600E7AA0
+ECX:0019F350
+EDX:0019F300
+ESI:038106C0
+EDI:54545256
+CS:EIP:0023:600E7AB8
+SS:ESP:002B:0019F2AC  EBP:0019F2B8
+DS:002B  ES:002B  FS:0053  GS:002B
+Flags:00010202
+
+manual stack frame walk begin:
+Address   Frame     Logical addr  Module
+600E7AB8 0019F2B8 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\Engine.dll 0001:00026AB8
+00403062 0019F3CC $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\SeriousEditor32.exe 0001:00002062
+0042A2AC 0019F46C $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\SeriousEditor32.exe 0001:000292AC
+6C371F1B 0019F4E8 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:00000F1B
+6C371CEA 0019F508 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:00000CEA
+6C371C73 0019F568 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:00000C73
+6C371BFB 0019F584 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:00000BFB
+6C371BBA 0019F5B0 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:00000BBA
+755C109B 0019F5DC $adr: C:\Windows\System32\USER32.dll 0001:0004009B
+755B805A 0019F6C0 $adr: C:\Windows\System32\USER32.dll 0001:0003705A
+755B7C5A 0019F724 $adr: C:\Windows\System32\USER32.dll 0001:00036C5A
+755BEF49 0019F770 $adr: C:\Windows\System32\USER32.dll 0001:0003DF49
+77484E7D 0019FAD4 $adr: C:\Windows\SYSTEM32\ntdll.dll 0001:00073E7D
+755AF857 0019FBB8 $adr: C:\Windows\System32\USER32.dll 0001:0002E857
+755A8648 0019FBF8 $adr: C:\Windows\System32\USER32.dll 0001:00027648
+6C37DDCC 0019FC68 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:0000CDCC
+6C37C376 0019FCA8 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:0000B376
+6C37C12D 0019FCE8 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:0000B12D
+6C382167 0019FE78 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:00011167
+00444D2C 0019FEB0 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\SeriousEditor32.exe 0001:00043D2C
+6C37B4F3 0019FF70 $adr: V:\Games\Steam\steamapps\common\Serious Sam Classic The Second Encounter\Bin\MFC42.DLL 0001:0000A4F3
+75A7FA29 0019FF80 $adr: C:\Windows\System32\KERNEL32.DLL 0001:0000FA29
+77477A7E 0019FFDC $adr: C:\Windows\SYSTEM32\ntdll.dll 0001:00066A7E
+77477A4E 0019FFEC $adr: C:\Windows\SYSTEM32\ntdll.dll 0001:00066A4E
+
+manual stack frame walk end:
+
