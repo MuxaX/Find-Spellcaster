@@ -8,6 +8,7 @@
 #include <EntitiesMP\HazeMarker.h>
 #include <EntitiesMP\MirrorMarker.h>
 #include <EntitiesMP\GradientMarker.h>
+#include <EntitiesMP/Debris.h>
 extern "C" DECL_DLL CDLLEntityClass CWorldBase_DLLClass;
 class CWorldBase : public CEntity {
 public:
@@ -73,61 +74,61 @@ virtual const CTString &GetDescription(void) const { return m_strDescription; };
   ULONG m_vbVisibilityBits;
   FLOAT m_fOpacity;
    
-#line 1001 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1010 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 ULONG GetVisTweaks(void);
    
-#line 1007 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1016 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 BOOL IsTargetValid(SLONG slPropertyOffset,CEntity * penTarget);
    
-#line 1062 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1071 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 const CTString & GetForceName(INDEX iForce);
    
-#line 1084 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1093 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 void GetForce(INDEX iForce,const FLOAT3D & vPoint,
-#line 1085 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1094 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 CForceStrength & fsGravity,CForceStrength & fsField);
    
-#line 1107 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1116 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 CEntity * GetForceController(INDEX iForce);
    
-#line 1123 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1132 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 const CTString & GetFogName(INDEX iFog);
    
-#line 1139 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1148 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 BOOL GetFog(INDEX iFog,class CFogParameters & fpFog);
    
-#line 1153 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1162 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 const CTString & GetHazeName(INDEX iHaze);
    
-#line 1170 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1179 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 BOOL GetHaze(INDEX iHaze,class CHazeParameters & hpHaze,FLOAT3D & vViewDir);
    
-#line 1184 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1193 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 const CTString & GetMirrorName(INDEX iMirror);
    
-#line 1218 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1227 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 BOOL GetMirror(INDEX iMirror,class CMirrorParameters & mpMirror);
    
-#line 1240 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1249 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 const CTString & GetGradientName(INDEX iGradient);
    
-#line 1256 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1265 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 void UncacheShadowsForGradient(class CGradientMarker * penDiscard);
    
-#line 1270 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1279 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 BOOL GetGradient(INDEX iGradient,class CGradientParameters & fpGradient);
    
-#line 1283 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1292 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 BOOL HandleEvent(const CEntityEvent & ee);
    
-#line 1298 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1307 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 SLONG GetUsedMemory(void);
    
-#line 1310 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1319 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 FLOAT GetOpacity(void);
 #define  STATE_CWorldBase_Main 1
   BOOL 
-#line 1320 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1329 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 Main(const CEntityEvent &__eeInput);
 };
 #endif // _EntitiesMP_WorldBase_INCLUDED

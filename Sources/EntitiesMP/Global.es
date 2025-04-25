@@ -83,6 +83,7 @@ enum EntityInfoBodyType {
   8 EIBT_METAL  "Metal",
   9 EIBT_ROBOT  "Robot",
  10 EIBT_ICE    "Ice",
+ 11 EIBT_GLASS  "Glass",
 };
 
 enum MessageSound {

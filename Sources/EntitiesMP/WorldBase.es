@@ -11,6 +11,7 @@ uses "EntitiesMP\FogMarker";
 uses "EntitiesMP\HazeMarker";
 uses "EntitiesMP\MirrorMarker";
 uses "EntitiesMP\GradientMarker";
+uses "EntitiesMP/Debris";
 
 %{
 
@@ -997,6 +998,7 @@ properties:
   81 flags VisibilityBits m_vbVisibilityBits "Visibility bits" 'V' = 0,
 
   99 FLOAT m_fOpacity "Opacity" = 1.0f,
+  //100 FLOAT m_fHealth     "Health" = -1.0f,
 
 
 components:
@@ -1330,6 +1332,7 @@ procedures:
     InitAsBrush();
     SetPhysicsFlags(EPF_BRUSH_FIXED);
     SetCollisionFlags(ECF_BRUSH);
+	//SetHealth(m_fHealth);
     
     // set zoning
     if( m_bZoning) {

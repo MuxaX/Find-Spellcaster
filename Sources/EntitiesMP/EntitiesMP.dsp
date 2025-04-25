@@ -433,6 +433,10 @@ SOURCE=.\Gizmo.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\GlassBrush.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\Global.cpp
 # End Source File
 # Begin Source File
@@ -1376,6 +1380,14 @@ SOURCE=.\GhostBusterRay_tables.h
 # Begin Source File
 
 SOURCE=.\Gizmo.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\GlassBrush.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\GlassBrush_tables.h
 # End Source File
 # Begin Source File
 
@@ -2376,6 +2388,37 @@ InputName=MovingBrush
 # Begin Custom Build - EntitiesMP/$(InputName).es
 InputPath=.\MovingBrush.es
 InputName=MovingBrush
+
+"$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cd                                                                                                                ..\  
+	ecc EntitiesMP/$(InputName).es 
+	
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
+SOURCE=.\GlassBrush.es
+
+!IF  "$(CFG)" == "EntitiesMP - Win32 Release"
+
+# Begin Custom Build - EntitiesMP/$(InputName).es
+InputPath=.\GlassBrush.es
+InputName=GlassBrush
+
+"$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cd                                                                                                                ..\  
+	ecc EntitiesMP/$(InputName).es 
+	
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "EntitiesMP - Win32 Debug"
+
+# Begin Custom Build - EntitiesMP/$(InputName).es
+InputPath=.\GlassBrush.es
+InputName=GlassBrush
 
 "$(InputName).cpp" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	cd                                                                                                                ..\  

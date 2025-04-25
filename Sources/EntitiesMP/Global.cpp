@@ -109,10 +109,10 @@ void CGlobal::SetDefaultProperties(void) {
   CEntity::SetDefaultProperties();
 }
 BOOL CGlobal::
-#line 297 "V:/Programs/SamSDK/Sources/EntitiesMP/Global.es"
+#line 298 "V:/Programs/SamSDK/Sources/EntitiesMP/Global.es"
 Main(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CGlobal_Main
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CGlobal::Main expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 298 "V:/Programs/SamSDK/Sources/EntitiesMP/Global.es"
+#line 299 "V:/Programs/SamSDK/Sources/EntitiesMP/Global.es"
 ASSERTALWAYS  ("DON'T INSTANTIATE THIS CLASS"); ASSERT(FALSE); return TRUE;};

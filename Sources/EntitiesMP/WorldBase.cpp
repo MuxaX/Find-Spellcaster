@@ -12,7 +12,7 @@
 
 #include <EntitiesMP/WorldBase.h>
 #include <EntitiesMP/WorldBase_tables.h>
-#line 15 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 16 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 
 
 inline void Clear(EntityStats &es) {es.es_strName.Clear();};
@@ -982,603 +982,603 @@ void CWorldBase::SetDefaultProperties(void) {
   CEntity::SetDefaultProperties();
 }
   
-#line 1008 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-ULONG CWorldBase::GetVisTweaks(void) 
-#line 1009 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-{
 #line 1010 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return m_cbClassificationBits  | m_vbVisibilityBits ;
+ULONG CWorldBase::GetVisTweaks(void) 
 #line 1011 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+{
+#line 1012 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return m_cbClassificationBits  | m_vbVisibilityBits ;
+#line 1013 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
   
-#line 1014 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-BOOL CWorldBase::IsTargetValid(SLONG slPropertyOffset,CEntity * penTarget) 
-#line 1015 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-{
 #line 1016 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(penTarget  == NULL )
+BOOL CWorldBase::IsTargetValid(SLONG slPropertyOffset,CEntity * penTarget) 
 #line 1017 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 {
 #line 1018 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return FALSE ;
+if(penTarget  == NULL )
 #line 1019 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+{
+#line 1020 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return FALSE ;
 #line 1021 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
+#line 1023 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 ULONG  ulFirst  , ulLast ;
-#line 1022 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1024 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 CTString strClass ;
-#line 1025 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-ulFirst  = offsetof  (CWorldBase  , m_penGradient0 );
-#line 1026 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-ulLast  = offsetof  (CWorldBase  , m_penGradient19 );
 #line 1027 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-strClass  = "Gradient Marker";
+ulFirst  = offsetof  (CWorldBase  , m_penGradient0 );
 #line 1028 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if((slPropertyOffset  >= ulFirst ) && (slPropertyOffset  <= ulLast )){
+ulLast  = offsetof  (CWorldBase  , m_penGradient19 );
 #line 1029 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return (IsDerivedFromClass  (penTarget  , strClass ));
+strClass  = "Gradient Marker";
 #line 1030 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+if((slPropertyOffset  >= ulFirst ) && (slPropertyOffset  <= ulLast )){
+#line 1031 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return (IsDerivedFromClass  (penTarget  , strClass ));
+#line 1032 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
-#line 1033 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-ulFirst  = offsetof  (CWorldBase  , m_penGravity0 );
-#line 1034 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-ulLast  = offsetof  (CWorldBase  , m_penGravity9 );
 #line 1035 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if((slPropertyOffset  >= ulFirst ) && (slPropertyOffset  <= ulLast )){
+ulFirst  = offsetof  (CWorldBase  , m_penGravity0 );
 #line 1036 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return 
+ulLast  = offsetof  (CWorldBase  , m_penGravity9 );
 #line 1037 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-IsDerivedFromClass  (penTarget  , "Gravity Marker") || 
+if((slPropertyOffset  >= ulFirst ) && (slPropertyOffset  <= ulLast )){
 #line 1038 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-IsDerivedFromClass  (penTarget  , "Gravity Router");
+return 
 #line 1039 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+IsDerivedFromClass  (penTarget  , "Gravity Marker") || 
+#line 1040 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+IsDerivedFromClass  (penTarget  , "Gravity Router");
+#line 1041 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
-#line 1042 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-ulFirst  = offsetof  (CWorldBase  , m_penMirror0 );
-#line 1043 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-ulLast  = offsetof  (CWorldBase  , m_penMirror4 );
 #line 1044 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-strClass  = "Mirror Marker";
+ulFirst  = offsetof  (CWorldBase  , m_penMirror0 );
 #line 1045 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if((slPropertyOffset  >= ulFirst ) && (slPropertyOffset  <= ulLast )){
+ulLast  = offsetof  (CWorldBase  , m_penMirror4 );
 #line 1046 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return (IsDerivedFromClass  (penTarget  , strClass ));
+strClass  = "Mirror Marker";
 #line 1047 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+if((slPropertyOffset  >= ulFirst ) && (slPropertyOffset  <= ulLast )){
+#line 1048 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return (IsDerivedFromClass  (penTarget  , strClass ));
+#line 1049 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
-#line 1050 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-ulFirst  = offsetof  (CWorldBase  , m_penFog0 );
-#line 1051 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-ulLast  = offsetof  (CWorldBase  , m_penFog9 );
 #line 1052 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-strClass  = "Fog Marker";
+ulFirst  = offsetof  (CWorldBase  , m_penFog0 );
 #line 1053 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if((slPropertyOffset  >= ulFirst ) && (slPropertyOffset  <= ulLast )){
+ulLast  = offsetof  (CWorldBase  , m_penFog9 );
 #line 1054 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return (IsDerivedFromClass  (penTarget  , strClass ));
+strClass  = "Fog Marker";
 #line 1055 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
-#line 1058 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-ulFirst  = offsetof  (CWorldBase  , m_penHaze0 );
-#line 1059 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-ulLast  = offsetof  (CWorldBase  , m_penHaze4 );
-#line 1060 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-strClass  = "Haze Marker";
-#line 1061 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 if((slPropertyOffset  >= ulFirst ) && (slPropertyOffset  <= ulLast )){
-#line 1062 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1056 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 return (IsDerivedFromClass  (penTarget  , strClass ));
-#line 1063 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1057 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
+#line 1060 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+ulFirst  = offsetof  (CWorldBase  , m_penHaze0 );
+#line 1061 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+ulLast  = offsetof  (CWorldBase  , m_penHaze4 );
+#line 1062 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+strClass  = "Haze Marker";
+#line 1063 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+if((slPropertyOffset  >= ulFirst ) && (slPropertyOffset  <= ulLast )){
+#line 1064 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return (IsDerivedFromClass  (penTarget  , strClass ));
 #line 1065 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
+#line 1067 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 return CEntity  :: IsTargetValid  (slPropertyOffset  , penTarget );
-#line 1066 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1068 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
   
-#line 1069 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-const CTString & CWorldBase::GetForceName(INDEX iForce) 
-#line 1070 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-{
 #line 1071 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-static const CTString strDummyName  ("");
+const CTString & CWorldBase::GetForceName(INDEX iForce) 
 #line 1072 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-static const CTString strMarkerUnused  ("Marker not set");
+{
 #line 1073 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-INDEX ctGravityMarkers  = & m_penGravity9  - & m_penGravity0  + 1;
+static const CTString strDummyName  ("");
+#line 1074 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+static const CTString strMarkerUnused  ("Marker not set");
 #line 1075 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(iForce  < ctFixedForces ){
-#line 1076 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return affFixedForces  [ iForce  ] . ff_strName ;
+INDEX ctGravityMarkers  = & m_penGravity9  - & m_penGravity0  + 1;
 #line 1077 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}else {
+if(iForce  < ctFixedForces ){
 #line 1078 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(iForce  - ctFixedForces  <= ctGravityMarkers ){
+return affFixedForces  [ iForce  ] . ff_strName ;
 #line 1079 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-CEntity  * pen  = & * (& m_penGravity0 ) [ iForce  - ctFixedForces  ];
-#line 1080 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(pen  != NULL ){
-#line 1081 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return pen  -> GetForceName  (0);
-#line 1082 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }else {
+#line 1080 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+if(iForce  - ctFixedForces  <= ctGravityMarkers ){
+#line 1081 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+CEntity  * pen  = & * (& m_penGravity0 ) [ iForce  - ctFixedForces  ];
+#line 1082 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+if(pen  != NULL ){
 #line 1083 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return strMarkerUnused ;
+return pen  -> GetForceName  (0);
 #line 1084 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+}else {
+#line 1085 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return strMarkerUnused ;
 #line 1086 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
-#line 1087 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return strDummyName ;
 #line 1088 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
 #line 1089 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return strDummyName ;
+#line 1090 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
-  
 #line 1091 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-void CWorldBase::GetForce(INDEX iForce,const FLOAT3D & vPoint,
-#line 1092 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-CForceStrength & fsGravity,CForceStrength & fsField) 
-#line 1093 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-{
-#line 1094 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-INDEX ctGravityMarkers  = & m_penGravity9  - & m_penGravity0  + 1;
-#line 1095 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(iForce  < ctFixedForces ){
-#line 1096 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-fsGravity  = affFixedForces  [ iForce  ] . ff_fsGravity ;
-#line 1097 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}else {
-#line 1098 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(iForce  - ctFixedForces  < ctGravityMarkers ){
-#line 1099 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-CEntity  * pen  = & * (& m_penGravity0 ) [ iForce  - ctFixedForces  ];
-#line 1100 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(pen  != NULL ){
-#line 1101 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-pen  -> GetForce  (0 , vPoint  , fsGravity  , fsField );
-#line 1102 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return ;
-#line 1103 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
-#line 1104 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
-#line 1105 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-fsGravity  . fs_fAcceleration  = 30;
-#line 1106 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-fsGravity  . fs_fVelocity  = 70;
-#line 1107 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-fsGravity  . fs_vDirection  = FLOAT3D (1 , 0 , 0);
-#line 1108 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
-#line 1109 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-fsField  . fs_fAcceleration  = 0;
-#line 1110 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-fsField  . fs_fVelocity  = 0;
-#line 1111 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
   
-#line 1114 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-CEntity * CWorldBase::GetForceController(INDEX iForce) 
-#line 1115 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1093 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+void CWorldBase::GetForce(INDEX iForce,const FLOAT3D & vPoint,
+#line 1094 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+CForceStrength & fsGravity,CForceStrength & fsField) 
+#line 1095 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 {
-#line 1116 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1096 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 INDEX ctGravityMarkers  = & m_penGravity9  - & m_penGravity0  + 1;
-#line 1117 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1097 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 if(iForce  < ctFixedForces ){
-#line 1118 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return NULL ;
-#line 1119 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1098 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+fsGravity  = affFixedForces  [ iForce  ] . ff_fsGravity ;
+#line 1099 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }else {
-#line 1120 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1100 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 if(iForce  - ctFixedForces  < ctGravityMarkers ){
-#line 1121 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1101 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 CEntity  * pen  = & * (& m_penGravity0 ) [ iForce  - ctFixedForces  ];
-#line 1122 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1102 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 if(pen  != NULL ){
+#line 1103 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+pen  -> GetForce  (0 , vPoint  , fsGravity  , fsField );
+#line 1104 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return ;
+#line 1105 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
+#line 1106 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
+#line 1107 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+fsGravity  . fs_fAcceleration  = 30;
+#line 1108 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+fsGravity  . fs_fVelocity  = 70;
+#line 1109 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+fsGravity  . fs_vDirection  = FLOAT3D (1 , 0 , 0);
+#line 1110 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
+#line 1111 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+fsField  . fs_fAcceleration  = 0;
+#line 1112 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+fsField  . fs_fVelocity  = 0;
+#line 1113 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
+  
+#line 1116 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+CEntity * CWorldBase::GetForceController(INDEX iForce) 
+#line 1117 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+{
+#line 1118 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+INDEX ctGravityMarkers  = & m_penGravity9  - & m_penGravity0  + 1;
+#line 1119 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+if(iForce  < ctFixedForces ){
+#line 1120 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return NULL ;
+#line 1121 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}else {
+#line 1122 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+if(iForce  - ctFixedForces  < ctGravityMarkers ){
 #line 1123 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return pen  -> GetForceController  (0);
+CEntity  * pen  = & * (& m_penGravity0 ) [ iForce  - ctFixedForces  ];
 #line 1124 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+if(pen  != NULL ){
 #line 1125 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+return pen  -> GetForceController  (0);
 #line 1126 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
 #line 1127 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return NULL ;
+}
 #line 1128 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
-  
+#line 1129 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return NULL ;
 #line 1130 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-const CTString & CWorldBase::GetFogName(INDEX iFog) 
-#line 1131 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-{
+}
+  
 #line 1132 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-INDEX ctFogMarkers  = & m_penFog9  - & m_penFog0  + 1;
+const CTString & CWorldBase::GetFogName(INDEX iFog) 
 #line 1133 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-static const CTString strDummyName  ("");
+{
 #line 1134 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-static const CTString strMarkerUnused  ("Marker not set");
+INDEX ctFogMarkers  = & m_penFog9  - & m_penFog0  + 1;
 #line 1135 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(iFog  < ctFogMarkers ){
+static const CTString strDummyName  ("");
 #line 1136 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-CFogMarker  * pfm  = (CFogMarker  *) & * (& m_penFog0 ) [ iFog  ];
+static const CTString strMarkerUnused  ("Marker not set");
 #line 1137 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(pfm  != NULL ){
+if(iFog  < ctFogMarkers ){
 #line 1138 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return pfm  -> GetFogName  ();
+CFogMarker  * pfm  = (CFogMarker  *) & * (& m_penFog0 ) [ iFog  ];
 #line 1139 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}else {
+if(pfm  != NULL ){
 #line 1140 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return strMarkerUnused ;
+return pfm  -> GetFogName  ();
 #line 1141 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+}else {
 #line 1142 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+return strMarkerUnused ;
 #line 1143 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return strDummyName ;
+}
 #line 1144 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
-  
+#line 1145 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return strDummyName ;
 #line 1146 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-BOOL CWorldBase::GetFog(INDEX iFog,class CFogParameters & fpFog) 
-#line 1147 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-{
+}
+  
 #line 1148 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-INDEX ctFogMarkers  = & m_penFog8  - & m_penFog0  + 1;
+BOOL CWorldBase::GetFog(INDEX iFog,class CFogParameters & fpFog) 
 #line 1149 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(iFog  < ctFogMarkers ){
+{
 #line 1150 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-CFogMarker  * pfm  = (CFogMarker  *) & * (& m_penFog0 ) [ iFog  ];
+INDEX ctFogMarkers  = & m_penFog8  - & m_penFog0  + 1;
 #line 1151 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(pfm  != NULL ){
+if(iFog  < ctFogMarkers ){
 #line 1152 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-pfm  -> GetFog  (fpFog );
+CFogMarker  * pfm  = (CFogMarker  *) & * (& m_penFog0 ) [ iFog  ];
 #line 1153 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return TRUE ;
+if(pfm  != NULL ){
 #line 1154 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+pfm  -> GetFog  (fpFog );
 #line 1155 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+return TRUE ;
 #line 1156 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return FALSE ;
+}
 #line 1157 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
+#line 1158 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return FALSE ;
+#line 1159 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
   
-#line 1160 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-const CTString & CWorldBase::GetHazeName(INDEX iHaze) 
-#line 1161 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-{
 #line 1162 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-INDEX ctHazeMarkers  = & m_penHaze4  - & m_penHaze0  + 1;
+const CTString & CWorldBase::GetHazeName(INDEX iHaze) 
 #line 1163 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-static const CTString strDummyName  ("");
+{
 #line 1164 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-static const CTString strMarkerUnused  ("Marker not set");
+INDEX ctHazeMarkers  = & m_penHaze4  - & m_penHaze0  + 1;
 #line 1165 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(iHaze  < ctHazeMarkers ){
+static const CTString strDummyName  ("");
 #line 1166 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-CHazeMarker  * pfm  = (CHazeMarker  *) & * (& m_penHaze0 ) [ iHaze  ];
+static const CTString strMarkerUnused  ("Marker not set");
 #line 1167 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(pfm  != NULL ){
+if(iHaze  < ctHazeMarkers ){
 #line 1168 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return pfm  -> GetHazeName  ();
+CHazeMarker  * pfm  = (CHazeMarker  *) & * (& m_penHaze0 ) [ iHaze  ];
 #line 1169 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}else {
+if(pfm  != NULL ){
 #line 1170 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return strMarkerUnused ;
+return pfm  -> GetHazeName  ();
 #line 1171 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+}else {
 #line 1172 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+return strMarkerUnused ;
 #line 1173 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return strDummyName ;
+}
 #line 1174 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
+#line 1175 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return strDummyName ;
+#line 1176 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
   
-#line 1177 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-BOOL CWorldBase::GetHaze(INDEX iHaze,class CHazeParameters & hpHaze,FLOAT3D & vViewDir) 
-#line 1178 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-{
 #line 1179 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-INDEX ctHazeMarkers  = & m_penHaze4  - & m_penHaze0  + 1;
+BOOL CWorldBase::GetHaze(INDEX iHaze,class CHazeParameters & hpHaze,FLOAT3D & vViewDir) 
 #line 1180 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(iHaze  < ctHazeMarkers ){
+{
 #line 1181 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-CHazeMarker  * phm  = (CHazeMarker  *) & * (& m_penHaze0 ) [ iHaze  ];
+INDEX ctHazeMarkers  = & m_penHaze4  - & m_penHaze0  + 1;
 #line 1182 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(phm  != NULL ){
+if(iHaze  < ctHazeMarkers ){
 #line 1183 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-phm  -> GetHaze  (hpHaze  , vViewDir );
+CHazeMarker  * phm  = (CHazeMarker  *) & * (& m_penHaze0 ) [ iHaze  ];
 #line 1184 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return TRUE ;
+if(phm  != NULL ){
 #line 1185 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+phm  -> GetHaze  (hpHaze  , vViewDir );
 #line 1186 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+return TRUE ;
 #line 1187 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return FALSE ;
+}
 #line 1188 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
+#line 1189 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return FALSE ;
+#line 1190 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
   
-#line 1191 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-const CTString & CWorldBase::GetMirrorName(INDEX iMirror) 
-#line 1192 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-{
 #line 1193 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-static const CTString strDummyName  ("");
+const CTString & CWorldBase::GetMirrorName(INDEX iMirror) 
 #line 1194 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-static const CTString strMarkerUnused  ("Marker not set");
+{
 #line 1195 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(iMirror  == 0){
+static const CTString strDummyName  ("");
 #line 1196 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return strDummyName ;
+static const CTString strMarkerUnused  ("Marker not set");
 #line 1197 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+if(iMirror  == 0){
+#line 1198 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return strDummyName ;
 #line 1199 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-switch(iMirror ){
-#line 1200 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-case 1: {static const CTString str  ("std mirror 1");return str ;};break ;
+}
 #line 1201 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-case 2: {static const CTString str  ("std mirror 2");return str ;};break ;
+switch(iMirror ){
 #line 1202 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-case 3: {static const CTString str  ("std mirror 3");return str ;};break ;
+case 1: {static const CTString str  ("std mirror 1");return str ;};break ;
 #line 1203 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-case 4: {static const CTString str  ("std mirror 4");return str ;};break ;
+case 2: {static const CTString str  ("std mirror 2");return str ;};break ;
 #line 1204 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-case 5: {static const CTString str  ("std mirror 5");return str ;};break ;
+case 3: {static const CTString str  ("std mirror 3");return str ;};break ;
 #line 1205 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-case 6: {static const CTString str  ("std mirror 6");return str ;};break ;
+case 4: {static const CTString str  ("std mirror 4");return str ;};break ;
 #line 1206 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-case 7: {static const CTString str  ("std mirror 7");return str ;};break ;
+case 5: {static const CTString str  ("std mirror 5");return str ;};break ;
 #line 1207 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-case 8: {static const CTString str  ("std mirror 8");return str ;};break ;
+case 6: {static const CTString str  ("std mirror 6");return str ;};break ;
 #line 1208 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-default  :{
+case 7: {static const CTString str  ("std mirror 7");return str ;};break ;
 #line 1209 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-iMirror  -= 9;
+case 8: {static const CTString str  ("std mirror 8");return str ;};break ;
 #line 1210 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-INDEX ctMirrorMarkers  = & m_penMirror4  - & m_penMirror0  + 1;
+default  :{
 #line 1211 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(iMirror  < ctMirrorMarkers ){
+iMirror  -= 9;
 #line 1212 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-CMirrorMarker  * pfm  = (CMirrorMarker  *) & * (& m_penMirror0 ) [ iMirror  ];
+INDEX ctMirrorMarkers  = & m_penMirror4  - & m_penMirror0  + 1;
 #line 1213 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(pfm  != NULL ){
+if(iMirror  < ctMirrorMarkers ){
 #line 1214 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return pfm  -> GetMirrorName  ();
+CMirrorMarker  * pfm  = (CMirrorMarker  *) & * (& m_penMirror0 ) [ iMirror  ];
 #line 1215 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}else {
+if(pfm  != NULL ){
 #line 1216 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return strMarkerUnused ;
+return pfm  -> GetMirrorName  ();
 #line 1217 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+}else {
 #line 1218 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+return strMarkerUnused ;
 #line 1219 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
 #line 1220 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
 #line 1221 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return strDummyName ;
+}
 #line 1222 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
+#line 1223 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return strDummyName ;
+#line 1224 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
   
-#line 1225 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-BOOL CWorldBase::GetMirror(INDEX iMirror,class CMirrorParameters & mpMirror) 
-#line 1226 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-{
 #line 1227 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(iMirror  == 0){
+BOOL CWorldBase::GetMirror(INDEX iMirror,class CMirrorParameters & mpMirror) 
 #line 1228 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return FALSE ;
+{
 #line 1229 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+if(iMirror  == 0){
 #line 1230 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(iMirror  >= 1 && iMirror  <= 8){
-#line 1231 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-mpMirror  . mp_ulFlags  = 0;
-#line 1232 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return TRUE ;
-#line 1233 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
-#line 1234 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-iMirror  -= 9;
-#line 1235 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-INDEX ctMirrorMarkers  = & m_penMirror4  - & m_penMirror0  + 1;
-#line 1236 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(iMirror  < ctMirrorMarkers ){
-#line 1237 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-CMirrorMarker  * pmm  = (CMirrorMarker  *) & * (& m_penMirror0 ) [ iMirror  ];
-#line 1238 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(pmm  != NULL ){
-#line 1239 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-pmm  -> GetMirror  (mpMirror );
-#line 1240 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return TRUE ;
-#line 1241 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
-#line 1242 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
-#line 1243 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 return FALSE ;
+#line 1231 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
+#line 1232 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+if(iMirror  >= 1 && iMirror  <= 8){
+#line 1233 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+mpMirror  . mp_ulFlags  = 0;
+#line 1234 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return TRUE ;
+#line 1235 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
+#line 1236 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+iMirror  -= 9;
+#line 1237 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+INDEX ctMirrorMarkers  = & m_penMirror4  - & m_penMirror0  + 1;
+#line 1238 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+if(iMirror  < ctMirrorMarkers ){
+#line 1239 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+CMirrorMarker  * pmm  = (CMirrorMarker  *) & * (& m_penMirror0 ) [ iMirror  ];
+#line 1240 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+if(pmm  != NULL ){
+#line 1241 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+pmm  -> GetMirror  (mpMirror );
+#line 1242 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return TRUE ;
+#line 1243 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
 #line 1244 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
+#line 1245 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return FALSE ;
+#line 1246 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
   
-#line 1247 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-const CTString & CWorldBase::GetGradientName(INDEX iGradient) 
-#line 1248 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-{
 #line 1249 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-INDEX ctGradientMarkers  = & m_penGradient19  - & m_penGradient0  + 1;
+const CTString & CWorldBase::GetGradientName(INDEX iGradient) 
 #line 1250 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-static const CTString strDummyName  ("");
+{
 #line 1251 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-static const CTString strMarkerUnused  ("Marker not set");
+INDEX ctGradientMarkers  = & m_penGradient19  - & m_penGradient0  + 1;
 #line 1252 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(iGradient  < ctGradientMarkers ){
+static const CTString strDummyName  ("");
 #line 1253 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-CGradientMarker  * pgm  = (CGradientMarker  *) & * (& m_penGradient0 ) [ iGradient  ];
+static const CTString strMarkerUnused  ("Marker not set");
 #line 1254 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(pgm  != NULL ){
+if(iGradient  < ctGradientMarkers ){
 #line 1255 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return pgm  -> GetGradientName  ();
+CGradientMarker  * pgm  = (CGradientMarker  *) & * (& m_penGradient0 ) [ iGradient  ];
 #line 1256 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}else {
+if(pgm  != NULL ){
 #line 1257 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return strMarkerUnused ;
+return pgm  -> GetGradientName  ();
 #line 1258 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+}else {
 #line 1259 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+return strMarkerUnused ;
 #line 1260 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return strDummyName ;
+}
 #line 1261 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
-  
+#line 1262 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return strDummyName ;
 #line 1263 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-void CWorldBase::UncacheShadowsForGradient(class CGradientMarker * penDiscard) 
-#line 1264 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-{
+}
+  
 #line 1265 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-INDEX ctGradientMarkers  = & m_penGradient19  - & m_penGradient0  + 1;
+void CWorldBase::UncacheShadowsForGradient(class CGradientMarker * penDiscard) 
 #line 1266 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-for(INDEX iGradient  = 0;iGradient  < ctGradientMarkers ;iGradient  ++)
+{
 #line 1267 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-{
+INDEX ctGradientMarkers  = & m_penGradient19  - & m_penGradient0  + 1;
 #line 1268 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-CGradientMarker  * pgm  = (CGradientMarker  *) & * (& m_penGradient0 ) [ iGradient  ];
+for(INDEX iGradient  = 0;iGradient  < ctGradientMarkers ;iGradient  ++)
 #line 1269 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(pgm  == penDiscard )
-#line 1270 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 {
+#line 1270 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+CGradientMarker  * pgm  = (CGradientMarker  *) & * (& m_penGradient0 ) [ iGradient  ];
 #line 1271 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-CEntity  :: UncacheShadowsForGradient  (iGradient  + 1);
+if(pgm  == penDiscard )
 #line 1272 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+{
 #line 1273 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+CEntity  :: UncacheShadowsForGradient  (iGradient  + 1);
 #line 1274 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
+#line 1275 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
+#line 1276 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
   
-#line 1277 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-BOOL CWorldBase::GetGradient(INDEX iGradient,class CGradientParameters & fpGradient) 
-#line 1278 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-{
 #line 1279 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-INDEX ctGradientMarkers  = & m_penGradient19  - & m_penGradient0  + 1;
+BOOL CWorldBase::GetGradient(INDEX iGradient,class CGradientParameters & fpGradient) 
 #line 1280 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if((iGradient  < ctGradientMarkers ) && (iGradient  > 0)){
+{
 #line 1281 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-CGradientMarker  * pgm  = (CGradientMarker  *) & * (& m_penGradient0 ) [ iGradient  - 1 ];
+INDEX ctGradientMarkers  = & m_penGradient19  - & m_penGradient0  + 1;
 #line 1282 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(pgm  != NULL ){
+if((iGradient  < ctGradientMarkers ) && (iGradient  > 0)){
 #line 1283 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return pgm  -> GetGradient  (0 , fpGradient );
+CGradientMarker  * pgm  = (CGradientMarker  *) & * (& m_penGradient0 ) [ iGradient  - 1 ];
 #line 1284 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+if(pgm  != NULL ){
 #line 1285 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+return pgm  -> GetGradient  (0 , fpGradient );
 #line 1286 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return FALSE ;
+}
 #line 1287 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
-  
-#line 1290 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-BOOL CWorldBase::HandleEvent(const CEntityEvent & ee) 
-#line 1291 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-{
-#line 1293 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(ee  . ee_slEvent  == EVENTCODE_EFirstWorldBase ){
-#line 1294 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-SetFlags  (GetFlags  () | ENF_ZONING );
-#line 1295 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-m_bZoning  = TRUE ;
-#line 1296 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-SetFlags  (GetFlags  () | ENF_ANCHORED );
-#line 1297 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-m_bAnchored  = TRUE ;
-#line 1298 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return TRUE ;
-#line 1299 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
-#line 1300 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1288 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 return FALSE ;
+#line 1289 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
+  
+#line 1292 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+BOOL CWorldBase::HandleEvent(const CEntityEvent & ee) 
+#line 1293 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+{
+#line 1295 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+if(ee  . ee_slEvent  == EVENTCODE_EFirstWorldBase ){
+#line 1296 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+SetFlags  (GetFlags  () | ENF_ZONING );
+#line 1297 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+m_bZoning  = TRUE ;
+#line 1298 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+SetFlags  (GetFlags  () | ENF_ANCHORED );
+#line 1299 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+m_bAnchored  = TRUE ;
+#line 1300 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return TRUE ;
 #line 1301 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
-  
-#line 1305 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-SLONG CWorldBase::GetUsedMemory(void) 
-#line 1306 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-{
-#line 1308 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-SLONG  slUsedMemory  = sizeof  (CWorldBase ) - sizeof  (CEntity ) + CEntity  :: GetUsedMemory  ();
-#line 1310 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-slUsedMemory  += m_strName  . Length  ();
-#line 1311 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-slUsedMemory  += m_strDescription  . Length  ();
-#line 1312 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return slUsedMemory ;
-#line 1313 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1302 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return FALSE ;
+#line 1303 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
   
-#line 1317 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-FLOAT CWorldBase::GetOpacity(void) 
-#line 1318 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1307 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+SLONG CWorldBase::GetUsedMemory(void) 
+#line 1308 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 {
+#line 1310 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+SLONG  slUsedMemory  = sizeof  (CWorldBase ) - sizeof  (CEntity ) + CEntity  :: GetUsedMemory  ();
+#line 1312 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+slUsedMemory  += m_strName  . Length  ();
+#line 1313 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+slUsedMemory  += m_strDescription  . Length  ();
+#line 1314 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return slUsedMemory ;
+#line 1315 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
+  
 #line 1319 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-return m_fOpacity ;
+FLOAT CWorldBase::GetOpacity(void) 
 #line 1320 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+{
+#line 1321 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+return m_fOpacity ;
+#line 1322 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
 BOOL CWorldBase::
-#line 1327 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1329 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 Main(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CWorldBase_Main
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CWorldBase::Main expects 'EVoid' as input!");  const EVoid &evoid = (const EVoid &)__eeInput;
-#line 1330 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-InitAsBrush  ();
-#line 1331 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-SetPhysicsFlags  (EPF_BRUSH_FIXED );
 #line 1332 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+InitAsBrush  ();
+#line 1333 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+SetPhysicsFlags  (EPF_BRUSH_FIXED );
+#line 1334 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 SetCollisionFlags  (ECF_BRUSH );
-#line 1335 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(m_bZoning ){
-#line 1336 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-m_strDescription  = "zoning";
-#line 1337 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-SetFlags  (GetFlags  () | ENF_ZONING );
 #line 1338 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}else {
+if(m_bZoning ){
 #line 1339 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-m_strDescription  = "non zoning";
+m_strDescription  = "zoning";
 #line 1340 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-SetFlags  (GetFlags  () & ~ ENF_ZONING );
+SetFlags  (GetFlags  () | ENF_ZONING );
 #line 1341 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
+}else {
+#line 1342 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+m_strDescription  = "non zoning";
+#line 1343 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+SetFlags  (GetFlags  () & ~ ENF_ZONING );
 #line 1344 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(m_bBackground ){
-#line 1345 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-m_strDescription  += " background";
-#line 1346 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-SetFlags  (GetFlags  () | ENF_BACKGROUND );
+}
 #line 1347 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}else {
+if(m_bBackground ){
 #line 1348 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-SetFlags  (GetFlags  () & ~ ENF_BACKGROUND );
+m_strDescription  += " background";
 #line 1349 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-}
-#line 1352 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-if(m_bAnchored ){
-#line 1353 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-m_strDescription  += " anchored";
-#line 1354 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-SetFlags  (GetFlags  () | ENF_ANCHORED );
-#line 1355 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+SetFlags  (GetFlags  () | ENF_BACKGROUND );
+#line 1350 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }else {
-#line 1356 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
-SetFlags  (GetFlags  () & ~ ENF_ANCHORED );
-#line 1357 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1351 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+SetFlags  (GetFlags  () & ~ ENF_BACKGROUND );
+#line 1352 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 }
+#line 1355 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+if(m_bAnchored ){
+#line 1356 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+m_strDescription  += " anchored";
+#line 1357 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+SetFlags  (GetFlags  () | ENF_ANCHORED );
+#line 1358 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}else {
 #line 1359 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+SetFlags  (GetFlags  () & ~ ENF_ANCHORED );
+#line 1360 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+}
+#line 1362 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 Return(STATE_CURRENT,EVoid());
-#line 1359 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
+#line 1362 "V:/Programs/SamSDK/Sources/EntitiesMP/WorldBase.es"
 return TRUE; ASSERT(FALSE); return TRUE;};

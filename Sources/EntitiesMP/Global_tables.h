@@ -35,6 +35,7 @@ EP_ENUMBEG(EntityInfoBodyType)
   EP_ENUMVALUE(EIBT_METAL, "Metal"),
   EP_ENUMVALUE(EIBT_ROBOT, "Robot"),
   EP_ENUMVALUE(EIBT_ICE, "Ice"),
+  EP_ENUMVALUE(EIBT_GLASS, "Glass"),
 EP_ENUMEND(EntityInfoBodyType);
 
 EP_ENUMBEG(MessageSound)
@@ -205,7 +206,7 @@ CEntityComponent CGlobal_components[] = {
 
 CEventHandlerEntry CGlobal_handlers[] = {
  {1, -1, CEntity::pEventHandler(&CGlobal::
-#line 297 "V:/Programs/SamSDK/Sources/EntitiesMP/Global.es"
+#line 298 "V:/Programs/SamSDK/Sources/EntitiesMP/Global.es"
 Main),DEBUGSTRING("CGlobal::Main")},
 };
 #define CGlobal_handlersct ARRAYCOUNT(CGlobal_handlers)

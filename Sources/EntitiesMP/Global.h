@@ -163,6 +163,7 @@ enum EntityInfoBodyType {
   EIBT_METAL = 8,
   EIBT_ROBOT = 9,
   EIBT_ICE = 10,
+  EIBT_GLASS = 11,
 };
 DECL_DLL inline void ClearToDefault(EntityInfoBodyType &e) { e = (EntityInfoBodyType)0; } ;
 extern DECL_DLL CEntityPropertyEnumType MessageSound_enum;
@@ -410,7 +411,7 @@ public:
   DECL_DLL virtual void SetDefaultProperties(void);
 #define  STATE_CGlobal_Main 1
   BOOL 
-#line 297 "V:/Programs/SamSDK/Sources/EntitiesMP/Global.es"
+#line 298 "V:/Programs/SamSDK/Sources/EntitiesMP/Global.es"
 Main(const CEntityEvent &__eeInput);
 };
 #endif // _EntitiesMP_Global_INCLUDED
