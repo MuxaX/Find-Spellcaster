@@ -15,6 +15,10 @@ CEntityProperty CHeadman_properties[] = {
  CEntityProperty(CEntityProperty::EPT_ENUM, &HeadmanType_enum, (0x0000012f<<8)+1, offsetof(CHeadman, m_hdtType), "Type", 'Y', 0x7F0000FFUL, 0),
  CEntityProperty(CEntityProperty::EPT_BOOL, NULL, (0x0000012f<<8)+5, offsetof(CHeadman, m_bExploded), "", 0, 0, 0),
  CEntityProperty(CEntityProperty::EPT_BOOL, NULL, (0x0000012f<<8)+6, offsetof(CHeadman, m_bAttackSound), "", 0, 0, 0),
+ CEntityProperty(CEntityProperty::EPT_INDEX, NULL, (0x0000012f<<8)+7, offsetof(CHeadman, m_bFireBulletCount), "", 0, 0, 0),
+ CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x0000012f<<8)+8, offsetof(CHeadman, m_fFireTime), "", 0, 0, 0),
+ CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x0000012f<<8)+9, offsetof(CHeadman, m_fLastShotDistance), "", 0, 0, 0),
+ CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x0000012f<<8)+10, offsetof(CHeadman, m_tmLastShotTime), "", 0, 0, 0),
 };
 #define CHeadman_propertiesct ARRAYCOUNT(CHeadman_properties)
 
@@ -55,6 +59,8 @@ CEntityComponent CHeadman_components[] = {
  CEntityComponent(ECT_TEXTURE, TEXTURE_ROCKETLAUNCHER, "EFNM" "Models\\Enemies\\Headman\\RocketLauncher.tex"),
 #define TEXTURE_BOMB ((0x0000012f<<8)+29)
  CEntityComponent(ECT_TEXTURE, TEXTURE_BOMB, "EFNM" "Models\\Enemies\\Headman\\Projectile\\Bomb.tex"),
+#define CLASS_BULLET ((0x0000012f<<8)+30)
+ CEntityComponent(ECT_CLASS, CLASS_BULLET, "EFNM" "Classes\\Bullet.ecl"),
 #define SOUND_IDLE ((0x0000012f<<8)+50)
  CEntityComponent(ECT_SOUND, SOUND_IDLE, "EFNM" "Models\\Enemies\\Headman\\Sounds\\Idle.wav"),
 #define SOUND_IDLEKAMIKAZE ((0x0000012f<<8)+51)
@@ -78,13 +84,13 @@ CEntityComponent CHeadman_components[] = {
 
 CEventHandlerEntry CHeadman_handlers[] = {
  {0x012f0000, STATE_CEnemyBase_InitializeAttack, CEntity::pEventHandler(&CHeadman::
-#line 462 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 565 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 InitializeAttack),DEBUGSTRING("CHeadman::InitializeAttack")},
  {0x012f0001, STATE_CEnemyBase_StopAttack, CEntity::pEventHandler(&CHeadman::
-#line 469 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 572 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 StopAttack),DEBUGSTRING("CHeadman::StopAttack")},
  {0x012f0002, STATE_CEnemyBase_Fire, CEntity::pEventHandler(&CHeadman::
-#line 474 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 577 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Fire),DEBUGSTRING("CHeadman::Fire")},
  {0x012f0003, -1, CEntity::pEventHandler(&CHeadman::H0x012f0003_Fire_01), DEBUGSTRING("CHeadman::H0x012f0003_Fire_01")},
  {0x012f0004, -1, CEntity::pEventHandler(&CHeadman::H0x012f0004_Fire_02), DEBUGSTRING("CHeadman::H0x012f0004_Fire_02")},
@@ -99,7 +105,7 @@ Fire),DEBUGSTRING("CHeadman::Fire")},
  {0x012f000d, -1, CEntity::pEventHandler(&CHeadman::H0x012f000d_Fire_11), DEBUGSTRING("CHeadman::H0x012f000d_Fire_11")},
  {0x012f000e, -1, CEntity::pEventHandler(&CHeadman::H0x012f000e_Fire_12), DEBUGSTRING("CHeadman::H0x012f000e_Fire_12")},
  {0x012f000f, -1, CEntity::pEventHandler(&CHeadman::
-#line 492 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 595 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 BombermanAttack),DEBUGSTRING("CHeadman::BombermanAttack")},
  {0x012f0010, -1, CEntity::pEventHandler(&CHeadman::H0x012f0010_BombermanAttack_01), DEBUGSTRING("CHeadman::H0x012f0010_BombermanAttack_01")},
  {0x012f0011, -1, CEntity::pEventHandler(&CHeadman::H0x012f0011_BombermanAttack_02), DEBUGSTRING("CHeadman::H0x012f0011_BombermanAttack_02")},
@@ -110,7 +116,7 @@ BombermanAttack),DEBUGSTRING("CHeadman::BombermanAttack")},
  {0x012f0016, -1, CEntity::pEventHandler(&CHeadman::H0x012f0016_BombermanAttack_07), DEBUGSTRING("CHeadman::H0x012f0016_BombermanAttack_07")},
  {0x012f0017, -1, CEntity::pEventHandler(&CHeadman::H0x012f0017_BombermanAttack_08), DEBUGSTRING("CHeadman::H0x012f0017_BombermanAttack_08")},
  {0x012f0018, -1, CEntity::pEventHandler(&CHeadman::
-#line 541 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 644 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 FirecrackerAttack),DEBUGSTRING("CHeadman::FirecrackerAttack")},
  {0x012f0019, -1, CEntity::pEventHandler(&CHeadman::H0x012f0019_FirecrackerAttack_01), DEBUGSTRING("CHeadman::H0x012f0019_FirecrackerAttack_01")},
  {0x012f001a, -1, CEntity::pEventHandler(&CHeadman::H0x012f001a_FirecrackerAttack_02), DEBUGSTRING("CHeadman::H0x012f001a_FirecrackerAttack_02")},
@@ -120,28 +126,20 @@ FirecrackerAttack),DEBUGSTRING("CHeadman::FirecrackerAttack")},
  {0x012f001e, -1, CEntity::pEventHandler(&CHeadman::H0x012f001e_FirecrackerAttack_06), DEBUGSTRING("CHeadman::H0x012f001e_FirecrackerAttack_06")},
  {0x012f001f, -1, CEntity::pEventHandler(&CHeadman::H0x012f001f_FirecrackerAttack_07), DEBUGSTRING("CHeadman::H0x012f001f_FirecrackerAttack_07")},
  {0x012f0020, -1, CEntity::pEventHandler(&CHeadman::H0x012f0020_FirecrackerAttack_08), DEBUGSTRING("CHeadman::H0x012f0020_FirecrackerAttack_08")},
- {0x012f0021, -1, CEntity::pEventHandler(&CHeadman::H0x012f0021_FirecrackerAttack_09), DEBUGSTRING("CHeadman::H0x012f0021_FirecrackerAttack_09")},
- {0x012f0022, -1, CEntity::pEventHandler(&CHeadman::H0x012f0022_FirecrackerAttack_10), DEBUGSTRING("CHeadman::H0x012f0022_FirecrackerAttack_10")},
- {0x012f0023, -1, CEntity::pEventHandler(&CHeadman::H0x012f0023_FirecrackerAttack_11), DEBUGSTRING("CHeadman::H0x012f0023_FirecrackerAttack_11")},
- {0x012f0024, -1, CEntity::pEventHandler(&CHeadman::H0x012f0024_FirecrackerAttack_12), DEBUGSTRING("CHeadman::H0x012f0024_FirecrackerAttack_12")},
- {0x012f0025, -1, CEntity::pEventHandler(&CHeadman::H0x012f0025_FirecrackerAttack_13), DEBUGSTRING("CHeadman::H0x012f0025_FirecrackerAttack_13")},
- {0x012f0026, -1, CEntity::pEventHandler(&CHeadman::H0x012f0026_FirecrackerAttack_14), DEBUGSTRING("CHeadman::H0x012f0026_FirecrackerAttack_14")},
- {0x012f0027, -1, CEntity::pEventHandler(&CHeadman::H0x012f0027_FirecrackerAttack_15), DEBUGSTRING("CHeadman::H0x012f0027_FirecrackerAttack_15")},
- {0x012f0028, -1, CEntity::pEventHandler(&CHeadman::H0x012f0028_FirecrackerAttack_16), DEBUGSTRING("CHeadman::H0x012f0028_FirecrackerAttack_16")},
- {0x012f0029, -1, CEntity::pEventHandler(&CHeadman::
-#line 572 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+ {0x012f0021, -1, CEntity::pEventHandler(&CHeadman::
+#line 678 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 RocketmanAttack),DEBUGSTRING("CHeadman::RocketmanAttack")},
- {0x012f002a, -1, CEntity::pEventHandler(&CHeadman::H0x012f002a_RocketmanAttack_01), DEBUGSTRING("CHeadman::H0x012f002a_RocketmanAttack_01")},
- {0x012f002b, -1, CEntity::pEventHandler(&CHeadman::H0x012f002b_RocketmanAttack_02), DEBUGSTRING("CHeadman::H0x012f002b_RocketmanAttack_02")},
- {0x012f002c, -1, CEntity::pEventHandler(&CHeadman::H0x012f002c_RocketmanAttack_03), DEBUGSTRING("CHeadman::H0x012f002c_RocketmanAttack_03")},
- {0x012f002d, -1, CEntity::pEventHandler(&CHeadman::H0x012f002d_RocketmanAttack_04), DEBUGSTRING("CHeadman::H0x012f002d_RocketmanAttack_04")},
- {0x012f002e, STATE_CEnemyBase_Death, CEntity::pEventHandler(&CHeadman::
-#line 589 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+ {0x012f0022, -1, CEntity::pEventHandler(&CHeadman::H0x012f0022_RocketmanAttack_01), DEBUGSTRING("CHeadman::H0x012f0022_RocketmanAttack_01")},
+ {0x012f0023, -1, CEntity::pEventHandler(&CHeadman::H0x012f0023_RocketmanAttack_02), DEBUGSTRING("CHeadman::H0x012f0023_RocketmanAttack_02")},
+ {0x012f0024, -1, CEntity::pEventHandler(&CHeadman::H0x012f0024_RocketmanAttack_03), DEBUGSTRING("CHeadman::H0x012f0024_RocketmanAttack_03")},
+ {0x012f0025, -1, CEntity::pEventHandler(&CHeadman::H0x012f0025_RocketmanAttack_04), DEBUGSTRING("CHeadman::H0x012f0025_RocketmanAttack_04")},
+ {0x012f0026, STATE_CEnemyBase_Death, CEntity::pEventHandler(&CHeadman::
+#line 738 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Death),DEBUGSTRING("CHeadman::Death")},
- {0x012f002f, -1, CEntity::pEventHandler(&CHeadman::H0x012f002f_Death_01), DEBUGSTRING("CHeadman::H0x012f002f_Death_01")},
- {0x012f0030, -1, CEntity::pEventHandler(&CHeadman::H0x012f0030_Death_02), DEBUGSTRING("CHeadman::H0x012f0030_Death_02")},
+ {0x012f0027, -1, CEntity::pEventHandler(&CHeadman::H0x012f0027_Death_01), DEBUGSTRING("CHeadman::H0x012f0027_Death_01")},
+ {0x012f0028, -1, CEntity::pEventHandler(&CHeadman::H0x012f0028_Death_02), DEBUGSTRING("CHeadman::H0x012f0028_Death_02")},
  {1, -1, CEntity::pEventHandler(&CHeadman::
-#line 610 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 759 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Main),DEBUGSTRING("CHeadman::Main")},
 };
 #define CHeadman_handlersct ARRAYCOUNT(CHeadman_handlers)

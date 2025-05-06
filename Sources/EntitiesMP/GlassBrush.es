@@ -88,7 +88,7 @@ components:
   8 texture   TEXTURE_METAL      "Models\\Effects\\Debris\\Fruits\\Apple.tex",
   
   9 class     CLASS_DEBRIS       "Classes\\Debris.ecl",
-  10 class     CLASS_BASIC_EFFECT "Classes\\BasicEffect.ecl",
+  10 class    CLASS_BASIC_EFFECT "Classes\\BasicEffect.ecl",
 
 functions:
   void Precache(void) {

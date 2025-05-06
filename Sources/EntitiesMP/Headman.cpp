@@ -6,10 +6,11 @@
 
 #include "StdH.h"
 #include "Models/Enemies/Headman/Headman.h"
+#include "EntitiesMP/Bullet.h"
 
 #include <EntitiesMP/Headman.h>
 #include <EntitiesMP/Headman_tables.h>
-#line 18 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 20 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 
 // info structure
 static EntityInfo eiHeadman = {
@@ -26,428 +27,406 @@ void CHeadman::SetDefaultProperties(void) {
   m_hdtType = HDT_FIRECRACKER ;
   m_bExploded = FALSE ;
   m_bAttackSound = FALSE ;
+  m_bFireBulletCount = 0;
+  m_fFireTime = 0.0f;
+  m_fLastShotDistance = 0.0f;
+  m_tmLastShotTime = 0.0f;
   CEnemyBase::SetDefaultProperties();
 }
   CTString CHeadman::GetPlayerKillDescription(const CTString & strPlayerName,const EDeath & eDeath) 
-#line 85 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-{
-#line 86 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-CTString str ;
-#line 87 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(eDeath  . eLastDamage  . dmtType  == DMT_EXPLOSION ){
-#line 88 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(m_hdtType  == HDT_BOMBERMAN ){
-#line 89 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-str  . PrintF  (TRANS  ("%s was bombed by a Bomberman") , strPlayerName );
-#line 90 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}else {
-#line 91 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-str  . PrintF  (TRANS  ("%s fell victim of a Kamikaze") , strPlayerName );
-#line 92 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
-#line 93 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}else if(m_hdtType  == HDT_ROCKETMAN ){
-#line 94 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-str  . PrintF  (TRANS  ("A Rocketeer tickled %s to death") , strPlayerName );
-#line 95 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}else if(m_hdtType  == HDT_FIRECRACKER ){
-#line 96 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-str  . PrintF  (TRANS  ("A Firecracker tickled %s to death") , strPlayerName );
 #line 97 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
+{
 #line 98 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-return str ;
+CTString str ;
 #line 99 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
-  
+if(eDeath  . eLastDamage  . dmtType  == DMT_EXPLOSION ){
+#line 100 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+if(m_hdtType  == HDT_BOMBERMAN ){
+#line 101 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+str  . PrintF  (TRANS  ("%s was bombed by a Bomberman") , strPlayerName );
 #line 102 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void * CHeadman::GetEntityInfo(void) {
+}else {
 #line 103 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-return & eiHeadman ;
+str  . PrintF  (TRANS  ("%s fell victim of a Kamikaze") , strPlayerName );
 #line 104 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-  const CTFileName & CHeadman::GetComputerMessageName(void)const {
+#line 105 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}else if(m_hdtType  == HDT_ROCKETMAN ){
+#line 106 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+str  . PrintF  (TRANS  ("A Rocketeer tickled %s to death") , strPlayerName );
 #line 107 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-static DECLARE_CTFILENAME  (fnmRocketman  , "Data\\Messages\\Enemies\\Rocketman.txt");
+}else if(m_hdtType  == HDT_FIRECRACKER ){
 #line 108 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-static DECLARE_CTFILENAME  (fnmFirecracker  , "Data\\Messages\\Enemies\\Firecracker.txt");
+str  . PrintF  (TRANS  ("A Firecracker tickled %s to death") , strPlayerName );
 #line 109 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-static DECLARE_CTFILENAME  (fnmBomberman  , "Data\\Messages\\Enemies\\Bomberman.txt");
+}
 #line 110 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-static DECLARE_CTFILENAME  (fnmKamikaze  , "Data\\Messages\\Enemies\\Kamikaze.txt");
+return str ;
 #line 111 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-switch(m_hdtType ){
-#line 112 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-default  : ASSERT  (FALSE );
-#line 113 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-case HDT_ROCKETMAN : return fnmRocketman ;
+}
+  
 #line 114 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-case HDT_FIRECRACKER : return fnmFirecracker ;
+void * CHeadman::GetEntityInfo(void) {
 #line 115 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-case HDT_BOMBERMAN : return fnmBomberman ;
+return & eiHeadman ;
 #line 116 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-case HDT_KAMIKAZE : return fnmKamikaze ;
-#line 117 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-#line 118 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
-  
+  const CTFileName & CHeadman::GetComputerMessageName(void)const {
+#line 119 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+static DECLARE_CTFILENAME  (fnmRocketman  , "Data\\Messages\\Enemies\\Rocketman.txt");
 #line 120 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void CHeadman::Precache(void) {
+static DECLARE_CTFILENAME  (fnmFirecracker  , "Data\\Messages\\Enemies\\Firecracker.txt");
 #line 121 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-CEnemyBase  :: Precache  ();
+static DECLARE_CTFILENAME  (fnmBomberman  , "Data\\Messages\\Enemies\\Bomberman.txt");
 #line 122 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PrecacheSound  (SOUND_IDLE );
+static DECLARE_CTFILENAME  (fnmKamikaze  , "Data\\Messages\\Enemies\\Kamikaze.txt");
 #line 123 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PrecacheSound  (SOUND_SIGHT );
-#line 124 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PrecacheSound  (SOUND_WOUND );
-#line 125 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PrecacheSound  (SOUND_DEATH );
-#line 127 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 switch(m_hdtType ){
+#line 124 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+default  : ASSERT  (FALSE );
+#line 125 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+case HDT_ROCKETMAN : return fnmRocketman ;
+#line 126 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+case HDT_FIRECRACKER : return fnmFirecracker ;
+#line 127 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+case HDT_BOMBERMAN : return fnmBomberman ;
 #line 128 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-case HDT_FIRECRACKER : {
+case HDT_KAMIKAZE : return fnmKamikaze ;
 #line 129 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PrecacheSound  (SOUND_FIREFIRECRACKER );
-#line 130 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PrecacheClass  (CLASS_PROJECTILE  , PRT_HEADMAN_FIRECRACKER );
-#line 131 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}break ;
-#line 132 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-case HDT_ROCKETMAN : {
-#line 133 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PrecacheSound  (SOUND_FIREROCKETMAN );
-#line 134 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PrecacheClass  (CLASS_PROJECTILE  , PRT_HEADMAN_ROCKETMAN );
-#line 135 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}break ;
-#line 136 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-case HDT_BOMBERMAN : {
-#line 137 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PrecacheSound  (SOUND_FIREBOMBERMAN );
-#line 138 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PrecacheClass  (CLASS_PROJECTILE  , PRT_HEADMAN_BOMBERMAN );
-#line 139 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PrecacheModel  (MODEL_BOMB );
-#line 140 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PrecacheTexture  (TEXTURE_BOMB );
-#line 141 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}break ;
-#line 142 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-case HDT_KAMIKAZE : {
-#line 143 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PrecacheSound  (SOUND_ATTACKKAMIKAZE );
-#line 144 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PrecacheSound  (SOUND_IDLEKAMIKAZE );
-#line 145 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PrecacheClass  (CLASS_BASIC_EFFECT  , BET_BOMB );
-#line 146 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PrecacheModel  (MODEL_BOMB );
-#line 147 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PrecacheTexture  (TEXTURE_BOMB );
-#line 148 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}break ;
-#line 149 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-#line 150 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 130 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
   
-#line 153 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-BOOL CHeadman::FillEntityStatistics(EntityStats * pes) 
-#line 154 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-{
-#line 155 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-CEnemyBase  :: FillEntityStatistics  (pes );
-#line 156 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 132 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+void CHeadman::Precache(void) {
+#line 133 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+CEnemyBase  :: Precache  ();
+#line 134 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+PrecacheSound  (SOUND_IDLE );
+#line 135 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+PrecacheSound  (SOUND_SIGHT );
+#line 136 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+PrecacheSound  (SOUND_WOUND );
+#line 137 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+PrecacheSound  (SOUND_DEATH );
+#line 139 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 switch(m_hdtType ){
+#line 140 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+case HDT_FIRECRACKER : {
+#line 141 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+PrecacheSound  (SOUND_FIREFIRECRACKER );
+#line 142 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+PrecacheClass  (CLASS_BULLET  , 0);
+#line 143 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}break ;
+#line 144 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+case HDT_ROCKETMAN : {
+#line 145 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+PrecacheSound  (SOUND_FIREROCKETMAN );
+#line 146 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+PrecacheClass  (CLASS_PROJECTILE  , PRT_HEADMAN_ROCKETMAN );
+#line 147 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}break ;
+#line 148 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+case HDT_BOMBERMAN : {
+#line 149 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+PrecacheSound  (SOUND_FIREBOMBERMAN );
+#line 150 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+PrecacheClass  (CLASS_PROJECTILE  , PRT_HEADMAN_BOMBERMAN );
+#line 151 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+PrecacheModel  (MODEL_BOMB );
+#line 152 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+PrecacheTexture  (TEXTURE_BOMB );
+#line 153 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}break ;
+#line 154 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+case HDT_KAMIKAZE : {
+#line 155 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+PrecacheSound  (SOUND_ATTACKKAMIKAZE );
+#line 156 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+PrecacheSound  (SOUND_IDLEKAMIKAZE );
 #line 157 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-case HDT_FIRECRACKER : {pes  -> es_strName  += " Firecracker";}break ;
+PrecacheClass  (CLASS_BASIC_EFFECT  , BET_BOMB );
 #line 158 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-case HDT_ROCKETMAN : {pes  -> es_strName  += " Rocketman";}break ;
+PrecacheModel  (MODEL_BOMB );
 #line 159 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-case HDT_BOMBERMAN : {pes  -> es_strName  += " Bomberman";}break ;
+PrecacheTexture  (TEXTURE_BOMB );
 #line 160 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-case HDT_KAMIKAZE : {pes  -> es_strName  += " Kamikaze";}break ;
+}break ;
 #line 161 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
 #line 162 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-return TRUE ;
-#line 163 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
   
+#line 165 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+BOOL CHeadman::FillEntityStatistics(EntityStats * pes) 
 #line 166 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void CHeadman::ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
-#line 167 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection) 
-#line 168 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 {
+#line 167 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+CEnemyBase  :: FillEntityStatistics  (pes );
+#line 168 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+switch(m_hdtType ){
+#line 169 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+case HDT_FIRECRACKER : {pes  -> es_strName  += " Firecracker";}break ;
 #line 170 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(! IsOfClass  (penInflictor  , "Headman") || 
+case HDT_ROCKETMAN : {pes  -> es_strName  += " Rocketman";}break ;
 #line 171 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-! (((CHeadman  *) penInflictor ) -> m_hdtType  == HDT_FIRECRACKER  || 
+case HDT_BOMBERMAN : {pes  -> es_strName  += " Bomberman";}break ;
 #line 172 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-((CHeadman  *) penInflictor ) -> m_hdtType  == HDT_ROCKETMAN )){
+case HDT_KAMIKAZE : {pes  -> es_strName  += " Kamikaze";}break ;
 #line 173 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-CEnemyBase  :: ReceiveDamage  (penInflictor  , dmtType  , fDamageAmmount  , vHitPoint  , vDirection );
-#line 176 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(dmtType  == DMT_CHAINSAW  && GetHealth  () <= 0){
-#line 178 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-m_fBlowUpAmount  = 0;
-#line 179 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-#line 180 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
-#line 181 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 174 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+return TRUE ;
+#line 175 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
   
+#line 178 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+void CHeadman::ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
+#line 179 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection) 
+#line 180 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+{
+#line 182 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+if(! IsOfClass  (penInflictor  , "Headman") || 
+#line 183 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+! (((CHeadman  *) penInflictor ) -> m_hdtType  == HDT_FIRECRACKER  || 
+#line 184 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+((CHeadman  *) penInflictor ) -> m_hdtType  == HDT_ROCKETMAN )){
 #line 185 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-INDEX CHeadman::AnimForDamage(FLOAT fDamage) {
-#line 186 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-INDEX iAnim ;
-#line 187 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(IRnd  () % 2){
+CEnemyBase  :: ReceiveDamage  (penInflictor  , dmtType  , fDamageAmmount  , vHitPoint  , vDirection );
 #line 188 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-iAnim  = HEADMAN_ANIM_WOUND1 ;
-#line 189 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}else {
+if(dmtType  == DMT_CHAINSAW  && GetHealth  () <= 0){
 #line 190 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-iAnim  = HEADMAN_ANIM_WOUND2 ;
+m_fBlowUpAmount  = 0;
 #line 191 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
 #line 192 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-StartModelAnim  (iAnim  , 0);
+}
 #line 193 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-return iAnim ;
-#line 194 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
   
 #line 197 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-INDEX CHeadman::AnimForDeath(void) {
+INDEX CHeadman::AnimForDamage(FLOAT fDamage) {
 #line 198 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 INDEX iAnim ;
 #line 199 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-FLOAT3D vFront ;
+if(IRnd  () % 2){
 #line 200 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-GetHeadingDirection  (0 , vFront );
+iAnim  = HEADMAN_ANIM_WOUND1 ;
 #line 201 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-FLOAT fDamageDir  = m_vDamage  % vFront ;
+}else {
 #line 202 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(fDamageDir  < 0){
+iAnim  = HEADMAN_ANIM_WOUND2 ;
 #line 203 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(Abs  (fDamageDir ) < 10.0f){
+}
 #line 204 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-iAnim  = HEADMAN_ANIM_DEATH_EASY_FALL_BACK ;
-#line 205 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}else {
-#line 206 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-iAnim  = HEADMAN_ANIM_DEATH_FALL_BACK ;
-#line 207 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
-#line 208 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}else {
-#line 209 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(Abs  (fDamageDir ) < 10.0f){
-#line 210 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-iAnim  = HEADMAN_ANIM_DEATH_EASY_FALL_FORWARD ;
-#line 211 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}else {
-#line 212 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-iAnim  = HEADMAN_ANIM_DEATH_FALL_ON_KNEES ;
-#line 213 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
-#line 214 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
-#line 216 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 StartModelAnim  (iAnim  , 0);
-#line 217 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 205 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 return iAnim ;
-#line 218 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 206 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
   
+#line 209 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+INDEX CHeadman::AnimForDeath(void) {
+#line 210 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+INDEX iAnim ;
+#line 211 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+FLOAT3D vFront ;
+#line 212 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+GetHeadingDirection  (0 , vFront );
+#line 213 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+FLOAT fDamageDir  = m_vDamage  % vFront ;
+#line 214 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+if(fDamageDir  < 0){
+#line 215 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+if(Abs  (fDamageDir ) < 10.0f){
+#line 216 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+iAnim  = HEADMAN_ANIM_DEATH_EASY_FALL_BACK ;
+#line 217 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}else {
+#line 218 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+iAnim  = HEADMAN_ANIM_DEATH_FALL_BACK ;
+#line 219 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
 #line 220 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-FLOAT CHeadman::WaitForDust(FLOAT3D & vStretch) {
+}else {
 #line 221 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-vStretch  = FLOAT3D (1 , 1 , 2);
+if(Abs  (fDamageDir ) < 10.0f){
 #line 222 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(GetModelObject  () -> GetAnim  () == HEADMAN_ANIM_DEATH_EASY_FALL_BACK )
+iAnim  = HEADMAN_ANIM_DEATH_EASY_FALL_FORWARD ;
 #line 223 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-{
+}else {
 #line 224 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-vStretch  = vStretch  * 0.3f;
+iAnim  = HEADMAN_ANIM_DEATH_FALL_ON_KNEES ;
 #line 225 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-return 0.864f;
+}
 #line 226 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-#line 227 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(GetModelObject  () -> GetAnim  () == HEADMAN_ANIM_DEATH_FALL_BACK )
 #line 228 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-{
+StartModelAnim  (iAnim  , 0);
 #line 229 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-vStretch  = vStretch  * 0.75f;
+return iAnim ;
 #line 230 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-return 0.48f;
-#line 231 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
+  
 #line 232 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(GetModelObject  () -> GetAnim  () == HEADMAN_ANIM_DEATH_EASY_FALL_FORWARD )
+FLOAT CHeadman::WaitForDust(FLOAT3D & vStretch) {
 #line 233 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-{
+vStretch  = FLOAT3D (1 , 1 , 2);
 #line 234 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-vStretch  = vStretch  * 0.3f;
+if(GetModelObject  () -> GetAnim  () == HEADMAN_ANIM_DEATH_EASY_FALL_BACK )
 #line 235 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-return 1.12f;
-#line 236 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
-#line 237 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-else if(GetModelObject  () -> GetAnim  () == HEADMAN_ANIM_DEATH_FALL_ON_KNEES )
-#line 238 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 {
-#line 239 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-vStretch  = vStretch  * 0.75f;
-#line 240 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-return 1.035f;
-#line 241 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 236 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+vStretch  = vStretch  * 0.3f;
+#line 237 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+return 0.864f;
+#line 238 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
+#line 239 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+if(GetModelObject  () -> GetAnim  () == HEADMAN_ANIM_DEATH_FALL_BACK )
+#line 240 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+{
+#line 241 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+vStretch  = vStretch  * 0.75f;
 #line 242 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-return - 1.0f;
+return 0.48f;
 #line 243 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-  
-#line 246 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-BOOL CHeadman::ShouldBlowUp(void) 
-#line 247 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 244 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+if(GetModelObject  () -> GetAnim  () == HEADMAN_ANIM_DEATH_EASY_FALL_FORWARD )
+#line 245 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 {
+#line 246 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+vStretch  = vStretch  * 0.3f;
+#line 247 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+return 1.12f;
 #line 248 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(m_hdtType  == HDT_KAMIKAZE  && GetHealth  () <= 0){
-#line 249 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-return TRUE ;
-#line 250 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}else {
-#line 251 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-return CEnemyBase  :: ShouldBlowUp  ();
-#line 252 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
+#line 249 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+else if(GetModelObject  () -> GetAnim  () == HEADMAN_ANIM_DEATH_FALL_ON_KNEES )
+#line 250 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+{
+#line 251 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+vStretch  = vStretch  * 0.75f;
+#line 252 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+return 1.035f;
 #line 253 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-  
+#line 254 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+return - 1.0f;
 #line 255 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void CHeadman::DeathNotify(void) {
-#line 256 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-ChangeCollisionBoxIndexWhenPossible  (HEADMAN_COLLISION_BOX_DEATH );
-#line 257 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-en_fDensity  = 500.0f;
-#line 258 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
   
+#line 258 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+BOOL CHeadman::ShouldBlowUp(void) 
+#line 259 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+{
+#line 260 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+if(m_hdtType  == HDT_KAMIKAZE  && GetHealth  () <= 0){
 #line 261 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void CHeadman::StandingAnim(void) {
+return TRUE ;
 #line 262 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-StartModelAnim  (HEADMAN_ANIM_IDLE_PATROL  , AOF_LOOPING  | AOF_NORESTART );
+}else {
 #line 263 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(m_hdtType  == HDT_KAMIKAZE ){
+return CEnemyBase  :: ShouldBlowUp  ();
 #line 264 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-KamikazeSoundOff  ();
-#line 265 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-#line 266 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 265 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
   
 #line 267 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void CHeadman::StandingAnimFight(void) 
+void CHeadman::DeathNotify(void) {
 #line 268 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-{
+ChangeCollisionBoxIndexWhenPossible  (HEADMAN_COLLISION_BOX_DEATH );
 #line 269 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-StartModelAnim  (HEADMAN_ANIM_IDLE_FIGHT  , AOF_LOOPING  | AOF_NORESTART );
+en_fDensity  = 500.0f;
 #line 270 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(m_hdtType  == HDT_KAMIKAZE ){
-#line 271 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-KamikazeSoundOff  ();
-#line 272 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
+  
 #line 273 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
-  
+void CHeadman::StandingAnim(void) {
 #line 274 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void CHeadman::WalkingAnim(void) {
+StartModelAnim  (HEADMAN_ANIM_IDLE_PATROL  , AOF_LOOPING  | AOF_NORESTART );
 #line 275 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-StartModelAnim  (HEADMAN_ANIM_WALK  , AOF_LOOPING  | AOF_NORESTART );
+if(m_hdtType  == HDT_KAMIKAZE ){
 #line 276 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+KamikazeSoundOff  ();
+#line 277 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
+#line 278 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
   
-#line 277 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void CHeadman::RunningAnim(void) {
-#line 278 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(m_hdtType  == HDT_KAMIKAZE ){
 #line 279 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-KamikazeSoundOn  ();
+void CHeadman::StandingAnimFight(void) 
 #line 280 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-StartModelAnim  (HEADMAN_ANIM_KAMIKAZE_ATTACK  , AOF_LOOPING  | AOF_NORESTART );
+{
 #line 281 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}else {
+StartModelAnim  (HEADMAN_ANIM_IDLE_FIGHT  , AOF_LOOPING  | AOF_NORESTART );
 #line 282 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-StartModelAnim  (HEADMAN_ANIM_RUN  , AOF_LOOPING  | AOF_NORESTART );
+if(m_hdtType  == HDT_KAMIKAZE ){
 #line 283 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
+KamikazeSoundOff  ();
 #line 284 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-  
 #line 285 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void CHeadman::RotatingAnim(void) {
-#line 286 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-RunningAnim  ();
-#line 287 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
   
+#line 286 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+void CHeadman::WalkingAnim(void) {
+#line 287 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+StartModelAnim  (HEADMAN_ANIM_WALK  , AOF_LOOPING  | AOF_NORESTART );
+#line 288 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
+  
+#line 289 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+void CHeadman::RunningAnim(void) {
 #line 290 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void CHeadman::IdleSound(void) {
-#line 291 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(m_bAttackSound ){
-#line 292 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-return ;
-#line 293 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
-#line 294 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 if(m_hdtType  == HDT_KAMIKAZE ){
-#line 295 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PlaySound  (m_soSound  , SOUND_IDLEKAMIKAZE  , SOF_3D );
-#line 296 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 291 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+KamikazeSoundOn  ();
+#line 292 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+StartModelAnim  (HEADMAN_ANIM_KAMIKAZE_ATTACK  , AOF_LOOPING  | AOF_NORESTART );
+#line 293 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }else {
-#line 297 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PlaySound  (m_soSound  , SOUND_IDLE  , SOF_3D );
-#line 298 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 294 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+StartModelAnim  (HEADMAN_ANIM_RUN  , AOF_LOOPING  | AOF_NORESTART );
+#line 295 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
+#line 296 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
+  
+#line 297 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+void CHeadman::RotatingAnim(void) {
+#line 298 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+RunningAnim  ();
 #line 299 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
   
-#line 300 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void CHeadman::SightSound(void) {
-#line 301 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(m_bAttackSound ){
 #line 302 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-return ;
+void CHeadman::IdleSound(void) {
 #line 303 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
+if(m_bAttackSound ){
 #line 304 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PlaySound  (m_soSound  , SOUND_SIGHT  , SOF_3D );
+return ;
 #line 305 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-  
 #line 306 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void CHeadman::WoundSound(void) {
+if(m_hdtType  == HDT_KAMIKAZE ){
 #line 307 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(m_bAttackSound ){
+PlaySound  (m_soSound  , SOUND_IDLEKAMIKAZE  , SOF_3D );
 #line 308 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-return ;
+}else {
 #line 309 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
+PlaySound  (m_soSound  , SOUND_IDLE  , SOF_3D );
 #line 310 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PlaySound  (m_soSound  , SOUND_WOUND  , SOF_3D );
+}
 #line 311 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
   
 #line 312 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void CHeadman::DeathSound(void) {
+void CHeadman::SightSound(void) {
 #line 313 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 if(m_bAttackSound ){
 #line 314 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
@@ -455,172 +434,322 @@ return ;
 #line 315 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
 #line 316 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PlaySound  (m_soSound  , SOUND_DEATH  , SOF_3D );
+PlaySound  (m_soSound  , SOUND_SIGHT  , SOF_3D );
 #line 317 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
   
+#line 318 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+void CHeadman::WoundSound(void) {
 #line 319 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void CHeadman::KamikazeSoundOn(void) {
+if(m_bAttackSound ){
 #line 320 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(! m_bAttackSound ){
+return ;
 #line 321 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-m_bAttackSound  = TRUE ;
+}
 #line 322 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PlaySound  (m_soSound  , SOUND_ATTACKKAMIKAZE  , SOF_3D  | SOF_LOOP );
+PlaySound  (m_soSound  , SOUND_WOUND  , SOF_3D );
 #line 323 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-#line 324 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
   
+#line 324 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+void CHeadman::DeathSound(void) {
 #line 325 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void CHeadman::KamikazeSoundOff(void) {
-#line 326 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 if(m_bAttackSound ){
+#line 326 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+return ;
 #line 327 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-m_soSound  . Stop  ();
+}
 #line 328 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-m_bAttackSound  = FALSE ;
+PlaySound  (m_soSound  , SOUND_DEATH  , SOF_3D );
 #line 329 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-#line 330 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
   
+#line 331 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+void CHeadman::KamikazeSoundOn(void) {
+#line 332 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+if(! m_bAttackSound ){
+#line 333 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_bAttackSound  = TRUE ;
+#line 334 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+PlaySound  (m_soSound  , SOUND_ATTACKKAMIKAZE  , SOF_3D  | SOF_LOOP );
 #line 335 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void CHeadman::BlowUpNotify(void) {
+}
+#line 336 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
+  
 #line 337 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(m_hdtType  == HDT_KAMIKAZE  || m_hdtType  == HDT_BOMBERMAN ){
+void CHeadman::KamikazeSoundOff(void) {
 #line 338 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-Explode  ();
+if(m_bAttackSound ){
 #line 339 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
+m_soSound  . Stop  ();
 #line 340 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_bAttackSound  = FALSE ;
+#line 341 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
+#line 342 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
   
-#line 389 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void CHeadman::Explode(void) {
-#line 390 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(! m_bExploded ){
-#line 391 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-m_bExploded  = TRUE ;
-#line 394 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-FLOAT3D vSource ;
-#line 395 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-GetEntityInfoPosition  (this  , eiHeadman  . vTargetCenter  , vSource );
-#line 396 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(m_hdtType  == HDT_BOMBERMAN ){
-#line 397 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-InflictDirectDamage  (this  , this  , DMT_EXPLOSION  , 100.0f , vSource  , 
-#line 398 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-- en_vGravityDir );
-#line 399 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-InflictRangeDamage  (this  , DMT_EXPLOSION  , 15.0f , vSource  , 1.0f , 6.0f);
-#line 400 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}else {
+#line 347 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+void CHeadman::BlowUpNotify(void) {
+#line 349 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+if(m_hdtType  == HDT_KAMIKAZE  || m_hdtType  == HDT_BOMBERMAN ){
+#line 350 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+Explode  ();
+#line 351 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
+#line 352 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
+  
 #line 401 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-InflictDirectDamage  (this  , this  , DMT_CLOSERANGE  , 100.0f , vSource  , 
+void CHeadman::Explode(void) {
 #line 402 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-- en_vGravityDir );
+if(! m_bExploded ){
 #line 403 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-InflictRangeDamage  (this  , DMT_EXPLOSION  , 30.0f , vSource  , 2.75f , 8.0f);
-#line 404 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
+m_bExploded  = TRUE ;
+#line 406 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+FLOAT3D vSource ;
 #line 407 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-CPlacement3D plExplosion  = GetPlacement  ();
+GetEntityInfoPosition  (this  , eiHeadman  . vTargetCenter  , vSource );
 #line 408 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-CEntityPointer penExplosion  = CreateEntity  (plExplosion  , CLASS_BASIC_EFFECT );
+if(m_hdtType  == HDT_BOMBERMAN ){
 #line 409 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-ESpawnEffect  eSpawnEffect ;
+InflictDirectDamage  (this  , this  , DMT_EXPLOSION  , 100.0f , vSource  , 
 #line 410 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-eSpawnEffect  . colMuliplier  = C_WHITE  | CT_OPAQUE ;
+- en_vGravityDir );
 #line 411 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-eSpawnEffect  . betType  = BET_BOMB ;
+InflictRangeDamage  (this  , DMT_EXPLOSION  , 15.0f , vSource  , 1.0f , 6.0f);
 #line 412 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-eSpawnEffect  . vStretch  = FLOAT3D (1.0f , 1.0f , 1.0f);
+}else {
 #line 413 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-penExplosion  -> Initialize  (eSpawnEffect );
+InflictDirectDamage  (this  , this  , DMT_CLOSERANGE  , 100.0f , vSource  , 
+#line 414 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+- en_vGravityDir );
+#line 415 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+InflictRangeDamage  (this  , DMT_EXPLOSION  , 30.0f , vSource  , 2.75f , 8.0f);
 #line 416 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-eSpawnEffect  . betType  = BET_EXPLOSION_DEBRIS ;
-#line 417 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-CEntityPointer penExplosionDebris  = CreateEntity  (plExplosion  , CLASS_BASIC_EFFECT );
-#line 418 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-penExplosionDebris  -> Initialize  (eSpawnEffect );
-#line 421 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-eSpawnEffect  . betType  = BET_EXPLOSION_SMOKE ;
-#line 422 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-CEntityPointer penExplosionSmoke  = CreateEntity  (plExplosion  , CLASS_BASIC_EFFECT );
-#line 423 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-penExplosionSmoke  -> Initialize  (eSpawnEffect );
-#line 424 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
+#line 419 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+CPlacement3D plExplosion  = GetPlacement  ();
+#line 420 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+CEntityPointer penExplosion  = CreateEntity  (plExplosion  , CLASS_BASIC_EFFECT );
+#line 421 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+ESpawnEffect  eSpawnEffect ;
+#line 422 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+eSpawnEffect  . colMuliplier  = C_WHITE  | CT_OPAQUE ;
+#line 423 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+eSpawnEffect  . betType  = BET_BOMB ;
+#line 424 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+eSpawnEffect  . vStretch  = FLOAT3D (1.0f , 1.0f , 1.0f);
 #line 425 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+penExplosion  -> Initialize  (eSpawnEffect );
+#line 428 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+eSpawnEffect  . betType  = BET_EXPLOSION_DEBRIS ;
+#line 429 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+CEntityPointer penExplosionDebris  = CreateEntity  (plExplosion  , CLASS_BASIC_EFFECT );
+#line 430 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+penExplosionDebris  -> Initialize  (eSpawnEffect );
+#line 433 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+eSpawnEffect  . betType  = BET_EXPLOSION_SMOKE ;
+#line 434 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+CEntityPointer penExplosionSmoke  = CreateEntity  (plExplosion  , CLASS_BASIC_EFFECT );
+#line 435 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+penExplosionSmoke  -> Initialize  (eSpawnEffect );
+#line 436 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
+#line 437 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
   
-#line 431 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-void CHeadman::SetSpeedsToDesiredPosition(const FLOAT3D & vPosDelta,FLOAT fPosDistance,BOOL bGoingToPlayer) 
-#line 432 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-{
-#line 434 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(m_hdtType  == HDT_KAMIKAZE  && CalcDist  (m_penEnemy ) < EXPLODE_KAMIKAZE ){
-#line 436 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-SetHealth  (- 10000.0f);
-#line 437 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-m_vDamage  = FLOAT3D (0 , 10000 , 0);
-#line 438 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-SendEvent  (EDeath  ());
-#line 441 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}else {
 #line 443 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-CEnemyBase  :: SetSpeedsToDesiredPosition  (vPosDelta  , fPosDistance  , bGoingToPlayer );
+void CHeadman::SetSpeedsToDesiredPosition(const FLOAT3D & vPosDelta,FLOAT fPosDistance,BOOL bGoingToPlayer) 
 #line 444 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
-#line 445 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
-  FLOAT CHeadman::GetAttackMoveFrequency(FLOAT fEnemyDistance) 
-#line 449 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 {
-#line 451 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(m_hdtType  == HDT_KAMIKAZE  && fEnemyDistance  < m_fCloseDistance ){
-#line 452 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-return 0.1f;
+#line 446 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+if(m_hdtType  == HDT_KAMIKAZE  && CalcDist  (m_penEnemy ) < EXPLODE_KAMIKAZE ){
+#line 448 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+SetHealth  (- 10000.0f);
+#line 449 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_vDamage  = FLOAT3D (0 , 10000 , 0);
+#line 450 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+SendEvent  (EDeath  ());
 #line 453 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }else {
-#line 454 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-return CEnemyBase  :: GetAttackMoveFrequency  (fEnemyDistance );
 #line 455 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-}
+CEnemyBase  :: SetSpeedsToDesiredPosition  (vPosDelta  , fPosDistance  , bGoingToPlayer );
 #line 456 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
+#line 457 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
+  FLOAT CHeadman::GetAttackMoveFrequency(FLOAT fEnemyDistance) 
+#line 461 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+{
+#line 463 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+if(m_hdtType  == HDT_KAMIKAZE  && fEnemyDistance  < m_fCloseDistance ){
+#line 464 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+return 0.1f;
+#line 465 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}else {
+#line 466 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+return CEnemyBase  :: GetAttackMoveFrequency  (fEnemyDistance );
+#line 467 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
+#line 468 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
+  
+#line 471 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+BOOL CHeadman::CanFireAtPlayer(void) {
+#line 472 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+FLOAT3D vSource  , vTarget ;
+#line 473 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+GetPositionCastRay  (this  , m_penEnemy  , vSource  , vTarget );
+#line 476 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+CPlacement3D plBullet ;
+#line 477 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+plBullet  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
+#line 478 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+plBullet  . pl_PositionVector  = FLOAT3D (0.0f , 1.5f , - 1.0f);
+#line 479 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+plBullet  . RelativeToAbsolute  (GetPlacement  ());
+#line 480 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+vSource  = plBullet  . pl_PositionVector ;
+#line 483 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+CCastRay  crRay  (this  , vSource  , vTarget );
+#line 484 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+crRay  . cr_ttHitModels  = CCastRay  :: TT_NONE ;
+#line 485 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+en_pwoWorld  -> CastRay  (crRay );
+#line 486 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+return (crRay  . cr_penHit  == NULL );
+#line 487 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
+  
+#line 490 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+void CHeadman::PrepareBullet(FLOAT fDamage) {
+#line 491 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+CPlacement3D plBullet ;
+#line 492 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+plBullet  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
+#line 493 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+plBullet  . pl_PositionVector  = FLOAT3D (0.0f , 1.5f , - 1.0f);
+#line 494 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+plBullet  . RelativeToAbsolute  (GetPlacement  ());
+#line 496 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+penBullet  = CreateEntity  (plBullet  , CLASS_BULLET );
+#line 498 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+EBulletInit  eInit ;
+#line 499 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+eInit  . penOwner  = this ;
+#line 500 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+eInit  . fDamage  = fDamage ;
+#line 501 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+penBullet  -> Initialize  (eInit );
+#line 502 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
+  
+#line 505 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+void CHeadman::FireBullet(void) {
+#line 506 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_bFireBulletCount  ++;
+#line 507 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+if(m_bFireBulletCount  > 1){m_bFireBulletCount  = 0;}
+#line 508 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+if(m_bFireBulletCount  == 1){return ;}
+#line 510 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+PrepareBullet  (4.0f);
+#line 511 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+((CBullet  &) * penBullet ) . CalcTarget  (m_penEnemy  , 250.0f);
+#line 512 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+((CBullet  &) * penBullet ) . CalcJitterTarget  (10.0f);
+#line 513 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+((CBullet  &) * penBullet ) . LaunchBullet  (TRUE  , TRUE  , TRUE );
+#line 514 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+((CBullet  &) * penBullet ) . DestroyBullet  ();
+#line 515 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
+  
+#line 518 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+void CHeadman::FireShotgunSpread(FLOAT3D vPos,FLOAT3D vTarget,FLOAT fSpread,INDEX iPelletCount,FLOAT fMaxDamage) {
+#line 520 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_fLastShotDistance  = CalcDist  (m_penEnemy );
+#line 521 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_tmLastShotTime  = _pTimer  -> CurrentTick  ();
+#line 524 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+FLOAT3D vDir  = vTarget  - vPos ;
+#line 525 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+vDir  . Normalize  ();
+#line 528 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+for(INDEX iPellet  = 0;iPellet  < iPelletCount ;iPellet  ++){
+#line 530 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+ANGLE3D angSpread ;
+#line 531 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+angSpread  (1) = (FRnd  () - 0.5f) * fSpread ;
+#line 532 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+angSpread  (2) = (FRnd  () - 0.5f) * fSpread ;
+#line 533 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+angSpread  (3) = 0;
+#line 536 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+FLOATmatrix3D mRot ;
+#line 537 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+MakeRotationMatrixFast  (mRot  , angSpread );
+#line 538 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+FLOAT3D vPelletDir  = vDir  * mRot ;
+#line 541 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+CPlacement3D plBullet ;
+#line 542 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+plBullet  . pl_PositionVector  = vPos ;
+#line 543 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+DirectionVectorToAngles  (vPelletDir  , plBullet  . pl_OrientationAngle );
+#line 545 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+CEntityPointer penBullet  = CreateEntity  (plBullet  , CLASS_BULLET );
+#line 546 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+EBulletInit  eInit ;
+#line 547 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+eInit  . penOwner  = this ;
+#line 550 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+FLOAT fDistanceFactor  = 1.0f - Clamp  ((m_fLastShotDistance  - 5.0f) / 55.0f , 0.0f , 1.0f);
+#line 551 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+eInit  . fDamage  = fMaxDamage  * fDistanceFactor ;
+#line 553 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+penBullet  -> Initialize  (eInit );
+#line 556 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+((CBullet  &) * penBullet ) . CalcTarget  (m_penEnemy  , 600.0f + FRnd  () * 100.0f);
+#line 557 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+((CBullet  &) * penBullet ) . LaunchBullet  (TRUE  , TRUE  , TRUE );
+#line 558 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
+#line 559 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
 BOOL CHeadman::
-#line 462 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 565 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 InitializeAttack(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CHeadman_InitializeAttack
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CHeadman::InitializeAttack expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 463 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 566 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 if(m_hdtType  == HDT_KAMIKAZE ){
-#line 464 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 567 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 KamikazeSoundOn  ();
-#line 465 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 568 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-#line 466 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 569 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Jump(STATE_CURRENT, STATE_CEnemyBase_InitializeAttack, FALSE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CHeadman::
-#line 469 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 572 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 StopAttack(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CHeadman_StopAttack
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CHeadman::StopAttack expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 470 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 573 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 KamikazeSoundOff  ();
-#line 471 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 574 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Jump(STATE_CURRENT, STATE_CEnemyBase_StopAttack, FALSE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CHeadman::
-#line 474 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 577 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Fire(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CHeadman_Fire
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CHeadman::Fire expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 476 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 579 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 if(!(m_hdtType  == HDT_FIRECRACKER )){ Jump(STATE_CURRENT,0x012f000e, FALSE, EInternal());return TRUE;}
-#line 477 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 580 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 STATE_CHeadman_FirecrackerAttack, TRUE;
 Jump(STATE_CURRENT, 0x012f0003, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f0003_Fire_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -634,7 +763,7 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x012f000e
 if(!(m_hdtType  == HDT_ROCKETMAN )){ Jump(STATE_CURRENT,0x012f000c, FALSE, EInternal());return TRUE;}
-#line 480 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 583 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 STATE_CHeadman_RocketmanAttack, TRUE;
 Jump(STATE_CURRENT, 0x012f0005, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f0005_Fire_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -648,7 +777,7 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x012f000c
 if(!(m_hdtType  == HDT_BOMBERMAN )){ Jump(STATE_CURRENT,0x012f000a, FALSE, EInternal());return TRUE;}
-#line 483 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 586 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 STATE_CHeadman_BombermanAttack, TRUE;
 Jump(STATE_CURRENT, 0x012f0007, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f0007_Fire_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -662,7 +791,7 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x012f000a
 if(m_hdtType  == HDT_KAMIKAZE ){
-#line 486 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 589 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }Jump(STATE_CURRENT,0x012f0009, FALSE, EInternal());return TRUE;}
 BOOL CHeadman::H0x012f0009_Fire_07(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
@@ -679,24 +808,24 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x012f000d
 
-#line 488 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 591 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 488 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 591 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CHeadman::
-#line 492 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 595 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 BombermanAttack(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CHeadman_BombermanAttack
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CHeadman::BombermanAttack expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 494 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 597 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 if(! IsInFrustum  (m_penEnemy  , CosFast  (80.0f))){
-#line 495 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 598 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 495 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 598 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 return TRUE;
-#line 496 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 599 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-#line 498 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 601 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 SetTimerAfter(0.2f + FRnd  () / 4);
 Jump(STATE_CURRENT, 0x012f0010, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f0010_BombermanAttack_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -706,11 +835,11 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x012f0011
 ;
-#line 500 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 603 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 StartModelAnim  (HEADMAN_ANIM_BOMBERMAN_ATTACK  , 0);
-#line 501 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 604 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 PlaySound  (m_soSound  , SOUND_FIREBOMBERMAN  , SOF_3D );
-#line 502 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 605 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 SetTimerAfter(0.15f);
 Jump(STATE_CURRENT, 0x012f0012, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f0012_BombermanAttack_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -720,9 +849,9 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x012f0013
 ;
-#line 504 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 607 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 AddAttachment  (HEADMAN_ATTACHMENT_BOMB_RIGHT_HAND  , MODEL_BOMB  , TEXTURE_BOMB );
-#line 505 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 608 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 SetTimerAfter(0.30f);
 Jump(STATE_CURRENT, 0x012f0014, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f0014_BombermanAttack_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -732,49 +861,49 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x012f0015
 ;
-#line 506 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 609 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 RemoveAttachment  (HEADMAN_ATTACHMENT_BOMB_RIGHT_HAND );
-#line 510 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 613 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 FLOAT fLaunchSpeed ;
-#line 511 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 614 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 FLOAT fRelativeHdg ;
-#line 512 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 615 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 CalculateAngularLaunchParams  (
-#line 513 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 616 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 GetPlacement  () . pl_PositionVector  , BOMBERMAN_LAUNCH  (2) - 1.5f , 
-#line 514 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 617 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_penEnemy  -> GetPlacement  () . pl_PositionVector  , FLOAT3D (0 , 0 , 0) , 
-#line 515 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 618 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 BOMBERMAN_ANGLE  , 
-#line 516 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 619 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 fLaunchSpeed  , 
-#line 517 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 620 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 fRelativeHdg );
-#line 520 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 623 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 EntityInfo  * peiTarget  = (EntityInfo  *) (m_penEnemy  -> GetEntityInfo  ());
-#line 521 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 624 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 FLOAT3D vShootTarget ;
-#line 522 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 625 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 GetEntityInfoPosition  (m_penEnemy  , peiTarget  -> vTargetCenter  , vShootTarget );
-#line 524 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 627 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 CPlacement3D pl ;
-#line 525 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 628 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 PrepareFreeFlyingProjectile  (pl  , vShootTarget  , BOMBERMAN_LAUNCH  , ANGLE3D (0 , BOMBERMAN_ANGLE  , 0));
-#line 526 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 629 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 CEntityPointer penProjectile  = CreateEntity  (pl  , CLASS_PROJECTILE );
-#line 527 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 630 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 ELaunchProjectile  eLaunch ;
-#line 528 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 631 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 eLaunch  . penLauncher  = this ;
-#line 529 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 632 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 eLaunch  . prtType  = PRT_HEADMAN_BOMBERMAN ;
-#line 530 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 633 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 eLaunch  . fSpeed  = fLaunchSpeed ;
-#line 531 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 634 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 penProjectile  -> Initialize  (eLaunch );
-#line 534 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 637 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 RemoveAttachment  (HEADMAN_ATTACHMENT_BOMB_RIGHT_HAND );
-#line 536 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 639 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 SetTimerAfter(0.45f + FRnd  () / 2);
 Jump(STATE_CURRENT, 0x012f0016, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f0016_BombermanAttack_07(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -784,24 +913,24 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x012f0017
 ;
-#line 537 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 640 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 537 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 640 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CHeadman::
-#line 541 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 644 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 FirecrackerAttack(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CHeadman_FirecrackerAttack
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CHeadman::FirecrackerAttack expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 543 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-if(- en_vGravityDir  % CalcDelta  (m_penEnemy ) > CalcDist  (m_penEnemy ) / 1.41421f){
-#line 544 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 645 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+if(! CanFireAtPlayer  ()){
+#line 646 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 544 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 646 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 return TRUE;
-#line 545 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 647 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-#line 547 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 649 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 SetTimerAfter(0.2f + FRnd  () / 4);
 Jump(STATE_CURRENT, 0x012f0019, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f0019_FirecrackerAttack_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -811,9 +940,9 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x012f001a
 ;
-#line 549 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 651 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 StartModelAnim  (HEADMAN_ANIM_FIRECRACKER_ATTACK  , 0);
-#line 550 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 652 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 SetTimerAfter(0.15f);
 Jump(STATE_CURRENT, 0x012f001b, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f001b_FirecrackerAttack_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -823,10 +952,10 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x012f001c
 ;
-#line 551 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 653 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 PlaySound  (m_soSound  , SOUND_FIREFIRECRACKER  , SOF_3D );
-#line 552 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-SetTimerAfter(0.52f);
+#line 654 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+SetTimerAfter(0.22f);
 Jump(STATE_CURRENT, 0x012f001d, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f001d_FirecrackerAttack_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x012f001d
@@ -835,10 +964,36 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x012f001e
 ;
-#line 553 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-ShootProjectile  (PRT_HEADMAN_FIRECRACKER  , FLOAT3D (0.0f , 0.5f , 0.0f) , ANGLE3D (- 16.0f , 0 , 0));
-#line 555 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-SetTimerAfter(0.05f);
+#line 656 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+FLOAT3D vGunPos  = FLOAT3D (0.0f , 1.5f , - 1.0f);
+#line 657 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+CPlacement3D plGun ;
+#line 658 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+plGun  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
+#line 659 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+plGun  . pl_PositionVector  = vGunPos ;
+#line 660 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+plGun  . RelativeToAbsolute  (GetPlacement  ());
+#line 662 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+EntityInfo  * peiTarget  = (EntityInfo  *) (m_penEnemy  -> GetEntityInfo  ());
+#line 663 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+FLOAT3D vTarget ;
+#line 664 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+GetEntityInfoPosition  (m_penEnemy  , peiTarget  -> vTargetCenter  , vTarget );
+#line 666 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+FireShotgunSpread  (
+#line 667 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+plGun  . pl_PositionVector  , 
+#line 668 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+vTarget  , 
+#line 669 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+12.0f , 
+#line 670 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+8 , 
+#line 671 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+5.0f);
+#line 673 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+SetTimerAfter(0.5f + FRnd  () / 3);
 Jump(STATE_CURRENT, 0x012f001f, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f001f_FirecrackerAttack_07(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x012f001f
@@ -847,326 +1002,338 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x012f0020
 ;
-#line 556 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-ShootProjectile  (PRT_HEADMAN_FIRECRACKER  , FLOAT3D (0.0f , 0.5f , 0.0f) , ANGLE3D (- 8 , 0 , 0));
-#line 558 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-SetTimerAfter(0.05f);
-Jump(STATE_CURRENT, 0x012f0021, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f0021_FirecrackerAttack_09(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x012f0021
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x012f0022, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CHeadman::H0x012f0022_FirecrackerAttack_10(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x012f0022
-;
-#line 559 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-ShootProjectile  (PRT_HEADMAN_FIRECRACKER  , FLOAT3D (0.0f , 0.5f , 0.0f) , ANGLE3D (0.0f , 0 , 0));
-#line 561 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-SetTimerAfter(0.05f);
-Jump(STATE_CURRENT, 0x012f0023, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f0023_FirecrackerAttack_11(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x012f0023
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x012f0024, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CHeadman::H0x012f0024_FirecrackerAttack_12(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x012f0024
-;
-#line 562 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-ShootProjectile  (PRT_HEADMAN_FIRECRACKER  , FLOAT3D (0.0f , 0.5f , 0.0f) , ANGLE3D (8.0f , 0 , 0));
-#line 564 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-SetTimerAfter(0.05f);
-Jump(STATE_CURRENT, 0x012f0025, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f0025_FirecrackerAttack_13(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x012f0025
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x012f0026, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CHeadman::H0x012f0026_FirecrackerAttack_14(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x012f0026
-;
-#line 565 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-ShootProjectile  (PRT_HEADMAN_FIRECRACKER  , FLOAT3D (0.0f , 0.5f , 0.0f) , ANGLE3D (16.0f , 0 , 0));
-#line 567 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-SetTimerAfter(0.5f + FRnd  () / 3);
-Jump(STATE_CURRENT, 0x012f0027, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f0027_FirecrackerAttack_15(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x012f0027
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x012f0028, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CHeadman::H0x012f0028_FirecrackerAttack_16(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x012f0028
-;
-#line 568 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 674 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 568 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 674 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CHeadman::
-#line 572 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 678 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 RocketmanAttack(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CHeadman_RocketmanAttack
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CHeadman::RocketmanAttack expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 573 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-StandingAnimFight  ();
-#line 574 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-SetTimerAfter(0.2f + FRnd  () / 4);
-Jump(STATE_CURRENT, 0x012f002a, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f002a_RocketmanAttack_01(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x012f002a
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x012f002b, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CHeadman::H0x012f002b_RocketmanAttack_02(const CEntityEvent &__eeInput){
+#line 679 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+if(! CanFireAtPlayer  ()){Return(STATE_CURRENT,EEnd  ());return TRUE;}
+#line 682 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_fFireTime  = _pTimer  -> CurrentTick  () + 1.0f;
+#line 683 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_bFireBulletCount  = 0;
+#line 685 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+PlaySound  (m_soSound  , SOUND_FIREROCKETMAN  , SOF_3D  | SOF_LOOP );
+#line 688 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+Jump(STATE_CURRENT,0x012f0024, FALSE, EInternal());return TRUE;}BOOL CHeadman::H0x012f0024_RocketmanAttack_03(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x012f002b
-;
-#line 576 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-StartModelAnim  (HEADMAN_ANIM_ROCKETMAN_ATTACK  , 0);
-#line 577 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-ShootProjectile  (PRT_HEADMAN_ROCKETMAN  , FLOAT3D (0.0f , 1.0f , 0.0f) , ANGLE3D (0 , 0 , 0));
-#line 578 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-PlaySound  (m_soSound  , SOUND_FIREROCKETMAN  , SOF_3D );
-#line 580 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-SetTimerAfter(1.0f + FRnd  () / 3);
-Jump(STATE_CURRENT, 0x012f002c, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f002c_RocketmanAttack_03(const CEntityEvent &__eeInput) {
+#define STATE_CURRENT 0x012f0024
+if(!(m_fFireTime  > _pTimer  -> CurrentTick  ())){ Jump(STATE_CURRENT,0x012f0025, FALSE, EInternal());return TRUE;}
+#line 689 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_fMoveFrequency  = 0.1f;
+#line 690 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+SetTimerAfter(m_fMoveFrequency );
+Jump(STATE_CURRENT, 0x012f0022, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f0022_RocketmanAttack_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x012f002c
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x012f002d, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CHeadman::H0x012f002d_RocketmanAttack_04(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x012f0022
+switch(__eeInput.ee_slEvent){case(EVENTCODE_EBegin):{const EBegin&e= (EBegin&)__eeInput;
+
+#line 693 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+CPlacement3D plBullet ;
+#line 694 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+plBullet  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
+#line 695 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+plBullet  . pl_PositionVector  = FLOAT3D (0.0f , 1.5f , - 1.0f);
+#line 696 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+plBullet  . RelativeToAbsolute  (GetPlacement  ());
+#line 698 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+CEntityPointer penBullet  = CreateEntity  (plBullet  , CLASS_BULLET );
+#line 699 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+EBulletInit  eInit ;
+#line 700 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+eInit  . penOwner  = this ;
+#line 701 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+eInit  . fDamage  = 5.0f;
+#line 702 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+penBullet  -> Initialize  (eInit );
+#line 705 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+FLOAT3D vTarget  = m_penEnemy  -> GetPlacement  () . pl_PositionVector ;
+#line 706 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+((CBullet  &) * penBullet ) . CalcTarget  (m_penEnemy  , 250.0f);
+#line 707 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+((CBullet  &) * penBullet ) . LaunchBullet  (TRUE  , TRUE  , TRUE );
+#line 709 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_vDesiredPosition  = vTarget ;
+#line 712 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+if(! IsInPlaneFrustum  (m_penEnemy  , CosFast  (5.0f))){
+#line 713 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_fMoveSpeed  = 0.0f;
+#line 714 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_aRotateSpeed  = 4000.0f;
+#line 715 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}else {
+#line 716 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_fMoveSpeed  = 0.0f;
+#line 717 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_aRotateSpeed  = 0.0f;
+#line 718 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}
+#line 719 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+SetDesiredMovement  ();
+#line 720 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+return TRUE;
+#line 721 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}ASSERT(FALSE);break;case(EVENTCODE_ETimer):{const ETimer&e= (ETimer&)__eeInput;
+UnsetTimer();Jump(STATE_CURRENT,0x012f0023, FALSE, EInternal());return TRUE;}ASSERT(FALSE);break;default: return FALSE; break;
+#line 723 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}return TRUE;}BOOL CHeadman::H0x012f0023_RocketmanAttack_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x012f002d
-;
-#line 581 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#define STATE_CURRENT 0x012f0023
+Jump(STATE_CURRENT,0x012f0024, FALSE, EInternal());return TRUE;
+#line 724 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+}BOOL CHeadman::H0x012f0025_RocketmanAttack_04(const CEntityEvent &__eeInput) {
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x012f0025
+
+#line 726 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_soSound  . Stop  ();
+#line 727 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_fShootTime  = _pTimer  -> CurrentTick  () + 1.5f + FRnd  () / 2;
+#line 728 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+MaybeSwitchToAnotherPlayer  ();
+#line 730 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 581 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 730 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CHeadman::
-#line 589 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 738 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Death(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CHeadman_Death
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CHeadman::Death expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 593 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 742 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 if(m_hdtType  == HDT_KAMIKAZE ){
-#line 594 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 743 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 KamikazeSoundOff  ();
-#line 595 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 744 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-#line 597 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 746 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 STATE_CEnemyBase_Death, FALSE;
-Jump(STATE_CURRENT, 0x012f002f, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f002f_Death_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x012f0027, FALSE, EBegin());return TRUE;}BOOL CHeadman::H0x012f0027_Death_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x012f002f
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CEnemyBase_Death, FALSE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x012f0030, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CHeadman::H0x012f0030_Death_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x012f0027
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CEnemyBase_Death, FALSE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x012f0028, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CHeadman::H0x012f0028_Death_02(const CEntityEvent &__eeInput){
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x012f0030
+#define STATE_CURRENT 0x012f0028
 const EEnd&__e= (EEnd&)__eeInput;
 ;
-#line 599 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 748 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 if(m_hdtType  == HDT_BOMBERMAN ){
-#line 600 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 749 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Explode  ();
-#line 601 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 750 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-#line 602 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 751 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 602 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 751 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CHeadman::
-#line 610 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 759 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Main(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CHeadman_Main
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CHeadman::Main expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 612 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 761 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 InitAsModel  ();
-#line 613 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 762 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 SetPhysicsFlags  (EPF_MODEL_WALKING  | EPF_HASLUNGS );
-#line 614 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 763 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 SetCollisionFlags  (ECF_MODEL );
-#line 615 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 764 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 SetFlags  (GetFlags  () | ENF_ALIVE );
-#line 616 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-SetHealth  (19.5f);
-#line 617 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-m_fMaxHealth  = 19.5f;
-#line 618 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 765 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+SetHealth  (30.5f);
+#line 766 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_fMaxHealth  = 30.5f;
+#line 767 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 en_tmMaxHoldBreath  = 5.0f;
-#line 619 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 768 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 en_fDensity  = 2000.0f;
-#line 620 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 769 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fBlowUpSize  = 2.0f;
-#line 623 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 772 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 SetModel  (MODEL_HEADMAN );
-#line 624 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 773 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 switch(m_hdtType ){
-#line 625 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 774 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 case HDT_FIRECRACKER : 
-#line 627 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 776 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 SetModelMainTexture  (TEXTURE_FIRECRACKER );
-#line 628 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 777 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 AddAttachment  (HEADMAN_ATTACHMENT_HEAD  , MODEL_FIRECRACKERHEAD  , TEXTURE_FIRECRACKERHEAD );
-#line 629 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 778 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 AddAttachment  (HEADMAN_ATTACHMENT_CHAINSAW  , MODEL_CHAINSAW  , TEXTURE_CHAINSAW );
-#line 631 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 780 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fWalkSpeed  = FRnd  () + 1.5f;
-#line 632 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 781 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_aWalkRotateSpeed  = AngleDeg  (FRnd  () * 10.0f + 500.0f);
-#line 633 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 782 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fAttackRunSpeed  = FRnd  () + 5.0f;
-#line 634 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 783 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_aAttackRotateSpeed  = AngleDeg  (FRnd  () * 50 + 245.0f);
-#line 635 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 784 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fCloseRunSpeed  = FRnd  () + 5.0f;
-#line 636 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 785 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_aCloseRotateSpeed  = AngleDeg  (FRnd  () * 50 + 245.0f);
-#line 638 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 787 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fAttackDistance  = 50.0f;
-#line 639 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 788 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fCloseDistance  = 0.0f;
-#line 640 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 789 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fStopDistance  = 8.0f;
-#line 641 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 790 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fAttackFireTime  = 2.0f;
-#line 642 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 791 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fCloseFireTime  = 1.0f;
-#line 643 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 792 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fIgnoreRange  = 200.0f;
-#line 645 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 794 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fBlowUpAmount  = 65.0f;
-#line 646 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 795 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fBodyParts  = 4;
-#line 647 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 796 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fDamageWounded  = 0.0f;
-#line 648 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 797 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_iScore  = 200;
-#line 649 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 798 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 break ;
-#line 651 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 800 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 case HDT_ROCKETMAN : 
-#line 653 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 802 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 SetModelMainTexture  (TEXTURE_ROCKETMAN );
-#line 654 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 803 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 AddAttachment  (HEADMAN_ATTACHMENT_HEAD  , MODEL_HEAD  , TEXTURE_HEAD );
-#line 655 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 804 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 AddAttachment  (HEADMAN_ATTACHMENT_ROCKET_LAUNCHER  , MODEL_ROCKETLAUNCHER  , TEXTURE_ROCKETLAUNCHER );
-#line 657 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 806 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fWalkSpeed  = FRnd  () + 1.5f;
-#line 658 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 807 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_aWalkRotateSpeed  = AngleDeg  (FRnd  () * 10.0f + 500.0f);
-#line 659 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 808 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fAttackRunSpeed  = FRnd  () * 2.0f + 6.0f;
-#line 660 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 809 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_aAttackRotateSpeed  = AngleDeg  (FRnd  () * 50 + 245.0f);
-#line 661 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 810 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fCloseRunSpeed  = FRnd  () * 2.0f + 6.0f;
-#line 662 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 811 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_aCloseRotateSpeed  = AngleDeg  (FRnd  () * 50 + 245.0f);
-#line 664 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 813 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fAttackDistance  = 50.0f;
-#line 665 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 814 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fCloseDistance  = 0.0f;
-#line 666 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
-m_fStopDistance  = 8.0f;
-#line 667 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 815 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+m_fStopDistance  = 10.0f;
+#line 816 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fAttackFireTime  = 2.0f;
-#line 668 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 817 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fCloseFireTime  = 1.0f;
-#line 669 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 818 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fIgnoreRange  = 200.0f;
-#line 671 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 820 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fBlowUpAmount  = 65.0f;
-#line 672 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 821 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fBodyParts  = 4;
-#line 673 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 822 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fDamageWounded  = 0.0f;
-#line 674 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 823 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_iScore  = 100;
-#line 675 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 824 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 break ;
-#line 677 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 826 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 case HDT_BOMBERMAN : 
-#line 679 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 828 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 SetModelMainTexture  (TEXTURE_BOMBERMAN );
-#line 680 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 829 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 AddAttachment  (HEADMAN_ATTACHMENT_HEAD  , MODEL_HEAD  , TEXTURE_HEAD );
-#line 682 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 831 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fWalkSpeed  = FRnd  () + 1.5f;
-#line 683 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 832 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_aWalkRotateSpeed  = AngleDeg  (FRnd  () * 10.0f + 500.0f);
-#line 684 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 833 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fAttackRunSpeed  = FRnd  () + 4.0f;
-#line 685 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 834 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_aAttackRotateSpeed  = AngleDeg  (FRnd  () * 50 + 245.0f);
-#line 686 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 835 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fCloseRunSpeed  = FRnd  () + 4.0f;
-#line 687 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 836 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_aCloseRotateSpeed  = AngleDeg  (FRnd  () * 50 + 245.0f);
-#line 689 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 838 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fAttackDistance  = 45.0f;
-#line 690 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 839 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fCloseDistance  = 0.0f;
-#line 691 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 840 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fStopDistance  = 20.0f;
-#line 692 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 841 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fAttackFireTime  = 2.0f;
-#line 693 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 842 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fCloseFireTime  = 1.5f;
-#line 694 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 843 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fIgnoreRange  = 150.0f;
-#line 696 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 845 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fBlowUpAmount  = 65.0f;
-#line 697 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 846 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fBodyParts  = 4;
-#line 698 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 847 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fDamageWounded  = 0.0f;
-#line 699 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 848 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_iScore  = 500;
-#line 700 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 849 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 break ;
-#line 702 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 851 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 case HDT_KAMIKAZE : 
-#line 704 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 853 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 SetModelMainTexture  (TEXTURE_KAMIKAZE );
-#line 705 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 854 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 AddAttachment  (HEADMAN_ATTACHMENT_BOMB_RIGHT_HAND  , MODEL_BOMB  , TEXTURE_BOMB );
-#line 706 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 855 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 AddAttachment  (HEADMAN_ATTACHMENT_BOMB_LEFT_HAND  , MODEL_BOMB  , TEXTURE_BOMB );
-#line 708 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 857 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fWalkSpeed  = FRnd  () + 1.5f;
-#line 709 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 858 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_aWalkRotateSpeed  = AngleDeg  (FRnd  () * 10.0f + 500.0f);
-#line 710 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 859 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fAttackRunSpeed  = FRnd  () * 2.0f + 10.0f;
-#line 711 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 860 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_aAttackRotateSpeed  = AngleDeg  (FRnd  () * 100 + 600.0f);
-#line 712 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 861 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fCloseRunSpeed  = FRnd  () * 2.0f + 10.0f;
-#line 713 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 862 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_aCloseRotateSpeed  = AngleDeg  (FRnd  () * 100 + 600.0f);
-#line 715 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 864 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fAttackDistance  = 50.0f;
-#line 716 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 865 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fCloseDistance  = 10.0f;
-#line 717 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 866 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fStopDistance  = 0.0f;
-#line 718 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 867 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fAttackFireTime  = 2.0f;
-#line 719 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 868 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fCloseFireTime  = 0.5f;
-#line 720 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 869 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fIgnoreRange  = 250.0f;
-#line 722 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 871 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fBlowUpAmount  = 0.0f;
-#line 723 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 872 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fBodyParts  = 4;
-#line 724 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 873 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_fDamageWounded  = 0.0f;
-#line 725 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 874 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 m_iScore  = 2500;
-#line 726 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 875 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 break ;
-#line 727 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 876 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 }
-#line 730 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 879 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 GetModelObject  () -> StretchModel  (FLOAT3D (1.25f , 1.25f , 1.25f));
-#line 731 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 880 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 ModelChangeNotify  ();
-#line 732 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 881 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 StandingAnim  ();
-#line 735 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 884 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Jump(STATE_CURRENT, STATE_CEnemyBase_MainLoop, FALSE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};

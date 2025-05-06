@@ -6,6 +6,7 @@
 #define _EntitiesMP_Headman_INCLUDED 1
 #include <EntitiesMP/EnemyBase.h>
 #include <EntitiesMP/BasicEffects.h>
+#include <EntitiesMP/Bullet.h>
 extern DECL_DLL CEntityPropertyEnumType HeadmanType_enum;
 enum HeadmanType {
   HDT_FIRECRACKER = 0,
@@ -21,97 +22,114 @@ public:
   enum HeadmanType m_hdtType;
   BOOL m_bExploded;
   BOOL m_bAttackSound;
+  INDEX m_bFireBulletCount;
+  FLOAT m_fFireTime;
+  FLOAT m_fLastShotDistance;
+  FLOAT m_tmLastShotTime;
+CEntity * penBullet;
   
-#line 84 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 96 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 virtual CTString GetPlayerKillDescription(const CTString & strPlayerName,const EDeath & eDeath);
    
-#line 102 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 114 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void * GetEntityInfo(void);
   
-#line 106 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 118 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 virtual const CTFileName & GetComputerMessageName(void)const;
    
-#line 120 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 132 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void Precache(void);
    
-#line 153 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 165 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 BOOL FillEntityStatistics(EntityStats * pes);
    
-#line 166 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 178 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
-#line 167 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 179 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection);
    
-#line 185 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 197 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 INDEX AnimForDamage(FLOAT fDamage);
    
-#line 197 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 209 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 INDEX AnimForDeath(void);
    
-#line 220 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 232 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 FLOAT WaitForDust(FLOAT3D & vStretch);
    
-#line 246 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 258 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 BOOL ShouldBlowUp(void);
    
-#line 255 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 267 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void DeathNotify(void);
    
-#line 261 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 273 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void StandingAnim(void);
    
-#line 267 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 279 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void StandingAnimFight(void);
    
-#line 274 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 286 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void WalkingAnim(void);
    
-#line 277 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 289 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void RunningAnim(void);
    
-#line 285 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 297 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void RotatingAnim(void);
    
-#line 290 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 302 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void IdleSound(void);
    
-#line 300 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 312 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void SightSound(void);
    
-#line 306 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 318 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void WoundSound(void);
    
-#line 312 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 324 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void DeathSound(void);
    
-#line 319 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 331 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void KamikazeSoundOn(void);
    
-#line 325 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 337 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void KamikazeSoundOff(void);
    
-#line 335 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 347 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void BlowUpNotify(void);
    
-#line 389 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 401 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void Explode(void);
    
-#line 431 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 443 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 void SetSpeedsToDesiredPosition(const FLOAT3D & vPosDelta,FLOAT fPosDistance,BOOL bGoingToPlayer);
   
-#line 448 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 460 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 virtual FLOAT GetAttackMoveFrequency(FLOAT fEnemyDistance);
+   
+#line 471 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+BOOL CanFireAtPlayer(void);
+   
+#line 490 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+void PrepareBullet(FLOAT fDamage);
+   
+#line 505 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+void FireBullet(void);
+   
+#line 518 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+void FireShotgunSpread(FLOAT3D vPos,FLOAT3D vTarget,FLOAT fSpread,INDEX iPelletCount,FLOAT fMaxDamage);
 #define  STATE_CHeadman_InitializeAttack 0x012f0000
   BOOL 
-#line 462 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 565 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 InitializeAttack(const CEntityEvent &__eeInput);
 #define  STATE_CHeadman_StopAttack 0x012f0001
   BOOL 
-#line 469 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 572 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 StopAttack(const CEntityEvent &__eeInput);
 #define  STATE_CHeadman_Fire 0x012f0002
   BOOL 
-#line 474 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 577 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Fire(const CEntityEvent &__eeInput);
   BOOL H0x012f0003_Fire_01(const CEntityEvent &__eeInput);
   BOOL H0x012f0004_Fire_02(const CEntityEvent &__eeInput);
@@ -127,7 +145,7 @@ Fire(const CEntityEvent &__eeInput);
   BOOL H0x012f000e_Fire_12(const CEntityEvent &__eeInput);
 #define  STATE_CHeadman_BombermanAttack 0x012f000f
   BOOL 
-#line 492 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 595 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 BombermanAttack(const CEntityEvent &__eeInput);
   BOOL H0x012f0010_BombermanAttack_01(const CEntityEvent &__eeInput);
   BOOL H0x012f0011_BombermanAttack_02(const CEntityEvent &__eeInput);
@@ -139,7 +157,7 @@ BombermanAttack(const CEntityEvent &__eeInput);
   BOOL H0x012f0017_BombermanAttack_08(const CEntityEvent &__eeInput);
 #define  STATE_CHeadman_FirecrackerAttack 0x012f0018
   BOOL 
-#line 541 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 644 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 FirecrackerAttack(const CEntityEvent &__eeInput);
   BOOL H0x012f0019_FirecrackerAttack_01(const CEntityEvent &__eeInput);
   BOOL H0x012f001a_FirecrackerAttack_02(const CEntityEvent &__eeInput);
@@ -149,31 +167,23 @@ FirecrackerAttack(const CEntityEvent &__eeInput);
   BOOL H0x012f001e_FirecrackerAttack_06(const CEntityEvent &__eeInput);
   BOOL H0x012f001f_FirecrackerAttack_07(const CEntityEvent &__eeInput);
   BOOL H0x012f0020_FirecrackerAttack_08(const CEntityEvent &__eeInput);
-  BOOL H0x012f0021_FirecrackerAttack_09(const CEntityEvent &__eeInput);
-  BOOL H0x012f0022_FirecrackerAttack_10(const CEntityEvent &__eeInput);
-  BOOL H0x012f0023_FirecrackerAttack_11(const CEntityEvent &__eeInput);
-  BOOL H0x012f0024_FirecrackerAttack_12(const CEntityEvent &__eeInput);
-  BOOL H0x012f0025_FirecrackerAttack_13(const CEntityEvent &__eeInput);
-  BOOL H0x012f0026_FirecrackerAttack_14(const CEntityEvent &__eeInput);
-  BOOL H0x012f0027_FirecrackerAttack_15(const CEntityEvent &__eeInput);
-  BOOL H0x012f0028_FirecrackerAttack_16(const CEntityEvent &__eeInput);
-#define  STATE_CHeadman_RocketmanAttack 0x012f0029
+#define  STATE_CHeadman_RocketmanAttack 0x012f0021
   BOOL 
-#line 572 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 678 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 RocketmanAttack(const CEntityEvent &__eeInput);
-  BOOL H0x012f002a_RocketmanAttack_01(const CEntityEvent &__eeInput);
-  BOOL H0x012f002b_RocketmanAttack_02(const CEntityEvent &__eeInput);
-  BOOL H0x012f002c_RocketmanAttack_03(const CEntityEvent &__eeInput);
-  BOOL H0x012f002d_RocketmanAttack_04(const CEntityEvent &__eeInput);
-#define  STATE_CHeadman_Death 0x012f002e
+  BOOL H0x012f0022_RocketmanAttack_01(const CEntityEvent &__eeInput);
+  BOOL H0x012f0023_RocketmanAttack_02(const CEntityEvent &__eeInput);
+  BOOL H0x012f0024_RocketmanAttack_03(const CEntityEvent &__eeInput);
+  BOOL H0x012f0025_RocketmanAttack_04(const CEntityEvent &__eeInput);
+#define  STATE_CHeadman_Death 0x012f0026
   BOOL 
-#line 589 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 738 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Death(const CEntityEvent &__eeInput);
-  BOOL H0x012f002f_Death_01(const CEntityEvent &__eeInput);
-  BOOL H0x012f0030_Death_02(const CEntityEvent &__eeInput);
+  BOOL H0x012f0027_Death_01(const CEntityEvent &__eeInput);
+  BOOL H0x012f0028_Death_02(const CEntityEvent &__eeInput);
 #define  STATE_CHeadman_Main 1
   BOOL 
-#line 610 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
+#line 759 "V:/Programs/SamSDK/Sources/EntitiesMP/Headman.es"
 Main(const CEntityEvent &__eeInput);
 };
 #endif // _EntitiesMP_Headman_INCLUDED

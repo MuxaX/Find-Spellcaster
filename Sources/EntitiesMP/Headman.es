@@ -2,10 +2,12 @@
 %{
 #include "StdH.h"
 #include "Models/Enemies/Headman/Headman.h"
+#include "EntitiesMP/Bullet.h"
 %}
 
 uses "EntitiesMP/EnemyBase";
 uses "EntitiesMP/BasicEffects";
+uses "EntitiesMP/Bullet";
 
 enum HeadmanType {
   0 HDT_FIRECRACKER   "Fire Cracker",
@@ -39,6 +41,14 @@ properties:
   // class internal
   5 BOOL m_bExploded = FALSE,
   6 BOOL m_bAttackSound = FALSE,    // playing kamikaze yelling sound
+  7 INDEX m_bFireBulletCount = 0,       // счётчик пуль (как у Scorpman)
+  8 FLOAT m_fFireTime = 0.0f,           // время стрельбы
+  9 FLOAT m_fLastShotDistance = 0.0f, // Последняя дистанция выстрела
+  10 FLOAT m_tmLastShotTime = 0.0f,   // Время последнего выстрела
+  
+  {
+	CEntity *penBullet;          // пуля (как у Scorpman)
+  }
   
 components:
   1 class   CLASS_BASE            "Classes\\EnemyBase.ecl",
@@ -61,6 +71,8 @@ components:
  26 texture TEXTURE_CHAINSAW        "Models\\Enemies\\Headman\\Chainsaw.tex",
  28 texture TEXTURE_ROCKETLAUNCHER  "Models\\Enemies\\Headman\\RocketLauncher.tex",
  29 texture TEXTURE_BOMB            "Models\\Enemies\\Headman\\Projectile\\Bomb.tex",
+ 
+ 30 class   CLASS_BULLET      "Classes\\Bullet.ecl",  // добавляем поддержку пуль
 
 // ************** SOUNDS **************
  50 sound   SOUND_IDLE              "Models\\Enemies\\Headman\\Sounds\\Idle.wav",
@@ -125,10 +137,10 @@ functions:
     PrecacheSound(SOUND_DEATH);
 
     switch(m_hdtType) {
-    case HDT_FIRECRACKER: { 
-      PrecacheSound(SOUND_FIREFIRECRACKER);
-      PrecacheClass(CLASS_PROJECTILE, PRT_HEADMAN_FIRECRACKER);
-                          } break;
+	case HDT_FIRECRACKER: { 
+		PrecacheSound(SOUND_FIREFIRECRACKER);
+		PrecacheClass(CLASS_BULLET, 0); // Прекешируем пули для дробовика
+	} break;
     case HDT_ROCKETMAN:   {  
       PrecacheSound(SOUND_FIREROCKETMAN);
       PrecacheClass(CLASS_PROJECTILE, PRT_HEADMAN_ROCKETMAN);
@@ -454,6 +466,97 @@ functions:
       return CEnemyBase::GetAttackMoveFrequency(fEnemyDistance);
     }
   }
+  
+  // Проверка, может ли враг стрелять (как у Scorpman)
+BOOL CanFireAtPlayer(void) {
+    FLOAT3D vSource, vTarget;
+    GetPositionCastRay(this, m_penEnemy, vSource, vTarget);
+
+    // Позиция ствола (как у Scorpman)
+    CPlacement3D plBullet;
+    plBullet.pl_OrientationAngle = ANGLE3D(0, 0, 0);
+    plBullet.pl_PositionVector = FLOAT3D(0.0f, 1.5f, -1.0f); // примерное положение ствола
+    plBullet.RelativeToAbsolute(GetPlacement());
+    vSource = plBullet.pl_PositionVector;
+
+    // Проверка, нет ли препятствий
+    CCastRay crRay(this, vSource, vTarget);
+    crRay.cr_ttHitModels = CCastRay::TT_NONE; // проверяем только стены
+    en_pwoWorld->CastRay(crRay);
+    return (crRay.cr_penHit == NULL); // если ничего не мешает — можно стрелять
+}
+
+// Подготовка пули (как у Scorpman)
+void PrepareBullet(FLOAT fDamage) {
+    CPlacement3D plBullet;
+    plBullet.pl_OrientationAngle = ANGLE3D(0, 0, 0);
+    plBullet.pl_PositionVector = FLOAT3D(0.0f, 1.5f, -1.0f); // позиция ствола
+    plBullet.RelativeToAbsolute(GetPlacement());
+    
+    penBullet = CreateEntity(plBullet, CLASS_BULLET); // создаём пулю
+    
+    EBulletInit eInit;
+    eInit.penOwner = this;
+    eInit.fDamage = fDamage; // урон пули (например, 5.0f)
+    penBullet->Initialize(eInit);
+}
+
+// Выстрел пулей (как у Scorpman)
+void FireBullet(void) {
+    m_bFireBulletCount++;
+    if (m_bFireBulletCount > 1) { m_bFireBulletCount = 0; }
+    if (m_bFireBulletCount == 1) { return; } // пропускаем каждый второй кадр
+
+    PrepareBullet(4.0f); // урон пули
+    ((CBullet&)*penBullet).CalcTarget(m_penEnemy, 250.0f); // скорость пули
+    ((CBullet&)*penBullet).CalcJitterTarget(10.0f); // небольшой разброс
+    ((CBullet&)*penBullet).LaunchBullet(TRUE, TRUE, TRUE);
+    ((CBullet&)*penBullet).DestroyBullet();
+}
+
+//shoot shotgun
+void FireShotgunSpread(FLOAT3D vPos, FLOAT3D vTarget, FLOAT fSpread, INDEX iPelletCount, FLOAT fMaxDamage) {
+    // Запоминаем дистанцию выстрела
+    m_fLastShotDistance = CalcDist(m_penEnemy);
+    m_tmLastShotTime = _pTimer->CurrentTick();
+    
+    // Рассчитываем базовое направление
+    FLOAT3D vDir = vTarget - vPos;
+    vDir.Normalize();
+    
+    // Создаем дробинки (только физические, без визуальных эффектов)
+    for(INDEX iPellet=0; iPellet<iPelletCount; iPellet++) {
+        // Случайный разброс
+        ANGLE3D angSpread;
+        angSpread(1) = (FRnd()-0.5f)*fSpread; // Горизонтальный
+        angSpread(2) = (FRnd()-0.5f)*fSpread; // Вертикальный
+        angSpread(3) = 0;
+        
+        // Применяем разброс
+        FLOATmatrix3D mRot;
+        MakeRotationMatrixFast(mRot, angSpread);
+        FLOAT3D vPelletDir = vDir * mRot;
+        
+        // Создаем пулю с уроном, зависящим от дистанции
+        CPlacement3D plBullet;
+        plBullet.pl_PositionVector = vPos;
+        DirectionVectorToAngles(vPelletDir, plBullet.pl_OrientationAngle);
+        
+        CEntityPointer penBullet = CreateEntity(plBullet, CLASS_BULLET);
+        EBulletInit eInit;
+        eInit.penOwner = this;
+        
+        // Урон уменьшается с расстоянием (от 100% на 5м до 30% на 20м)
+        FLOAT fDistanceFactor = 1.0f - Clamp((m_fLastShotDistance-5.0f)/55.0f, 0.0f, 1.0f);
+        eInit.fDamage = fMaxDamage * fDistanceFactor;
+        
+        penBullet->Initialize(eInit);
+        
+        // Запускаем пулю
+        ((CBullet&)*penBullet).CalcTarget(m_penEnemy, 600.0f + FRnd()*100.0f);
+        ((CBullet&)*penBullet).LaunchBullet(TRUE, TRUE, TRUE);
+    }
+}
 
 procedures:
 /************************************************************
@@ -539,9 +642,8 @@ procedures:
 
   // Firecraker attack
   FirecrackerAttack(EVoid) {
-    // don't shoot if enemy above you more than quare of two far from you
-    if (-en_vGravityDir%CalcDelta(m_penEnemy) > CalcDist(m_penEnemy)/1.41421f) {
-      return EEnd();
+    if (!CanFireAtPlayer()) {
+        return EEnd();
     }
 
     autowait(0.2f + FRnd()/4);
@@ -549,20 +651,24 @@ procedures:
     StartModelAnim(HEADMAN_ANIM_FIRECRACKER_ATTACK, 0);
     autowait(0.15f);
     PlaySound(m_soSound, SOUND_FIREFIRECRACKER, SOF_3D);
-    autowait(0.52f);
-    ShootProjectile(PRT_HEADMAN_FIRECRACKER, FLOAT3D(0.0f, 0.5f, 0.0f), ANGLE3D(-16.0f, 0, 0));
+    autowait(0.22f);
 
-    autowait(0.05f);
-    ShootProjectile(PRT_HEADMAN_FIRECRACKER, FLOAT3D(0.0f, 0.5f, 0.0f), ANGLE3D(-8, 0, 0));
-
-    autowait(0.05f);
-    ShootProjectile(PRT_HEADMAN_FIRECRACKER, FLOAT3D(0.0f, 0.5f, 0.0f), ANGLE3D(0.0f, 0, 0));
-
-    autowait(0.05f);
-    ShootProjectile(PRT_HEADMAN_FIRECRACKER, FLOAT3D(0.0f, 0.5f, 0.0f), ANGLE3D(8.0f, 0, 0));
-
-    autowait(0.05f);
-    ShootProjectile(PRT_HEADMAN_FIRECRACKER, FLOAT3D(0.0f, 0.5f, 0.0f), ANGLE3D(16.0f, 0, 0));
+    FLOAT3D vGunPos = FLOAT3D(0.0f, 1.5f, -1.0f);
+    CPlacement3D plGun;
+    plGun.pl_OrientationAngle = ANGLE3D(0,0,0);
+    plGun.pl_PositionVector = vGunPos;
+    plGun.RelativeToAbsolute(GetPlacement());
+    
+    EntityInfo *peiTarget = (EntityInfo*) (m_penEnemy->GetEntityInfo());
+    FLOAT3D vTarget;
+    GetEntityInfoPosition(m_penEnemy, peiTarget->vTargetCenter, vTarget);
+    
+    FireShotgunSpread(
+        plGun.pl_PositionVector,
+        vTarget,
+        12.0f,  // Разброс
+        8,      // 8 дробин
+        5.0f);  // Макс урон
 
     autowait(0.5f + FRnd()/3);
     return EEnd();
@@ -570,14 +676,57 @@ procedures:
 
   // Rocketman attack
   RocketmanAttack(EVoid) {
-    StandingAnimFight();   //StartModelAnim(_ANIM_STAND, AOF_LOOPING|AOF_NORESTART);
-    autowait(0.2f + FRnd()/4);
+     if (!CanFireAtPlayer()) { return EEnd(); }
 
-    StartModelAnim(HEADMAN_ANIM_ROCKETMAN_ATTACK, 0);
-    ShootProjectile(PRT_HEADMAN_ROCKETMAN, FLOAT3D(0.0f, 1.0f, 0.0f), ANGLE3D(0, 0, 0));
-    PlaySound(m_soSound, SOUND_FIREROCKETMAN, SOF_3D);
+    // Настройки стрельбы
+    m_fFireTime = _pTimer->CurrentTick() + 1.0f;
+    m_bFireBulletCount = 0;
 
-    autowait(1.0f + FRnd()/3);
+    PlaySound(m_soSound, SOUND_FIREROCKETMAN, SOF_3D|SOF_LOOP);
+
+    // Цикл стрельбы
+    while (m_fFireTime > _pTimer->CurrentTick()) {
+        m_fMoveFrequency = 0.1f;
+        wait(m_fMoveFrequency) {
+            on (EBegin) : {
+                // Создаем пулю
+                CPlacement3D plBullet;
+                plBullet.pl_OrientationAngle = ANGLE3D(0, 0, 0);
+                plBullet.pl_PositionVector = FLOAT3D(0.0f, 1.5f, -1.0f);
+                plBullet.RelativeToAbsolute(GetPlacement());
+                
+                CEntityPointer penBullet = CreateEntity(plBullet, CLASS_BULLET);
+                EBulletInit eInit;
+                eInit.penOwner = this;
+                eInit.fDamage = 5.0f;
+                penBullet->Initialize(eInit);
+                
+                // Направляем пулю в врага
+                FLOAT3D vTarget = m_penEnemy->GetPlacement().pl_PositionVector;
+                ((CBullet&)*penBullet).CalcTarget(m_penEnemy, 250.0f);
+                ((CBullet&)*penBullet).LaunchBullet(TRUE, TRUE, TRUE);
+                
+                m_vDesiredPosition = vTarget;
+                
+                // Поворот к врагу
+                if (!IsInPlaneFrustum(m_penEnemy, CosFast(5.0f))) {
+                    m_fMoveSpeed = 0.0f;
+                    m_aRotateSpeed = 4000.0f;
+                } else {
+                    m_fMoveSpeed = 0.0f;
+                    m_aRotateSpeed = 0.0f;
+                }
+                SetDesiredMovement();
+                resume;
+            }
+            on (ETimer) : { stop; }
+        }
+    }
+
+    m_soSound.Stop();
+    m_fShootTime = _pTimer->CurrentTick() + 1.5f + FRnd()/2;
+    MaybeSwitchToAnotherPlayer();
+
     return EEnd();
   };
 
@@ -613,8 +762,8 @@ procedures:
     SetPhysicsFlags(EPF_MODEL_WALKING|EPF_HASLUNGS);
     SetCollisionFlags(ECF_MODEL);
     SetFlags(GetFlags()|ENF_ALIVE);
-    SetHealth(19.5f);
-    m_fMaxHealth = 19.5f;
+    SetHealth(30.5f);
+    m_fMaxHealth = 30.5f;
     en_tmMaxHoldBreath = 5.0f;
     en_fDensity = 2000.0f;
     m_fBlowUpSize = 2.0f;
@@ -663,7 +812,7 @@ procedures:
         // setup attack distances
         m_fAttackDistance = 50.0f;
         m_fCloseDistance = 0.0f;
-        m_fStopDistance = 8.0f;
+        m_fStopDistance = 10.0f;
         m_fAttackFireTime = 2.0f;
         m_fCloseFireTime = 1.0f;
         m_fIgnoreRange = 200.0f;
