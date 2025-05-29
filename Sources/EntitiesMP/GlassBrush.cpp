@@ -40,267 +40,440 @@ m_soDestroy.Stop_internal();
   m_eetTouchEvent = EET_IGNORE ;
   m_penTouchEvent = NULL;
   m_tdeSendEventOnDamage = TDE_TOUCHONLY ;
+  m_bCanExplode = FALSE ;
+  m_fExplosionDamage = 100.0f;
+  m_fExplosionRadius = 10.0f;
+  m_fExplosionStretch = 1.0f;
+  m_penExplosionSound = NULL;
+  m_soExplosion.SetOwner(this);
+m_soExplosion.Stop_internal();
   CMovableBrushEntity::SetDefaultProperties();
 }
   
-#line 94 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-void CGlassBrush::Precache(void) {
-#line 95 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-PrecacheClass  (CLASS_DEBRIS );
-#line 96 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-PrecacheClass  (CLASS_BASIC_EFFECT );
-#line 98 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-PrecacheModel  (MODEL_GLASS );
-#line 99 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-PrecacheTexture  (TEXTURE_GLASS );
-#line 100 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-PrecacheModel  (MODEL_STONE );
-#line 101 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-PrecacheTexture  (TEXTURE_STONE );
 #line 102 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-PrecacheModel  (MODEL_WOOD );
+void CGlassBrush::Precache(void) {
 #line 103 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-PrecacheTexture  (TEXTURE_WOOD );
+PrecacheClass  (CLASS_DEBRIS );
 #line 104 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-PrecacheModel  (MODEL_METAL );
-#line 105 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-PrecacheTexture  (TEXTURE_METAL );
+PrecacheClass  (CLASS_BASIC_EFFECT );
 #line 106 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-}
-  
+PrecacheModel  (MODEL_GLASS );
+#line 107 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+PrecacheTexture  (TEXTURE_GLASS );
+#line 108 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+PrecacheModel  (MODEL_STONE );
 #line 109 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-void CGlassBrush::PlayDestroySound(void) {
+PrecacheTexture  (TEXTURE_STONE );
 #line 110 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-if(m_penSoundDestroy  != NULL ){
+PrecacheModel  (MODEL_WOOD );
 #line 111 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-CSoundHolder  & sh  = (CSoundHolder  &) * m_penSoundDestroy ;
+PrecacheTexture  (TEXTURE_WOOD );
 #line 112 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-m_soDestroy  . Set3DParameters  (FLOAT (sh  . m_rFallOffRange ) , FLOAT (sh  . m_rHotSpotRange ) , sh  . m_fVolume  , 1.0f);
+PrecacheModel  (MODEL_METAL );
 #line 113 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-PlaySound  (m_soDestroy  , sh  . m_fnSound  , sh  . m_iPlayType );
+PrecacheTexture  (TEXTURE_METAL );
 #line 114 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 }
-#line 115 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+  
+#line 117 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+void CGlassBrush::PlayDestroySound(void) {
+#line 118 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+if(m_penSoundDestroy  != NULL ){
+#line 119 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CSoundHolder  & sh  = (CSoundHolder  &) * m_penSoundDestroy ;
+#line 120 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+m_soDestroy  . Set3DParameters  (FLOAT (sh  . m_rFallOffRange ) , FLOAT (sh  . m_rHotSpotRange ) , sh  . m_fVolume  , 1.0f);
+#line 121 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+PlaySound  (m_soDestroy  , sh  . m_fnSound  , sh  . m_iPlayType );
+#line 122 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+#line 123 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 }
   
-#line 118 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-void CGlassBrush::GetDebrisModelTexture(INDEX & iModel,INDEX & iTexture) {
-#line 119 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-switch(m_dtDebrisType ){
-#line 120 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-case DT_STONE : 
-#line 121 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-iModel  = MODEL_STONE ;
-#line 122 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-iTexture  = TEXTURE_STONE ;
-#line 123 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-break ;
-#line 124 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-case DT_WOOD : 
-#line 125 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-iModel  = MODEL_WOOD ;
 #line 126 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-iTexture  = TEXTURE_WOOD ;
+void CGlassBrush::GetDebrisModelTexture(INDEX & iModel,INDEX & iTexture) {
 #line 127 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-break ;
+switch(m_dtDebrisType ){
 #line 128 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-case DT_METAL : 
+case DT_STONE : 
 #line 129 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-iModel  = MODEL_METAL ;
+iModel  = MODEL_STONE ;
 #line 130 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-iTexture  = TEXTURE_METAL ;
+iTexture  = TEXTURE_STONE ;
 #line 131 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 break ;
 #line 132 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-case DT_GLASS : 
+case DT_WOOD : 
 #line 133 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-default  : 
+iModel  = MODEL_WOOD ;
 #line 134 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-iModel  = MODEL_GLASS ;
+iTexture  = TEXTURE_WOOD ;
 #line 135 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-iTexture  = TEXTURE_GLASS ;
-#line 136 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 break ;
+#line 136 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+case DT_METAL : 
 #line 137 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-}
+iModel  = MODEL_METAL ;
 #line 138 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-}
-  
+iTexture  = TEXTURE_METAL ;
+#line 139 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+break ;
+#line 140 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+case DT_GLASS : 
 #line 141 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-INDEX CGlassBrush::GetDebrisImpactType(void) {
+default  : 
 #line 142 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-switch(m_dtDebrisType ){
+iModel  = MODEL_GLASS ;
 #line 143 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-case DT_STONE : return EIBT_ROCK ;
+iTexture  = TEXTURE_GLASS ;
 #line 144 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-case DT_WOOD : return EIBT_WOOD ;
+break ;
 #line 145 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-case DT_METAL : return EIBT_METAL ;
-#line 146 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-case DT_GLASS : return EIBT_GLASS ;
-#line 147 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 }
-#line 148 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-return EIBT_GLASS ;
-#line 149 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 146 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 }
   
+#line 149 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+INDEX CGlassBrush::GetDebrisImpactType(void) {
+#line 150 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+switch(m_dtDebrisType ){
+#line 151 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+case DT_STONE : return EIBT_ROCK ;
 #line 152 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-BOOL CGlassBrush::CanReactOnEntity(CEntity * pen) {
+case DT_WOOD : return EIBT_WOOD ;
 #line 153 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-if(pen  == NULL ){
+case DT_METAL : return EIBT_METAL ;
 #line 154 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-return FALSE ;
+case DT_GLASS : return EIBT_GLASS ;
 #line 155 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 }
 #line 156 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-if(! (pen  -> GetFlags  () & ENF_ALIVE )){
+return EIBT_GLASS ;
 #line 157 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-return FALSE ;
-#line 158 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-}
-#line 159 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-return TRUE ;
-#line 160 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 }
   
+#line 160 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+BOOL CGlassBrush::CanReactOnEntity(CEntity * pen) {
+#line 161 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+if(pen  == NULL ){
 #line 162 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-void CGlassBrush::ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
+return FALSE ;
 #line 163 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection) 
+}
 #line 164 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-{
+if(! (pen  -> GetFlags  () & ENF_ALIVE )){
 #line 165 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-if(m_fHealth  < 0){return ;}
+return FALSE ;
+#line 166 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+#line 167 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+return TRUE ;
 #line 168 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-if(m_tdeSendEventOnDamage  != TDE_TOUCHONLY  && CanReactOnEntity  (penInflictor )){
-#line 169 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-SendToTarget  (m_penTouchEvent  , m_eetTouchEvent  , penInflictor );
+}
+  
 #line 170 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-}
+void CGlassBrush::ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
+#line 171 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection) 
 #line 172 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-if(m_bBlowupByBull  && dmtType  == DMT_IMPACT  && IsOfClass  (penInflictor  , "Werebull")){
-#line 173 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-CMovableBrushEntity  :: ReceiveDamage  (penInflictor  , dmtType  , m_fHealth  * 2 , vHitPoint  , vDirection );
-#line 174 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-((CLiveEntity  *) penInflictor ) -> SetHealth  (0.0f);
+{
 #line 175 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-return ;
+if(GetFlags  () & ENF_HIDDEN  || m_fHealth  <= 0){
 #line 176 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-}
-#line 178 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-if(m_bBlowupByDamager  && dmtType  == DMT_DAMAGER ){
-#line 179 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-CMovableBrushEntity  :: ReceiveDamage  (penInflictor  , dmtType  , fDamageAmmount  , vHitPoint  , vDirection );
-#line 180 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 return ;
-#line 181 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 177 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 }
+#line 179 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+if(m_fHealth  < 0){return ;}
+#line 182 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+if(m_tdeSendEventOnDamage  != TDE_TOUCHONLY  && CanReactOnEntity  (penInflictor )){
 #line 183 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-if(dmtType  == DMT_EXPLOSION  || dmtType  == DMT_PROJECTILE  || dmtType  == DMT_CANNONBALL ){
+SendToTarget  (m_penTouchEvent  , m_eetTouchEvent  , penInflictor );
 #line 184 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-CMovableBrushEntity  :: ReceiveDamage  (penInflictor  , dmtType  , fDamageAmmount  , vHitPoint  , vDirection );
-#line 185 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 }
 #line 186 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+if(m_bBlowupByBull  && dmtType  == DMT_IMPACT  && IsOfClass  (penInflictor  , "Werebull")){
+#line 187 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CMovableBrushEntity  :: ReceiveDamage  (penInflictor  , dmtType  , m_fHealth  * 2 , vHitPoint  , vDirection );
+#line 188 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+((CLiveEntity  *) penInflictor ) -> SetHealth  (0.0f);
+#line 189 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+return ;
+#line 190 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+#line 192 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+if(m_bBlowupByDamager  && dmtType  == DMT_DAMAGER ){
+#line 193 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CMovableBrushEntity  :: ReceiveDamage  (penInflictor  , dmtType  , fDamageAmmount  , vHitPoint  , vDirection );
+#line 194 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+return ;
+#line 195 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+#line 197 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+if(dmtType  == DMT_EXPLOSION  || dmtType  == DMT_PROJECTILE  || dmtType  == DMT_CANNONBALL ){
+#line 198 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CMovableBrushEntity  :: ReceiveDamage  (penInflictor  , dmtType  , fDamageAmmount  , vHitPoint  , vDirection );
+#line 199 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+#line 200 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+  
+#line 202 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+BOOL CGlassBrush::CanInflictDamage(CEntity * penTarget) {
+#line 203 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+if(penTarget  == NULL ){return FALSE ;}
+#line 205 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+if(! IsOfClass  (penTarget  , "LiveEntity") && ! (penTarget  -> GetFlags  () & ENF_ALIVE )){return FALSE ;}
+#line 206 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+if(penTarget  -> GetFlags  () & ENF_HIDDEN ){return FALSE ;}
+#line 207 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+return TRUE ;
+#line 208 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+  
+#line 210 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+void CGlassBrush::ApplyExplosionDamage(const FLOAT3D & vCenter) {
+#line 212 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CPrintF  ("Applying explosion damage at: (%f, %f, %f)\n" , vCenter  (1) , vCenter  (2) , vCenter  (3));
+#line 215 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+FLOATaabbox3D box ;
+#line 216 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+box  . minvect  = vCenter  - FLOAT3D (m_fExplosionRadius  , m_fExplosionRadius  , m_fExplosionRadius );
+#line 217 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+box  . maxvect  = vCenter  + FLOAT3D (m_fExplosionRadius  , m_fExplosionRadius  , m_fExplosionRadius );
+#line 220 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CStaticStackArray  < CEntity  * > apenNear ;
+#line 221 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+GetWorld  () -> FindEntitiesNearBox  (box  , apenNear );
+#line 223 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CPrintF  ("Found %d entities in explosion area\n" , apenNear  . Count  ());
+#line 226 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+for(INDEX i  = 0;i  < apenNear  . Count  ();i  ++){
+#line 227 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CEntity  * pen  = apenNear  [ i  ];
+#line 228 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CPrintF  ("Checking entity: %s\n" , pen  -> GetName  ());
+#line 230 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+if(pen  == this ){
+#line 231 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CPrintF  ("Skipping self\n");
+#line 232 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+continue ;
+#line 233 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+#line 235 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+if(! CanInflictDamage  (pen )){
+#line 236 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CPrintF  ("Entity can't receive damage\n");
+#line 237 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+continue ;
+#line 238 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+#line 240 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+FLOAT3D vTarget  = pen  -> GetPlacement  () . pl_PositionVector ;
+#line 241 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+FLOAT fDistance  = (vTarget  - vCenter ) . Length  ();
+#line 243 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CPrintF  ("Distance to target: %f\n" , fDistance );
+#line 245 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+if(fDistance  > m_fExplosionRadius ){
+#line 246 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CPrintF  ("Target out of range\n");
+#line 247 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+continue ;
+#line 248 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+#line 251 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+FLOAT fDamageFactor  = 1.0f - (fDistance  / m_fExplosionRadius );
+#line 252 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+FLOAT fFinalDamage  = m_fExplosionDamage  * fDamageFactor ;
+#line 254 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CPrintF  ("Inflicting damage: %f\n" , fFinalDamage );
+#line 257 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+FLOAT3D vDirection  = (vTarget  - vCenter ) . Normalize  ();
+#line 260 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+pen  -> ReceiveDamage  (this  , DMT_EXPLOSION  , fFinalDamage  , vTarget  , vDirection );
+#line 261 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CPrintF  ("Damage applied successfully\n");
+#line 262 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+#line 263 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+  
+#line 266 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+void CGlassBrush::CreateExplosion(void) {
+#line 268 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+if(GetFlags  () & ENF_HIDDEN ){return ;}
+#line 271 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+if(m_penExplosionSound  != NULL ){
+#line 272 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CSoundHolder  & sh  = (CSoundHolder  &) * m_penExplosionSound ;
+#line 273 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+m_soExplosion  . Set3DParameters  (FLOAT (sh  . m_rFallOffRange ) , FLOAT (sh  . m_rHotSpotRange ) , 
+#line 274 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+sh  . m_fVolume  , 1.0f);
+#line 275 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+PlaySound  (m_soExplosion  , sh  . m_fnSound  , sh  . m_iPlayType );
+#line 276 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+#line 279 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CPlacement3D plExplosion  = GetPlacement  ();
+#line 280 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+plExplosion  . pl_PositionVector  += FLOAT3D (0 , 0.5f , 0);
+#line 283 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CEntityPointer penExplosion  = CreateEntity  (plExplosion  , CLASS_BASIC_EFFECT );
+#line 284 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+ESpawnEffect  eSpawnEffect ;
+#line 285 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+eSpawnEffect  . colMuliplier  = C_WHITE  | CT_OPAQUE ;
+#line 286 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+eSpawnEffect  . betType  = BET_BOMB ;
+#line 287 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+eSpawnEffect  . vStretch  = FLOAT3D (m_fExplosionStretch  , m_fExplosionStretch  , m_fExplosionStretch );
+#line 288 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+penExplosion  -> Initialize  (eSpawnEffect );
+#line 291 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+ApplyExplosionDamage  (plExplosion  . pl_PositionVector );
+#line 294 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CEntityPointer penSparkles  = CreateEntity  (plExplosion  , CLASS_BASIC_EFFECT );
+#line 295 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+ESpawnEffect  eSparkles ;
+#line 296 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+eSparkles  . colMuliplier  = C_WHITE  | CT_OPAQUE ;
+#line 297 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+eSparkles  . betType  = BET_CANNON ;
+#line 298 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+eSparkles  . vStretch  = FLOAT3D (0.5f , 0.5f , 0.5f);
+#line 299 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+penSparkles  -> Initialize  (eSparkles );
+#line 302 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+SetFlags  (GetFlags  () | ENF_HIDDEN );
+#line 303 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+SetCollisionFlags  (ECF_IMMATERIAL );
+#line 304 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+  
+#line 307 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+void CGlassBrush::CreateDebris(void) {
+#line 308 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+FLOATaabbox3D box ;
+#line 309 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+GetSize  (box );
+#line 310 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+FLOAT fEntitySize  = pow  (box  . Size  () (1) * box  . Size  () (2) * box  . Size  () (3) / m_ctDebrises  , 1.0f / 3.0f) * m_fCubeFactor ;
+#line 312 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+EntityInfoBodyType  eibtDebris  = (EntityInfoBodyType ) GetDebrisImpactType  ();
+#line 313 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+Debris_Begin  (eibtDebris  , DPT_NONE  , BET_NONE  , fEntitySize  , FLOAT3D (1.0f , 2.0f , 3.0f) , 
+#line 314 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+FLOAT3D (0 , 0 , 0) , 1.0f + m_fCandyEffect  / 2.0f , m_fCandyEffect  , m_colDebrises );
+#line 316 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+INDEX iModel  , iTexture ;
+#line 317 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+GetDebrisModelTexture  (iModel  , iTexture );
+#line 319 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+for(INDEX iDebris  = 0;iDebris  < m_ctDebrises ;iDebris  ++){
+#line 320 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+Debris_Spawn  (this  , this  , iModel  , iTexture  , 0 , 0 , 0 , IRnd  () % 4 , 1.0f , 
+#line 321 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+FLOAT3D (FRnd  () * 0.8f + 0.1f , FRnd  () * 0.8f + 0.1f , FRnd  () * 0.8f + 0.1f));
+#line 322 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+#line 323 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+  
+#line 325 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+void CGlassBrush::NotifyChildren(void) {
+#line 326 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+FOREACHINLIST  (CEntity  , en_lnInParent  , en_lhChildren  , iten ){
+#line 327 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+iten  -> SendEvent  (EGBrushDestroyed  ());
+#line 328 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+#line 329 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}
+  
+#line 331 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+void CGlassBrush::SendBlowupEvent(CEntity * penInflictor) {
+#line 332 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+SendToTarget  (m_penBlowupEvent  , m_eetBlowupEvent  , penInflictor );
+#line 333 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 }
 BOOL CGlassBrush::
-#line 189 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 337 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 Main(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CGlassBrush_Main
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CGlassBrush::Main expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 190 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 338 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 InitAsBrush  ();
-#line 191 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 339 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 SetPhysicsFlags  (EPF_BRUSH_FIXED );
-#line 192 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 340 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 SetCollisionFlags  (ECF_BRUSH );
-#line 193 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 341 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 SetHealth  (m_fHealth );
-#line 195 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 343 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 if(m_bZoning ){SetFlags  (GetFlags  () | ENF_ZONING );}
-#line 196 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 344 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 if(m_bDynamicShadows ){SetFlags  (GetFlags  () | ENF_DYNAMICSHADOWS );}
-#line 198 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 346 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 SetTimerAt(THINKTIME_NEVER);
 Jump(STATE_CURRENT, 0x02bc0001, FALSE, EBegin());return TRUE;}BOOL CGlassBrush::H0x02bc0001_Main_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x02bc0001
 switch(__eeInput.ee_slEvent){case(EVENTCODE_ETouch):{const ETouch&eTouch= (ETouch&)__eeInput;
 
-#line 202 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 350 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 if(m_fTouchDamage  != 0.0f){
-#line 203 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 351 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 InflictDirectDamage  (eTouch  . penOther  , this  , DMT_SPIKESTAB  , m_fTouchDamage  , 
-#line 204 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 352 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 eTouch  . penOther  -> GetPlacement  () . pl_PositionVector  , eTouch  . plCollision );
-#line 205 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 353 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 }
-#line 207 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 355 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 if(m_tdeSendEventOnDamage  != TDE_DAMAGEONLY  && CanReactOnEntity  (eTouch  . penOther )){
-#line 208 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 356 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 SendToTarget  (m_penTouchEvent  , m_eetTouchEvent );
-#line 209 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 357 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 }
-#line 210 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 358 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 return TRUE;
-#line 211 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 359 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EDeath):{const EDeath&eDeath= (EDeath&)__eeInput;
 
-#line 215 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 363 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 PlayDestroySound  ();
-#line 218 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 366 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+if(m_bCanExplode ){
+#line 367 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CreateExplosion  ();
+#line 368 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+}else {
+#line 370 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 if(m_ctDebrises  > 0){
-#line 219 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-FLOATaabbox3D box ;
-#line 220 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-GetSize  (box );
-#line 221 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-FLOAT fEntitySize  = pow  (box  . Size  () (1) * box  . Size  () (2) * box  . Size  () (3) / m_ctDebrises  , 1.0f / 3.0f) * m_fCubeFactor ;
-#line 224 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-EntityInfoBodyType  eibtDebris  = (EntityInfoBodyType ) GetDebrisImpactType  ();
-#line 225 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-Debris_Begin  (eibtDebris  , DPT_NONE  , BET_NONE  , fEntitySize  , FLOAT3D (1.0f , 2.0f , 3.0f) , 
-#line 226 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-FLOAT3D (0 , 0 , 0) , 1.0f + m_fCandyEffect  / 2.0f , m_fCandyEffect  , m_colDebrises );
-#line 229 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-INDEX iModel  , iTexture ;
-#line 230 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-GetDebrisModelTexture  (iModel  , iTexture );
-#line 232 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-for(INDEX iDebris  = 0;iDebris  < m_ctDebrises ;iDebris  ++){
-#line 233 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-Debris_Spawn  (this  , this  , iModel  , iTexture  , 0 , 0 , 0 , IRnd  () % 4 , 1.0f , 
-#line 234 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-FLOAT3D (FRnd  () * 0.8f + 0.1f , FRnd  () * 0.8f + 0.1f , FRnd  () * 0.8f + 0.1f));
-#line 235 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 371 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+CreateDebris  ();
+#line 372 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 }
-#line 236 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 373 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 }
-#line 239 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-FOREACHINLIST  (CEntity  , en_lnInParent  , en_lhChildren  , iten ){
-#line 240 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-iten  -> SendEvent  (EGBrushDestroyed  ());
-#line 241 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-}
-#line 244 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-SendToTarget  (m_penBlowupEvent  , m_eetBlowupEvent  , eDeath  . eLastDamage  . penInflictor );
-#line 247 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-SetFlags  (GetFlags  () | ENF_HIDDEN );
-#line 248 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
-SetCollisionFlags  (ECF_IMMATERIAL );
-#line 249 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 376 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+NotifyChildren  ();
+#line 377 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+SendBlowupEvent  (eDeath  . eLastDamage  . penInflictor );
+#line 378 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 UnsetTimer();Jump(STATE_CURRENT,0x02bc0002, FALSE, EInternal());return TRUE;
-#line 250 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 379 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 }ASSERT(FALSE);break;default: return FALSE; break;
-#line 251 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 380 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 }return TRUE;}BOOL CGlassBrush::H0x02bc0002_Main_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x02bc0002
 
-#line 252 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 381 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 Return(STATE_CURRENT,EVoid());
-#line 252 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 381 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 return TRUE; ASSERT(FALSE); return TRUE;};

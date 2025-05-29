@@ -73,6 +73,14 @@ properties:
   18 enum EventEType m_eetTouchEvent "Touch Event - Type" 'U' = EET_IGNORE,
   19 CEntityPointer m_penTouchEvent  "Touch Event - Target" 'I' COLOR(C_dCYAN|0xFF),
   20 enum TouchOrDamageBrushEvent m_tdeSendEventOnDamage "Send touch event on damage" = TDE_TOUCHONLY,
+  
+  // Взрыв
+  21 BOOL m_bCanExplode         "Can Explode" = FALSE,                     // Может ли браш взрываться
+  22 FLOAT m_fExplosionDamage   "Explosion Damage" = 100.0f,              // Урон от взрыва
+  23 FLOAT m_fExplosionRadius   "Explosion Radius" = 10.0f,               // Радиус взрыва
+  24 FLOAT m_fExplosionStretch  "Explosion Size" = 1.0f,                  // Размер эффекта взрыва
+  25 CEntityPointer m_penExplosionSound "Explosion Sound" COLOR(C_GREEN|0xFF), // Звук взрыва
+  26 CSoundObject m_soExplosion,   
 
 components:
   1 model     MODEL_GLASS        "Models\\Effects\\Debris\\Glass\\glass.mdl",
@@ -162,6 +170,12 @@ functions:
    void ReceiveDamage(CEntity *penInflictor, enum DamageType dmtType,
     FLOAT fDamageAmmount, const FLOAT3D &vHitPoint, const FLOAT3D &vDirection) 
   {
+  
+      // Если уже уничтожен - игнорируем урон
+    if (GetFlags()&ENF_HIDDEN || m_fHealth <= 0) {
+        return;
+    }
+	
     if (m_fHealth < 0){return;}
 
     // send event on damage
@@ -184,6 +198,140 @@ functions:
       CMovableBrushEntity::ReceiveDamage(penInflictor, dmtType, fDamageAmmount, vHitPoint, vDirection);
     }
   };
+  
+BOOL CanInflictDamage(CEntity *penTarget) {
+    if (penTarget == NULL) {return FALSE;}
+    // Проверяем как через IsOfClass, так и через ENF_ALIVE
+    if (!IsOfClass(penTarget, "LiveEntity") && !(penTarget->GetFlags()&ENF_ALIVE)) {return FALSE;}
+    if (penTarget->GetFlags()&ENF_HIDDEN) {return FALSE;}
+    return TRUE;
+}
+	
+void ApplyExplosionDamage(const FLOAT3D &vCenter) {
+    // Добавляем отладочный вывод
+    CPrintF("Applying explosion damage at: (%f, %f, %f)\n", vCenter(1), vCenter(2), vCenter(3));
+    
+    // Создаем ограничивающий box
+    FLOATaabbox3D box;
+    box.minvect = vCenter - FLOAT3D(m_fExplosionRadius, m_fExplosionRadius, m_fExplosionRadius);
+    box.maxvect = vCenter + FLOAT3D(m_fExplosionRadius, m_fExplosionRadius, m_fExplosionRadius);
+    
+    // Ищем сущности
+    CStaticStackArray<CEntity*> apenNear;
+    GetWorld()->FindEntitiesNearBox(box, apenNear);
+    
+    CPrintF("Found %d entities in explosion area\n", apenNear.Count());
+    
+    // Перебираем сущности
+    for (INDEX i = 0; i < apenNear.Count(); i++) {
+        CEntity *pen = apenNear[i];
+        CPrintF("Checking entity: %s\n", pen->GetName());
+        
+        if (pen == this) {
+            CPrintF("Skipping self\n");
+            continue;
+        }
+        
+        if (!CanInflictDamage(pen)) {
+            CPrintF("Entity can't receive damage\n");
+            continue;
+        }
+        
+        FLOAT3D vTarget = pen->GetPlacement().pl_PositionVector;
+        FLOAT fDistance = (vTarget - vCenter).Length();
+        
+        CPrintF("Distance to target: %f\n", fDistance);
+        
+        if (fDistance > m_fExplosionRadius) {
+            CPrintF("Target out of range\n");
+            continue;
+        }
+        
+        // Расчет урона
+        FLOAT fDamageFactor = 1.0f - (fDistance / m_fExplosionRadius);
+        FLOAT fFinalDamage = m_fExplosionDamage * fDamageFactor;
+        
+        CPrintF("Inflicting damage: %f\n", fFinalDamage);
+        
+        // Направление взрыва
+        FLOAT3D vDirection = (vTarget - vCenter).Normalize();
+        
+        // Наносим урон
+        pen->ReceiveDamage(this, DMT_EXPLOSION, fFinalDamage, vTarget, vDirection);
+        CPrintF("Damage applied successfully\n");
+    }
+}
+  
+// Функция создания взрыва
+void CreateExplosion(void) {
+    // Проверяем, активна ли еще сущность
+    if (GetFlags()&ENF_HIDDEN){ return;}
+
+    // 1. Воспроизведение звука взрыва
+    if (m_penExplosionSound != NULL) {
+        CSoundHolder &sh = (CSoundHolder&)*m_penExplosionSound;
+        m_soExplosion.Set3DParameters(FLOAT(sh.m_rFallOffRange), FLOAT(sh.m_rHotSpotRange), 
+                      sh.m_fVolume, 1.0f);
+        PlaySound(m_soExplosion, sh.m_fnSound, sh.m_iPlayType);
+    }
+
+    // 2. Создаем эффект взрыва
+    CPlacement3D plExplosion = GetPlacement();
+    plExplosion.pl_PositionVector += FLOAT3D(0, 0.5f, 0); // Смещаем немного вверх для лучшего визуала
+    
+    // Основной эффект взрыва
+    CEntityPointer penExplosion = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
+    ESpawnEffect eSpawnEffect;
+    eSpawnEffect.colMuliplier = C_WHITE|CT_OPAQUE;
+    eSpawnEffect.betType = BET_BOMB;
+    eSpawnEffect.vStretch = FLOAT3D(m_fExplosionStretch, m_fExplosionStretch, m_fExplosionStretch);
+    penExplosion->Initialize(eSpawnEffect);
+
+    // 3. Наносим урон через отдельную функцию
+    ApplyExplosionDamage(plExplosion.pl_PositionVector);
+
+    // 4. Дополнительные эффекты
+    CEntityPointer penSparkles = CreateEntity(plExplosion, CLASS_BASIC_EFFECT);
+    ESpawnEffect eSparkles;
+    eSparkles.colMuliplier = C_WHITE|CT_OPAQUE;
+    eSparkles.betType = BET_CANNON;
+    eSparkles.vStretch = FLOAT3D(0.5f, 0.5f, 0.5f);
+    penSparkles->Initialize(eSparkles);
+
+    // 5. Деактивация
+    SetFlags(GetFlags() | ENF_HIDDEN);
+    SetCollisionFlags(ECF_IMMATERIAL);
+};
+
+
+void CreateDebris(void) {
+    FLOATaabbox3D box;
+    GetSize(box);
+    FLOAT fEntitySize = pow(box.Size()(1)*box.Size()(2)*box.Size()(3)/m_ctDebrises, 1.0f/3.0f)*m_fCubeFactor;
+    
+    EntityInfoBodyType eibtDebris = (EntityInfoBodyType)GetDebrisImpactType();
+    Debris_Begin(eibtDebris, DPT_NONE, BET_NONE, fEntitySize, FLOAT3D(1.0f,2.0f,3.0f),
+                FLOAT3D(0,0,0), 1.0f + m_fCandyEffect/2.0f, m_fCandyEffect, m_colDebrises);
+    
+    INDEX iModel, iTexture;
+    GetDebrisModelTexture(iModel, iTexture);
+    
+    for (INDEX iDebris = 0; iDebris < m_ctDebrises; iDebris++) {
+        Debris_Spawn(this, this, iModel, iTexture, 0, 0, 0, IRnd()%4, 1.0f,
+                    FLOAT3D(FRnd()*0.8f+0.1f, FRnd()*0.8f+0.1f, FRnd()*0.8f+0.1f));
+    }
+};
+
+void NotifyChildren(void) {
+    FOREACHINLIST(CEntity, en_lnInParent, en_lhChildren, iten) {
+        iten->SendEvent(EGBrushDestroyed());
+    }
+};
+
+void SendBlowupEvent(CEntity *penInflictor) {
+    SendToTarget(m_penBlowupEvent, m_eetBlowupEvent, penInflictor);
+};
+
 
 procedures:
   Main() {
@@ -211,42 +359,23 @@ procedures:
       }
 	  
       on (EDeath eDeath) : {
-        // Звук разрушения
-        PlayDestroySound();
+		// Звук разрушения
+		PlayDestroySound();
 
-        // Создание обломков
-        if (m_ctDebrises > 0) {
-          FLOATaabbox3D box;
-          GetSize(box);
-          FLOAT fEntitySize = pow(box.Size()(1)*box.Size()(2)*box.Size()(3)/m_ctDebrises, 1.0f/3.0f)*m_fCubeFactor;
-          
-		  //INDEX iDebrisType = GetDebrisImpactType();
-		  EntityInfoBodyType eibtDebris = (EntityInfoBodyType)GetDebrisImpactType();
-          Debris_Begin(eibtDebris, DPT_NONE, BET_NONE, fEntitySize, FLOAT3D(1.0f,2.0f,3.0f),
-            FLOAT3D(0,0,0), 1.0f + m_fCandyEffect/2.0f, m_fCandyEffect, m_colDebrises);
-			
-		  // Get model and texture
-          INDEX iModel, iTexture;
-          GetDebrisModelTexture(iModel, iTexture);
-		  
-          for (INDEX iDebris = 0; iDebris < m_ctDebrises; iDebris++) {
-            Debris_Spawn(this, this, iModel, iTexture, 0, 0, 0, IRnd()%4, 1.0f,
-              FLOAT3D(FRnd()*0.8f+0.1f, FRnd()*0.8f+0.1f, FRnd()*0.8f+0.1f));
-          }
-        }
+		// Если взрыв включен - создаем его
+		if (m_bCanExplode) {
+			CreateExplosion();
+		} else {
+			// Создание обломков, если нет взрыва
+			if (m_ctDebrises > 0) {
+				CreateDebris();
+			}
+		}
 
-        // Уведомление дочерних объектов
-        FOREACHINLIST(CEntity, en_lnInParent, en_lhChildren, iten) {
-          iten->SendEvent(EGBrushDestroyed());
-        }
-
-        // Отправка события
-        SendToTarget(m_penBlowupEvent, m_eetBlowupEvent, eDeath.eLastDamage.penInflictor);
-
-        // Деактивация объекта
-        SetFlags(GetFlags() | ENF_HIDDEN);
-        SetCollisionFlags(ECF_IMMATERIAL);
-        stop;
+		// Уведомление и деактивация
+		NotifyChildren();
+		SendBlowupEvent(eDeath.eLastDamage.penInflictor);
+		stop;
       }
     }
     return;

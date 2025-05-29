@@ -55,29 +55,53 @@ virtual BOOL IsTargetable(void) const { return TRUE; };
   enum EventEType m_eetTouchEvent;
   CEntityPointer m_penTouchEvent;
   enum TouchOrDamageBrushEvent m_tdeSendEventOnDamage;
+  BOOL m_bCanExplode;
+  FLOAT m_fExplosionDamage;
+  FLOAT m_fExplosionRadius;
+  FLOAT m_fExplosionStretch;
+  CEntityPointer m_penExplosionSound;
+  CSoundObject m_soExplosion;
    
-#line 94 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 102 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 void Precache(void);
    
-#line 109 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 117 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 void PlayDestroySound(void);
    
-#line 118 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 126 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 void GetDebrisModelTexture(INDEX & iModel,INDEX & iTexture);
    
-#line 141 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 149 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 INDEX GetDebrisImpactType(void);
    
-#line 152 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 160 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 BOOL CanReactOnEntity(CEntity * pen);
    
-#line 162 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 170 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 void ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
-#line 163 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 171 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection);
+   
+#line 202 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+BOOL CanInflictDamage(CEntity * penTarget);
+   
+#line 210 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+void ApplyExplosionDamage(const FLOAT3D & vCenter);
+   
+#line 266 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+void CreateExplosion(void);
+   
+#line 307 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+void CreateDebris(void);
+   
+#line 325 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+void NotifyChildren(void);
+   
+#line 331 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+void SendBlowupEvent(CEntity * penInflictor);
 #define  STATE_CGlassBrush_Main 1
   BOOL 
-#line 189 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 337 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 Main(const CEntityEvent &__eeInput);
   BOOL H0x02bc0001_Main_01(const CEntityEvent &__eeInput);
   BOOL H0x02bc0002_Main_02(const CEntityEvent &__eeInput);

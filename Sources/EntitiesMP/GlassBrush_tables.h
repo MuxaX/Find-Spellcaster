@@ -38,6 +38,12 @@ CEntityProperty CGlassBrush_properties[] = {
  CEntityProperty(CEntityProperty::EPT_ENUM, &EventEType_enum, (0x000002bc<<8)+18, offsetof(CGlassBrush, m_eetTouchEvent), "Touch Event - Type", 'U', 0x7F0000FFUL, 0),
  CEntityProperty(CEntityProperty::EPT_ENTITYPTR, NULL, (0x000002bc<<8)+19, offsetof(CGlassBrush, m_penTouchEvent), "Touch Event - Target", 'I', C_dCYAN  | 0xFF, 0),
  CEntityProperty(CEntityProperty::EPT_ENUM, &TouchOrDamageBrushEvent_enum, (0x000002bc<<8)+20, offsetof(CGlassBrush, m_tdeSendEventOnDamage), "Send touch event on damage", 0, 0x7F0000FFUL, 0),
+ CEntityProperty(CEntityProperty::EPT_BOOL, NULL, (0x000002bc<<8)+21, offsetof(CGlassBrush, m_bCanExplode), "Can Explode", 0, 0x7F0000FFUL, 0),
+ CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x000002bc<<8)+22, offsetof(CGlassBrush, m_fExplosionDamage), "Explosion Damage", 0, 0x7F0000FFUL, 0),
+ CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x000002bc<<8)+23, offsetof(CGlassBrush, m_fExplosionRadius), "Explosion Radius", 0, 0x7F0000FFUL, 0),
+ CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x000002bc<<8)+24, offsetof(CGlassBrush, m_fExplosionStretch), "Explosion Size", 0, 0x7F0000FFUL, 0),
+ CEntityProperty(CEntityProperty::EPT_ENTITYPTR, NULL, (0x000002bc<<8)+25, offsetof(CGlassBrush, m_penExplosionSound), "Explosion Sound", 0, C_GREEN  | 0xFF, 0),
+ CEntityProperty(CEntityProperty::EPT_SOUNDOBJECT, NULL, (0x000002bc<<8)+26, offsetof(CGlassBrush, m_soExplosion), "", 0, 0, 0),
 };
 #define CGlassBrush_propertiesct ARRAYCOUNT(CGlassBrush_properties)
 
@@ -67,7 +73,7 @@ CEntityComponent CGlassBrush_components[] = {
 
 CEventHandlerEntry CGlassBrush_handlers[] = {
  {1, -1, CEntity::pEventHandler(&CGlassBrush::
-#line 189 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
+#line 236 "V:/Programs/SamSDK/Sources/EntitiesMP/GlassBrush.es"
 Main),DEBUGSTRING("CGlassBrush::Main")},
  {0x02bc0001, -1, CEntity::pEventHandler(&CGlassBrush::H0x02bc0001_Main_01), DEBUGSTRING("CGlassBrush::H0x02bc0001_Main_01")},
  {0x02bc0002, -1, CEntity::pEventHandler(&CGlassBrush::H0x02bc0002_Main_02), DEBUGSTRING("CGlassBrush::H0x02bc0002_Main_02")},
