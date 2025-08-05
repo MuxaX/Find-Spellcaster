@@ -1,0 +1,18 @@
+TEXTURE_DIM 2 2
+TRANSFORM 1 0 0 0 1 0 0 0 1
+SIZE 0.01
+MAX_SHADOW 0
+HI_QUALITY YES
+
+DIRECTORY ModelsMP\Enemies\Grunt\merc\
+MIP_MODELS 1
+ merc_death.fbx
+
+ANIM_START
+
+DIRECTORY ModelsMP\Enemies\Grunt\merc\
+SKELETAL_ANIMATION Take 001
+SOURCE_FILE merc_death.fbx
+
+ANIM_END
+END

@@ -6,21 +6,21 @@
 --------------------Configuration: EntitiesMP - Win32 Release--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP1719.bat" with contents
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP6714.bat" with contents
 [
 @echo off
 cd                                                                                                                ..\
-ecc EntitiesMP/GlassBrush.es
+ecc EntitiesMP/Projectile.es
 ]
-Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSP1719.bat"
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP171A.tmp" with contents
+Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSP6714.bat"
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP6715.tmp" with contents
 [
 /nologo /G5 /MD /W3 /GX /Zi /Ox /Ot /Og /Oi /Oy- /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Fr"Release/" /Fp"Release/EntitiesMP.pch" /Yu"StdH.h" /Fo"Release/" /Fd"Release/" /FD /c 
-"V:\Programs\SamSDK\Sources\EntitiesMP\GlassBrush.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Projectile.cpp"
 ]
-Creating command line "cl.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSP171A.tmp" 
-EntitiesMP/GlassBrush.es
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP17F6.tmp" with contents
+Creating command line "cl.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSP6715.tmp" 
+EntitiesMP/Projectile.es
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP690A.tmp" with contents
 [
 /nologo /subsystem:windows /dll /incremental:no /pdb:"Release/EntitiesMP.pdb" /map:"Release/EntitiesMP.map" /debug /machine:I386 /out:"Release/EntitiesMP.dll" /implib:"Release/EntitiesMP.lib" /pdbtype:sept 
 .\Release\Common.obj
@@ -170,17 +170,17 @@ Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP17F6.tmp" with co
 .\Release\WorldLink.obj
 .\Release\WorldSettingsController.obj
 ]
-Creating command line "link.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSP17F6.tmp"
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP17F7.bat" with contents
+Creating command line "link.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSP690A.tmp"
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP690B.bat" with contents
 [
 @echo off
 copy Release\EntitiesMP.dll V:\Programs\SamSDK\Sources\Bin >nul
 copy Release\EntitiesMP.map V:\Programs\SamSDK\Sources\Bin >nul
 copy Release\EntitiesMP.lib V:\Programs\SamSDK\Sources\Bin >nul
 ]
-Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSP17F7.bat"
+Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSP690B.bat"
 Compiling...
-GlassBrush.cpp
+Projectile.cpp
 Linking...
    Creating library Release/EntitiesMP.lib and object Release/EntitiesMP.exp
 <h3>Output Window</h3>

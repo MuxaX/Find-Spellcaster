@@ -6,6 +6,13 @@
 #define _EntitiesMP_Grunt_INCLUDED 1
 #include <EntitiesMP/EnemyBase.h>
 #include <EntitiesMP/BasicEffects.h>
+#include <EntitiesMP/Bullet.h>
+extern DECL_DLL CEntityPropertyEnumType GruntWeaponType_enum;
+enum GruntWeaponType {
+  GWT_AUTO_RIFLE = 0,
+  GWT_SHOTGUN = 1,
+};
+DECL_DLL inline void ClearToDefault(GruntWeaponType &e) { e = (GruntWeaponType)0; } ;
 extern DECL_DLL CEntityPropertyEnumType GruntType_enum;
 enum GruntType {
   GT_SOLDIER = 0,
@@ -17,105 +24,120 @@ class CGrunt : public CEnemyBase {
 public:
   DECL_DLL virtual void SetDefaultProperties(void);
   enum GruntType m_gtType;
+  enum GruntWeaponType m_gwtWeapon;
+  INDEX m_bFireBulletCount;
+  FLOAT m_fFireTime;
   CSoundObject m_soFire1;
   CSoundObject m_soFire2;
   
-#line 73 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 89 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 virtual CTString GetPlayerKillDescription(const CTString & strPlayerName,const EDeath & eDeath);
    
-#line 81 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 97 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 void * GetEntityInfo(void);
   
-#line 92 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 108 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 virtual const CTFileName & GetComputerMessageName(void)const;
    
-#line 102 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 118 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 void Precache(void);
    
-#line 120 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 137 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 void ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
-#line 121 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 138 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection);
    
-#line 127 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 144 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 INDEX AnimForDamage(FLOAT fDamage);
    
-#line 135 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 153 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 INDEX AnimForDeath(void);
    
-#line 150 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 176 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 FLOAT WaitForDust(FLOAT3D & vStretch);
    
-#line 163 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 201 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 void DeathNotify(void);
    
-#line 169 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 208 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 void StandingAnim(void);
    
-#line 176 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 218 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 void RunningAnim(void);
    
-#line 179 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 224 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 void WalkingAnim(void);
    
-#line 182 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 230 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 void RotatingAnim(void);
    
-#line 187 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 235 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 void IdleSound(void);
    
-#line 190 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 238 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 void SightSound(void);
    
-#line 193 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 241 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 void WoundSound(void);
    
-#line 196 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 244 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 void DeathSound(void);
    
-#line 201 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 249 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 void EnemyPostInit(void);
-#define  STATE_CGrunt_Fire 0x01570000
+   
+#line 257 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+void FireShotgun(void);
+   
+#line 275 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+BOOL CanFireAtPlayer(void);
+#define  STATE_CGrunt_ShotgunAttack 0x01570000
   BOOL 
-#line 212 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 305 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+ShotgunAttack(const CEntityEvent &__eeInput);
+  BOOL H0x01570001_ShotgunAttack_01(const CEntityEvent &__eeInput);
+  BOOL H0x01570002_ShotgunAttack_02(const CEntityEvent &__eeInput);
+  BOOL H0x01570003_ShotgunAttack_03(const CEntityEvent &__eeInput);
+  BOOL H0x01570004_ShotgunAttack_04(const CEntityEvent &__eeInput);
+#define  STATE_CGrunt_Fire 0x01570005
+  BOOL 
+#line 319 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 Fire(const CEntityEvent &__eeInput);
-  BOOL H0x01570001_Fire_01(const CEntityEvent &__eeInput);
-  BOOL H0x01570002_Fire_02(const CEntityEvent &__eeInput);
-  BOOL H0x01570003_Fire_03(const CEntityEvent &__eeInput);
-  BOOL H0x01570004_Fire_04(const CEntityEvent &__eeInput);
-  BOOL H0x01570005_Fire_05(const CEntityEvent &__eeInput);
-  BOOL H0x01570006_Fire_06(const CEntityEvent &__eeInput);
-  BOOL H0x01570007_Fire_07(const CEntityEvent &__eeInput);
-  BOOL H0x01570008_Fire_08(const CEntityEvent &__eeInput);
-#define  STATE_CGrunt_SoldierAttack 0x01570009
+  BOOL H0x01570006_Fire_01(const CEntityEvent &__eeInput);
+  BOOL H0x01570007_Fire_02(const CEntityEvent &__eeInput);
+  BOOL H0x01570008_Fire_03(const CEntityEvent &__eeInput);
+  BOOL H0x01570009_Fire_04(const CEntityEvent &__eeInput);
+  BOOL H0x0157000a_Fire_05(const CEntityEvent &__eeInput);
+  BOOL H0x0157000b_Fire_06(const CEntityEvent &__eeInput);
+  BOOL H0x0157000c_Fire_07(const CEntityEvent &__eeInput);
+  BOOL H0x0157000d_Fire_08(const CEntityEvent &__eeInput);
+  BOOL H0x0157000e_Fire_09(const CEntityEvent &__eeInput);
+  BOOL H0x0157000f_Fire_10(const CEntityEvent &__eeInput);
+  BOOL H0x01570010_Fire_11(const CEntityEvent &__eeInput);
+  BOOL H0x01570011_Fire_12(const CEntityEvent &__eeInput);
+#define  STATE_CGrunt_SoldierAttack 0x01570012
   BOOL 
-#line 227 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 333 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SoldierAttack(const CEntityEvent &__eeInput);
-  BOOL H0x0157000a_SoldierAttack_01(const CEntityEvent &__eeInput);
-  BOOL H0x0157000b_SoldierAttack_02(const CEntityEvent &__eeInput);
-  BOOL H0x0157000c_SoldierAttack_03(const CEntityEvent &__eeInput);
-  BOOL H0x0157000d_SoldierAttack_04(const CEntityEvent &__eeInput);
-  BOOL H0x0157000e_SoldierAttack_05(const CEntityEvent &__eeInput);
-  BOOL H0x0157000f_SoldierAttack_06(const CEntityEvent &__eeInput);
-#define  STATE_CGrunt_CommanderAttack 0x01570010
+  BOOL H0x01570013_SoldierAttack_01(const CEntityEvent &__eeInput);
+  BOOL H0x01570014_SoldierAttack_02(const CEntityEvent &__eeInput);
+  BOOL H0x01570015_SoldierAttack_03(const CEntityEvent &__eeInput);
+  BOOL H0x01570016_SoldierAttack_04(const CEntityEvent &__eeInput);
+  BOOL H0x01570017_SoldierAttack_05(const CEntityEvent &__eeInput);
+  BOOL H0x01570018_SoldierAttack_06(const CEntityEvent &__eeInput);
+#define  STATE_CGrunt_CommanderAttack 0x01570019
   BOOL 
-#line 246 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 373 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 CommanderAttack(const CEntityEvent &__eeInput);
-  BOOL H0x01570011_CommanderAttack_01(const CEntityEvent &__eeInput);
-  BOOL H0x01570012_CommanderAttack_02(const CEntityEvent &__eeInput);
-  BOOL H0x01570013_CommanderAttack_03(const CEntityEvent &__eeInput);
-  BOOL H0x01570014_CommanderAttack_04(const CEntityEvent &__eeInput);
-  BOOL H0x01570015_CommanderAttack_05(const CEntityEvent &__eeInput);
-  BOOL H0x01570016_CommanderAttack_06(const CEntityEvent &__eeInput);
-  BOOL H0x01570017_CommanderAttack_07(const CEntityEvent &__eeInput);
-  BOOL H0x01570018_CommanderAttack_08(const CEntityEvent &__eeInput);
-  BOOL H0x01570019_CommanderAttack_09(const CEntityEvent &__eeInput);
-  BOOL H0x0157001a_CommanderAttack_10(const CEntityEvent &__eeInput);
-  BOOL H0x0157001b_CommanderAttack_11(const CEntityEvent &__eeInput);
-  BOOL H0x0157001c_CommanderAttack_12(const CEntityEvent &__eeInput);
+  BOOL H0x0157001a_CommanderAttack_01(const CEntityEvent &__eeInput);
+  BOOL H0x0157001b_CommanderAttack_02(const CEntityEvent &__eeInput);
+  BOOL H0x0157001c_CommanderAttack_03(const CEntityEvent &__eeInput);
+  BOOL H0x0157001d_CommanderAttack_04(const CEntityEvent &__eeInput);
+  BOOL H0x0157001e_CommanderAttack_05(const CEntityEvent &__eeInput);
+  BOOL H0x0157001f_CommanderAttack_06(const CEntityEvent &__eeInput);
 #define  STATE_CGrunt_Main 1
   BOOL 
-#line 289 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 415 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 Main(const CEntityEvent &__eeInput);
 };
 #endif // _EntitiesMP_Grunt_INCLUDED

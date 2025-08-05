@@ -746,7 +746,7 @@ functions:
         lsNew.ls_plftLensFlare = NULL;
 		break;
       case PRT_GRUNT_PROJECTILE_SOL:
-        lsNew.ls_colColor = C_vdRED;
+        lsNew.ls_colColor = 0xFCE90F00;
         lsNew.ls_rFallOff = 1.5f;
         lsNew.ls_plftLensFlare = NULL;
         break;
@@ -2545,7 +2545,7 @@ void GruntSoldierLaser(void) {
   // start moving
   LaunchAsPropelledProjectile(FLOAT3D(0.0f, 0.0f, -45.0f), (CMovableEntity*)(CEntity*)m_penLauncher);
   SetDesiredRotation(ANGLE3D(0, 0, 0));
-  m_fFlyTime = 3.0f;
+  m_fFlyTime = 1.5f;
   m_fDamageAmount = 10.0f;
   m_fSoundRange = 0.0f;
   m_bExplode = FALSE;
@@ -2575,8 +2575,8 @@ void GruntCommanderLaser(void) {
   // start moving
   LaunchAsPropelledProjectile(FLOAT3D(0.0f, 0.0f, -55.0f), (CMovableEntity*)(CEntity*)m_penLauncher);
   SetDesiredRotation(ANGLE3D(0, 0, 0));
-  m_fFlyTime = 3.0f;
-  m_fDamageAmount = 10.0f;
+  m_fFlyTime = 1.5f;
+  m_fDamageAmount = 15.0f;
   m_fSoundRange = 0.0f;
   m_bExplode = FALSE;
   m_bLightSource = TRUE;

@@ -595,7 +595,7 @@ break ;
 #line 748 "V:/Programs/SamSDK/Sources/EntitiesMP/Projectile.es"
 case PRT_GRUNT_PROJECTILE_SOL : 
 #line 749 "V:/Programs/SamSDK/Sources/EntitiesMP/Projectile.es"
-lsNew  . ls_colColor  = C_vdRED ;
+lsNew  . ls_colColor  = 0xFCE90F00;
 #line 750 "V:/Programs/SamSDK/Sources/EntitiesMP/Projectile.es"
 lsNew  . ls_rFallOff  = 1.5f;
 #line 751 "V:/Programs/SamSDK/Sources/EntitiesMP/Projectile.es"
@@ -3523,7 +3523,7 @@ LaunchAsPropelledProjectile  (FLOAT3D (0.0f , 0.0f , - 45.0f) , (CMovableEntity 
 #line 2547 "V:/Programs/SamSDK/Sources/EntitiesMP/Projectile.es"
 SetDesiredRotation  (ANGLE3D (0 , 0 , 0));
 #line 2548 "V:/Programs/SamSDK/Sources/EntitiesMP/Projectile.es"
-m_fFlyTime  = 3.0f;
+m_fFlyTime  = 1.5f;
 #line 2549 "V:/Programs/SamSDK/Sources/EntitiesMP/Projectile.es"
 m_fDamageAmount  = 10.0f;
 #line 2550 "V:/Programs/SamSDK/Sources/EntitiesMP/Projectile.es"
@@ -3576,9 +3576,9 @@ LaunchAsPropelledProjectile  (FLOAT3D (0.0f , 0.0f , - 55.0f) , (CMovableEntity 
 #line 2577 "V:/Programs/SamSDK/Sources/EntitiesMP/Projectile.es"
 SetDesiredRotation  (ANGLE3D (0 , 0 , 0));
 #line 2578 "V:/Programs/SamSDK/Sources/EntitiesMP/Projectile.es"
-m_fFlyTime  = 3.0f;
+m_fFlyTime  = 1.5f;
 #line 2579 "V:/Programs/SamSDK/Sources/EntitiesMP/Projectile.es"
-m_fDamageAmount  = 10.0f;
+m_fDamageAmount  = 15.0f;
 #line 2580 "V:/Programs/SamSDK/Sources/EntitiesMP/Projectile.es"
 m_fSoundRange  = 0.0f;
 #line 2581 "V:/Programs/SamSDK/Sources/EntitiesMP/Projectile.es"
