@@ -9,7 +9,7 @@
 
 #include <EntitiesMP/Walker.h>
 #include <EntitiesMP/Walker_tables.h>
-#line 15 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 17 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 
 // info structure
 static EntityInfo eiWalker = {
@@ -20,12 +20,20 @@ static EntityInfo eiWalker = {
 
 #define SIZE_SOLDIER   (0.5f)
 #define SIZE_SERGEANT  (1.0f)
+#define SIZE_HEAVY  (1.0f)
 #define FIRE_LEFT_ARM   FLOAT3D(-2.5f, 5.0f, 0.0f)
 #define FIRE_RIGHT_ARM  FLOAT3D(+2.5f, 5.0f, 0.0f)
+#define FIREPOS_LEFT_ARM FLOAT3D(-2.5f, 5.0f, 0.0f)  // NEW: позиции для пулемета
+#define FIREPOS_RIGHT_ARM FLOAT3D(+2.5f, 5.0f, 0.0f) // NEW: позиции для пулемета
 #define FIRE_DEATH_LEFT   FLOAT3D( 0.0f, 7.0f, -2.0f)
 #define FIRE_DEATH_RIGHT  FLOAT3D(3.75f, 4.2f, -2.5f)
+#define FIREPOS_WALKER FLOAT3D(0.0f, 1.0f, 0.0f)
+#define BULLET_DAMAGE 4.0f  // Damage per bullet
+#define MACHINEGUN_FIRE_RATE 0.1f 
 
-#define WALKERSOUND(soundname) ((m_EwcChar==WLC_SOLDIER)? (SOUND_SOLDIER_##soundname) : (SOUND_SERGEANT_##soundname))
+#define WALKERSOUND(soundname) ((m_EwcChar==WLC_SOLDIER)? (SOUND_SOLDIER_##soundname) : \
+                               (m_EwcChar==WLC_SERGEANT)? (SOUND_SERGEANT_##soundname) : \
+                               (SOUND_SERGEANT_##soundname)) // Для HEAVY используем SERGEANT звуки
 
 void CWalker::SetDefaultProperties(void) {
   m_EwcChar = WLC_SOLDIER ;
@@ -33,6 +41,10 @@ void CWalker::SetDefaultProperties(void) {
   m_fSize = 1.0f;
   m_bWalkSoundPlaying = FALSE ;
   m_fThreatDistance = 5.0f;
+  m_bFireBulletCount = 0;
+  m_fFireTime = 0.0f;
+  m_vFirePosition = FLOAT3D(0 , 0 , 0);
+  iCurrentArm = 0;
   m_soFeet.SetOwner(this);
 m_soFeet.Stop_internal();
   m_soFire1.SetOwner(this);
@@ -46,449 +58,502 @@ m_soFire4.Stop_internal();
   CEnemyBase::SetDefaultProperties();
 }
   CTString CWalker::GetPlayerKillDescription(const CTString & strPlayerName,const EDeath & eDeath) 
-#line 86 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 104 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 {
-#line 87 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 105 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 CTString str ;
-#line 88 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 106 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 str  . PrintF  (TRANS  ("A Biomech blew %s away") , strPlayerName );
-#line 89 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 107 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 return str ;
-#line 90 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 108 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 }
   const CTFileName & CWalker::GetComputerMessageName(void)const {
-#line 93 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-static DECLARE_CTFILENAME  (fnmSoldier  , "Data\\Messages\\Enemies\\WalkerSmall.txt");
-#line 94 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-static DECLARE_CTFILENAME  (fnmSergeant  , "Data\\Messages\\Enemies\\WalkerBig.txt");
-#line 95 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-switch(m_EwcChar ){
-#line 96 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-default  : ASSERT  (FALSE );
-#line 97 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-case WLC_SOLDIER : return fnmSoldier ;
-#line 98 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-case WLC_SERGEANT : return fnmSergeant ;
-#line 99 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-#line 100 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-  
-#line 102 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-FLOAT CWalker::GetThreatDistance(void) 
-#line 103 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-{
-#line 104 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-return m_fThreatDistance ;
-#line 105 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-  
-#line 107 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-BOOL CWalker::ForcesCannonballToExplode(void) 
-#line 108 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-{
-#line 109 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(m_EwcChar  == WLC_SERGEANT ){
-#line 110 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-return TRUE ;
 #line 111 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
+static DECLARE_CTFILENAME  (fnmSoldier  , "Data\\Messages\\Enemies\\WalkerSmall.txt");
 #line 112 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-return CEnemyBase  :: ForcesCannonballToExplode  ();
+static DECLARE_CTFILENAME  (fnmSergeant  , "Data\\Messages\\Enemies\\WalkerBig.txt");
 #line 113 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-  
+static DECLARE_CTFILENAME  (fnmHeavy  , "Data\\Messages\\Enemies\\WalkerHeavy.txt");
+#line 114 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+switch(m_EwcChar ){
 #line 115 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-void CWalker::Precache(void) {
+default  : ASSERT  (FALSE );
 #line 116 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-CEnemyBase  :: Precache  ();
+case WLC_SOLDIER : return fnmSoldier ;
+#line 117 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+case WLC_SERGEANT : return fnmSergeant ;
 #line 118 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheModel  (MODEL_WALKER );
+case WLC_HEAVY : return fnmHeavy ;
+#line 119 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
 #line 120 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(m_EwcChar  == WLC_SOLDIER )
-#line 121 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-{
+}
+  
+#line 122 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+FLOAT CWalker::GetThreatDistance(void) 
 #line 123 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheSound  (SOUND_SOLDIER_IDLE );
+{
 #line 124 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheSound  (SOUND_SOLDIER_SIGHT );
+return m_fThreatDistance ;
 #line 125 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheSound  (SOUND_SOLDIER_DEATH );
-#line 126 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheSound  (SOUND_SOLDIER_FIRE_LASER );
+}
+  
 #line 127 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheSound  (SOUND_SOLDIER_WALK );
+BOOL CWalker::ForcesCannonballToExplode(void) 
+#line 128 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+{
 #line 129 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheTexture  (TEXTURE_WALKER_SOLDIER );
-#line 131 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheModel  (MODEL_LASER );
-#line 132 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheTexture  (TEXTURE_LASER );
-#line 134 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheClass  (CLASS_PROJECTILE  , PRT_CYBORG_LASER );
-#line 135 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-#line 136 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-else 
-#line 137 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-{
-#line 139 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheSound  (SOUND_SERGEANT_IDLE );
-#line 140 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheSound  (SOUND_SERGEANT_SIGHT );
-#line 141 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheSound  (SOUND_SERGEANT_DEATH );
-#line 142 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheSound  (SOUND_SERGEANT_FIRE_ROCKET );
-#line 143 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheSound  (SOUND_SERGEANT_WALK );
-#line 145 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheTexture  (TEXTURE_WALKER_SERGEANT );
-#line 147 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheModel  (MODEL_ROCKETLAUNCHER );
-#line 148 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheTexture  (TEXTURE_ROCKETLAUNCHER );
-#line 150 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PrecacheClass  (CLASS_PROJECTILE  , PRT_WALKER_ROCKET );
-#line 151 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-#line 152 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-  
-#line 154 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-void * CWalker::GetEntityInfo(void) {
-#line 155 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-return & eiWalker ;
-#line 156 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-  
-#line 158 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-FLOAT CWalker::GetCrushHealth(void) 
-#line 159 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-{
-#line 160 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 if(m_EwcChar  == WLC_SERGEANT ){
-#line 161 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-return 100.0f;
-#line 162 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 130 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+return TRUE ;
+#line 131 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 }
-#line 163 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-return 0.0f;
-#line 164 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 132 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+return CEnemyBase  :: ForcesCannonballToExplode  ();
+#line 133 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 }
   
-#line 167 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-void CWalker::ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
-#line 168 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection) 
-#line 169 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 135 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+void CWalker::Precache(void) {
+#line 136 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+CEnemyBase  :: Precache  ();
+#line 138 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheModel  (MODEL_WALKER );
+#line 140 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+if(m_EwcChar  == WLC_SOLDIER )
+#line 141 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 {
+#line 143 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheSound  (SOUND_SOLDIER_IDLE );
+#line 144 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheSound  (SOUND_SOLDIER_SIGHT );
+#line 145 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheSound  (SOUND_SOLDIER_DEATH );
+#line 146 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheSound  (SOUND_SOLDIER_FIRE_LASER );
+#line 147 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheSound  (SOUND_SOLDIER_WALK );
+#line 149 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheTexture  (TEXTURE_WALKER_SOLDIER );
+#line 151 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheModel  (MODEL_LASER );
+#line 152 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheTexture  (TEXTURE_LASER );
+#line 154 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheClass  (CLASS_PROJECTILE  , PRT_CYBORG_LASER );
+#line 155 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+#line 156 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+else if(m_EwcChar  == WLC_SERGEANT )
+#line 157 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+{
+#line 159 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheSound  (SOUND_SERGEANT_IDLE );
+#line 160 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheSound  (SOUND_SERGEANT_SIGHT );
+#line 161 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheSound  (SOUND_SERGEANT_DEATH );
+#line 162 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheSound  (SOUND_SERGEANT_FIRE_ROCKET );
+#line 163 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheSound  (SOUND_SERGEANT_WALK );
+#line 165 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheTexture  (TEXTURE_WALKER_SERGEANT );
+#line 167 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheModel  (MODEL_ROCKETLAUNCHER );
+#line 168 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheTexture  (TEXTURE_ROCKETLAUNCHER );
+#line 170 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheClass  (CLASS_PROJECTILE  , PRT_WALKER_ROCKET );
+#line 171 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
 #line 172 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(dmtType  == DMT_BULLET  && fDamageAmmount  > 100.0f)
+else if(m_EwcChar  == WLC_HEAVY )
 #line 173 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 {
-#line 174 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-fDamageAmmount  *= 0.666f;
 #line 175 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
+PrecacheSound  (SOUND_SERGEANT_IDLE );
+#line 176 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheSound  (SOUND_SERGEANT_SIGHT );
+#line 177 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheSound  (SOUND_SERGEANT_DEATH );
 #line 178 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(! IsOfClass  (penInflictor  , "Walker") || 
+PrecacheSound  (SOUND_HEAVY_FIRE );
 #line 179 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-((CWalker  *) penInflictor ) -> m_EwcChar  != m_EwcChar ){
-#line 180 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-CEnemyBase  :: ReceiveDamage  (penInflictor  , dmtType  , fDamageAmmount  , vHitPoint  , vDirection );
+PrecacheSound  (SOUND_SERGEANT_WALK );
 #line 181 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-#line 182 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-  
+PrecacheTexture  (TEXTURE_WALKER_HEAVY );
+#line 183 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheModel  (MODEL_ROCKETLAUNCHER );
+#line 184 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheTexture  (TEXTURE_ROCKETLAUNCHER );
+#line 185 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PrecacheClass  (CLASS_BULLET );
 #line 186 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-void CWalker::StandingAnim(void) {
+}
 #line 187 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-DeactivateWalkingSound  ();
-#line 188 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-StartModelAnim  (WALKER_ANIM_STAND01  , AOF_LOOPING  | AOF_NORESTART );
-#line 189 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 }
   
 #line 190 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-void CWalker::StandingAnimFight(void) 
+void * CWalker::GetEntityInfo(void) {
 #line 191 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-{
+return & eiWalker ;
 #line 192 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-DeactivateWalkingSound  ();
-#line 193 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-StartModelAnim  (WALKER_ANIM_IDLEFIGHT  , AOF_LOOPING  | AOF_NORESTART );
-#line 194 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 }
   
+#line 194 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+FLOAT CWalker::GetCrushHealth(void) 
 #line 195 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-void CWalker::WalkingAnim(void) {
+{
 #line 196 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-ActivateWalkingSound  ();
-#line 197 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 if(m_EwcChar  == WLC_SERGEANT ){
+#line 197 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+return 100.0f;
 #line 198 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-StartModelAnim  (WALKER_ANIM_WALKBIG  , AOF_LOOPING  | AOF_NORESTART );
-#line 199 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}else {
-#line 200 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-StartModelAnim  (WALKER_ANIM_WALK  , AOF_LOOPING  | AOF_NORESTART );
-#line 201 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 }
-#line 202 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 199 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+return 0.0f;
+#line 200 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 }
   
 #line 203 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-void CWalker::RunningAnim(void) {
+void CWalker::ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
 #line 204 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-WalkingAnim  ();
+FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection) 
 #line 205 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-  
-#line 206 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-void CWalker::RotatingAnim(void) {
-#line 207 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-WalkingAnim  ();
+{
 #line 208 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-  
+if(dmtType  == DMT_BULLET  && fDamageAmmount  > 100.0f)
+#line 209 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+{
+#line 210 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+fDamageAmmount  *= 0.666f;
 #line 211 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-void CWalker::IdleSound(void) {
-#line 212 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PlaySound  (m_soSound  , WALKERSOUND  (IDLE ) , SOF_3D );
-#line 213 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 }
-  
 #line 214 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-void CWalker::SightSound(void) {
+if(! IsOfClass  (penInflictor  , "Walker") || 
 #line 215 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PlaySound  (m_soSound  , WALKERSOUND  (SIGHT ) , SOF_3D );
+((CWalker  *) penInflictor ) -> m_EwcChar  != m_EwcChar ){
 #line 216 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-  
+CEnemyBase  :: ReceiveDamage  (penInflictor  , dmtType  , fDamageAmmount  , vHitPoint  , vDirection );
 #line 217 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-void CWalker::DeathSound(void) {
+}
 #line 218 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PlaySound  (m_soSound  , WALKERSOUND  (DEATH ) , SOF_3D );
-#line 219 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 }
   
 #line 222 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-void CWalker::ActivateWalkingSound(void) 
+void CWalker::StandingAnim(void) {
 #line 223 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-{
+DeactivateWalkingSound  ();
 #line 224 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(! m_bWalkSoundPlaying ){
+StartModelAnim  (WALKER_ANIM_STAND01  , AOF_LOOPING  | AOF_NORESTART );
 #line 225 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PlaySound  (m_soFeet  , WALKERSOUND  (WALK ) , SOF_3D  | SOF_LOOP );
+}
+  
 #line 226 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_bWalkSoundPlaying  = TRUE ;
+void CWalker::StandingAnimFight(void) 
 #line 227 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
+{
 #line 228 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-  
+DeactivateWalkingSound  ();
 #line 229 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-void CWalker::DeactivateWalkingSound(void) 
+StartModelAnim  (WALKER_ANIM_IDLEFIGHT  , AOF_LOOPING  | AOF_NORESTART );
 #line 230 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-{
+}
+  
 #line 231 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_soFeet  . Stop  ();
+void CWalker::WalkingAnim(void) {
 #line 232 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_bWalkSoundPlaying  = FALSE ;
+ActivateWalkingSound  ();
 #line 233 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-  
+if(m_EwcChar  == WLC_SERGEANT  || m_EwcChar  == WLC_HEAVY ){
+#line 234 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+StartModelAnim  (WALKER_ANIM_WALKBIG  , AOF_LOOPING  | AOF_NORESTART );
+#line 235 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}else {
 #line 236 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-void CWalker::FireDeathRocket(FLOAT3D & vPos) {
+StartModelAnim  (WALKER_ANIM_WALK  , AOF_LOOPING  | AOF_NORESTART );
 #line 237 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-CPlacement3D plRocket ;
+}
 #line 238 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-plRocket  . pl_PositionVector  = vPos ;
+}
+  
 #line 239 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-plRocket  . pl_OrientationAngle  = ANGLE3D (0 , - 5.0f - FRnd  () * 10.0f , 0);
+void CWalker::RunningAnim(void) {
 #line 240 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-plRocket  . RelativeToAbsolute  (GetPlacement  ());
+WalkingAnim  ();
 #line 241 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-CEntityPointer penProjectile  = CreateEntity  (plRocket  , CLASS_PROJECTILE );
+}
+  
 #line 242 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-ELaunchProjectile  eLaunch ;
+void CWalker::RotatingAnim(void) {
 #line 243 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-eLaunch  . penLauncher  = this ;
+WalkingAnim  ();
 #line 244 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-eLaunch  . prtType  = PRT_WALKER_ROCKET ;
-#line 245 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-penProjectile  -> Initialize  (eLaunch );
-#line 246 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 }
   
+#line 247 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+void CWalker::IdleSound(void) {
 #line 248 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-void CWalker::FireDeathLaser(FLOAT3D & vPos) {
+PlaySound  (m_soSound  , WALKERSOUND  (IDLE ) , SOF_3D );
 #line 249 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-CPlacement3D plLaser ;
-#line 250 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-plLaser  . pl_PositionVector  = vPos ;
-#line 251 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-plLaser  . pl_OrientationAngle  = ANGLE3D (0 , - 5.0f - FRnd  () * 10.0f , 0);
-#line 252 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-plLaser  . RelativeToAbsolute  (GetPlacement  ());
-#line 253 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-CEntityPointer penProjectile  = CreateEntity  (plLaser  , CLASS_PROJECTILE );
-#line 254 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-ELaunchProjectile  eLaunch ;
-#line 255 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-eLaunch  . penLauncher  = this ;
-#line 256 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-eLaunch  . prtType  = PRT_CYBORG_LASER ;
-#line 257 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-penProjectile  -> Initialize  (eLaunch );
-#line 258 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 }
   
-#line 263 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-void CWalker::EnemyPostInit(void) 
-#line 264 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 250 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+void CWalker::SightSound(void) {
+#line 251 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PlaySound  (m_soSound  , WALKERSOUND  (SIGHT ) , SOF_3D );
+#line 252 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+  
+#line 253 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+void CWalker::DeathSound(void) {
+#line 254 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PlaySound  (m_soSound  , WALKERSOUND  (DEATH ) , SOF_3D );
+#line 255 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+  
+#line 258 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+void CWalker::ActivateWalkingSound(void) 
+#line 259 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 {
+#line 260 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+if(! m_bWalkSoundPlaying ){
+#line 261 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PlaySound  (m_soFeet  , WALKERSOUND  (WALK ) , SOF_3D  | SOF_LOOP );
+#line 262 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_bWalkSoundPlaying  = TRUE ;
+#line 263 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+#line 264 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+  
+#line 265 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+void CWalker::DeactivateWalkingSound(void) 
 #line 266 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_soSound  . Set3DParameters  (160.0f , 50.0f , 1.0f , 1.0f);
+{
 #line 267 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_soFeet  . Set3DParameters  (160.0f , 50.0f , 1.0f , 1.0f);
+m_soFeet  . Stop  ();
 #line 268 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_soFire1  . Set3DParameters  (160.0f , 50.0f , 1.0f , 1.0f);
+m_bWalkSoundPlaying  = FALSE ;
 #line 269 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_soFire2  . Set3DParameters  (160.0f , 50.0f , 1.0f , 1.0f);
-#line 270 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_soFire3  . Set3DParameters  (160.0f , 50.0f , 1.0f , 1.0f);
-#line 271 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_soFire4  . Set3DParameters  (160.0f , 50.0f , 1.0f , 1.0f);
+}
+  
 #line 272 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+void CWalker::FireDeathRocket(FLOAT3D & vPos) {
+#line 273 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+CPlacement3D plRocket ;
+#line 274 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+plRocket  . pl_PositionVector  = vPos ;
+#line 275 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+plRocket  . pl_OrientationAngle  = ANGLE3D (0 , - 5.0f - FRnd  () * 10.0f , 0);
+#line 276 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+plRocket  . RelativeToAbsolute  (GetPlacement  ());
+#line 277 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+CEntityPointer penProjectile  = CreateEntity  (plRocket  , CLASS_PROJECTILE );
+#line 278 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+ELaunchProjectile  eLaunch ;
+#line 279 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+eLaunch  . penLauncher  = this ;
+#line 280 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+eLaunch  . prtType  = PRT_WALKER_ROCKET ;
+#line 281 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+penProjectile  -> Initialize  (eLaunch );
+#line 282 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+  
+#line 284 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+void CWalker::FireDeathLaser(FLOAT3D & vPos) {
+#line 285 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+CPlacement3D plLaser ;
+#line 286 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+plLaser  . pl_PositionVector  = vPos ;
+#line 287 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+plLaser  . pl_OrientationAngle  = ANGLE3D (0 , - 5.0f - FRnd  () * 10.0f , 0);
+#line 288 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+plLaser  . RelativeToAbsolute  (GetPlacement  ());
+#line 289 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+CEntityPointer penProjectile  = CreateEntity  (plLaser  , CLASS_PROJECTILE );
+#line 290 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+ELaunchProjectile  eLaunch ;
+#line 291 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+eLaunch  . penLauncher  = this ;
+#line 292 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+eLaunch  . prtType  = PRT_CYBORG_LASER ;
+#line 293 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+penProjectile  -> Initialize  (eLaunch );
+#line 294 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+  
+#line 297 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+BOOL CWalker::CanFireAtPlayer(void) {
+#line 299 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+FLOAT3D vSource  , vTarget ;
+#line 300 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+GetPositionCastRay  (this  , m_penEnemy  , vSource  , vTarget );
+#line 303 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+CPlacement3D plBullet ;
+#line 304 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+plBullet  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
+#line 305 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+plBullet  . pl_PositionVector  = FIREPOS_WALKER ;
+#line 306 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+plBullet  . RelativeToAbsolute  (GetPlacement  ());
+#line 307 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+vSource  = plBullet  . pl_PositionVector ;
+#line 310 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+CCastRay  crRay  (this  , vSource  , vTarget );
+#line 311 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+crRay  . cr_ttHitModels  = CCastRay  :: TT_NONE ;
+#line 312 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+crRay  . cr_bHitTranslucentPortals  = FALSE ;
+#line 313 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+en_pwoWorld  -> CastRay  (crRay );
+#line 315 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+return (crRay  . cr_penHit  == NULL );
+#line 316 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+  
+#line 319 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+void CWalker::PrepareBullet(FLOAT fDamage,FLOAT3D vFirePos) {
+#line 321 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+CPlacement3D plBullet ;
+#line 322 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+plBullet  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
+#line 323 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+plBullet  . pl_PositionVector  = vFirePos ;
+#line 324 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+plBullet  . RelativeToAbsolute  (GetPlacement  ());
+#line 327 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+CEntityPointer penBullet  = CreateEntity  (plBullet  , CLASS_BULLET );
+#line 330 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+EBulletInit  eInit ;
+#line 331 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+eInit  . penOwner  = this ;
+#line 332 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+eInit  . fDamage  = fDamage ;
+#line 333 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+penBullet  -> Initialize  (eInit );
+#line 336 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+((CBullet  &) * penBullet ) . CalcTarget  (m_penEnemy  , 250);
+#line 337 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+((CBullet  &) * penBullet ) . LaunchBullet  (TRUE  , TRUE  , TRUE );
+#line 338 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+((CBullet  &) * penBullet ) . DestroyBullet  ();
+#line 339 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+  
+#line 342 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+void CWalker::FireBullet(FLOAT3D vFirePos) {
+#line 344 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+CPlacement3D plBullet ;
+#line 345 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+plBullet  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
+#line 346 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+plBullet  . pl_PositionVector  = vFirePos ;
+#line 347 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+plBullet  . RelativeToAbsolute  (GetPlacement  ());
+#line 350 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+CEntityPointer penBullet  = CreateEntity  (plBullet  , CLASS_BULLET );
+#line 353 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+EBulletInit  eInit ;
+#line 354 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+eInit  . penOwner  = this ;
+#line 355 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+eInit  . fDamage  = BULLET_DAMAGE ;
+#line 356 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+penBullet  -> Initialize  (eInit );
+#line 359 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+((CBullet  &) * penBullet ) . CalcTarget  (m_penEnemy  , 250);
+#line 360 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+((CBullet  &) * penBullet ) . CalcJitterTarget  (18.0f);
+#line 361 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+((CBullet  &) * penBullet ) . LaunchBullet  (TRUE  , TRUE  , TRUE );
+#line 362 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+((CBullet  &) * penBullet ) . DestroyBullet  ();
+#line 363 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+  
+#line 366 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+void CWalker::EnemyPostInit(void) 
+#line 367 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+{
+#line 369 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_soSound  . Set3DParameters  (160.0f , 50.0f , 1.0f , 1.0f);
+#line 370 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_soFeet  . Set3DParameters  (160.0f , 50.0f , 1.0f , 1.0f);
+#line 371 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_soFire1  . Set3DParameters  (160.0f , 50.0f , 1.0f , 1.0f);
+#line 372 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_soFire2  . Set3DParameters  (160.0f , 50.0f , 1.0f , 1.0f);
+#line 373 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_soFire3  . Set3DParameters  (160.0f , 50.0f , 1.0f , 1.0f);
+#line 374 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_soFire4  . Set3DParameters  (160.0f , 50.0f , 1.0f , 1.0f);
+#line 375 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 }
 BOOL CWalker::
-#line 312 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 416 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 Fire(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CWalker_Fire
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CWalker::Fire expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 313 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 417 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 DeactivateWalkingSound  ();
-#line 315 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-StartModelAnim  (WALKER_ANIM_TOFIRE  , 0);
-#line 316 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_fLockOnEnemyTime  = GetModelObject  () -> GetAnimLength  (WALKER_ANIM_TOFIRE );
-#line 317 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-STATE_CEnemyBase_LockOnEnemy, FALSE;
+#line 420 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+if(!(m_EwcChar  == WLC_HEAVY )){ Jump(STATE_CURRENT,0x01440003, FALSE, EInternal());return TRUE;}
+#line 421 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+STATE_CWalker_MachinegunAttack, TRUE;
 Jump(STATE_CURRENT, 0x01440001, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x01440001_Fire_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01440001
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CEnemyBase_LockOnEnemy, FALSE, EVoid());return TRUE;case EVENTCODE_EReturn: Jump(STATE_CURRENT,0x01440002, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CWalker::H0x01440002_Fire_02(const CEntityEvent &__eeInput){
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CWalker_MachinegunAttack, TRUE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x01440002, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CWalker::H0x01440002_Fire_02(const CEntityEvent &__eeInput){
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01440002
-const EReturn&__e= (EReturn&)__eeInput;
+const EEnd&__e= (EEnd&)__eeInput;
 ;
-#line 320 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(!(m_EwcChar  == WLC_SERGEANT )){ Jump(STATE_CURRENT,0x01440005, FALSE, EInternal());return TRUE;}
-#line 321 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-StartModelAnim  (WALKER_ANIM_FIRERIGHT  , AOF_LOOPING );
-#line 322 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-ShootProjectile  (PRT_WALKER_ROCKET  , FIRE_RIGHT_ARM  * m_fSize  , ANGLE3D (0 , 0 , 0));
-#line 323 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PlaySound  (m_soFire1  , SOUND_SERGEANT_FIRE_ROCKET  , SOF_3D );
-#line 324 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(GetSP  () -> sp_gdGameDifficulty  <= CSessionProperties  :: GD_EASY ){
-#line 325 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_fLockOnEnemyTime  = 1.0f;
-#line 326 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}else {
-#line 327 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_fLockOnEnemyTime  = 0.5f;
-#line 328 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-#line 329 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-STATE_CEnemyBase_LockOnEnemy, FALSE;
-Jump(STATE_CURRENT, 0x01440003, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x01440003_Fire_03(const CEntityEvent &__eeInput) {
+#line 422 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+Return(STATE_CURRENT,EReturn  ());
+#line 422 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+return TRUE;Jump(STATE_CURRENT,0x01440003, FALSE, EInternal());return TRUE;}BOOL CWalker::H0x01440003_Fire_03(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01440003
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CEnemyBase_LockOnEnemy, FALSE, EVoid());return TRUE;case EVENTCODE_EReturn: Jump(STATE_CURRENT,0x01440004, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CWalker::H0x01440004_Fire_04(const CEntityEvent &__eeInput){
+
+#line 426 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+StartModelAnim  (WALKER_ANIM_TOFIRE  , 0);
+#line 427 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_fLockOnEnemyTime  = GetModelObject  () -> GetAnimLength  (WALKER_ANIM_TOFIRE );
+#line 428 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+STATE_CEnemyBase_LockOnEnemy, FALSE;
+Jump(STATE_CURRENT, 0x01440004, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x01440004_Fire_04(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01440004
-const EReturn&__e= (EReturn&)__eeInput;
-;
-#line 330 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-StartModelAnim  (WALKER_ANIM_FIRELEFT  , AOF_LOOPING );
-#line 331 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-ShootProjectile  (PRT_WALKER_ROCKET  , FIRE_LEFT_ARM  * m_fSize  , ANGLE3D (0 , 0 , 0));
-#line 332 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PlaySound  (m_soFire2  , SOUND_SERGEANT_FIRE_ROCKET  , SOF_3D );Jump(STATE_CURRENT,0x01440005, FALSE, EInternal());return TRUE;}BOOL CWalker::H0x01440005_Fire_05(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CEnemyBase_LockOnEnemy, FALSE, EVoid());return TRUE;case EVENTCODE_EReturn: Jump(STATE_CURRENT,0x01440005, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CWalker::H0x01440005_Fire_05(const CEntityEvent &__eeInput){
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01440005
-
-#line 337 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(!(m_EwcChar  == WLC_SOLDIER )){ Jump(STATE_CURRENT,0x0144000b, FALSE, EInternal());return TRUE;}
-#line 338 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(GetSP  () -> sp_gdGameDifficulty  <= CSessionProperties  :: GD_EASY ){
-#line 339 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_iLoopCounter  = 4;
-#line 340 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}else {
-#line 341 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_iLoopCounter  = 8;
-#line 342 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-#line 343 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-Jump(STATE_CURRENT,0x01440009, FALSE, EInternal());return TRUE;}BOOL CWalker::H0x01440009_Fire_09(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01440009
-if(!(m_iLoopCounter  > 0)){ Jump(STATE_CURRENT,0x0144000a, FALSE, EInternal());return TRUE;}
-#line 344 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(m_iLoopCounter  % 2){
-#line 345 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-StartModelAnim  (WALKER_ANIM_FIRELEFT  , AOF_LOOPING );
-#line 346 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-ShootProjectile  (PRT_CYBORG_LASER  , FIRE_LEFT_ARM  * m_fSize  , ANGLE3D (0 , 0 , 0));
-#line 347 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}else {
-#line 348 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+const EReturn&__e= (EReturn&)__eeInput;
+;
+#line 431 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+if(!(m_EwcChar  == WLC_SERGEANT )){ Jump(STATE_CURRENT,0x01440008, FALSE, EInternal());return TRUE;}
+#line 432 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 StartModelAnim  (WALKER_ANIM_FIRERIGHT  , AOF_LOOPING );
-#line 349 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-ShootProjectile  (PRT_CYBORG_LASER  , FIRE_RIGHT_ARM  * m_fSize  , ANGLE3D (0 , 0 , 0));
-#line 350 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-#line 351 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-INDEX iChannel  = m_iLoopCounter  % 4;
-#line 352 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(iChannel  == 0){
-#line 353 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PlaySound  (m_soFire1  , SOUND_SOLDIER_FIRE_LASER  , SOF_3D );
-#line 354 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}else if(iChannel  == 1){
-#line 355 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PlaySound  (m_soFire2  , SOUND_SOLDIER_FIRE_LASER  , SOF_3D );
-#line 356 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}else if(iChannel  == 2){
-#line 357 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PlaySound  (m_soFire3  , SOUND_SOLDIER_FIRE_LASER  , SOF_3D );
-#line 358 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}else if(iChannel  == 3){
-#line 359 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PlaySound  (m_soFire4  , SOUND_SOLDIER_FIRE_LASER  , SOF_3D );
-#line 360 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-#line 361 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(!(m_iLoopCounter  > 1)){ Jump(STATE_CURRENT,0x01440008, FALSE, EInternal());return TRUE;}
-#line 362 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 433 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+ShootProjectile  (PRT_WALKER_ROCKET  , FIRE_RIGHT_ARM  * m_fSize  , ANGLE3D (0 , 0 , 0));
+#line 434 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PlaySound  (m_soFire1  , SOUND_SERGEANT_FIRE_ROCKET  , SOF_3D );
+#line 435 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 if(GetSP  () -> sp_gdGameDifficulty  <= CSessionProperties  :: GD_EASY ){
-#line 363 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_fLockOnEnemyTime  = 0.4f;
-#line 364 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 436 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_fLockOnEnemyTime  = 1.0f;
+#line 437 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 }else {
-#line 365 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_fLockOnEnemyTime  = 0.1f;
-#line 366 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 438 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_fLockOnEnemyTime  = 0.5f;
+#line 439 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 }
-#line 367 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 440 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 STATE_CEnemyBase_LockOnEnemy, FALSE;
 Jump(STATE_CURRENT, 0x01440006, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x01440006_Fire_06(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -497,290 +562,519 @@ switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_C
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01440007
 const EReturn&__e= (EReturn&)__eeInput;
-;Jump(STATE_CURRENT,0x01440008, FALSE, EInternal());return TRUE;}BOOL CWalker::H0x01440008_Fire_08(const CEntityEvent &__eeInput){
+;
+#line 441 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+StartModelAnim  (WALKER_ANIM_FIRELEFT  , AOF_LOOPING );
+#line 442 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+ShootProjectile  (PRT_WALKER_ROCKET  , FIRE_LEFT_ARM  * m_fSize  , ANGLE3D (0 , 0 , 0));
+#line 443 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PlaySound  (m_soFire2  , SOUND_SERGEANT_FIRE_ROCKET  , SOF_3D );Jump(STATE_CURRENT,0x01440008, FALSE, EInternal());return TRUE;}BOOL CWalker::H0x01440008_Fire_08(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01440008
 
-#line 369 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_iLoopCounter  --;Jump(STATE_CURRENT,0x01440009, FALSE, EInternal());return TRUE;
-#line 370 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}BOOL CWalker::H0x0144000a_Fire_10(const CEntityEvent &__eeInput) {
+#line 448 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+if(!(m_EwcChar  == WLC_SOLDIER )){ Jump(STATE_CURRENT,0x0144000e, FALSE, EInternal());return TRUE;}
+#line 449 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+if(GetSP  () -> sp_gdGameDifficulty  <= CSessionProperties  :: GD_EASY ){
+#line 450 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_iLoopCounter  = 4;
+#line 451 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}else {
+#line 452 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_iLoopCounter  = 8;
+#line 453 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+#line 454 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+Jump(STATE_CURRENT,0x0144000c, FALSE, EInternal());return TRUE;}BOOL CWalker::H0x0144000c_Fire_12(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
+#define STATE_CURRENT 0x0144000c
+if(!(m_iLoopCounter  > 0)){ Jump(STATE_CURRENT,0x0144000d, FALSE, EInternal());return TRUE;}
+#line 455 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+if(m_iLoopCounter  % 2){
+#line 456 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+StartModelAnim  (WALKER_ANIM_FIRELEFT  , AOF_LOOPING );
+#line 457 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+ShootProjectile  (PRT_CYBORG_LASER  , FIRE_LEFT_ARM  * m_fSize  , ANGLE3D (0 , 0 , 0));
+#line 458 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}else {
+#line 459 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+StartModelAnim  (WALKER_ANIM_FIRERIGHT  , AOF_LOOPING );
+#line 460 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+ShootProjectile  (PRT_CYBORG_LASER  , FIRE_RIGHT_ARM  * m_fSize  , ANGLE3D (0 , 0 , 0));
+#line 461 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+#line 462 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+INDEX iChannel  = m_iLoopCounter  % 4;
+#line 463 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+if(iChannel  == 0){
+#line 464 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PlaySound  (m_soFire1  , SOUND_SOLDIER_FIRE_LASER  , SOF_3D );
+#line 465 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}else if(iChannel  == 1){
+#line 466 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PlaySound  (m_soFire2  , SOUND_SOLDIER_FIRE_LASER  , SOF_3D );
+#line 467 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}else if(iChannel  == 2){
+#line 468 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PlaySound  (m_soFire3  , SOUND_SOLDIER_FIRE_LASER  , SOF_3D );
+#line 469 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}else if(iChannel  == 3){
+#line 470 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PlaySound  (m_soFire4  , SOUND_SOLDIER_FIRE_LASER  , SOF_3D );
+#line 471 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+#line 472 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+if(!(m_iLoopCounter  > 1)){ Jump(STATE_CURRENT,0x0144000b, FALSE, EInternal());return TRUE;}
+#line 473 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+if(GetSP  () -> sp_gdGameDifficulty  <= CSessionProperties  :: GD_EASY ){
+#line 474 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_fLockOnEnemyTime  = 0.4f;
+#line 475 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}else {
+#line 476 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_fLockOnEnemyTime  = 0.1f;
+#line 477 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+#line 478 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+STATE_CEnemyBase_LockOnEnemy, FALSE;
+Jump(STATE_CURRENT, 0x01440009, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x01440009_Fire_09(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01440009
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CEnemyBase_LockOnEnemy, FALSE, EVoid());return TRUE;case EVENTCODE_EReturn: Jump(STATE_CURRENT,0x0144000a, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CWalker::H0x0144000a_Fire_10(const CEntityEvent &__eeInput){
+#undef STATE_CURRENT
 #define STATE_CURRENT 0x0144000a
-Jump(STATE_CURRENT,0x0144000b, FALSE, EInternal());return TRUE;}BOOL CWalker::H0x0144000b_Fire_11(const CEntityEvent &__eeInput){
+const EReturn&__e= (EReturn&)__eeInput;
+;Jump(STATE_CURRENT,0x0144000b, FALSE, EInternal());return TRUE;}BOOL CWalker::H0x0144000b_Fire_11(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0144000b
 
-#line 372 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-StopMoving  ();
-#line 374 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-MaybeSwitchToAnotherPlayer  ();
-#line 377 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-StartModelAnim  (WALKER_ANIM_FROMFIRE  , 0);
-#line 378 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-SetTimerAfter(GetModelObject  () -> GetAnimLength  (WALKER_ANIM_FROMFIRE ));
-Jump(STATE_CURRENT, 0x0144000c, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x0144000c_Fire_12(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0144000c
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0144000d, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CWalker::H0x0144000d_Fire_13(const CEntityEvent &__eeInput){
+#line 480 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_iLoopCounter  --;Jump(STATE_CURRENT,0x0144000c, FALSE, EInternal());return TRUE;
+#line 481 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}BOOL CWalker::H0x0144000d_Fire_13(const CEntityEvent &__eeInput) {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0144000d
-;
-#line 381 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-StandingAnimFight  ();
-#line 382 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-SetTimerAfter(FRnd  () * 0.1f + 0.1f);
-Jump(STATE_CURRENT, 0x0144000e, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x0144000e_Fire_14(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0144000e
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0144000f, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CWalker::H0x0144000f_Fire_15(const CEntityEvent &__eeInput){
+Jump(STATE_CURRENT,0x0144000e, FALSE, EInternal());return TRUE;}BOOL CWalker::H0x0144000e_Fire_14(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0144000f
-;
-#line 384 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-Return(STATE_CURRENT,EReturn  ());
-#line 384 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-return TRUE; ASSERT(FALSE); return TRUE;};BOOL CWalker::
-#line 392 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-Death(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT STATE_CWalker_Death
-  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CWalker::Death expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 394 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#define STATE_CURRENT 0x0144000e
+
+#line 483 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 StopMoving  ();
-#line 395 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-DeathSound  ();
-#line 396 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-DeactivateWalkingSound  ();
-#line 399 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-SetCollisionFlags  (ECF_MODEL );
-#line 400 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-SetFlags  (GetFlags  () | ENF_SEETHROUGH );
-#line 403 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-ChangeCollisionBoxIndexWhenPossible  (WALKER_COLLISION_BOX_DEATH );
-#line 406 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-StartModelAnim  (WALKER_ANIM_DEATH  , 0);
-#line 407 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-SetTimerAfter(0.9f);
-Jump(STATE_CURRENT, 0x01440011, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x01440011_Death_01(const CEntityEvent &__eeInput) {
+#line 485 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+MaybeSwitchToAnotherPlayer  ();
+#line 488 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+StartModelAnim  (WALKER_ANIM_FROMFIRE  , 0);
+#line 489 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+SetTimerAfter(GetModelObject  () -> GetAnimLength  (WALKER_ANIM_FROMFIRE ));
+Jump(STATE_CURRENT, 0x0144000f, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x0144000f_Fire_15(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0144000f
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01440010, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CWalker::H0x01440010_Fire_16(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01440010
+;
+#line 492 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+StandingAnimFight  ();
+#line 493 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+SetTimerAfter(FRnd  () * 0.1f + 0.1f);
+Jump(STATE_CURRENT, 0x01440011, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x01440011_Fire_17(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01440011
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01440012, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CWalker::H0x01440012_Death_02(const CEntityEvent &__eeInput){
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01440012, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CWalker::H0x01440012_Fire_18(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01440012
 ;
-#line 410 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(m_EwcChar  == WLC_SERGEANT ){
-#line 411 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(IRnd  () & 1){
-#line 412 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-FireDeathRocket  (FIRE_DEATH_RIGHT  * m_fSize );
-#line 413 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}else {
-#line 414 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-FireDeathRocket  (FIRE_DEATH_LEFT  * m_fSize );
-#line 415 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-#line 416 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PlaySound  (m_soSound  , SOUND_SERGEANT_FIRE_ROCKET  , SOF_3D );
-#line 417 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-#line 418 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(m_EwcChar  == WLC_SOLDIER ){
-#line 419 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(IRnd  () & 1){
-#line 420 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-FireDeathLaser  (FIRE_DEATH_RIGHT  * m_fSize );
-#line 421 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}else {
-#line 422 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-FireDeathLaser  (FIRE_DEATH_LEFT  * m_fSize );
-#line 423 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-#line 424 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-PlaySound  (m_soFire2  , SOUND_SOLDIER_FIRE_LASER  , SOF_3D );
-#line 425 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-#line 426 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-SetTimerAfter(0.25f);
-Jump(STATE_CURRENT, 0x01440013, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x01440013_Death_03(const CEntityEvent &__eeInput) {
+#line 495 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+Return(STATE_CURRENT,EReturn  ());
+#line 495 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+return TRUE; ASSERT(FALSE); return TRUE;};BOOL CWalker::
+#line 499 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+MachinegunAttack(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01440013
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01440014, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CWalker::H0x01440014_Death_04(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#define STATE_CURRENT STATE_CWalker_MachinegunAttack
+  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CWalker::MachinegunAttack expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
+#line 501 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+StartModelAnim  (WALKER_ANIM_TOFIRE  , 0);
+#line 502 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_fLockOnEnemyTime  = GetModelObject  () -> GetAnimLength  (WALKER_ANIM_TOFIRE );
+#line 503 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+STATE_CEnemyBase_LockOnEnemy, FALSE;
+Jump(STATE_CURRENT, 0x01440014, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x01440014_MachinegunAttack_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01440014
-;
-#line 428 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-FLOAT fStretch  = 2.0f;
-#line 429 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(m_EwcChar  == WLC_SERGEANT )
-#line 430 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-{
-#line 431 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-fStretch  = 4.0f;
-#line 432 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}
-#line 434 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-CPlacement3D plFX  = GetPlacement  ();
-#line 435 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-ESpawnEffect  ese ;
-#line 436 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-ese  . colMuliplier  = C_WHITE  | CT_OPAQUE ;
-#line 437 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-ese  . vStretch  = FLOAT3D (1.5 , 1 , 1) * fStretch ;
-#line 438 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-ese  . vNormal  = FLOAT3D (0 , 1 , 0);
-#line 439 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-ese  . betType  = BET_DUST_FALL ;
-#line 440 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-CPlacement3D plSmoke  = plFX ;
-#line 441 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-plSmoke  . pl_PositionVector  += FLOAT3D (0 , 0.35f * ese  . vStretch  (2) , 0);
-#line 442 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-CEntityPointer penFX  = CreateEntity  (plSmoke  , CLASS_BASIC_EFFECT );
-#line 443 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-penFX  -> Initialize  (ese );
-#line 445 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-SetTimerAfter(0.35f);
-Jump(STATE_CURRENT, 0x01440015, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x01440015_Death_05(const CEntityEvent &__eeInput) {
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CEnemyBase_LockOnEnemy, FALSE, EVoid());return TRUE;case EVENTCODE_EReturn: Jump(STATE_CURRENT,0x01440015, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CWalker::H0x01440015_MachinegunAttack_02(const CEntityEvent &__eeInput){
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01440015
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01440016, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CWalker::H0x01440016_Death_06(const CEntityEvent &__eeInput){
+const EReturn&__e= (EReturn&)__eeInput;
+;
+#line 506 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_fFireTime  = _pTimer  -> CurrentTick  () + 4.0f;
+#line 507 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PlaySound  (m_soSound  , SOUND_HEAVY_FIRE  , SOF_3D  | SOF_LOOP );
+#line 510 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+StartModelAnim  (WALKER_ANIM_IDLEFIGHT  , AOF_LOOPING  | AOF_NORESTART );
+#line 512 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+Jump(STATE_CURRENT,0x01440018, FALSE, EInternal());return TRUE;}BOOL CWalker::H0x01440018_MachinegunAttack_05(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
+#define STATE_CURRENT 0x01440018
+if(!(m_fFireTime  > _pTimer  -> CurrentTick  ())){ Jump(STATE_CURRENT,0x01440019, FALSE, EInternal());return TRUE;}
+#line 513 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+SetTimerAfter(MACHINEGUN_FIRE_RATE );
+Jump(STATE_CURRENT, 0x01440016, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x01440016_MachinegunAttack_03(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
 #define STATE_CURRENT 0x01440016
+switch(__eeInput.ee_slEvent){case(EVENTCODE_EBegin):{const EBegin&e= (EBegin&)__eeInput;
+
+#line 516 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+FireBullet  (FIREPOS_LEFT_ARM  * m_fSize );
+#line 517 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+FireBullet  (FIREPOS_RIGHT_ARM  * m_fSize );
+#line 519 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+if(! IsInPlaneFrustum  (m_penEnemy  , CosFast  (5.0f))){
+#line 520 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_fMoveSpeed  = 0.0f;
+#line 521 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_aRotateSpeed  = 4000.0f;
+#line 522 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}else {
+#line 523 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_fMoveSpeed  = 0.0f;
+#line 524 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_aRotateSpeed  = 0.0f;
+#line 525 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+#line 526 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+SetDesiredMovement  ();
+#line 527 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+return TRUE;
+#line 528 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}ASSERT(FALSE);break;case(EVENTCODE_ETimer):{const ETimer&e= (ETimer&)__eeInput;
+UnsetTimer();Jump(STATE_CURRENT,0x01440017, FALSE, EInternal());return TRUE;}ASSERT(FALSE);break;default: return FALSE; break;
+#line 530 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}return TRUE;}BOOL CWalker::H0x01440017_MachinegunAttack_04(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01440017
+Jump(STATE_CURRENT,0x01440018, FALSE, EInternal());return TRUE;
+#line 531 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}BOOL CWalker::H0x01440019_MachinegunAttack_06(const CEntityEvent &__eeInput) {
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01440019
+
+#line 533 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_soSound  . Stop  ();
+#line 534 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+StopMoving  ();
+#line 537 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+StartModelAnim  (WALKER_ANIM_FROMFIRE  , 0);
+#line 538 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+SetTimerAfter(GetModelObject  () -> GetAnimLength  (WALKER_ANIM_FROMFIRE ));
+Jump(STATE_CURRENT, 0x0144001a, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x0144001a_MachinegunAttack_07(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0144001a
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0144001b, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CWalker::H0x0144001b_MachinegunAttack_08(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0144001b
 ;
-#line 447 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 541 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+StandingAnimFight  ();
+#line 542 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+SetTimerAfter(FRnd  () * 0.1f + 0.1f);
+Jump(STATE_CURRENT, 0x0144001c, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x0144001c_MachinegunAttack_09(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0144001c
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0144001d, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CWalker::H0x0144001d_MachinegunAttack_10(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0144001d
+;
+#line 544 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 447 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 544 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CWalker::
-#line 453 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 552 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+Death(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT STATE_CWalker_Death
+  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CWalker::Death expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
+#line 554 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+StopMoving  ();
+#line 555 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+DeathSound  ();
+#line 556 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+DeactivateWalkingSound  ();
+#line 559 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+SetCollisionFlags  (ECF_MODEL );
+#line 560 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+SetFlags  (GetFlags  () | ENF_SEETHROUGH );
+#line 563 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+ChangeCollisionBoxIndexWhenPossible  (WALKER_COLLISION_BOX_DEATH );
+#line 566 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+StartModelAnim  (WALKER_ANIM_DEATH  , 0);
+#line 567 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+SetTimerAfter(0.9f);
+Jump(STATE_CURRENT, 0x0144001f, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x0144001f_Death_01(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0144001f
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01440020, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CWalker::H0x01440020_Death_02(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01440020
+;
+#line 570 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+if(m_EwcChar  == WLC_SERGEANT ){
+#line 571 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+if(IRnd  () & 1){
+#line 572 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+FireDeathRocket  (FIRE_DEATH_RIGHT  * m_fSize );
+#line 573 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}else {
+#line 574 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+FireDeathRocket  (FIRE_DEATH_LEFT  * m_fSize );
+#line 575 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+#line 576 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PlaySound  (m_soSound  , SOUND_SERGEANT_FIRE_ROCKET  , SOF_3D );
+#line 577 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+#line 578 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+if(m_EwcChar  == WLC_SOLDIER ){
+#line 579 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+if(IRnd  () & 1){
+#line 580 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+FireDeathLaser  (FIRE_DEATH_RIGHT  * m_fSize );
+#line 581 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}else {
+#line 582 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+FireDeathLaser  (FIRE_DEATH_LEFT  * m_fSize );
+#line 583 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+#line 584 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+PlaySound  (m_soFire2  , SOUND_SOLDIER_FIRE_LASER  , SOF_3D );
+#line 585 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+#line 586 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+SetTimerAfter(0.25f);
+Jump(STATE_CURRENT, 0x01440021, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x01440021_Death_03(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01440021
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01440022, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CWalker::H0x01440022_Death_04(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01440022
+;
+#line 588 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+FLOAT fStretch  = 2.0f;
+#line 589 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+if(m_EwcChar  == WLC_SERGEANT )
+#line 590 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+{
+#line 591 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+fStretch  = 4.0f;
+#line 592 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}
+#line 594 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+CPlacement3D plFX  = GetPlacement  ();
+#line 595 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+ESpawnEffect  ese ;
+#line 596 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+ese  . colMuliplier  = C_WHITE  | CT_OPAQUE ;
+#line 597 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+ese  . vStretch  = FLOAT3D (1.5 , 1 , 1) * fStretch ;
+#line 598 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+ese  . vNormal  = FLOAT3D (0 , 1 , 0);
+#line 599 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+ese  . betType  = BET_DUST_FALL ;
+#line 600 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+CPlacement3D plSmoke  = plFX ;
+#line 601 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+plSmoke  . pl_PositionVector  += FLOAT3D (0 , 0.35f * ese  . vStretch  (2) , 0);
+#line 602 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+CEntityPointer penFX  = CreateEntity  (plSmoke  , CLASS_BASIC_EFFECT );
+#line 603 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+penFX  -> Initialize  (ese );
+#line 605 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+SetTimerAfter(0.35f);
+Jump(STATE_CURRENT, 0x01440023, FALSE, EBegin());return TRUE;}BOOL CWalker::H0x01440023_Death_05(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01440023
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01440024, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CWalker::H0x01440024_Death_06(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01440024
+;
+#line 607 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+Return(STATE_CURRENT,EEnd  ());
+#line 607 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+return TRUE; ASSERT(FALSE); return TRUE;};BOOL CWalker::
+#line 613 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 Main(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CWalker_Main
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CWalker::Main expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 455 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 615 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 InitAsModel  ();
-#line 456 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 616 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 SetPhysicsFlags  (EPF_MODEL_WALKING );
-#line 457 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 617 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 SetCollisionFlags  (ECF_MODEL );
-#line 458 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 618 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 SetFlags  (GetFlags  () | ENF_ALIVE );
-#line 459 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-if(m_EwcChar  == WLC_SERGEANT ){
-#line 460 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-SetHealth  (750.0f);
-#line 461 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-m_fMaxHealth  = 750.0f;
-#line 462 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}else {
-#line 463 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 620 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+switch(m_EwcChar ){
+#line 621 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+case WLC_SOLDIER : 
+#line 622 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 SetHealth  (150.0f);
-#line 464 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 623 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fMaxHealth  = 150.0f;
-#line 465 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 624 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+break ;
+#line 625 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+case WLC_SERGEANT : 
+#line 626 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+SetHealth  (750.0f);
+#line 627 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_fMaxHealth  = 750.0f;
+#line 628 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+break ;
+#line 629 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+case WLC_HEAVY : 
+#line 630 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+SetHealth  (750.0f);
+#line 631 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_fMaxHealth  = 750.0f;
+#line 632 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+break ;
+#line 633 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 }
-#line 466 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 634 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 en_fDensity  = 3000.0f;
-#line 468 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 636 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_sptType  = SPT_ELECTRICITY_SPARKS ;
-#line 471 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 639 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 SetModel  (MODEL_WALKER );
-#line 472 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 640 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 if(m_EwcChar  == WLC_SERGEANT ){
-#line 473 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 641 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fSize  = 1.0f;
-#line 474 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 642 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 SetModelMainTexture  (TEXTURE_WALKER_SERGEANT );
-#line 475 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 643 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 AddAttachment  (WALKER_ATTACHMENT_ROCKETLAUNCHER_LT  , MODEL_ROCKETLAUNCHER  , TEXTURE_ROCKETLAUNCHER );
-#line 476 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 644 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 AddAttachment  (WALKER_ATTACHMENT_ROCKETLAUNCHER_RT  , MODEL_ROCKETLAUNCHER  , TEXTURE_ROCKETLAUNCHER );
-#line 477 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 645 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 GetModelObject  () -> StretchModel  (FLOAT3D (1 , 1 , 1));
-#line 478 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 646 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 ModelChangeNotify  ();
-#line 479 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 647 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 CModelObject * pmoRight  = & GetModelObject  () -> GetAttachmentModel  (WALKER_ATTACHMENT_ROCKETLAUNCHER_RT ) -> amo_moModelObject ;
-#line 480 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 648 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 pmoRight  -> StretchModel  (FLOAT3D (- 1 , 1 , 1));
-#line 481 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 649 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fBlowUpAmount  = 1E10f;
-#line 482 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 650 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_iScore  = 7500;
-#line 483 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 651 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fThreatDistance  = 15;
-#line 484 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
-}else {
-#line 485 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 652 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}else if(m_EwcChar  == WLC_SOLDIER ){
+#line 653 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fSize  = 0.5f;
-#line 486 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 654 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 SetModelMainTexture  (TEXTURE_WALKER_SOLDIER );
-#line 487 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 655 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 AddAttachment  (WALKER_ATTACHMENT_LASER_LT  , MODEL_LASER  , TEXTURE_LASER );
-#line 488 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 656 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 AddAttachment  (WALKER_ATTACHMENT_LASER_RT  , MODEL_LASER  , TEXTURE_LASER );
-#line 489 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 657 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 GetModelObject  () -> StretchModel  (FLOAT3D (0.5f , 0.5f , 0.5f));
-#line 490 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 658 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 ModelChangeNotify  ();
-#line 491 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 659 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 CModelObject * pmoRight  = & GetModelObject  () -> GetAttachmentModel  (WALKER_ATTACHMENT_LASER_RT ) -> amo_moModelObject ;
-#line 492 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 660 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 pmoRight  -> StretchModel  (FLOAT3D (- 0.5f , 0.5f , 0.5f));
-#line 493 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 661 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fBlowUpAmount  = 1E10f;
-#line 496 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 664 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_iScore  = 2000;
-#line 497 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 665 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fThreatDistance  = 5;
-#line 498 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 666 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+}else if(m_EwcChar  == WLC_HEAVY ){
+#line 667 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_fSize  = 1.0f;
+#line 668 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+SetModelMainTexture  (TEXTURE_WALKER_HEAVY );
+#line 669 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+AddAttachment  (WALKER_ATTACHMENT_ROCKETLAUNCHER_LT  , MODEL_ROCKETLAUNCHER  , TEXTURE_ROCKETLAUNCHER );
+#line 670 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+AddAttachment  (WALKER_ATTACHMENT_ROCKETLAUNCHER_RT  , MODEL_ROCKETLAUNCHER  , TEXTURE_ROCKETLAUNCHER );
+#line 671 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+GetModelObject  () -> StretchModel  (FLOAT3D (1 , 1 , 1));
+#line 672 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+ModelChangeNotify  ();
+#line 673 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+CModelObject * pmoRight  = & GetModelObject  () -> GetAttachmentModel  (WALKER_ATTACHMENT_ROCKETLAUNCHER_RT ) -> amo_moModelObject ;
+#line 674 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+pmoRight  -> StretchModel  (FLOAT3D (- 1 , 1 , 1));
+#line 675 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_fBlowUpAmount  = 1E10f;
+#line 676 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_iScore  = 7500;
+#line 677 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+m_fThreatDistance  = 15;
+#line 678 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 }
-#line 499 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 679 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 if(m_fStepHeight  == - 1){
-#line 500 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 680 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fStepHeight  = 4.0f;
-#line 501 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 681 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 }
-#line 503 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 683 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 StandingAnim  ();
-#line 505 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 685 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fWalkSpeed  = FRnd  () * 1.5f + 9.0f;
-#line 506 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 686 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_aWalkRotateSpeed  = AngleDeg  (FRnd  () * 50.0f + 500.0f);
-#line 507 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 687 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fAttackRunSpeed  = m_fWalkSpeed ;
-#line 508 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 688 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_aAttackRotateSpeed  = m_aWalkRotateSpeed  / 2;
-#line 509 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 689 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fCloseRunSpeed  = m_fWalkSpeed ;
-#line 510 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 690 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_aCloseRotateSpeed  = m_aWalkRotateSpeed  / 2;
-#line 511 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 691 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fWalkSpeed  /= 2.0f;
-#line 513 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 693 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fAttackDistance  = 150.0f;
-#line 514 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 694 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fCloseDistance  = 0.0f;
-#line 515 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 695 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fStopDistance  = 15.0f;
-#line 516 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 696 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fAttackFireTime  = 3.0f;
-#line 517 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 697 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fCloseFireTime  = 1.0f;
-#line 518 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 698 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fIgnoreRange  = 300.0f;
-#line 520 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 700 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fBodyParts  = 8;
-#line 521 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 701 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 m_fDamageWounded  = 100000.0f;
-#line 524 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 704 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 Jump(STATE_CURRENT, STATE_CEnemyBase_MainLoop, FALSE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};

@@ -29,6 +29,8 @@ CEntityComponent CGrunt_components[] = {
  CEntityComponent(ECT_CLASS, CLASS_BASE, "EFNM" "Classes\\EnemyBase.ecl"),
 #define CLASS_PROJECTILE ((0x00000157<<8)+3)
  CEntityComponent(ECT_CLASS, CLASS_PROJECTILE, "EFNM" "Classes\\Projectile.ecl"),
+#define CLASS_BULLET ((0x00000157<<8)+4)
+ CEntityComponent(ECT_CLASS, CLASS_BULLET, "EFNM" "Classes\\Bullet.ecl"),
 #define MODEL_GRUNT ((0x00000157<<8)+10)
  CEntityComponent(ECT_MODEL, MODEL_GRUNT, "EFNM" "ModelsMP\\Enemies\\Grunt\\elite_merc\\merc_elite.mdl"),
 #define MODEL_GUN_COMMANDER ((0x00000157<<8)+11)
@@ -66,47 +68,47 @@ CEntityComponent CGrunt_components[] = {
 
 CEventHandlerEntry CGrunt_handlers[] = {
  {0x01570000, -1, CEntity::pEventHandler(&CGrunt::
-#line 305 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-ShotgunAttack),DEBUGSTRING("CGrunt::ShotgunAttack")},
- {0x01570001, -1, CEntity::pEventHandler(&CGrunt::H0x01570001_ShotgunAttack_01), DEBUGSTRING("CGrunt::H0x01570001_ShotgunAttack_01")},
- {0x01570002, -1, CEntity::pEventHandler(&CGrunt::H0x01570002_ShotgunAttack_02), DEBUGSTRING("CGrunt::H0x01570002_ShotgunAttack_02")},
- {0x01570003, -1, CEntity::pEventHandler(&CGrunt::H0x01570003_ShotgunAttack_03), DEBUGSTRING("CGrunt::H0x01570003_ShotgunAttack_03")},
- {0x01570004, -1, CEntity::pEventHandler(&CGrunt::H0x01570004_ShotgunAttack_04), DEBUGSTRING("CGrunt::H0x01570004_ShotgunAttack_04")},
- {0x01570005, STATE_CEnemyBase_Fire, CEntity::pEventHandler(&CGrunt::
-#line 319 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-Fire),DEBUGSTRING("CGrunt::Fire")},
- {0x01570006, -1, CEntity::pEventHandler(&CGrunt::H0x01570006_Fire_01), DEBUGSTRING("CGrunt::H0x01570006_Fire_01")},
- {0x01570007, -1, CEntity::pEventHandler(&CGrunt::H0x01570007_Fire_02), DEBUGSTRING("CGrunt::H0x01570007_Fire_02")},
- {0x01570008, -1, CEntity::pEventHandler(&CGrunt::H0x01570008_Fire_03), DEBUGSTRING("CGrunt::H0x01570008_Fire_03")},
- {0x01570009, -1, CEntity::pEventHandler(&CGrunt::H0x01570009_Fire_04), DEBUGSTRING("CGrunt::H0x01570009_Fire_04")},
- {0x0157000a, -1, CEntity::pEventHandler(&CGrunt::H0x0157000a_Fire_05), DEBUGSTRING("CGrunt::H0x0157000a_Fire_05")},
- {0x0157000b, -1, CEntity::pEventHandler(&CGrunt::H0x0157000b_Fire_06), DEBUGSTRING("CGrunt::H0x0157000b_Fire_06")},
- {0x0157000c, -1, CEntity::pEventHandler(&CGrunt::H0x0157000c_Fire_07), DEBUGSTRING("CGrunt::H0x0157000c_Fire_07")},
- {0x0157000d, -1, CEntity::pEventHandler(&CGrunt::H0x0157000d_Fire_08), DEBUGSTRING("CGrunt::H0x0157000d_Fire_08")},
- {0x0157000e, -1, CEntity::pEventHandler(&CGrunt::H0x0157000e_Fire_09), DEBUGSTRING("CGrunt::H0x0157000e_Fire_09")},
- {0x0157000f, -1, CEntity::pEventHandler(&CGrunt::H0x0157000f_Fire_10), DEBUGSTRING("CGrunt::H0x0157000f_Fire_10")},
- {0x01570010, -1, CEntity::pEventHandler(&CGrunt::H0x01570010_Fire_11), DEBUGSTRING("CGrunt::H0x01570010_Fire_11")},
- {0x01570011, -1, CEntity::pEventHandler(&CGrunt::H0x01570011_Fire_12), DEBUGSTRING("CGrunt::H0x01570011_Fire_12")},
- {0x01570012, -1, CEntity::pEventHandler(&CGrunt::
-#line 333 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 397 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SoldierAttack),DEBUGSTRING("CGrunt::SoldierAttack")},
- {0x01570013, -1, CEntity::pEventHandler(&CGrunt::H0x01570013_SoldierAttack_01), DEBUGSTRING("CGrunt::H0x01570013_SoldierAttack_01")},
- {0x01570014, -1, CEntity::pEventHandler(&CGrunt::H0x01570014_SoldierAttack_02), DEBUGSTRING("CGrunt::H0x01570014_SoldierAttack_02")},
- {0x01570015, -1, CEntity::pEventHandler(&CGrunt::H0x01570015_SoldierAttack_03), DEBUGSTRING("CGrunt::H0x01570015_SoldierAttack_03")},
- {0x01570016, -1, CEntity::pEventHandler(&CGrunt::H0x01570016_SoldierAttack_04), DEBUGSTRING("CGrunt::H0x01570016_SoldierAttack_04")},
- {0x01570017, -1, CEntity::pEventHandler(&CGrunt::H0x01570017_SoldierAttack_05), DEBUGSTRING("CGrunt::H0x01570017_SoldierAttack_05")},
- {0x01570018, -1, CEntity::pEventHandler(&CGrunt::H0x01570018_SoldierAttack_06), DEBUGSTRING("CGrunt::H0x01570018_SoldierAttack_06")},
- {0x01570019, -1, CEntity::pEventHandler(&CGrunt::
-#line 373 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+ {0x01570001, -1, CEntity::pEventHandler(&CGrunt::H0x01570001_SoldierAttack_01), DEBUGSTRING("CGrunt::H0x01570001_SoldierAttack_01")},
+ {0x01570002, -1, CEntity::pEventHandler(&CGrunt::H0x01570002_SoldierAttack_02), DEBUGSTRING("CGrunt::H0x01570002_SoldierAttack_02")},
+ {0x01570003, -1, CEntity::pEventHandler(&CGrunt::H0x01570003_SoldierAttack_03), DEBUGSTRING("CGrunt::H0x01570003_SoldierAttack_03")},
+ {0x01570004, -1, CEntity::pEventHandler(&CGrunt::H0x01570004_SoldierAttack_04), DEBUGSTRING("CGrunt::H0x01570004_SoldierAttack_04")},
+ {0x01570005, -1, CEntity::pEventHandler(&CGrunt::H0x01570005_SoldierAttack_05), DEBUGSTRING("CGrunt::H0x01570005_SoldierAttack_05")},
+ {0x01570006, -1, CEntity::pEventHandler(&CGrunt::H0x01570006_SoldierAttack_06), DEBUGSTRING("CGrunt::H0x01570006_SoldierAttack_06")},
+ {0x01570007, -1, CEntity::pEventHandler(&CGrunt::
+#line 433 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 CommanderAttack),DEBUGSTRING("CGrunt::CommanderAttack")},
- {0x0157001a, -1, CEntity::pEventHandler(&CGrunt::H0x0157001a_CommanderAttack_01), DEBUGSTRING("CGrunt::H0x0157001a_CommanderAttack_01")},
- {0x0157001b, -1, CEntity::pEventHandler(&CGrunt::H0x0157001b_CommanderAttack_02), DEBUGSTRING("CGrunt::H0x0157001b_CommanderAttack_02")},
- {0x0157001c, -1, CEntity::pEventHandler(&CGrunt::H0x0157001c_CommanderAttack_03), DEBUGSTRING("CGrunt::H0x0157001c_CommanderAttack_03")},
- {0x0157001d, -1, CEntity::pEventHandler(&CGrunt::H0x0157001d_CommanderAttack_04), DEBUGSTRING("CGrunt::H0x0157001d_CommanderAttack_04")},
- {0x0157001e, -1, CEntity::pEventHandler(&CGrunt::H0x0157001e_CommanderAttack_05), DEBUGSTRING("CGrunt::H0x0157001e_CommanderAttack_05")},
- {0x0157001f, -1, CEntity::pEventHandler(&CGrunt::H0x0157001f_CommanderAttack_06), DEBUGSTRING("CGrunt::H0x0157001f_CommanderAttack_06")},
+ {0x01570008, -1, CEntity::pEventHandler(&CGrunt::H0x01570008_CommanderAttack_01), DEBUGSTRING("CGrunt::H0x01570008_CommanderAttack_01")},
+ {0x01570009, -1, CEntity::pEventHandler(&CGrunt::H0x01570009_CommanderAttack_02), DEBUGSTRING("CGrunt::H0x01570009_CommanderAttack_02")},
+ {0x0157000a, -1, CEntity::pEventHandler(&CGrunt::H0x0157000a_CommanderAttack_03), DEBUGSTRING("CGrunt::H0x0157000a_CommanderAttack_03")},
+ {0x0157000b, -1, CEntity::pEventHandler(&CGrunt::H0x0157000b_CommanderAttack_04), DEBUGSTRING("CGrunt::H0x0157000b_CommanderAttack_04")},
+ {0x0157000c, -1, CEntity::pEventHandler(&CGrunt::H0x0157000c_CommanderAttack_05), DEBUGSTRING("CGrunt::H0x0157000c_CommanderAttack_05")},
+ {0x0157000d, -1, CEntity::pEventHandler(&CGrunt::H0x0157000d_CommanderAttack_06), DEBUGSTRING("CGrunt::H0x0157000d_CommanderAttack_06")},
+ {0x0157000e, -1, CEntity::pEventHandler(&CGrunt::
+#line 469 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+ShotgunAttack),DEBUGSTRING("CGrunt::ShotgunAttack")},
+ {0x0157000f, -1, CEntity::pEventHandler(&CGrunt::H0x0157000f_ShotgunAttack_01), DEBUGSTRING("CGrunt::H0x0157000f_ShotgunAttack_01")},
+ {0x01570010, -1, CEntity::pEventHandler(&CGrunt::H0x01570010_ShotgunAttack_02), DEBUGSTRING("CGrunt::H0x01570010_ShotgunAttack_02")},
+ {0x01570011, -1, CEntity::pEventHandler(&CGrunt::H0x01570011_ShotgunAttack_03), DEBUGSTRING("CGrunt::H0x01570011_ShotgunAttack_03")},
+ {0x01570012, -1, CEntity::pEventHandler(&CGrunt::H0x01570012_ShotgunAttack_04), DEBUGSTRING("CGrunt::H0x01570012_ShotgunAttack_04")},
+ {0x01570013, STATE_CEnemyBase_Fire, CEntity::pEventHandler(&CGrunt::
+#line 483 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+Fire),DEBUGSTRING("CGrunt::Fire")},
+ {0x01570014, -1, CEntity::pEventHandler(&CGrunt::H0x01570014_Fire_01), DEBUGSTRING("CGrunt::H0x01570014_Fire_01")},
+ {0x01570015, -1, CEntity::pEventHandler(&CGrunt::H0x01570015_Fire_02), DEBUGSTRING("CGrunt::H0x01570015_Fire_02")},
+ {0x01570016, -1, CEntity::pEventHandler(&CGrunt::H0x01570016_Fire_03), DEBUGSTRING("CGrunt::H0x01570016_Fire_03")},
+ {0x01570017, -1, CEntity::pEventHandler(&CGrunt::H0x01570017_Fire_04), DEBUGSTRING("CGrunt::H0x01570017_Fire_04")},
+ {0x01570018, -1, CEntity::pEventHandler(&CGrunt::H0x01570018_Fire_05), DEBUGSTRING("CGrunt::H0x01570018_Fire_05")},
+ {0x01570019, -1, CEntity::pEventHandler(&CGrunt::H0x01570019_Fire_06), DEBUGSTRING("CGrunt::H0x01570019_Fire_06")},
+ {0x0157001a, -1, CEntity::pEventHandler(&CGrunt::H0x0157001a_Fire_07), DEBUGSTRING("CGrunt::H0x0157001a_Fire_07")},
+ {0x0157001b, -1, CEntity::pEventHandler(&CGrunt::H0x0157001b_Fire_08), DEBUGSTRING("CGrunt::H0x0157001b_Fire_08")},
+ {0x0157001c, -1, CEntity::pEventHandler(&CGrunt::H0x0157001c_Fire_09), DEBUGSTRING("CGrunt::H0x0157001c_Fire_09")},
+ {0x0157001d, -1, CEntity::pEventHandler(&CGrunt::H0x0157001d_Fire_10), DEBUGSTRING("CGrunt::H0x0157001d_Fire_10")},
+ {0x0157001e, -1, CEntity::pEventHandler(&CGrunt::H0x0157001e_Fire_11), DEBUGSTRING("CGrunt::H0x0157001e_Fire_11")},
+ {0x0157001f, -1, CEntity::pEventHandler(&CGrunt::H0x0157001f_Fire_12), DEBUGSTRING("CGrunt::H0x0157001f_Fire_12")},
  {1, -1, CEntity::pEventHandler(&CGrunt::
-#line 415 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 499 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 Main),DEBUGSTRING("CGrunt::Main")},
 };
 #define CGrunt_handlersct ARRAYCOUNT(CGrunt_handlers)

@@ -6,10 +6,12 @@
 
 uses "EntitiesMP/EnemyBase";
 uses "EntitiesMP/Projectile";
+uses "EntitiesMP/Bullet";
 
 enum WalkerChar {
   0 WLC_SOLDIER   "Soldier",    // soldier
   1 WLC_SERGEANT  "Sergeant",   // sergeant
+  2 WLC_HEAVY     "Heavy",      // heavy
 };
 
 %{
@@ -22,12 +24,20 @@ static EntityInfo eiWalker = {
 
 #define SIZE_SOLDIER   (0.5f)
 #define SIZE_SERGEANT  (1.0f)
+#define SIZE_HEAVY  (1.0f)
 #define FIRE_LEFT_ARM   FLOAT3D(-2.5f, 5.0f, 0.0f)
 #define FIRE_RIGHT_ARM  FLOAT3D(+2.5f, 5.0f, 0.0f)
+#define FIREPOS_LEFT_ARM FLOAT3D(-2.5f, 5.0f, 0.0f)  // NEW: позиции для пулемета
+#define FIREPOS_RIGHT_ARM FLOAT3D(+2.5f, 5.0f, 0.0f) // NEW: позиции для пулемета
 #define FIRE_DEATH_LEFT   FLOAT3D( 0.0f, 7.0f, -2.0f)
 #define FIRE_DEATH_RIGHT  FLOAT3D(3.75f, 4.2f, -2.5f)
+#define FIREPOS_WALKER FLOAT3D(0.0f, 1.0f, 0.0f)
+#define BULLET_DAMAGE 4.0f  // Damage per bullet
+#define MACHINEGUN_FIRE_RATE 0.1f 
 
-#define WALKERSOUND(soundname) ((m_EwcChar==WLC_SOLDIER)? (SOUND_SOLDIER_##soundname) : (SOUND_SERGEANT_##soundname))
+#define WALKERSOUND(soundname) ((m_EwcChar==WLC_SOLDIER)? (SOUND_SOLDIER_##soundname) : \
+                               (m_EwcChar==WLC_SERGEANT)? (SOUND_SERGEANT_##soundname) : \
+                               (SOUND_SERGEANT_##soundname)) // Для HEAVY используем SERGEANT звуки
 %}
 
 
@@ -41,6 +51,10 @@ properties:
   3 FLOAT m_fSize = 1.0f,
   4 BOOL m_bWalkSoundPlaying = FALSE,
   5 FLOAT m_fThreatDistance = 5.0f,
+  6 INDEX m_bFireBulletCount = 0,       // NEW: fire bullet binary divider
+  7 FLOAT m_fFireTime = 0.0f,           // NEW: time to fire bullets
+  8 FLOAT3D m_vFirePosition = FLOAT3D(0,0,0), // NEW: текущая позиция стрельбы
+  9 INDEX iCurrentArm = 0,
 
   10 CSoundObject m_soFeet,
   11 CSoundObject m_soFire1,
@@ -52,10 +66,12 @@ components:
   0 class   CLASS_BASE          "Classes\\EnemyBase.ecl",
   1 class   CLASS_PROJECTILE    "Classes\\Projectile.ecl",
   2 class   CLASS_BASIC_EFFECT  "Classes\\BasicEffect.ecl",
+  3 class   CLASS_BULLET        "Classes\\Bullet.ecl",
 
  10 model   MODEL_WALKER              "Models\\Enemies\\Walker\\Walker.mdl",
  11 texture TEXTURE_WALKER_SOLDIER    "Models\\Enemies\\Walker\\Walker02.tex",
  12 texture TEXTURE_WALKER_SERGEANT   "Models\\Enemies\\Walker\\Walker01.tex",
+ 13 texture TEXTURE_WALKER_HEAVY      "Models\\Enemies\\Walker\\Walker04.tex",
  14 model   MODEL_LASER               "Models\\Enemies\\Walker\\Laser.mdl",
  15 texture TEXTURE_LASER             "Models\\Enemies\\Walker\\Laser.tex",
  16 model   MODEL_ROCKETLAUNCHER      "Models\\Enemies\\Walker\\RocketLauncher.mdl",
@@ -73,6 +89,8 @@ components:
  63 sound   SOUND_SERGEANT_FIRE_ROCKET "Models\\Enemies\\Walker\\Sounds\\Sergeant\\Fire.wav",
  64 sound   SOUND_SERGEANT_DEATH       "Models\\Enemies\\Walker\\Sounds\\Sergeant\\Death.wav",
  65 sound   SOUND_SERGEANT_WALK        "Models\\Enemies\\Walker\\Sounds\\Sergeant\\Walk.wav",
+ 
+ 66 sound   SOUND_HEAVY_FIRE           "Models\\Enemies\\Walker\\Sounds\\FireHeavy.wav",
 
  /*
  70 model   MODEL_WALKER_HEAD1   "Models\\Enemies\\Walker\\Debris\\Head.mdl",
@@ -92,10 +110,12 @@ functions:
   virtual const CTFileName &GetComputerMessageName(void) const {
     static DECLARE_CTFILENAME(fnmSoldier,  "Data\\Messages\\Enemies\\WalkerSmall.txt");
     static DECLARE_CTFILENAME(fnmSergeant, "Data\\Messages\\Enemies\\WalkerBig.txt");
+	static DECLARE_CTFILENAME(fnmHeavy,    "Data\\Messages\\Enemies\\WalkerHeavy.txt");
     switch(m_EwcChar) {
     default: ASSERT(FALSE);
     case WLC_SOLDIER:   return fnmSoldier;
     case WLC_SERGEANT: return fnmSergeant;
+	case WLC_HEAVY: return fnmHeavy;
     }
   }
   // overridable function to get range for switching to another player
@@ -112,9 +132,9 @@ functions:
     return CEnemyBase::ForcesCannonballToExplode();
   }
 
-  void Precache(void) {
-    CEnemyBase::Precache();
-
+void Precache(void) {
+    CEnemyBase::Precache(); // Этот вызов должен быть всегда первым
+    
     PrecacheModel(MODEL_WALKER);
 
     if (m_EwcChar==WLC_SOLDIER)
@@ -133,7 +153,7 @@ functions:
       // projectile
       PrecacheClass(CLASS_PROJECTILE, PRT_CYBORG_LASER);
     }
-    else
+    else if (m_EwcChar==WLC_SERGEANT)
     {
       // sounds
       PrecacheSound(SOUND_SERGEANT_IDLE);
@@ -149,7 +169,23 @@ functions:
       // projectile
       PrecacheClass(CLASS_PROJECTILE, PRT_WALKER_ROCKET);
     }
-  };
+    else if (m_EwcChar==WLC_HEAVY)
+    {
+      // sounds
+      PrecacheSound(SOUND_SERGEANT_IDLE);
+      PrecacheSound(SOUND_SERGEANT_SIGHT);
+      PrecacheSound(SOUND_SERGEANT_DEATH);
+      PrecacheSound(SOUND_HEAVY_FIRE);
+      PrecacheSound(SOUND_SERGEANT_WALK);
+      // model's texture
+      PrecacheTexture(TEXTURE_WALKER_HEAVY);
+      // weapon
+      PrecacheModel(MODEL_ROCKETLAUNCHER);
+      PrecacheTexture(TEXTURE_ROCKETLAUNCHER);
+      PrecacheClass(CLASS_BULLET);
+    }
+};
+
   /* Entity info */
   void *GetEntityInfo(void) {
     return &eiWalker;
@@ -194,7 +230,7 @@ functions:
   }
   void WalkingAnim(void) {
     ActivateWalkingSound();
-    if (m_EwcChar==WLC_SERGEANT) {
+    if (m_EwcChar==WLC_SERGEANT || m_EwcChar==WLC_HEAVY) {
       StartModelAnim(WALKER_ANIM_WALKBIG, AOF_LOOPING|AOF_NORESTART);
     } else {
       StartModelAnim(WALKER_ANIM_WALK, AOF_LOOPING|AOF_NORESTART);
@@ -257,7 +293,74 @@ functions:
     penProjectile->Initialize(eLaunch);
   };
 
+ // NEW: Can enemy see player to fire?
+  BOOL CanFireAtPlayer(void) {
+      // get ray source and target
+      FLOAT3D vSource, vTarget;
+      GetPositionCastRay(this, m_penEnemy, vSource, vTarget);
 
+      // bullet start position
+      CPlacement3D plBullet;
+      plBullet.pl_OrientationAngle = ANGLE3D(0,0,0);
+      plBullet.pl_PositionVector = FIREPOS_WALKER;
+      plBullet.RelativeToAbsolute(GetPlacement());
+      vSource = plBullet.pl_PositionVector;
+
+      // cast the ray
+      CCastRay crRay(this, vSource, vTarget);
+      crRay.cr_ttHitModels = CCastRay::TT_NONE;     // check for brushes only
+      crRay.cr_bHitTranslucentPortals = FALSE;
+      en_pwoWorld->CastRay(crRay);
+
+      return (crRay.cr_penHit==NULL);
+  }
+
+  // NEW: Prepare bullet
+void PrepareBullet(FLOAT fDamage, FLOAT3D vFirePos) { // NEW: принимает позицию
+    // bullet start position
+    CPlacement3D plBullet;
+    plBullet.pl_OrientationAngle = ANGLE3D(0,0,0);
+    plBullet.pl_PositionVector = vFirePos; // NEW: используем переданную позицию
+    plBullet.RelativeToAbsolute(GetPlacement());
+    
+    // create bullet
+    CEntityPointer penBullet = CreateEntity(plBullet, CLASS_BULLET);
+    
+    // init bullet
+    EBulletInit eInit;
+    eInit.penOwner = this;
+    eInit.fDamage = fDamage;
+    penBullet->Initialize(eInit);
+    
+    // calculate target
+    ((CBullet&)*penBullet).CalcTarget(m_penEnemy, 250);
+    ((CBullet&)*penBullet).LaunchBullet(TRUE, TRUE, TRUE);
+    ((CBullet&)*penBullet).DestroyBullet();
+}
+
+  // Fire bullet
+void FireBullet(FLOAT3D vFirePos) {
+    // bullet start position
+    CPlacement3D plBullet;
+    plBullet.pl_OrientationAngle = ANGLE3D(0,0,0);
+    plBullet.pl_PositionVector = vFirePos;
+    plBullet.RelativeToAbsolute(GetPlacement());
+    
+    // create bullet
+    CEntityPointer penBullet = CreateEntity(plBullet, CLASS_BULLET);
+    
+    // init bullet with random spread
+    EBulletInit eInit;
+    eInit.penOwner = this;
+    eInit.fDamage = BULLET_DAMAGE;
+    penBullet->Initialize(eInit);
+    
+    // calculate target with some spread
+    ((CBullet&)*penBullet).CalcTarget(m_penEnemy, 250);
+    ((CBullet&)*penBullet).CalcJitterTarget(18.0f); // Smaller spread than shotgun
+    ((CBullet&)*penBullet).LaunchBullet(TRUE, TRUE, TRUE);
+    ((CBullet&)*penBullet).DestroyBullet();
+}
 
   // adjust sound and watcher parameters here if needed
   void EnemyPostInit(void) 
@@ -304,6 +407,7 @@ functions:
     SetPhysicsFlags(EPF_MODEL_IMMATERIAL);
     SetCollisionFlags(ECF_IMMATERIAL);
   };*/
+  
 
 procedures:
 /************************************************************
@@ -311,6 +415,13 @@ procedures:
  ************************************************************/
   Fire(EVoid) : CEnemyBase::Fire {
     DeactivateWalkingSound();
+	
+	// NEW: machinegun attack
+    if (m_EwcChar == WLC_HEAVY) {
+      autocall MachinegunAttack() EEnd;
+      return EReturn();
+    }
+	
     // to fire
     StartModelAnim(WALKER_ANIM_TOFIRE, 0);
     m_fLockOnEnemyTime = GetModelObject()->GetAnimLength(WALKER_ANIM_TOFIRE);
@@ -383,6 +494,55 @@ procedures:
 
     return EReturn();
   };
+  
+  // NEW: Machinegun attack procedure
+MachinegunAttack(EVoid) {
+    // to fire animation
+    StartModelAnim(WALKER_ANIM_TOFIRE, 0);
+    m_fLockOnEnemyTime = GetModelObject()->GetAnimLength(WALKER_ANIM_TOFIRE);
+    autocall CEnemyBase::LockOnEnemy() EReturn;
+
+    // Set up automatic firing
+    m_fFireTime = _pTimer->CurrentTick() + 4.0f;
+    PlaySound(m_soSound, SOUND_HEAVY_FIRE, SOF_3D|SOF_LOOP);
+    
+    // NEW: используем нейтральную анимацию боя
+    StartModelAnim(WALKER_ANIM_IDLEFIGHT, AOF_LOOPING|AOF_NORESTART);
+    
+    while (m_fFireTime > _pTimer->CurrentTick()) {
+        wait(MACHINEGUN_FIRE_RATE) {
+            on (EBegin) : {
+                // NEW: стреляем из обеих рук одновременно
+                FireBullet(FIREPOS_LEFT_ARM * m_fSize);  // Левая рука
+                FireBullet(FIREPOS_RIGHT_ARM * m_fSize); // Правая рука
+                
+                if (!IsInPlaneFrustum(m_penEnemy, CosFast(5.0f))) {
+                    m_fMoveSpeed = 0.0f;
+                    m_aRotateSpeed = 4000.0f;
+                } else {
+                    m_fMoveSpeed = 0.0f;
+                    m_aRotateSpeed = 0.0f;
+                }
+                SetDesiredMovement();
+                resume;
+            }
+            on (ETimer) : { stop; }
+        }
+    }
+    
+    m_soSound.Stop();
+    StopMoving();
+
+    // from fire animation
+    StartModelAnim(WALKER_ANIM_FROMFIRE, 0);
+    autowait(GetModelObject()->GetAnimLength(WALKER_ANIM_FROMFIRE));
+
+    // wait for a while
+    StandingAnimFight();
+    autowait(FRnd()*0.1f+0.1f);
+
+    return EEnd();
+};
 
 
 
@@ -456,12 +616,20 @@ procedures:
     SetPhysicsFlags(EPF_MODEL_WALKING);
     SetCollisionFlags(ECF_MODEL);
     SetFlags(GetFlags()|ENF_ALIVE);
-    if (m_EwcChar==WLC_SERGEANT) {
-      SetHealth(750.0f);
-      m_fMaxHealth = 750.0f;
-    } else {
-      SetHealth(150.0f);
-      m_fMaxHealth = 150.0f;
+ // Set health based on type
+    switch (m_EwcChar) {
+      case WLC_SOLDIER:
+        SetHealth(150.0f);
+        m_fMaxHealth = 150.0f;
+        break;
+      case WLC_SERGEANT:
+        SetHealth(750.0f);
+        m_fMaxHealth = 750.0f;
+        break;
+      case WLC_HEAVY:
+        SetHealth(750.0f);
+        m_fMaxHealth = 750.0f;
+        break;
     }
     en_fDensity = 3000.0f;
 
@@ -481,7 +649,7 @@ procedures:
       m_fBlowUpAmount = 1E10f;
       m_iScore = 7500;
       m_fThreatDistance = 15;
-    } else {
+    } else if (m_EwcChar==WLC_SOLDIER) {
       m_fSize = 0.5f;
       SetModelMainTexture(TEXTURE_WALKER_SOLDIER);
       AddAttachment(WALKER_ATTACHMENT_LASER_LT, MODEL_LASER, TEXTURE_LASER);
@@ -495,7 +663,19 @@ procedures:
       //m_bRobotBlowup = TRUE;
       m_iScore = 2000;
       m_fThreatDistance = 5;
-    }
+    } else if (m_EwcChar==WLC_HEAVY){
+	  m_fSize = 1.0f;
+      SetModelMainTexture(TEXTURE_WALKER_HEAVY);
+      AddAttachment(WALKER_ATTACHMENT_ROCKETLAUNCHER_LT, MODEL_ROCKETLAUNCHER, TEXTURE_ROCKETLAUNCHER);
+      AddAttachment(WALKER_ATTACHMENT_ROCKETLAUNCHER_RT, MODEL_ROCKETLAUNCHER, TEXTURE_ROCKETLAUNCHER);
+      GetModelObject()->StretchModel(FLOAT3D(1,1,1));
+      ModelChangeNotify();
+      CModelObject *pmoRight = &GetModelObject()->GetAttachmentModel(WALKER_ATTACHMENT_ROCKETLAUNCHER_RT)->amo_moModelObject;
+      pmoRight->StretchModel(FLOAT3D(-1,1,1));
+      m_fBlowUpAmount = 1E10f;
+      m_iScore = 7500;
+      m_fThreatDistance = 15;
+	}
     if (m_fStepHeight==-1) {
       m_fStepHeight = 4.0f;
     }

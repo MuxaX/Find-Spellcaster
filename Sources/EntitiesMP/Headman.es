@@ -6,7 +6,7 @@
 
 uses "EntitiesMP/EnemyBase";
 uses "EntitiesMP/BasicEffects";
-
+uses "EntitiesMP/Bullet";  // Add this with other uses statements
 
 enum HeadmanType {
   0 HDT_FIRECRACKER   "Fire Cracker",
@@ -29,6 +29,7 @@ static EntityInfo eiHeadman = {
 #define BOMBERMAN_LAUNCH (FLOAT3D(0.0f, 1.5f, 0.0f))
 #define SHOTGUN_SPREAD_ANGLE 5.0f // angle for shotgun
 #define FIREPOS_HEADMAN FLOAT3D(0.0f, 1.0f, 0.0f)
+#define BULLET_DAMAGE 4.0f  // Damage per bullet
 %}
 
 
@@ -49,6 +50,7 @@ components:
   1 class   CLASS_BASE            "Classes\\EnemyBase.ecl",
   2 class   CLASS_BASIC_EFFECT    "Classes\\BasicEffect.ecl",
   3 class   CLASS_PROJECTILE      "Classes\\Projectile.ecl",
+  4 class   CLASS_BULLET          "Classes\\Bullet.ecl",
 
  10 model   MODEL_HEADMAN         "Models\\Enemies\\Headman\\Headman.mdl",
  11 model   MODEL_HEAD            "Models\\Enemies\\Headman\\Head.mdl",
@@ -122,8 +124,10 @@ functions:
     }
   };
 
-  void Precache(void) {
+void Precache(void) {
     CEnemyBase::Precache();
+    PrecacheClass(CLASS_BULLET);  // Add this line
+    
     PrecacheSound(SOUND_IDLE);
     PrecacheSound(SOUND_SIGHT);
     PrecacheSound(SOUND_WOUND);
@@ -131,28 +135,26 @@ functions:
 
     switch(m_hdtType) {
     case HDT_FIRECRACKER: { 
-      PrecacheSound(SOUND_FIREFIRECRACKER);
-      PrecacheClass(CLASS_PROJECTILE, PRT_HEADMAN_FIRECRACKER);
-                          } break;
+        PrecacheSound(SOUND_FIREFIRECRACKER);
+        } break;
     case HDT_ROCKETMAN:   {  
-      PrecacheSound(SOUND_FIREROCKETMAN);
-      PrecacheClass(CLASS_PROJECTILE, PRT_HEADMAN_ROCKETMAN);
-                          } break;
+        PrecacheSound(SOUND_FIREROCKETMAN);
+        } break;
     case HDT_BOMBERMAN:   {  
-      PrecacheSound(SOUND_FIREBOMBERMAN);
-      PrecacheClass(CLASS_PROJECTILE, PRT_HEADMAN_BOMBERMAN);
-      PrecacheModel(MODEL_BOMB);
-      PrecacheTexture(TEXTURE_BOMB);  
-                          } break;
+        PrecacheSound(SOUND_FIREBOMBERMAN);
+        PrecacheClass(CLASS_PROJECTILE, PRT_HEADMAN_BOMBERMAN);
+        PrecacheModel(MODEL_BOMB);
+        PrecacheTexture(TEXTURE_BOMB);  
+        } break;
     case HDT_KAMIKAZE:    { 
-      PrecacheSound(SOUND_ATTACKKAMIKAZE);
-      PrecacheSound(SOUND_IDLEKAMIKAZE);
-      PrecacheClass(CLASS_BASIC_EFFECT, BET_BOMB);
-      PrecacheModel(MODEL_BOMB);
-      PrecacheTexture(TEXTURE_BOMB);  
-                          } break;
+        PrecacheSound(SOUND_ATTACKKAMIKAZE);
+        PrecacheSound(SOUND_IDLEKAMIKAZE);
+        PrecacheClass(CLASS_BASIC_EFFECT, BET_BOMB);
+        PrecacheModel(MODEL_BOMB);
+        PrecacheTexture(TEXTURE_BOMB);  
+        } break;
     }
-  };
+};
 
   /* Fill in entity statistics - for AI purposes only */
   BOOL FillEntityStatistics(EntityStats *pes)
@@ -460,23 +462,110 @@ functions:
     }
   }
   
-  // Shoot from shotgun (many projectiles)
+// Can enemy see player to fire?
+BOOL CanFireAtPlayer(void) {
+    // get ray source and target
+    FLOAT3D vSource, vTarget;
+    GetPositionCastRay(this, m_penEnemy, vSource, vTarget);
+
+    // bullet start position
+    CPlacement3D plBullet;
+    plBullet.pl_OrientationAngle = ANGLE3D(0,0,0);
+    plBullet.pl_PositionVector = FIREPOS_HEADMAN;
+    plBullet.RelativeToAbsolute(GetPlacement());
+    vSource = plBullet.pl_PositionVector;
+
+    // cast the ray
+    CCastRay crRay(this, vSource, vTarget);
+    crRay.cr_ttHitModels = CCastRay::TT_NONE;     // check for brushes only
+    crRay.cr_bHitTranslucentPortals = FALSE;
+    en_pwoWorld->CastRay(crRay);
+
+    return (crRay.cr_penHit==NULL);
+}
+
+// Prepare bullet
+void PrepareBullet(FLOAT fDamage) {
+    // bullet start position
+    CPlacement3D plBullet;
+    plBullet.pl_OrientationAngle = ANGLE3D(0,0,0);
+    plBullet.pl_PositionVector = FIREPOS_HEADMAN;
+    plBullet.RelativeToAbsolute(GetPlacement());
+    
+    // create bullet
+    CEntityPointer penBullet = CreateEntity(plBullet, CLASS_BULLET);
+    
+    // init bullet
+    EBulletInit eInit;
+    eInit.penOwner = this;
+    eInit.fDamage = fDamage;
+    penBullet->Initialize(eInit);
+    
+    // calculate target
+    ((CBullet&)*penBullet).CalcTarget(m_penEnemy, 250);
+    ((CBullet&)*penBullet).LaunchBullet(TRUE, TRUE, TRUE);
+    ((CBullet&)*penBullet).DestroyBullet();
+}
+
+// Fire bullet
+void FireBullet(void) {
+    // binary divide counter
+    m_bFireBulletCount++;
+    if (m_bFireBulletCount>1) { m_bFireBulletCount = 0; }
+    if (m_bFireBulletCount==1) { return; }
+    
+    // bullet start position
+    CPlacement3D plBullet;
+    plBullet.pl_OrientationAngle = ANGLE3D(0,0,0);
+    plBullet.pl_PositionVector = FIREPOS_HEADMAN;
+    plBullet.RelativeToAbsolute(GetPlacement());
+    
+    // create bullet
+    CEntityPointer penBullet = CreateEntity(plBullet, CLASS_BULLET);
+    
+    // init bullet with random spread
+    EBulletInit eInit;
+    eInit.penOwner = this;
+    eInit.fDamage = BULLET_DAMAGE;
+    penBullet->Initialize(eInit);
+    
+    // calculate target with some spread
+    ((CBullet&)*penBullet).CalcTarget(m_penEnemy, 250);
+    ((CBullet&)*penBullet).CalcJitterTarget(18.0f); // Smaller spread than shotgun
+    ((CBullet&)*penBullet).LaunchBullet(TRUE, TRUE, TRUE);
+    ((CBullet&)*penBullet).DestroyBullet();
+}
+
+// Fire shotgun spread
 void FireShotgun(void) {
-    // main shoot on center
-    ShootProjectile(PRT_GRUNT_PROJECTILE_SOL, FIREPOS_HEADMAN, ANGLE3D(0, 0, 0));
+    // main bullet on center
+    PrepareBullet(BULLET_DAMAGE);
     
-    // Add shoots with spread
+    // Add bullets with spread
     for(INDEX i=0; i<7; i++) {
-        ANGLE3D aAngle;
-        aAngle(1) = FRnd()*SHOTGUN_SPREAD_ANGLE*2 - SHOTGUN_SPREAD_ANGLE; // Vertical spread
-        aAngle(2) = FRnd()*SHOTGUN_SPREAD_ANGLE*2 - SHOTGUN_SPREAD_ANGLE; // Horizontal spread
-        aAngle(3) = 0;
+        CPlacement3D plBullet;
+        plBullet.pl_OrientationAngle = ANGLE3D(0,0,0);
+        plBullet.pl_PositionVector = FIREPOS_HEADMAN;
+        plBullet.RelativeToAbsolute(GetPlacement());
         
-        ShootProjectile(PRT_GRUNT_PROJECTILE_SOL, FIREPOS_HEADMAN, aAngle);
+        // create bullet
+        CEntityPointer penBullet = CreateEntity(plBullet, CLASS_BULLET);
+        
+        // init bullet with random spread
+        EBulletInit eInit;
+        eInit.penOwner = this;
+        eInit.fDamage = BULLET_DAMAGE;
+        penBullet->Initialize(eInit);
+        
+        // calculate jittered target
+        ((CBullet&)*penBullet).CalcTarget(m_penEnemy, 250);
+        ((CBullet&)*penBullet).CalcJitterTarget(35.0f); // Spread angle
+        ((CBullet&)*penBullet).LaunchBullet(TRUE, TRUE, TRUE);
+        ((CBullet&)*penBullet).DestroyBullet();
     }
-    
-    PlaySound(m_soSound, SOUND_FIREFIRECRACKER, SOF_3D);
-};
+}
+
+
 
 procedures:
 /************************************************************
@@ -560,25 +649,30 @@ Fire(EVoid) : CEnemyBase::Fire {
     return EEnd();
   };
 
-  // Firecraker attack
+// Firecraker attack (now uses bullets)
 FirecrackerAttack(EVoid) {
-    StandingAnimFight();
-    autowait(0.3f + FRnd()*0.2f); // Longer preparation before shooting
+    // don't shoot if enemy above you more than quare of two far from you
+    if (-en_vGravityDir%CalcDelta(m_penEnemy) > CalcDist(m_penEnemy)/1.41421f) {
+        return EEnd();
+    }
+
+    autowait(0.2f + FRnd()/4);
 
     StartModelAnim(HEADMAN_ANIM_FIRECRACKER_ATTACK, 0);
+    autowait(0.15f);
+    PlaySound(m_soSound, SOUND_FIREFIRECRACKER, SOF_3D);
+    
+    // Fire shotgun spread of bullets
     FireShotgun();
     
-    autowait(0.5f); // Recoil after shooting
-    
-    // Longer reload time
-    m_fShootTime = _pTimer->CurrentTick() + 1.5f + FRnd()*0.5f;
+    autowait(0.5f + FRnd()/3);
     return EEnd();
 };
 
   // Rocketman attack
 RocketmanAttack(EVoid) {
     StandingAnimFight();
-    autowait(0.2f + FRnd()*0.25f);
+    autowait(0.2f + FRnd()/4);
 
     // Set up automatic firing with spread
     m_fFireTime = _pTimer->CurrentTick() + 4.0f;
@@ -589,12 +683,8 @@ RocketmanAttack(EVoid) {
     while (m_fFireTime > _pTimer->CurrentTick()) {
         wait(0.05f) {
             on (EBegin) : {
-                ANGLE3D aAngle;
-                aAngle(1) = FRnd()*40.0f - 20.0f; // Vertical spread
-                aAngle(2) = FRnd()*10.0f - 5.0f;  // Small horizontal spread
-                aAngle(3) = 0;
-                
-                ShootProjectile(PRT_GRUNT_PROJECTILE_SOL, FIREPOS_HEADMAN, aAngle);
+                // Fire bullet with spread
+                FireBullet();
                 
                 if (!IsInPlaneFrustum(m_penEnemy, CosFast(5.0f))) {
                     m_fMoveSpeed = 0.0f;

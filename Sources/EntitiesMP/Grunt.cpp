@@ -16,8 +16,9 @@
 #define STRETCH_COMMANDER 1.4f
 #define FIREPOS_SOLDIER      FLOAT3D(0.07f, 1.36f, -0.78f)*STRETCH_SOLDIER
 #define FIREPOS_COMMANDER    FLOAT3D(0.10f, 1.30f, -0.60f)*STRETCH_COMMANDER
-#define SHOTGUN_SPREAD_ANGLE 5.0f // angle for shoitgun
-  
+#define SHOTGUN_SPREAD_ANGLE 5.0f // angle for shotgun
+#define BULLET_DAMAGE 4.0f  // Damage per bullet
+
 // info structure
 static EntityInfo eiGruntSoldier = {
   EIBT_FLESH, 200.0f,
@@ -47,770 +48,879 @@ m_soFire2.Stop_internal();
   CEnemyBase::SetDefaultProperties();
 }
   CTString CGrunt::GetPlayerKillDescription(const CTString & strPlayerName,const EDeath & eDeath) 
-#line 92 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-{
-#line 93 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-CTString str ;
 #line 94 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-str  . PrintF  (TRANS  ("A Grunt sent %s into the halls of Valhalla") , strPlayerName );
+{
 #line 95 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-return str ;
+CTString str ;
 #line 96 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+str  . PrintF  (TRANS  ("A Grunt sent %s into the halls of Valhalla") , strPlayerName );
+#line 97 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+return str ;
+#line 98 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
   
-#line 99 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-void * CGrunt::GetEntityInfo(void) {
-#line 100 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-if(m_gtType  == GT_SOLDIER ){
 #line 101 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-return & eiGruntSoldier ;
+void * CGrunt::GetEntityInfo(void) {
 #line 102 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}else if(m_gtType  == GT_COMMANDER ){
+if(m_gtType  == GT_SOLDIER ){
 #line 103 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 return & eiGruntSoldier ;
 #line 104 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}else {
+}else if(m_gtType  == GT_COMMANDER ){
 #line 105 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-ASSERT  ("Unknown grunt type!");
+return & eiGruntSoldier ;
 #line 106 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-return NULL ;
+}else {
 #line 107 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}
+ASSERT  ("Unknown grunt type!");
 #line 108 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+return NULL ;
+#line 109 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
+#line 110 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
   const CTFileName & CGrunt::GetComputerMessageName(void)const {
-#line 111 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-static DECLARE_CTFILENAME  (fnmSoldier  , "DataMP\\Messages\\Enemies\\GruntSoldier.txt");
-#line 112 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-static DECLARE_CTFILENAME  (fnmCommander  , "DataMP\\Messages\\Enemies\\GruntCommander.txt");
 #line 113 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-switch(m_gtType ){
+static DECLARE_CTFILENAME  (fnmSoldier  , "DataMP\\Messages\\Enemies\\GruntSoldier.txt");
 #line 114 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-default  : ASSERT  (FALSE );
+static DECLARE_CTFILENAME  (fnmCommander  , "DataMP\\Messages\\Enemies\\GruntCommander.txt");
 #line 115 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-case GT_SOLDIER : return fnmSoldier ;
+switch(m_gtType ){
 #line 116 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-case GT_COMMANDER : return fnmCommander ;
+default  : ASSERT  (FALSE );
 #line 117 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}
+case GT_SOLDIER : return fnmSoldier ;
 #line 118 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+case GT_COMMANDER : return fnmCommander ;
+#line 119 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
-  
 #line 120 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
+  
+#line 122 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 void CGrunt::Precache(void) {
-#line 121 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-CEnemyBase  :: Precache  ();
 #line 123 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-if(m_gtType  == GT_SOLDIER ){
-#line 124 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-PrecacheClass  (CLASS_PROJECTILE  , PRT_GRUNT_PROJECTILE_SOL );
+CEnemyBase  :: Precache  ();
 #line 125 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}
-#line 126 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-if(m_gtType  == GT_COMMANDER ){
-#line 127 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-PrecacheClass  (CLASS_PROJECTILE  , PRT_GRUNT_PROJECTILE_COM );
-#line 128 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}
-#line 130 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-PrecacheSound  (SOUND_IDLE );
-#line 131 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-PrecacheSound  (SOUND_SIGHT );
-#line 132 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-PrecacheSound  (SOUND_WOUND );
-#line 133 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-PrecacheSound  (SOUND_FIRE );
-#line 135 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-PrecacheSound  (SOUND_DEATH );
-#line 136 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}
-  
-#line 139 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-void CGrunt::ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
-#line 140 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection) 
-#line 141 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-{
-#line 142 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-CEnemyBase  :: ReceiveDamage  (penInflictor  , dmtType  , fDamageAmmount  , vHitPoint  , vDirection );
-#line 143 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}
-  
-#line 146 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-INDEX CGrunt::AnimForDamage(FLOAT fDamage) {
-#line 147 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-INDEX iAnim ;
-#line 148 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-if(m_gtType  == GT_SOLDIER ){iAnim  = MERC_ELITE_ANIM_WOUND01 ;}
-#line 149 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-if(m_gtType  == GT_COMMANDER ){iAnim  = MERC_IDLE_ANIM_WOUND01 ;}
-#line 150 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-StartModelAnim  (iAnim  , 0);
-#line 151 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-return iAnim ;
-#line 152 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}
-  
-#line 155 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-INDEX CGrunt::AnimForDeath(void) {
-#line 156 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-INDEX iAnim ;
-#line 157 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-FLOAT3D vFront ;
-#line 158 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-GetHeadingDirection  (0 , vFront );
-#line 159 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-FLOAT fDamageDir  = m_vDamage  % vFront ;
-#line 160 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 if(m_gtType  == GT_SOLDIER ){
-#line 161 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-if(fDamageDir  < 0){
-#line 162 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-iAnim  = MERC_ELITE_ANIM_DEATHBACKWARD ;
-#line 163 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}else {
-#line 164 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-iAnim  = MERC_ELITE_ANIM_DEATHFORWARD ;
-#line 165 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 126 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+PrecacheClass  (CLASS_PROJECTILE  , PRT_GRUNT_PROJECTILE_SOL );
+#line 127 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
-#line 166 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}if(m_gtType  == GT_COMMANDER ){
-#line 167 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-if(fDamageDir  < 0){
-#line 168 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-iAnim  = MERC_IDLE_ANIM_DEATHBACKWARD ;
-#line 169 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}else {
-#line 170 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-iAnim  = MERC_IDLE_ANIM_DEATHFORWARD ;
-#line 171 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 128 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(m_gtType  == GT_COMMANDER ){
+#line 129 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+PrecacheClass  (CLASS_PROJECTILE  , PRT_GRUNT_PROJECTILE_COM );
+#line 130 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
-#line 172 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 132 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+PrecacheClass  (CLASS_BULLET );
+#line 134 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+PrecacheSound  (SOUND_IDLE );
+#line 135 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+PrecacheSound  (SOUND_SIGHT );
+#line 136 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+PrecacheSound  (SOUND_WOUND );
+#line 137 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+PrecacheSound  (SOUND_FIRE );
+#line 138 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+PrecacheSound  (SOUND_DEATH );
+#line 139 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
-#line 174 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+  
+#line 142 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+void CGrunt::ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
+#line 143 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection) 
+#line 144 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+{
+#line 145 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+CEnemyBase  :: ReceiveDamage  (penInflictor  , dmtType  , fDamageAmmount  , vHitPoint  , vDirection );
+#line 146 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
+  
+#line 149 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+INDEX CGrunt::AnimForDamage(FLOAT fDamage) {
+#line 150 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+INDEX iAnim ;
+#line 151 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(m_gtType  == GT_SOLDIER ){iAnim  = MERC_ELITE_ANIM_WOUND01 ;}
+#line 152 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(m_gtType  == GT_COMMANDER ){iAnim  = MERC_IDLE_ANIM_WOUND01 ;}
+#line 153 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 StartModelAnim  (iAnim  , 0);
-#line 175 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 154 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 return iAnim ;
+#line 155 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
+  
+#line 158 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+INDEX CGrunt::AnimForDeath(void) {
+#line 159 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+INDEX iAnim ;
+#line 160 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+FLOAT3D vFront ;
+#line 161 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+GetHeadingDirection  (0 , vFront );
+#line 162 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+FLOAT fDamageDir  = m_vDamage  % vFront ;
+#line 163 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(m_gtType  == GT_SOLDIER ){
+#line 164 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(fDamageDir  < 0){
+#line 165 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+iAnim  = MERC_ELITE_ANIM_DEATHBACKWARD ;
+#line 166 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}else {
+#line 167 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+iAnim  = MERC_ELITE_ANIM_DEATHFORWARD ;
+#line 168 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
+#line 169 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
+#line 170 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(m_gtType  == GT_COMMANDER ){
+#line 171 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(fDamageDir  < 0){
+#line 172 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+iAnim  = MERC_IDLE_ANIM_DEATHBACKWARD ;
+#line 173 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}else {
+#line 174 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+iAnim  = MERC_IDLE_ANIM_DEATHFORWARD ;
+#line 175 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
 #line 176 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
-  
 #line 178 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-FLOAT CGrunt::WaitForDust(FLOAT3D & vStretch) {
+StartModelAnim  (iAnim  , 0);
 #line 179 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-vStretch  = FLOAT3D (1 , 1 , 2);
+return iAnim ;
 #line 180 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-if(m_gtType  == GT_SOLDIER ){
-#line 181 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-if(GetModelObject  () -> GetAnim  () == MERC_ELITE_ANIM_DEATHBACKWARD )
+}
+  
 #line 182 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-{
+FLOAT CGrunt::WaitForDust(FLOAT3D & vStretch) {
 #line 183 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-return 0.5f;
+vStretch  = FLOAT3D (1 , 1 , 2);
 #line 184 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}
+if(m_gtType  == GT_SOLDIER ){
 #line 185 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-else if(GetModelObject  () -> GetAnim  () == MERC_ELITE_ANIM_DEATHFORWARD )
+if(GetModelObject  () -> GetAnim  () == MERC_ELITE_ANIM_DEATHBACKWARD ){
 #line 186 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-{
+return 0.5f;
 #line 187 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-return 1.0f;
+}else if(GetModelObject  () -> GetAnim  () == MERC_ELITE_ANIM_DEATHFORWARD ){
 #line 188 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}
+return 1.0f;
 #line 189 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
 #line 190 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-if(m_gtType  == GT_COMMANDER ){
+}
 #line 191 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-if(GetModelObject  () -> GetAnim  () == MERC_IDLE_ANIM_DEATHBACKWARD )
+if(m_gtType  == GT_COMMANDER ){
 #line 192 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-{
+if(GetModelObject  () -> GetAnim  () == MERC_IDLE_ANIM_DEATHBACKWARD ){
 #line 193 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 return 0.5f;
 #line 194 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}
+}else if(GetModelObject  () -> GetAnim  () == MERC_IDLE_ANIM_DEATHFORWARD ){
 #line 195 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-else if(GetModelObject  () -> GetAnim  () == MERC_IDLE_ANIM_DEATHFORWARD )
-#line 196 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-{
-#line 197 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 return 1.0f;
-#line 198 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 196 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
+#line 197 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
+#line 198 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+return - 1.0f;
 #line 199 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
-#line 200 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-return - 1.0f;
+  
 #line 201 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}
-  
-#line 203 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 void CGrunt::DeathNotify(void) {
-#line 204 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 202 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 if(m_gtType  == GT_SOLDIER ){ChangeCollisionBoxIndexWhenPossible  (MERC_ELITE_COLLISION_BOX_DEATH );}
-#line 205 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-if(m_gtType  == GT_SOLDIER ){ChangeCollisionBoxIndexWhenPossible  (MERC_IDLE_COLLISION_BOX_DEATH );}
-#line 206 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 203 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(m_gtType  == GT_COMMANDER ){ChangeCollisionBoxIndexWhenPossible  (MERC_IDLE_COLLISION_BOX_DEATH );}
+#line 204 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 en_fDensity  = 500.0f;
-#line 207 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 205 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
   
-#line 210 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 208 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 void CGrunt::StandingAnim(void) {
-#line 211 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 209 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 if(m_gtType  == GT_SOLDIER ){
+#line 210 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+StartModelAnim  (MERC_ELITE_ANIM_IDLEPATROL  , AOF_LOOPING  | AOF_NORESTART );
+#line 211 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
 #line 212 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-StartModelAnim  (MERC_ELITE_ANIM_IDLEPATROL  , AOF_LOOPING  | AOF_NORESTART );}
-#line 213 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 if(m_gtType  == GT_COMMANDER ){
+#line 213 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+StartModelAnim  (MERC_IDLE_ANIM_IDLE  , AOF_LOOPING  | AOF_NORESTART );
 #line 214 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-StartModelAnim  (MERC_IDLE_ANIM_IDLE  , AOF_LOOPING  | AOF_NORESTART );}
+}
 #line 215 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
   
-#line 220 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-void CGrunt::RunningAnim(void) {
-#line 221 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 217 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+void CGrunt::StandingAnimFight(void) {
+#line 218 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 if(m_gtType  == GT_SOLDIER ){
-#line 222 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-StartModelAnim  (MERC_ELITE_ANIM_RUN  , AOF_LOOPING  | AOF_NORESTART );}
-#line 223 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 219 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+StartModelAnim  (MERC_ELITE_ANIM_FIRE  , AOF_LOOPING  | AOF_NORESTART );
+#line 220 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
+#line 221 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 if(m_gtType  == GT_COMMANDER ){
+#line 222 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+StartModelAnim  (MERC_IDLE_ANIM_FIRE  , AOF_LOOPING  | AOF_NORESTART );
+#line 223 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
 #line 224 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-StartModelAnim  (MERC_IDLE_ANIM_RUN  , AOF_LOOPING  | AOF_NORESTART );}
-#line 225 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
   
 #line 226 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-void CGrunt::WalkingAnim(void) {
+void CGrunt::RunningAnim(void) {
 #line 227 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 if(m_gtType  == GT_SOLDIER ){
 #line 228 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-StartModelAnim  (MERC_ELITE_ANIM_WALK  , AOF_LOOPING  | AOF_NORESTART );}
+StartModelAnim  (MERC_ELITE_ANIM_RUN  , AOF_LOOPING  | AOF_NORESTART );
 #line 229 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-if(m_gtType  == GT_COMMANDER ){
+}
 #line 230 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-StartModelAnim  (MERC_IDLE_ANIM_WALK  , AOF_LOOPING  | AOF_NORESTART );}
+if(m_gtType  == GT_COMMANDER ){
 #line 231 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}
-  
+StartModelAnim  (MERC_IDLE_ANIM_RUN  , AOF_LOOPING  | AOF_NORESTART );
 #line 232 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-void CGrunt::RotatingAnim(void) {
+}
 #line 233 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-RunningAnim  ();
-#line 234 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
   
+#line 235 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+void CGrunt::WalkingAnim(void) {
+#line 236 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(m_gtType  == GT_SOLDIER ){
 #line 237 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-void CGrunt::IdleSound(void) {
+StartModelAnim  (MERC_ELITE_ANIM_WALK  , AOF_LOOPING  | AOF_NORESTART );
 #line 238 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-PlaySound  (m_soSound  , SOUND_IDLE  , SOF_3D );
-#line 239 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
-  
+#line 239 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(m_gtType  == GT_COMMANDER ){
 #line 240 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-void CGrunt::SightSound(void) {
+StartModelAnim  (MERC_IDLE_ANIM_WALK  , AOF_LOOPING  | AOF_NORESTART );
 #line 241 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-PlaySound  (m_soSound  , SOUND_SIGHT  , SOF_3D );
+}
 #line 242 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
   
-#line 243 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-void CGrunt::WoundSound(void) {
 #line 244 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-PlaySound  (m_soSound  , SOUND_WOUND  , SOF_3D );
+void CGrunt::RotatingAnim(void) {
 #line 245 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}
-  
+RunningAnim  ();
 #line 246 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-void CGrunt::DeathSound(void) {
-#line 247 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-PlaySound  (m_soSound  , SOUND_DEATH  , SOF_3D );
-#line 248 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
   
+#line 249 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+void CGrunt::IdleSound(void) {
+#line 250 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+PlaySound  (m_soSound  , SOUND_IDLE  , SOF_3D );
 #line 251 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-void CGrunt::EnemyPostInit(void) 
-#line 252 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-{
-#line 254 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-m_soFire1  . Set3DParameters  (160.0f , 50.0f , 1.0f , 1.0f);
-#line 255 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-m_soFire2  . Set3DParameters  (160.0f , 50.0f , 1.0f , 1.0f);
-#line 256 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
   
+#line 253 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+void CGrunt::SightSound(void) {
+#line 254 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+PlaySound  (m_soSound  , SOUND_SIGHT  , SOF_3D );
+#line 255 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
+  
+#line 257 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+void CGrunt::WoundSound(void) {
+#line 258 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+PlaySound  (m_soSound  , SOUND_WOUND  , SOF_3D );
 #line 259 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-void CGrunt::FireShotgun(void) {
+}
+  
 #line 261 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-ShootProjectile  (PRT_GRUNT_PROJECTILE_COM  , FIREPOS_COMMANDER  , ANGLE3D (0 , 0 , 0));
-#line 264 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-for(INDEX i  = 0;i  < 7;i  ++){
-#line 265 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-ANGLE3D aAngle ;
+void CGrunt::DeathSound(void) {
+#line 262 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+PlaySound  (m_soSound  , SOUND_DEATH  , SOF_3D );
+#line 263 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
+  
 #line 266 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-aAngle  (1) = FRnd  () * SHOTGUN_SPREAD_ANGLE  * 2 - SHOTGUN_SPREAD_ANGLE ;
+void CGrunt::EnemyPostInit(void) 
 #line 267 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-aAngle  (2) = FRnd  () * SHOTGUN_SPREAD_ANGLE  * 2 - SHOTGUN_SPREAD_ANGLE ;
-#line 268 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-aAngle  (3) = 0;
+{
+#line 269 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+m_soFire1  . Set3DParameters  (160.0f , 50.0f , 1.0f , 1.0f);
 #line 270 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-ShootProjectile  (PRT_GRUNT_PROJECTILE_COM  , FIREPOS_COMMANDER  , aAngle );
+m_soFire2  . Set3DParameters  (160.0f , 50.0f , 1.0f , 1.0f);
 #line 271 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
-#line 273 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-PlaySound  (m_soFire1  , SOUND_FIRE_1  , SOF_3D );
+  
 #line 274 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+BOOL CGrunt::CanFireAtPlayer(void) {
+#line 276 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+FLOAT3D vSource  , vTarget ;
+#line 277 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+GetPositionCastRay  (this  , m_penEnemy  , vSource  , vTarget );
+#line 280 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+CPlacement3D plBullet ;
+#line 281 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+plBullet  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
+#line 282 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(m_gtType  == GT_SOLDIER ){
+#line 283 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+plBullet  . pl_PositionVector  = FIREPOS_SOLDIER ;
+#line 284 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}else {
+#line 285 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+plBullet  . pl_PositionVector  = FIREPOS_COMMANDER_DN ;
+#line 286 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
+#line 287 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+plBullet  . RelativeToAbsolute  (GetPlacement  ());
+#line 288 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+vSource  = plBullet  . pl_PositionVector ;
+#line 291 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+CCastRay  crRay  (this  , vSource  , vTarget );
+#line 292 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+crRay  . cr_ttHitModels  = CCastRay  :: TT_NONE ;
+#line 293 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+crRay  . cr_bHitTranslucentPortals  = FALSE ;
+#line 294 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+en_pwoWorld  -> CastRay  (crRay );
+#line 296 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+return (crRay  . cr_penHit  == NULL );
+#line 297 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
   
-#line 277 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-BOOL CGrunt::CanFireAtPlayer(void) {
-#line 279 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-FLOAT3D vSource  , vTarget ;
-#line 280 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-GetPositionCastRay  (this  , m_penEnemy  , vSource  , vTarget );
-#line 283 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-CPlacement3D plBullet ;
-#line 284 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-plBullet  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
-#line 285 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-if(m_gtType  == GT_SOLDIER ){
-#line 286 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-plBullet  . pl_PositionVector  = FIREPOS_SOLDIER ;
-#line 287 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}else {
-#line 288 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-plBullet  . pl_PositionVector  = FIREPOS_COMMANDER_DN ;
-#line 289 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}
-#line 290 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-plBullet  . RelativeToAbsolute  (GetPlacement  ());
-#line 291 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-vSource  = plBullet  . pl_PositionVector ;
-#line 294 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-CCastRay  crRay  (this  , vSource  , vTarget );
-#line 295 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-crRay  . cr_ttHitModels  = CCastRay  :: TT_NONE ;
-#line 296 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-crRay  . cr_bHitTranslucentPortals  = FALSE ;
-#line 297 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-en_pwoWorld  -> CastRay  (crRay );
-#line 299 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-return (crRay  . cr_penHit  == NULL );
 #line 300 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+void CGrunt::PrepareBullet(FLOAT fDamage) {
+#line 302 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+CPlacement3D plBullet ;
+#line 303 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+plBullet  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
+#line 304 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(m_gtType  == GT_SOLDIER ){
+#line 305 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+plBullet  . pl_PositionVector  = FIREPOS_SOLDIER ;
+#line 306 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}else {
+#line 307 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+plBullet  . pl_PositionVector  = FIREPOS_COMMANDER_DN ;
+#line 308 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
+#line 309 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+plBullet  . RelativeToAbsolute  (GetPlacement  ());
+#line 312 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+CEntityPointer penBullet  = CreateEntity  (plBullet  , CLASS_BULLET );
+#line 315 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+EBulletInit  eInit ;
+#line 316 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+eInit  . penOwner  = this ;
+#line 317 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+eInit  . fDamage  = fDamage ;
+#line 318 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+penBullet  -> Initialize  (eInit );
+#line 321 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+((CBullet  &) * penBullet ) . CalcTarget  (m_penEnemy  , 250);
+#line 322 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+((CBullet  &) * penBullet ) . LaunchBullet  (TRUE  , TRUE  , TRUE );
+#line 323 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+((CBullet  &) * penBullet ) . DestroyBullet  ();
+#line 324 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
+  
+#line 327 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+void CGrunt::FireBullet(void) {
+#line 329 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+m_bFireBulletCount  ++;
+#line 330 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(m_bFireBulletCount  > 1){m_bFireBulletCount  = 0;}
+#line 331 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(m_bFireBulletCount  == 1){return ;}
+#line 334 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+CPlacement3D plBullet ;
+#line 335 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+plBullet  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
+#line 336 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(m_gtType  == GT_SOLDIER ){
+#line 337 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+plBullet  . pl_PositionVector  = FIREPOS_SOLDIER ;
+#line 338 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}else {
+#line 339 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+plBullet  . pl_PositionVector  = FIREPOS_COMMANDER_DN ;
+#line 340 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
+#line 341 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+plBullet  . RelativeToAbsolute  (GetPlacement  ());
+#line 344 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+CEntityPointer penBullet  = CreateEntity  (plBullet  , CLASS_BULLET );
+#line 347 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+EBulletInit  eInit ;
+#line 348 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+eInit  . penOwner  = this ;
+#line 349 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+eInit  . fDamage  = BULLET_DAMAGE ;
+#line 350 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+penBullet  -> Initialize  (eInit );
+#line 353 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+((CBullet  &) * penBullet ) . CalcTarget  (m_penEnemy  , 250);
+#line 354 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+((CBullet  &) * penBullet ) . CalcJitterTarget  (18.0f);
+#line 355 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+((CBullet  &) * penBullet ) . LaunchBullet  (TRUE  , TRUE  , TRUE );
+#line 356 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+((CBullet  &) * penBullet ) . DestroyBullet  ();
+#line 357 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
+  
+#line 360 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+void CGrunt::FireShotgun(void) {
+#line 362 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+PrepareBullet  (BULLET_DAMAGE );
+#line 365 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+for(INDEX i  = 0;i  < 7;i  ++){
+#line 366 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+CPlacement3D plBullet ;
+#line 367 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+plBullet  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
+#line 368 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(m_gtType  == GT_SOLDIER ){
+#line 369 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+plBullet  . pl_PositionVector  = FIREPOS_SOLDIER ;
+#line 370 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}else {
+#line 371 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+plBullet  . pl_PositionVector  = FIREPOS_COMMANDER_DN ;
+#line 372 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
+#line 373 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+plBullet  . RelativeToAbsolute  (GetPlacement  ());
+#line 376 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+CEntityPointer penBullet  = CreateEntity  (plBullet  , CLASS_BULLET );
+#line 379 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+EBulletInit  eInit ;
+#line 380 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+eInit  . penOwner  = this ;
+#line 381 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+eInit  . fDamage  = BULLET_DAMAGE ;
+#line 382 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+penBullet  -> Initialize  (eInit );
+#line 385 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+((CBullet  &) * penBullet ) . CalcTarget  (m_penEnemy  , 250);
+#line 386 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+((CBullet  &) * penBullet ) . CalcJitterTarget  (35.0f);
+#line 387 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+((CBullet  &) * penBullet ) . LaunchBullet  (TRUE  , TRUE  , TRUE );
+#line 388 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+((CBullet  &) * penBullet ) . DestroyBullet  ();
+#line 389 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}
+#line 390 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
 BOOL CGrunt::
-#line 307 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-ShotgunAttack(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT STATE_CGrunt_ShotgunAttack
-  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CGrunt::ShotgunAttack expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 308 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-StandingAnimFight  ();
-#line 309 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-SetTimerAfter(0.3f + FRnd  () * 0.2f);
-Jump(STATE_CURRENT, 0x01570001, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x01570001_ShotgunAttack_01(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01570001
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01570002, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CGrunt::H0x01570002_ShotgunAttack_02(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01570002
-;
-#line 311 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-StartModelAnim  (MERC_IDLE_ANIM_FIRE  , 0);
-#line 312 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-FireShotgun  ();
-#line 314 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-SetTimerAfter(0.5f);
-Jump(STATE_CURRENT, 0x01570003, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x01570003_ShotgunAttack_03(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01570003
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01570004, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CGrunt::H0x01570004_ShotgunAttack_04(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01570004
-;
-#line 317 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-m_fShootTime  = _pTimer  -> CurrentTick  () + 1.5f + FRnd  () * 0.5f;
-#line 318 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-Return(STATE_CURRENT,EEnd  ());
-#line 318 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-return TRUE; ASSERT(FALSE); return TRUE;};BOOL CGrunt::
-#line 321 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-Fire(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT STATE_CGrunt_Fire
-  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CGrunt::Fire expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 322 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-if(!(m_gtType  == GT_SOLDIER )){ Jump(STATE_CURRENT,0x01570011, FALSE, EInternal());return TRUE;}
-#line 323 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-STATE_CGrunt_SoldierAttack, TRUE;
-Jump(STATE_CURRENT, 0x01570006, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x01570006_Fire_01(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01570006
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CGrunt_SoldierAttack, TRUE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x01570007, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CGrunt::H0x01570007_Fire_02(const CEntityEvent &__eeInput){
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01570007
-const EEnd&__e= (EEnd&)__eeInput;
-;Jump(STATE_CURRENT,0x01570010, FALSE, EInternal());return TRUE;}BOOL CGrunt::H0x01570011_Fire_12(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01570011
-if(!(m_gtType  == GT_COMMANDER )){ Jump(STATE_CURRENT,0x0157000f, FALSE, EInternal());return TRUE;}
-#line 325 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-if(!(m_gwtWeapon  == GWT_AUTO_RIFLE )){ Jump(STATE_CURRENT,0x0157000e, FALSE, EInternal());return TRUE;}
-#line 326 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-STATE_CGrunt_CommanderAttack, TRUE;
-Jump(STATE_CURRENT, 0x01570008, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x01570008_Fire_03(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01570008
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CGrunt_CommanderAttack, TRUE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x01570009, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CGrunt::H0x01570009_Fire_04(const CEntityEvent &__eeInput){
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01570009
-const EEnd&__e= (EEnd&)__eeInput;
-;Jump(STATE_CURRENT,0x0157000d, FALSE, EInternal());return TRUE;}BOOL CGrunt::H0x0157000e_Fire_09(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0157000e
-if(!(m_gwtWeapon  == GWT_SHOTGUN )){ Jump(STATE_CURRENT,0x0157000c, FALSE, EInternal());return TRUE;}
-#line 328 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-STATE_CGrunt_ShotgunAttack, TRUE;
-Jump(STATE_CURRENT, 0x0157000a, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x0157000a_Fire_05(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0157000a
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CGrunt_ShotgunAttack, TRUE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x0157000b, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CGrunt::H0x0157000b_Fire_06(const CEntityEvent &__eeInput){
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0157000b
-const EEnd&__e= (EEnd&)__eeInput;
-;Jump(STATE_CURRENT,0x0157000c, FALSE, EInternal());return TRUE;}BOOL CGrunt::H0x0157000c_Fire_07(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0157000c
-Jump(STATE_CURRENT,0x0157000d, FALSE, EInternal());return TRUE;}
-BOOL CGrunt::H0x0157000d_Fire_08(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0157000d
-Jump(STATE_CURRENT,0x0157000f, FALSE, EInternal());return TRUE;}BOOL CGrunt::H0x0157000f_Fire_10(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0157000f
-Jump(STATE_CURRENT,0x01570010, FALSE, EInternal());return TRUE;}
-BOOL CGrunt::H0x01570010_Fire_11(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01570010
-
-#line 331 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-Return(STATE_CURRENT,EReturn  ());
-#line 331 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-return TRUE; ASSERT(FALSE); return TRUE;};BOOL CGrunt::
-#line 335 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 397 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SoldierAttack(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CGrunt_SoldierAttack
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CGrunt::SoldierAttack expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 336 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 398 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 StandingAnimFight  ();
-#line 337 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 399 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SetTimerAfter(0.2f + FRnd  () * 0.25f);
-Jump(STATE_CURRENT, 0x01570013, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x01570013_SoldierAttack_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01570001, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x01570001_SoldierAttack_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01570013
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01570014, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CGrunt::H0x01570014_SoldierAttack_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01570001
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01570002, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CGrunt::H0x01570002_SoldierAttack_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01570014
+#define STATE_CURRENT 0x01570002
 ;
-#line 340 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 402 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fFireTime  = _pTimer  -> CurrentTick  () + 4.0f;
-#line 341 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 403 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_bFireBulletCount  = 0;
-#line 342 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 404 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 PlaySound  (m_soFire1  , SOUND_FIRE_1  , SOF_3D  | SOF_LOOP );
-#line 343 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 405 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 StartModelAnim  (MERC_ELITE_ANIM_FIRE  , AOF_LOOPING  | AOF_NORESTART );
-#line 345 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-Jump(STATE_CURRENT,0x01570017, FALSE, EInternal());return TRUE;}BOOL CGrunt::H0x01570017_SoldierAttack_05(const CEntityEvent &__eeInput){
+#line 407 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+Jump(STATE_CURRENT,0x01570005, FALSE, EInternal());return TRUE;}BOOL CGrunt::H0x01570005_SoldierAttack_05(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01570017
-if(!(m_fFireTime  > _pTimer  -> CurrentTick  ())){ Jump(STATE_CURRENT,0x01570018, FALSE, EInternal());return TRUE;}
-#line 346 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#define STATE_CURRENT 0x01570005
+if(!(m_fFireTime  > _pTimer  -> CurrentTick  ())){ Jump(STATE_CURRENT,0x01570006, FALSE, EInternal());return TRUE;}
+#line 408 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SetTimerAfter(0.05f);
-Jump(STATE_CURRENT, 0x01570015, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x01570015_SoldierAttack_03(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01570003, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x01570003_SoldierAttack_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01570015
+#define STATE_CURRENT 0x01570003
 switch(__eeInput.ee_slEvent){case(EVENTCODE_EBegin):{const EBegin&e= (EBegin&)__eeInput;
 
-#line 348 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-ANGLE3D aAngle ;
-#line 349 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-aAngle  (1) = FRnd  () * 40.0f - 20.0f;
-#line 350 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-aAngle  (2) = FRnd  () * 10.0f - 5.0f;
-#line 351 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-aAngle  (3) = 0;
-#line 353 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-ShootProjectile  (PRT_GRUNT_PROJECTILE_SOL  , FIREPOS_COMMANDER_DN  , aAngle );
-#line 355 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 411 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+FireBullet  ();
+#line 413 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 if(! IsInPlaneFrustum  (m_penEnemy  , CosFast  (5.0f))){
-#line 356 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 414 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fMoveSpeed  = 0.0f;
-#line 357 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 415 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_aRotateSpeed  = 4000.0f;
-#line 358 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 416 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }else {
-#line 359 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 417 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fMoveSpeed  = 0.0f;
-#line 360 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 418 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_aRotateSpeed  = 0.0f;
-#line 361 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 419 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
-#line 362 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 420 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SetDesiredMovement  ();
-#line 363 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 421 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 return TRUE;
-#line 364 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 422 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }ASSERT(FALSE);break;case(EVENTCODE_ETimer):{const ETimer&e= (ETimer&)__eeInput;
-UnsetTimer();Jump(STATE_CURRENT,0x01570016, FALSE, EInternal());return TRUE;}ASSERT(FALSE);break;default: return FALSE; break;
-#line 366 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}return TRUE;}BOOL CGrunt::H0x01570016_SoldierAttack_04(const CEntityEvent &__eeInput){
+UnsetTimer();Jump(STATE_CURRENT,0x01570004, FALSE, EInternal());return TRUE;}ASSERT(FALSE);break;default: return FALSE; break;
+#line 424 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}return TRUE;}BOOL CGrunt::H0x01570004_SoldierAttack_04(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01570016
-Jump(STATE_CURRENT,0x01570017, FALSE, EInternal());return TRUE;
-#line 367 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}BOOL CGrunt::H0x01570018_SoldierAttack_06(const CEntityEvent &__eeInput) {
+#define STATE_CURRENT 0x01570004
+Jump(STATE_CURRENT,0x01570005, FALSE, EInternal());return TRUE;
+#line 425 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}BOOL CGrunt::H0x01570006_SoldierAttack_06(const CEntityEvent &__eeInput) {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01570018
+#define STATE_CURRENT 0x01570006
 
-#line 369 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 427 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_soFire1  . Stop  ();
-#line 370 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 428 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fShootTime  = _pTimer  -> CurrentTick  () + m_fAttackFireTime  * (1.0f + FRnd  () / 3.0f);
-#line 371 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 429 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 371 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 429 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CGrunt::
-#line 375 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 433 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 CommanderAttack(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CGrunt_CommanderAttack
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CGrunt::CommanderAttack expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 376 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 434 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 StandingAnimFight  ();
-#line 377 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 435 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SetTimerAfter(0.2f + FRnd  () * 0.25f);
-Jump(STATE_CURRENT, 0x0157001a, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x0157001a_CommanderAttack_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01570008, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x01570008_CommanderAttack_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0157001a
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0157001b, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CGrunt::H0x0157001b_CommanderAttack_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01570008
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01570009, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CGrunt::H0x01570009_CommanderAttack_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0157001b
+#define STATE_CURRENT 0x01570009
 ;
-#line 380 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 438 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fFireTime  = _pTimer  -> CurrentTick  () + 4.0f;
-#line 381 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 439 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_bFireBulletCount  = 0;
-#line 382 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 440 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 PlaySound  (m_soFire1  , SOUND_FIRE_1  , SOF_3D  | SOF_LOOP );
-#line 383 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 441 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 StartModelAnim  (MERC_IDLE_ANIM_FIRE  , AOF_LOOPING  | AOF_NORESTART );
-#line 385 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-Jump(STATE_CURRENT,0x0157001e, FALSE, EInternal());return TRUE;}BOOL CGrunt::H0x0157001e_CommanderAttack_05(const CEntityEvent &__eeInput){
+#line 443 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+Jump(STATE_CURRENT,0x0157000c, FALSE, EInternal());return TRUE;}BOOL CGrunt::H0x0157000c_CommanderAttack_05(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0157001e
-if(!(m_fFireTime  > _pTimer  -> CurrentTick  ())){ Jump(STATE_CURRENT,0x0157001f, FALSE, EInternal());return TRUE;}
-#line 386 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#define STATE_CURRENT 0x0157000c
+if(!(m_fFireTime  > _pTimer  -> CurrentTick  ())){ Jump(STATE_CURRENT,0x0157000d, FALSE, EInternal());return TRUE;}
+#line 444 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SetTimerAfter(0.05f);
-Jump(STATE_CURRENT, 0x0157001c, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x0157001c_CommanderAttack_03(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x0157000a, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x0157000a_CommanderAttack_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0157001c
+#define STATE_CURRENT 0x0157000a
 switch(__eeInput.ee_slEvent){case(EVENTCODE_EBegin):{const EBegin&e= (EBegin&)__eeInput;
 
-#line 388 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-ANGLE3D aAngle ;
-#line 389 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-aAngle  (1) = FRnd  () * 40.0f - 20.0f;
-#line 390 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-aAngle  (2) = FRnd  () * 10.0f - 5.0f;
-#line 391 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-aAngle  (3) = 0;
-#line 393 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-ShootProjectile  (PRT_GRUNT_PROJECTILE_COM  , FIREPOS_COMMANDER_DN  , aAngle );
-#line 395 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 447 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+FireBullet  ();
+#line 449 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 if(! IsInPlaneFrustum  (m_penEnemy  , CosFast  (5.0f))){
-#line 396 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 450 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fMoveSpeed  = 0.0f;
-#line 397 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 451 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_aRotateSpeed  = 4000.0f;
-#line 398 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 452 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }else {
-#line 399 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 453 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fMoveSpeed  = 0.0f;
-#line 400 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 454 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_aRotateSpeed  = 0.0f;
-#line 401 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 455 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
-#line 402 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 456 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SetDesiredMovement  ();
-#line 403 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 457 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 return TRUE;
-#line 404 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 458 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }ASSERT(FALSE);break;case(EVENTCODE_ETimer):{const ETimer&e= (ETimer&)__eeInput;
-UnsetTimer();Jump(STATE_CURRENT,0x0157001d, FALSE, EInternal());return TRUE;}ASSERT(FALSE);break;default: return FALSE; break;
-#line 406 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}return TRUE;}BOOL CGrunt::H0x0157001d_CommanderAttack_04(const CEntityEvent &__eeInput){
+UnsetTimer();Jump(STATE_CURRENT,0x0157000b, FALSE, EInternal());return TRUE;}ASSERT(FALSE);break;default: return FALSE; break;
+#line 460 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}return TRUE;}BOOL CGrunt::H0x0157000b_CommanderAttack_04(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0157001d
-Jump(STATE_CURRENT,0x0157001e, FALSE, EInternal());return TRUE;
-#line 407 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-}BOOL CGrunt::H0x0157001f_CommanderAttack_06(const CEntityEvent &__eeInput) {
+#define STATE_CURRENT 0x0157000b
+Jump(STATE_CURRENT,0x0157000c, FALSE, EInternal());return TRUE;
+#line 461 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+}BOOL CGrunt::H0x0157000d_CommanderAttack_06(const CEntityEvent &__eeInput) {
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0157000d
+
+#line 463 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+m_soFire1  . Stop  ();
+#line 464 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+m_fShootTime  = _pTimer  -> CurrentTick  () + m_fAttackFireTime  * (1.0f + FRnd  () / 3.0f);
+#line 465 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+Return(STATE_CURRENT,EEnd  ());
+#line 465 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+return TRUE; ASSERT(FALSE); return TRUE;};BOOL CGrunt::
+#line 469 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+ShotgunAttack(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT STATE_CGrunt_ShotgunAttack
+  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CGrunt::ShotgunAttack expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
+#line 470 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+StandingAnimFight  ();
+#line 471 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+SetTimerAfter(0.3f + FRnd  () * 0.2f);
+Jump(STATE_CURRENT, 0x0157000f, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x0157000f_ShotgunAttack_01(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0157000f
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01570010, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CGrunt::H0x01570010_ShotgunAttack_02(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01570010
+;
+#line 473 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+StartModelAnim  (MERC_IDLE_ANIM_FIRE  , 0);
+#line 474 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+FireShotgun  ();
+#line 476 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+SetTimerAfter(0.5f);
+Jump(STATE_CURRENT, 0x01570011, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x01570011_ShotgunAttack_03(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01570011
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01570012, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CGrunt::H0x01570012_ShotgunAttack_04(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01570012
+;
+#line 479 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+m_fShootTime  = _pTimer  -> CurrentTick  () + 1.5f + FRnd  () * 0.5f;
+#line 480 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+Return(STATE_CURRENT,EEnd  ());
+#line 480 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+return TRUE; ASSERT(FALSE); return TRUE;};BOOL CGrunt::
+#line 483 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+Fire(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT STATE_CGrunt_Fire
+  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CGrunt::Fire expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
+#line 484 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(!(m_gtType  == GT_SOLDIER )){ Jump(STATE_CURRENT,0x0157001f, FALSE, EInternal());return TRUE;}
+#line 485 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+STATE_CGrunt_SoldierAttack, TRUE;
+Jump(STATE_CURRENT, 0x01570014, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x01570014_Fire_01(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01570014
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CGrunt_SoldierAttack, TRUE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x01570015, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CGrunt::H0x01570015_Fire_02(const CEntityEvent &__eeInput){
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01570015
+const EEnd&__e= (EEnd&)__eeInput;
+;Jump(STATE_CURRENT,0x0157001e, FALSE, EInternal());return TRUE;}BOOL CGrunt::H0x0157001f_Fire_12(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0157001f
+if(!(m_gtType  == GT_COMMANDER )){ Jump(STATE_CURRENT,0x0157001d, FALSE, EInternal());return TRUE;}
+#line 487 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+if(!(m_gwtWeapon  == GWT_AUTO_RIFLE )){ Jump(STATE_CURRENT,0x0157001c, FALSE, EInternal());return TRUE;}
+#line 488 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+STATE_CGrunt_CommanderAttack, TRUE;
+Jump(STATE_CURRENT, 0x01570016, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x01570016_Fire_03(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01570016
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CGrunt_CommanderAttack, TRUE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x01570017, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CGrunt::H0x01570017_Fire_04(const CEntityEvent &__eeInput){
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01570017
+const EEnd&__e= (EEnd&)__eeInput;
+;Jump(STATE_CURRENT,0x0157001b, FALSE, EInternal());return TRUE;}BOOL CGrunt::H0x0157001c_Fire_09(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0157001c
+if(!(m_gwtWeapon  == GWT_SHOTGUN )){ Jump(STATE_CURRENT,0x0157001a, FALSE, EInternal());return TRUE;}
+#line 490 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+STATE_CGrunt_ShotgunAttack, TRUE;
+Jump(STATE_CURRENT, 0x01570018, FALSE, EBegin());return TRUE;}BOOL CGrunt::H0x01570018_Fire_05(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01570018
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CGrunt_ShotgunAttack, TRUE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x01570019, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CGrunt::H0x01570019_Fire_06(const CEntityEvent &__eeInput){
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01570019
+const EEnd&__e= (EEnd&)__eeInput;
+;Jump(STATE_CURRENT,0x0157001a, FALSE, EInternal());return TRUE;}BOOL CGrunt::H0x0157001a_Fire_07(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0157001a
+Jump(STATE_CURRENT,0x0157001b, FALSE, EInternal());return TRUE;}
+BOOL CGrunt::H0x0157001b_Fire_08(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0157001b
+Jump(STATE_CURRENT,0x0157001d, FALSE, EInternal());return TRUE;}BOOL CGrunt::H0x0157001d_Fire_10(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0157001d
+Jump(STATE_CURRENT,0x0157001e, FALSE, EInternal());return TRUE;}
+BOOL CGrunt::H0x0157001e_Fire_11(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0157001e
 
-#line 409 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-m_soFire1  . Stop  ();
-#line 410 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-m_fShootTime  = _pTimer  -> CurrentTick  () + m_fAttackFireTime  * (1.0f + FRnd  () / 3.0f);
-#line 411 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
-Return(STATE_CURRENT,EEnd  ());
-#line 411 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 493 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+Return(STATE_CURRENT,EReturn  ());
+#line 493 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CGrunt::
-#line 417 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 499 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 Main(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CGrunt_Main
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CGrunt::Main expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 419 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 501 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 InitAsModel  ();
-#line 420 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 502 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SetPhysicsFlags  (EPF_MODEL_WALKING  | EPF_HASLUNGS );
-#line 421 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 503 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SetCollisionFlags  (ECF_MODEL );
-#line 422 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 504 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SetFlags  (GetFlags  () | ENF_ALIVE );
-#line 423 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 505 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 en_tmMaxHoldBreath  = 5.0f;
-#line 424 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 506 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 en_fDensity  = 2000.0f;
-#line 428 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 510 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 switch(m_gtType ){
-#line 429 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 511 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 case GT_SOLDIER : 
-#line 431 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 513 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SetModel  (MODEL_GRUNT );
-#line 432 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 514 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SetModelMainTexture  (TEXTURE_SOLDIER );
-#line 433 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 515 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 AddAttachment  (MERC_ELITE_ATTACHMENT_P90_MERC  , MODEL_GUN_SOLDIER  , TEXTURE_GUN_SOLDIER );
-#line 435 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 517 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fWalkSpeed  = FRnd  () + 2.5f;
-#line 436 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 518 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_aWalkRotateSpeed  = AngleDeg  (FRnd  () * 10.0f + 500.0f);
-#line 437 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 519 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fAttackRunSpeed  = FRnd  () + 6.5f;
-#line 438 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 520 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_aAttackRotateSpeed  = AngleDeg  (FRnd  () * 50 + 245.0f);
-#line 439 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 521 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fCloseRunSpeed  = FRnd  () + 6.5f;
-#line 440 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 522 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_aCloseRotateSpeed  = AngleDeg  (FRnd  () * 50 + 245.0f);
-#line 442 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 524 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fAttackDistance  = 80.0f;
-#line 443 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 525 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fCloseDistance  = 0.0f;
-#line 444 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 526 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fStopDistance  = 8.0f;
-#line 445 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 527 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fAttackFireTime  = 2.0f;
-#line 446 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 528 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fCloseFireTime  = 1.0f;
-#line 447 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 529 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fIgnoreRange  = 200.0f;
-#line 449 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 531 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fBlowUpAmount  = 80.0f;
-#line 450 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 532 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fBodyParts  = 4;
-#line 451 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 533 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fDamageWounded  = 0.0f;
-#line 452 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 534 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_iScore  = 500;
-#line 453 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 535 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SetHealth  (40.0f);
-#line 454 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 536 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fMaxHealth  = 40.0f;
-#line 456 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 538 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 GetModelObject  () -> StretchModel  (FLOAT3D (STRETCH_SOLDIER  , STRETCH_SOLDIER  , STRETCH_SOLDIER ));
-#line 457 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 539 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 break ;
-#line 459 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 541 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 case GT_COMMANDER : 
-#line 461 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 543 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SetModel  (MODEL_GRUNT_COMMANDER );
-#line 462 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 544 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SetModelMainTexture  (TEXTURE_COMMANDER );
-#line 463 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 545 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 AddAttachment  (MERC_IDLE_ATTACHMENT_SH_NV  , MODEL_SHELM_COMMANDER  , TEXTURE_SHELM_COMMANDER );
-#line 464 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 546 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 AddAttachment  (MERC_IDLE_ATTACHMENT_AG36_MERC  , MODEL_GUN_COMMANDER  , TEXTURE_GUN_COMMANDER );
-#line 465 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 547 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 if(m_gwtWeapon  == GWT_SHOTGUN ){
-#line 466 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 548 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fAttackDistance  = 50.0f;
-#line 467 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 549 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fAttackFireTime  = 1.5f;
-#line 468 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 550 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
-#line 470 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 552 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fWalkSpeed  = FRnd  () + 2.5f;
-#line 471 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 553 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_aWalkRotateSpeed  = AngleDeg  (FRnd  () * 10.0f + 500.0f);
-#line 472 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 554 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fAttackRunSpeed  = FRnd  () + 8.0f;
-#line 473 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 555 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_aAttackRotateSpeed  = AngleDeg  (FRnd  () * 50 + 245.0f);
-#line 474 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 556 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fCloseRunSpeed  = FRnd  () + 8.0f;
-#line 475 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 557 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_aCloseRotateSpeed  = AngleDeg  (FRnd  () * 50 + 245.0f);
-#line 477 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 559 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fAttackDistance  = 90.0f;
-#line 478 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 560 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fCloseDistance  = 0.0f;
-#line 479 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 561 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fStopDistance  = 15.0f;
-#line 480 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 562 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fAttackFireTime  = 4.0f;
-#line 481 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 563 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fCloseFireTime  = 2.0f;
-#line 483 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 565 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fIgnoreRange  = 200.0f;
-#line 485 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 567 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fBodyParts  = 5;
-#line 486 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 568 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fDamageWounded  = 0.0f;
-#line 487 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 569 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_iScore  = 800;
-#line 488 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 570 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SetHealth  (60.0f);
-#line 489 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 571 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 m_fMaxHealth  = 60.0f;
-#line 491 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 573 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 GetModelObject  () -> StretchModel  (FLOAT3D (STRETCH_COMMANDER  , STRETCH_COMMANDER  , STRETCH_COMMANDER ));
-#line 492 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 574 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 break ;
-#line 493 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 575 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 }
-#line 495 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 577 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 ModelChangeNotify  ();
-#line 496 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 578 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 StandingAnim  ();
-#line 499 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 581 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 Jump(STATE_CURRENT, STATE_CEnemyBase_MainLoop, FALSE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};

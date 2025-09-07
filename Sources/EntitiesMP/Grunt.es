@@ -7,7 +7,7 @@
 
 uses "EntitiesMP/EnemyBase";
 uses "EntitiesMP/BasicEffects";
-uses "EntitiesMP/Bullet";
+uses "EntitiesMP/Bullet";  // Add this for bullet attacks
 
 enum GruntWeaponType {
   0 GWT_AUTO_RIFLE   "Auto Rifle",
@@ -24,8 +24,9 @@ enum GruntType {
 #define STRETCH_COMMANDER 1.4f
 #define FIREPOS_SOLDIER      FLOAT3D(0.07f, 1.36f, -0.78f)*STRETCH_SOLDIER
 #define FIREPOS_COMMANDER    FLOAT3D(0.10f, 1.30f, -0.60f)*STRETCH_COMMANDER
-#define SHOTGUN_SPREAD_ANGLE 5.0f // angle for shoitgun
-  
+#define SHOTGUN_SPREAD_ANGLE 5.0f // angle for shotgun
+#define BULLET_DAMAGE 4.0f  // Damage per bullet
+
 // info structure
 static EntityInfo eiGruntSoldier = {
   EIBT_FLESH, 200.0f,
@@ -63,6 +64,7 @@ properties:
 components:
   1 class   CLASS_BASE            "Classes\\EnemyBase.ecl",
   3 class   CLASS_PROJECTILE      "Classes\\Projectile.ecl",
+  4 class   CLASS_BULLET          "Classes\\Bullet.ecl",  // Add this for bullet attacks
 
  10 model   MODEL_GRUNT           "ModelsMP\\Enemies\\Grunt\\elite_merc\\merc_elite.mdl",
  11 model   MODEL_GUN_COMMANDER   "ModelsMP\\Enemies\\Grunt\\merc\\ag36_merc.mdl",
@@ -120,18 +122,19 @@ functions:
   void Precache(void) {
     CEnemyBase::Precache();
     
-   if (m_gtType==GT_SOLDIER) {
+    if (m_gtType==GT_SOLDIER) {
       PrecacheClass(CLASS_PROJECTILE, PRT_GRUNT_PROJECTILE_SOL);
     }
     if (m_gtType==GT_COMMANDER) {
       PrecacheClass(CLASS_PROJECTILE, PRT_GRUNT_PROJECTILE_COM);
     }
+    
+    PrecacheClass(CLASS_BULLET);  // Precache bullet class
 
     PrecacheSound(SOUND_IDLE);
     PrecacheSound(SOUND_SIGHT);
     PrecacheSound(SOUND_WOUND);
     PrecacheSound(SOUND_FIRE);
-	//PrecacheSound(SOUND_FIRE_1);
     PrecacheSound(SOUND_DEATH);
   };
 
@@ -145,7 +148,7 @@ functions:
   // damage anim
   INDEX AnimForDamage(FLOAT fDamage) {
     INDEX iAnim;
-	if(m_gtType==GT_SOLDIER) { iAnim = MERC_ELITE_ANIM_WOUND01;}
+    if(m_gtType==GT_SOLDIER) { iAnim = MERC_ELITE_ANIM_WOUND01;}
     if(m_gtType==GT_COMMANDER) { iAnim = MERC_IDLE_ANIM_WOUND01;}
     StartModelAnim(iAnim, 0);
     return iAnim;
@@ -157,19 +160,20 @@ functions:
     FLOAT3D vFront;
     GetHeadingDirection(0, vFront);
     FLOAT fDamageDir = m_vDamage%vFront;
-	if(m_gtType==GT_SOLDIER){
-    if (fDamageDir<0) {
-      iAnim = MERC_ELITE_ANIM_DEATHBACKWARD;
-    } else {
-      iAnim = MERC_ELITE_ANIM_DEATHFORWARD;
+    if(m_gtType==GT_SOLDIER){
+      if (fDamageDir<0) {
+        iAnim = MERC_ELITE_ANIM_DEATHBACKWARD;
+      } else {
+        iAnim = MERC_ELITE_ANIM_DEATHFORWARD;
+      }
     }
-	}if(m_gtType==GT_COMMANDER){
-	if (fDamageDir<0) {
-		iAnim = MERC_IDLE_ANIM_DEATHBACKWARD;
-    } else {
-      iAnim = MERC_IDLE_ANIM_DEATHFORWARD;
+    if(m_gtType==GT_COMMANDER){
+      if (fDamageDir<0) {
+        iAnim = MERC_IDLE_ANIM_DEATHBACKWARD;
+      } else {
+        iAnim = MERC_IDLE_ANIM_DEATHFORWARD;
+      }
     }
-	}
 
     StartModelAnim(iAnim, 0);
     return iAnim;
@@ -177,58 +181,66 @@ functions:
 
   FLOAT WaitForDust(FLOAT3D &vStretch) {
     vStretch=FLOAT3D(1,1,2);
-	if(m_gtType==GT_SOLDIER){
-    if(GetModelObject()->GetAnim()==MERC_ELITE_ANIM_DEATHBACKWARD)
-    {
-      return 0.5f;
+    if(m_gtType==GT_SOLDIER){
+      if(GetModelObject()->GetAnim()==MERC_ELITE_ANIM_DEATHBACKWARD) {
+        return 0.5f;
+      } else if(GetModelObject()->GetAnim()==MERC_ELITE_ANIM_DEATHFORWARD) {
+        return 1.0f;
+      }
     }
-    else if(GetModelObject()->GetAnim()==MERC_ELITE_ANIM_DEATHFORWARD)
-    {
-      return 1.0f;
+    if(m_gtType==GT_COMMANDER){
+      if(GetModelObject()->GetAnim()==MERC_IDLE_ANIM_DEATHBACKWARD) {
+        return 0.5f;
+      } else if(GetModelObject()->GetAnim()==MERC_IDLE_ANIM_DEATHFORWARD) {
+        return 1.0f;
+      }
     }
-	}
-	if(m_gtType==GT_COMMANDER){
-    if(GetModelObject()->GetAnim()==MERC_IDLE_ANIM_DEATHBACKWARD)
-    {
-      return 0.5f;
-    }
-    else if(GetModelObject()->GetAnim()==MERC_IDLE_ANIM_DEATHFORWARD)
-    {
-      return 1.0f;
-    }
-	}
     return -1.0f;
   };
 
   void DeathNotify(void) {
-  if(m_gtType==GT_SOLDIER){ ChangeCollisionBoxIndexWhenPossible(MERC_ELITE_COLLISION_BOX_DEATH);}
-  if(m_gtType==GT_SOLDIER){ ChangeCollisionBoxIndexWhenPossible(MERC_IDLE_COLLISION_BOX_DEATH);}
+    if(m_gtType==GT_SOLDIER) { ChangeCollisionBoxIndexWhenPossible(MERC_ELITE_COLLISION_BOX_DEATH); }
+    if(m_gtType==GT_COMMANDER) { ChangeCollisionBoxIndexWhenPossible(MERC_IDLE_COLLISION_BOX_DEATH); }
     en_fDensity = 500.0f;
   };
 
   // virtual anim functions
   void StandingAnim(void) {
-  if(m_gtType==GT_SOLDIER){
-    StartModelAnim(MERC_ELITE_ANIM_IDLEPATROL, AOF_LOOPING|AOF_NORESTART);}
-  if(m_gtType==GT_COMMANDER){
-    StartModelAnim(MERC_IDLE_ANIM_IDLE, AOF_LOOPING|AOF_NORESTART);}
+    if(m_gtType==GT_SOLDIER){
+      StartModelAnim(MERC_ELITE_ANIM_IDLEPATROL, AOF_LOOPING|AOF_NORESTART);
+    }
+    if(m_gtType==GT_COMMANDER){
+      StartModelAnim(MERC_IDLE_ANIM_IDLE, AOF_LOOPING|AOF_NORESTART);
+    }
   };
-  /*void StandingAnimFight(void)
-  {
-    StartModelAnim(HEADMAN_ANIM_IDLE_FIGHT, AOF_LOOPING|AOF_NORESTART);
-  }*/
+  
+  void StandingAnimFight(void) {
+    if(m_gtType==GT_SOLDIER){
+      StartModelAnim(MERC_ELITE_ANIM_FIRE, AOF_LOOPING|AOF_NORESTART);
+    }
+    if(m_gtType==GT_COMMANDER){
+      StartModelAnim(MERC_IDLE_ANIM_FIRE, AOF_LOOPING|AOF_NORESTART);
+    }
+  }
+  
   void RunningAnim(void) {
-  if(m_gtType==GT_SOLDIER){
-    StartModelAnim(MERC_ELITE_ANIM_RUN, AOF_LOOPING|AOF_NORESTART);}
-  if(m_gtType==GT_COMMANDER){
-    StartModelAnim(MERC_IDLE_ANIM_RUN, AOF_LOOPING|AOF_NORESTART);}
+    if(m_gtType==GT_SOLDIER){
+      StartModelAnim(MERC_ELITE_ANIM_RUN, AOF_LOOPING|AOF_NORESTART);
+    }
+    if(m_gtType==GT_COMMANDER){
+      StartModelAnim(MERC_IDLE_ANIM_RUN, AOF_LOOPING|AOF_NORESTART);
+    }
   };
-    void WalkingAnim(void) {
-  if(m_gtType==GT_SOLDIER){
-    StartModelAnim(MERC_ELITE_ANIM_WALK, AOF_LOOPING|AOF_NORESTART);}
-  if(m_gtType==GT_COMMANDER){
-    StartModelAnim(MERC_IDLE_ANIM_WALK, AOF_LOOPING|AOF_NORESTART);}
+  
+  void WalkingAnim(void) {
+    if(m_gtType==GT_SOLDIER){
+      StartModelAnim(MERC_ELITE_ANIM_WALK, AOF_LOOPING|AOF_NORESTART);
+    }
+    if(m_gtType==GT_COMMANDER){
+      StartModelAnim(MERC_IDLE_ANIM_WALK, AOF_LOOPING|AOF_NORESTART);
+    }
   };
+  
   void RotatingAnim(void) {
     RunningAnim();
   };
@@ -237,12 +249,15 @@ functions:
   void IdleSound(void) {
     PlaySound(m_soSound, SOUND_IDLE, SOF_3D);
   };
+  
   void SightSound(void) {
     PlaySound(m_soSound, SOUND_SIGHT, SOF_3D);
   };
+  
   void WoundSound(void) {
     PlaySound(m_soSound, SOUND_WOUND, SOF_3D);
   };
+  
   void DeathSound(void) {
     PlaySound(m_soSound, SOUND_DEATH, SOF_3D);
   };
@@ -255,25 +270,7 @@ functions:
     m_soFire2.Set3DParameters(160.0f, 50.0f, 1.0f, 1.0f);
   };
   
-    // Shoot from shotgun (many pol)
-  void FireShotgun(void) {
-    // main shoot on centre
-    ShootProjectile(PRT_GRUNT_PROJECTILE_COM, FIREPOS_COMMANDER, ANGLE3D(0, 0, 0));
-    
-    // Add shoot с разбросом
-    for(INDEX i=0; i<7; i++) {
-      ANGLE3D aAngle;
-      aAngle(1) = FRnd()*SHOTGUN_SPREAD_ANGLE*2 - SHOTGUN_SPREAD_ANGLE; // Вертикальный разброс
-      aAngle(2) = FRnd()*SHOTGUN_SPREAD_ANGLE*2 - SHOTGUN_SPREAD_ANGLE; // Горизонтальный разброс
-      aAngle(3) = 0;
-      
-      ShootProjectile(PRT_GRUNT_PROJECTILE_COM, FIREPOS_COMMANDER, aAngle);
-    }
-    
-    PlaySound(m_soFire1, SOUND_FIRE_1, SOF_3D);
-  };
-  
-   // Can enemy see player to fire?
+  // Can enemy see player to fire?
   BOOL CanFireAtPlayer(void) {
     // get ray source and target
     FLOAT3D vSource, vTarget;
@@ -299,21 +296,186 @@ functions:
     return (crRay.cr_penHit==NULL);
   }
 
+  // Prepare bullet
+  void PrepareBullet(FLOAT fDamage) {
+    // bullet start position
+    CPlacement3D plBullet;
+    plBullet.pl_OrientationAngle = ANGLE3D(0,0,0);
+    if (m_gtType == GT_SOLDIER) {
+      plBullet.pl_PositionVector = FIREPOS_SOLDIER;
+    } else {
+      plBullet.pl_PositionVector = FIREPOS_COMMANDER_DN;
+    }
+    plBullet.RelativeToAbsolute(GetPlacement());
+    
+    // create bullet
+    CEntityPointer penBullet = CreateEntity(plBullet, CLASS_BULLET);
+    
+    // init bullet
+    EBulletInit eInit;
+    eInit.penOwner = this;
+    eInit.fDamage = fDamage;
+    penBullet->Initialize(eInit);
+    
+    // calculate target
+    ((CBullet&)*penBullet).CalcTarget(m_penEnemy, 250);
+    ((CBullet&)*penBullet).LaunchBullet(TRUE, TRUE, TRUE);
+    ((CBullet&)*penBullet).DestroyBullet();
+  }
+
+  // Fire bullet
+  void FireBullet(void) {
+    // binary divide counter
+    m_bFireBulletCount++;
+    if (m_bFireBulletCount>1) { m_bFireBulletCount = 0; }
+    if (m_bFireBulletCount==1) { return; }
+    
+    // bullet start position
+    CPlacement3D plBullet;
+    plBullet.pl_OrientationAngle = ANGLE3D(0,0,0);
+    if (m_gtType == GT_SOLDIER) {
+      plBullet.pl_PositionVector = FIREPOS_SOLDIER;
+    } else {
+      plBullet.pl_PositionVector = FIREPOS_COMMANDER_DN;
+    }
+    plBullet.RelativeToAbsolute(GetPlacement());
+    
+    // create bullet
+    CEntityPointer penBullet = CreateEntity(plBullet, CLASS_BULLET);
+    
+    // init bullet with random spread
+    EBulletInit eInit;
+    eInit.penOwner = this;
+    eInit.fDamage = BULLET_DAMAGE;
+    penBullet->Initialize(eInit);
+    
+    // calculate target with some spread
+    ((CBullet&)*penBullet).CalcTarget(m_penEnemy, 250);
+    ((CBullet&)*penBullet).CalcJitterTarget(18.0f); // Smaller spread than shotgun
+    ((CBullet&)*penBullet).LaunchBullet(TRUE, TRUE, TRUE);
+    ((CBullet&)*penBullet).DestroyBullet();
+  }
+
+  // Fire shotgun spread
+  void FireShotgun(void) {
+    // main bullet on center
+    PrepareBullet(BULLET_DAMAGE);
+    
+    // Add bullets with spread
+    for(INDEX i=0; i<7; i++) {
+      CPlacement3D plBullet;
+      plBullet.pl_OrientationAngle = ANGLE3D(0,0,0);
+      if (m_gtType == GT_SOLDIER) {
+        plBullet.pl_PositionVector = FIREPOS_SOLDIER;
+      } else {
+        plBullet.pl_PositionVector = FIREPOS_COMMANDER_DN;
+      }
+      plBullet.RelativeToAbsolute(GetPlacement());
+      
+      // create bullet
+      CEntityPointer penBullet = CreateEntity(plBullet, CLASS_BULLET);
+      
+      // init bullet with random spread
+      EBulletInit eInit;
+      eInit.penOwner = this;
+      eInit.fDamage = BULLET_DAMAGE;
+      penBullet->Initialize(eInit);
+      
+      // calculate jittered target
+      ((CBullet&)*penBullet).CalcTarget(m_penEnemy, 250);
+      ((CBullet&)*penBullet).CalcJitterTarget(35.0f); // Spread angle
+      ((CBullet&)*penBullet).LaunchBullet(TRUE, TRUE, TRUE);
+      ((CBullet&)*penBullet).DestroyBullet();
+    }
+  }
+
 procedures:
 /************************************************************
  *                A T T A C K   E N E M Y                   *
  ************************************************************/
-  // Атака для дробовика
+  // Soldier attack
+  SoldierAttack(EVoid) {
+    StandingAnimFight();
+    autowait(0.2f + FRnd()*0.25f);
+
+    // Set up automatic firing with spread
+    m_fFireTime = _pTimer->CurrentTick() + 4.0f;
+    m_bFireBulletCount = 0;
+    PlaySound(m_soFire1, SOUND_FIRE_1, SOF_3D|SOF_LOOP);
+    StartModelAnim(MERC_ELITE_ANIM_FIRE, AOF_LOOPING|AOF_NORESTART);
+
+    while (m_fFireTime > _pTimer->CurrentTick()) {
+      wait(0.05f) {
+        on (EBegin) : {
+          // Fire bullet with spread
+          FireBullet();
+          
+          if (!IsInPlaneFrustum(m_penEnemy, CosFast(5.0f))) {
+            m_fMoveSpeed = 0.0f;
+            m_aRotateSpeed = 4000.0f;
+          } else {
+            m_fMoveSpeed = 0.0f;
+            m_aRotateSpeed = 0.0f;
+          }
+          SetDesiredMovement();
+          resume;
+        }
+        on (ETimer) : { stop; }
+      }
+    }
+    
+    m_soFire1.Stop();
+    m_fShootTime = _pTimer->CurrentTick() + m_fAttackFireTime*(1.0f + FRnd()/3.0f);
+    return EEnd();
+  };
+
+  // Commander attack (auto rifle)
+  CommanderAttack(EVoid) {
+    StandingAnimFight();
+    autowait(0.2f + FRnd()*0.25f);
+
+    // Set up automatic firing with spread
+    m_fFireTime = _pTimer->CurrentTick() + 4.0f;
+    m_bFireBulletCount = 0;
+    PlaySound(m_soFire1, SOUND_FIRE_1, SOF_3D|SOF_LOOP);
+    StartModelAnim(MERC_IDLE_ANIM_FIRE, AOF_LOOPING|AOF_NORESTART);
+
+    while (m_fFireTime > _pTimer->CurrentTick()) {
+      wait(0.05f) {
+        on (EBegin) : {
+          // Fire bullet with spread
+          FireBullet();
+          
+          if (!IsInPlaneFrustum(m_penEnemy, CosFast(5.0f))) {
+            m_fMoveSpeed = 0.0f;
+            m_aRotateSpeed = 4000.0f;
+          } else {
+            m_fMoveSpeed = 0.0f;
+            m_aRotateSpeed = 0.0f;
+          }
+          SetDesiredMovement();
+          resume;
+        }
+        on (ETimer) : { stop; }
+      }
+    }
+    
+    m_soFire1.Stop();
+    m_fShootTime = _pTimer->CurrentTick() + m_fAttackFireTime*(1.0f + FRnd()/3.0f);
+    return EEnd();
+  };
+
+  // Shotgun attack
   ShotgunAttack(EVoid) {
     StandingAnimFight();
-    autowait(0.3f + FRnd()*0.2f); // Более долгая подготовка перед выстрелом
+    autowait(0.3f + FRnd()*0.2f); // Longer preparation before shooting
 
     StartModelAnim(MERC_IDLE_ANIM_FIRE, 0);
     FireShotgun();
     
-    autowait(0.5f); // Отдача после выстрела
+    autowait(0.5f); // Recoil after shooting
     
-    // Более долгая перезарядка
+    // Longer reload time
     m_fShootTime = _pTimer->CurrentTick() + 1.5f + FRnd()*0.5f;
     return EEnd();
   };
@@ -329,86 +491,6 @@ procedures:
       }
     }
     return EReturn();
-  };
-    
-  // Soldier attack
-  SoldierAttack(EVoid) {
-    StandingAnimFight();
-    autowait(0.2f + FRnd()*0.25f);
-
-    // Set up automatic firing with spread
-    m_fFireTime = _pTimer->CurrentTick() + 4.0f;
-    m_bFireBulletCount = 0;
-    PlaySound(m_soFire1, SOUND_FIRE_1, SOF_3D|SOF_LOOP);
-    StartModelAnim(MERC_ELITE_ANIM_FIRE, AOF_LOOPING|AOF_NORESTART);
-
-    while (m_fFireTime > _pTimer->CurrentTick()) {
-      wait(0.05f) {
-        on (EBegin) : {
-          ANGLE3D aAngle;
-          aAngle(1) = FRnd()*40.0f - 20.0f; // Vertical spread
-          aAngle(2) = FRnd()*10.0f - 5.0f;  // Small horizontal spread
-          aAngle(3) = 0;
-          
-          ShootProjectile(PRT_GRUNT_PROJECTILE_SOL, FIREPOS_COMMANDER_DN, aAngle);
-          
-          if (!IsInPlaneFrustum(m_penEnemy, CosFast(5.0f))) {
-            m_fMoveSpeed = 0.0f;
-            m_aRotateSpeed = 4000.0f;
-          } else {
-            m_fMoveSpeed = 0.0f;
-            m_aRotateSpeed = 0.0f;
-          }
-          SetDesiredMovement();
-          resume;
-        }
-        on (ETimer) : { stop; }
-      }
-    }
-    
-    m_soFire1.Stop();
-    m_fShootTime = _pTimer->CurrentTick() + m_fAttackFireTime*(1.0f + FRnd()/3.0f);
-    return EEnd();
-  };
-
-  // Commander attack (predicted firing on moving player)
-  CommanderAttack(EVoid) {
-    StandingAnimFight();
-    autowait(0.2f + FRnd()*0.25f);
-
-    // Set up automatic firing with spread
-    m_fFireTime = _pTimer->CurrentTick() + 4.0f;
-    m_bFireBulletCount = 0;
-    PlaySound(m_soFire1, SOUND_FIRE_1, SOF_3D|SOF_LOOP);
-    StartModelAnim(MERC_IDLE_ANIM_FIRE, AOF_LOOPING|AOF_NORESTART);
-
-    while (m_fFireTime > _pTimer->CurrentTick()) {
-      wait(0.05f) {
-        on (EBegin) : {
-          ANGLE3D aAngle;
-          aAngle(1) = FRnd()*40.0f - 20.0f; // Vertical spread
-          aAngle(2) = FRnd()*10.0f - 5.0f;  // Small horizontal spread
-          aAngle(3) = 0;
-          
-          ShootProjectile(PRT_GRUNT_PROJECTILE_COM, FIREPOS_COMMANDER_DN, aAngle);
-          
-          if (!IsInPlaneFrustum(m_penEnemy, CosFast(5.0f))) {
-            m_fMoveSpeed = 0.0f;
-            m_aRotateSpeed = 4000.0f;
-          } else {
-            m_fMoveSpeed = 0.0f;
-            m_aRotateSpeed = 0.0f;
-          }
-          SetDesiredMovement();
-          resume;
-        }
-        on (ETimer) : { stop; }
-      }
-    }
-    
-    m_soFire1.Stop();
-    m_fShootTime = _pTimer->CurrentTick() + m_fAttackFireTime*(1.0f + FRnd()/3.0f);
-    return EEnd();
   };
 
 /************************************************************
@@ -428,7 +510,7 @@ procedures:
     switch (m_gtType) {
       case GT_SOLDIER:
         // set your texture
-		SetModel(MODEL_GRUNT);
+        SetModel(MODEL_GRUNT);
         SetModelMainTexture(TEXTURE_SOLDIER);
         AddAttachment(MERC_ELITE_ATTACHMENT_P90_MERC, MODEL_GUN_SOLDIER, TEXTURE_GUN_SOLDIER);
         // setup moving speed
@@ -458,14 +540,14 @@ procedures:
   
       case GT_COMMANDER:
         // set your texture
-		SetModel(MODEL_GRUNT_COMMANDER);
+        SetModel(MODEL_GRUNT_COMMANDER);
         SetModelMainTexture(TEXTURE_COMMANDER);
-		AddAttachment(MERC_IDLE_ATTACHMENT_SH_NV, MODEL_SHELM_COMMANDER, TEXTURE_SHELM_COMMANDER);
+        AddAttachment(MERC_IDLE_ATTACHMENT_SH_NV, MODEL_SHELM_COMMANDER, TEXTURE_SHELM_COMMANDER);
         AddAttachment(MERC_IDLE_ATTACHMENT_AG36_MERC, MODEL_GUN_COMMANDER, TEXTURE_GUN_COMMANDER);
-		if (m_gwtWeapon == GWT_SHOTGUN){
-		  m_fAttackDistance = 50.0f; // Ближняя дистанция
-          m_fAttackFireTime = 1.5f;  // Медленнее стрельба
-		}
+        if (m_gwtWeapon == GWT_SHOTGUN){
+          m_fAttackDistance = 50.0f; // Close range
+          m_fAttackFireTime = 1.5f;  // Slower firing rate
+        }
         // setup moving speed
         m_fWalkSpeed = FRnd() + 2.5f;
         m_aWalkRotateSpeed = AngleDeg(FRnd()*10.0f + 500.0f);

@@ -5,6 +5,7 @@
 EP_ENUMBEG(WalkerChar)
   EP_ENUMVALUE(WLC_SOLDIER, "Soldier"),
   EP_ENUMVALUE(WLC_SERGEANT, "Sergeant"),
+  EP_ENUMVALUE(WLC_HEAVY, "Heavy"),
 EP_ENUMEND(WalkerChar);
 
 #define ENTITYCLASS CWalker
@@ -15,6 +16,10 @@ CEntityProperty CWalker_properties[] = {
  CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x00000144<<8)+3, offsetof(CWalker, m_fSize), "", 0, 0, 0),
  CEntityProperty(CEntityProperty::EPT_BOOL, NULL, (0x00000144<<8)+4, offsetof(CWalker, m_bWalkSoundPlaying), "", 0, 0, 0),
  CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x00000144<<8)+5, offsetof(CWalker, m_fThreatDistance), "", 0, 0, 0),
+ CEntityProperty(CEntityProperty::EPT_INDEX, NULL, (0x00000144<<8)+6, offsetof(CWalker, m_bFireBulletCount), "", 0, 0, 0),
+ CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x00000144<<8)+7, offsetof(CWalker, m_fFireTime), "", 0, 0, 0),
+ CEntityProperty(CEntityProperty::EPT_FLOAT3D, NULL, (0x00000144<<8)+8, offsetof(CWalker, m_vFirePosition), "", 0, 0, 0),
+ CEntityProperty(CEntityProperty::EPT_INDEX, NULL, (0x00000144<<8)+9, offsetof(CWalker, iCurrentArm), "", 0, 0, 0),
  CEntityProperty(CEntityProperty::EPT_SOUNDOBJECT, NULL, (0x00000144<<8)+10, offsetof(CWalker, m_soFeet), "", 0, 0, 0),
  CEntityProperty(CEntityProperty::EPT_SOUNDOBJECT, NULL, (0x00000144<<8)+11, offsetof(CWalker, m_soFire1), "", 0, 0, 0),
  CEntityProperty(CEntityProperty::EPT_SOUNDOBJECT, NULL, (0x00000144<<8)+12, offsetof(CWalker, m_soFire2), "", 0, 0, 0),
@@ -30,12 +35,16 @@ CEntityComponent CWalker_components[] = {
  CEntityComponent(ECT_CLASS, CLASS_PROJECTILE, "EFNM" "Classes\\Projectile.ecl"),
 #define CLASS_BASIC_EFFECT ((0x00000144<<8)+2)
  CEntityComponent(ECT_CLASS, CLASS_BASIC_EFFECT, "EFNM" "Classes\\BasicEffect.ecl"),
+#define CLASS_BULLET ((0x00000144<<8)+3)
+ CEntityComponent(ECT_CLASS, CLASS_BULLET, "EFNM" "Classes\\Bullet.ecl"),
 #define MODEL_WALKER ((0x00000144<<8)+10)
  CEntityComponent(ECT_MODEL, MODEL_WALKER, "EFNM" "Models\\Enemies\\Walker\\Walker.mdl"),
 #define TEXTURE_WALKER_SOLDIER ((0x00000144<<8)+11)
  CEntityComponent(ECT_TEXTURE, TEXTURE_WALKER_SOLDIER, "EFNM" "Models\\Enemies\\Walker\\Walker02.tex"),
 #define TEXTURE_WALKER_SERGEANT ((0x00000144<<8)+12)
  CEntityComponent(ECT_TEXTURE, TEXTURE_WALKER_SERGEANT, "EFNM" "Models\\Enemies\\Walker\\Walker01.tex"),
+#define TEXTURE_WALKER_HEAVY ((0x00000144<<8)+13)
+ CEntityComponent(ECT_TEXTURE, TEXTURE_WALKER_HEAVY, "EFNM" "Models\\Enemies\\Walker\\Walker04.tex"),
 #define MODEL_LASER ((0x00000144<<8)+14)
  CEntityComponent(ECT_MODEL, MODEL_LASER, "EFNM" "Models\\Enemies\\Walker\\Laser.mdl"),
 #define TEXTURE_LASER ((0x00000144<<8)+15)
@@ -64,12 +73,14 @@ CEntityComponent CWalker_components[] = {
  CEntityComponent(ECT_SOUND, SOUND_SERGEANT_DEATH, "EFNM" "Models\\Enemies\\Walker\\Sounds\\Sergeant\\Death.wav"),
 #define SOUND_SERGEANT_WALK ((0x00000144<<8)+65)
  CEntityComponent(ECT_SOUND, SOUND_SERGEANT_WALK, "EFNM" "Models\\Enemies\\Walker\\Sounds\\Sergeant\\Walk.wav"),
+#define SOUND_HEAVY_FIRE ((0x00000144<<8)+66)
+ CEntityComponent(ECT_SOUND, SOUND_HEAVY_FIRE, "EFNM" "Models\\Enemies\\Walker\\Sounds\\FireHeavy.wav"),
 };
 #define CWalker_componentsct ARRAYCOUNT(CWalker_components)
 
 CEventHandlerEntry CWalker_handlers[] = {
  {0x01440000, STATE_CEnemyBase_Fire, CEntity::pEventHandler(&CWalker::
-#line 312 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 421 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 Fire),DEBUGSTRING("CWalker::Fire")},
  {0x01440001, -1, CEntity::pEventHandler(&CWalker::H0x01440001_Fire_01), DEBUGSTRING("CWalker::H0x01440001_Fire_01")},
  {0x01440002, -1, CEntity::pEventHandler(&CWalker::H0x01440002_Fire_02), DEBUGSTRING("CWalker::H0x01440002_Fire_02")},
@@ -86,17 +97,33 @@ Fire),DEBUGSTRING("CWalker::Fire")},
  {0x0144000d, -1, CEntity::pEventHandler(&CWalker::H0x0144000d_Fire_13), DEBUGSTRING("CWalker::H0x0144000d_Fire_13")},
  {0x0144000e, -1, CEntity::pEventHandler(&CWalker::H0x0144000e_Fire_14), DEBUGSTRING("CWalker::H0x0144000e_Fire_14")},
  {0x0144000f, -1, CEntity::pEventHandler(&CWalker::H0x0144000f_Fire_15), DEBUGSTRING("CWalker::H0x0144000f_Fire_15")},
- {0x01440010, STATE_CEnemyBase_Death, CEntity::pEventHandler(&CWalker::
-#line 392 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+ {0x01440010, -1, CEntity::pEventHandler(&CWalker::H0x01440010_Fire_16), DEBUGSTRING("CWalker::H0x01440010_Fire_16")},
+ {0x01440011, -1, CEntity::pEventHandler(&CWalker::H0x01440011_Fire_17), DEBUGSTRING("CWalker::H0x01440011_Fire_17")},
+ {0x01440012, -1, CEntity::pEventHandler(&CWalker::H0x01440012_Fire_18), DEBUGSTRING("CWalker::H0x01440012_Fire_18")},
+ {0x01440013, -1, CEntity::pEventHandler(&CWalker::
+#line 504 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+MachinegunAttack),DEBUGSTRING("CWalker::MachinegunAttack")},
+ {0x01440014, -1, CEntity::pEventHandler(&CWalker::H0x01440014_MachinegunAttack_01), DEBUGSTRING("CWalker::H0x01440014_MachinegunAttack_01")},
+ {0x01440015, -1, CEntity::pEventHandler(&CWalker::H0x01440015_MachinegunAttack_02), DEBUGSTRING("CWalker::H0x01440015_MachinegunAttack_02")},
+ {0x01440016, -1, CEntity::pEventHandler(&CWalker::H0x01440016_MachinegunAttack_03), DEBUGSTRING("CWalker::H0x01440016_MachinegunAttack_03")},
+ {0x01440017, -1, CEntity::pEventHandler(&CWalker::H0x01440017_MachinegunAttack_04), DEBUGSTRING("CWalker::H0x01440017_MachinegunAttack_04")},
+ {0x01440018, -1, CEntity::pEventHandler(&CWalker::H0x01440018_MachinegunAttack_05), DEBUGSTRING("CWalker::H0x01440018_MachinegunAttack_05")},
+ {0x01440019, -1, CEntity::pEventHandler(&CWalker::H0x01440019_MachinegunAttack_06), DEBUGSTRING("CWalker::H0x01440019_MachinegunAttack_06")},
+ {0x0144001a, -1, CEntity::pEventHandler(&CWalker::H0x0144001a_MachinegunAttack_07), DEBUGSTRING("CWalker::H0x0144001a_MachinegunAttack_07")},
+ {0x0144001b, -1, CEntity::pEventHandler(&CWalker::H0x0144001b_MachinegunAttack_08), DEBUGSTRING("CWalker::H0x0144001b_MachinegunAttack_08")},
+ {0x0144001c, -1, CEntity::pEventHandler(&CWalker::H0x0144001c_MachinegunAttack_09), DEBUGSTRING("CWalker::H0x0144001c_MachinegunAttack_09")},
+ {0x0144001d, -1, CEntity::pEventHandler(&CWalker::H0x0144001d_MachinegunAttack_10), DEBUGSTRING("CWalker::H0x0144001d_MachinegunAttack_10")},
+ {0x0144001e, STATE_CEnemyBase_Death, CEntity::pEventHandler(&CWalker::
+#line 564 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 Death),DEBUGSTRING("CWalker::Death")},
- {0x01440011, -1, CEntity::pEventHandler(&CWalker::H0x01440011_Death_01), DEBUGSTRING("CWalker::H0x01440011_Death_01")},
- {0x01440012, -1, CEntity::pEventHandler(&CWalker::H0x01440012_Death_02), DEBUGSTRING("CWalker::H0x01440012_Death_02")},
- {0x01440013, -1, CEntity::pEventHandler(&CWalker::H0x01440013_Death_03), DEBUGSTRING("CWalker::H0x01440013_Death_03")},
- {0x01440014, -1, CEntity::pEventHandler(&CWalker::H0x01440014_Death_04), DEBUGSTRING("CWalker::H0x01440014_Death_04")},
- {0x01440015, -1, CEntity::pEventHandler(&CWalker::H0x01440015_Death_05), DEBUGSTRING("CWalker::H0x01440015_Death_05")},
- {0x01440016, -1, CEntity::pEventHandler(&CWalker::H0x01440016_Death_06), DEBUGSTRING("CWalker::H0x01440016_Death_06")},
+ {0x0144001f, -1, CEntity::pEventHandler(&CWalker::H0x0144001f_Death_01), DEBUGSTRING("CWalker::H0x0144001f_Death_01")},
+ {0x01440020, -1, CEntity::pEventHandler(&CWalker::H0x01440020_Death_02), DEBUGSTRING("CWalker::H0x01440020_Death_02")},
+ {0x01440021, -1, CEntity::pEventHandler(&CWalker::H0x01440021_Death_03), DEBUGSTRING("CWalker::H0x01440021_Death_03")},
+ {0x01440022, -1, CEntity::pEventHandler(&CWalker::H0x01440022_Death_04), DEBUGSTRING("CWalker::H0x01440022_Death_04")},
+ {0x01440023, -1, CEntity::pEventHandler(&CWalker::H0x01440023_Death_05), DEBUGSTRING("CWalker::H0x01440023_Death_05")},
+ {0x01440024, -1, CEntity::pEventHandler(&CWalker::H0x01440024_Death_06), DEBUGSTRING("CWalker::H0x01440024_Death_06")},
  {1, -1, CEntity::pEventHandler(&CWalker::
-#line 453 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 625 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 Main),DEBUGSTRING("CWalker::Main")},
 };
 #define CWalker_handlersct ARRAYCOUNT(CWalker_handlers)

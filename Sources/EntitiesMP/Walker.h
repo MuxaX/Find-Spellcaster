@@ -6,10 +6,12 @@
 #define _EntitiesMP_Walker_INCLUDED 1
 #include <EntitiesMP/EnemyBase.h>
 #include <EntitiesMP/Projectile.h>
+#include <EntitiesMP/Bullet.h>
 extern DECL_DLL CEntityPropertyEnumType WalkerChar_enum;
 enum WalkerChar {
   WLC_SOLDIER = 0,
   WLC_SERGEANT = 1,
+  WLC_HEAVY = 2,
 };
 DECL_DLL inline void ClearToDefault(WalkerChar &e) { e = (WalkerChar)0; } ;
 extern "C" DECL_DLL CDLLEntityClass CWalker_DLLClass;
@@ -21,79 +23,92 @@ public:
   FLOAT m_fSize;
   BOOL m_bWalkSoundPlaying;
   FLOAT m_fThreatDistance;
+  INDEX m_bFireBulletCount;
+  FLOAT m_fFireTime;
+  FLOAT3D m_vFirePosition;
+  INDEX iCurrentArm;
   CSoundObject m_soFeet;
   CSoundObject m_soFire1;
   CSoundObject m_soFire2;
   CSoundObject m_soFire3;
   CSoundObject m_soFire4;
   
-#line 85 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 103 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 virtual CTString GetPlayerKillDescription(const CTString & strPlayerName,const EDeath & eDeath);
   
-#line 92 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 110 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 virtual const CTFileName & GetComputerMessageName(void)const;
    
-#line 102 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 122 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 FLOAT GetThreatDistance(void);
    
-#line 107 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 127 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 BOOL ForcesCannonballToExplode(void);
    
-#line 115 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 135 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 void Precache(void);
    
-#line 154 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 190 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 void * GetEntityInfo(void);
    
-#line 158 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 194 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 FLOAT GetCrushHealth(void);
    
-#line 167 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 203 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 void ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
-#line 168 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 204 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection);
    
-#line 186 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 222 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 void StandingAnim(void);
    
-#line 190 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 226 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 void StandingAnimFight(void);
    
-#line 195 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 231 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 void WalkingAnim(void);
    
-#line 203 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 239 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 void RunningAnim(void);
    
-#line 206 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 242 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 void RotatingAnim(void);
    
-#line 211 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 247 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 void IdleSound(void);
    
-#line 214 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 250 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 void SightSound(void);
    
-#line 217 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 253 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 void DeathSound(void);
    
-#line 222 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 258 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 void ActivateWalkingSound(void);
    
-#line 229 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 265 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 void DeactivateWalkingSound(void);
    
-#line 236 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 272 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 void FireDeathRocket(FLOAT3D & vPos);
    
-#line 248 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 284 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 void FireDeathLaser(FLOAT3D & vPos);
    
-#line 263 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 297 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+BOOL CanFireAtPlayer(void);
+   
+#line 319 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+void PrepareBullet(FLOAT fDamage,FLOAT3D vFirePos);
+   
+#line 342 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+void FireBullet(FLOAT3D vFirePos);
+   
+#line 371 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 void EnemyPostInit(void);
 #define  STATE_CWalker_Fire 0x01440000
   BOOL 
-#line 312 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 421 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 Fire(const CEntityEvent &__eeInput);
   BOOL H0x01440001_Fire_01(const CEntityEvent &__eeInput);
   BOOL H0x01440002_Fire_02(const CEntityEvent &__eeInput);
@@ -110,19 +125,36 @@ Fire(const CEntityEvent &__eeInput);
   BOOL H0x0144000d_Fire_13(const CEntityEvent &__eeInput);
   BOOL H0x0144000e_Fire_14(const CEntityEvent &__eeInput);
   BOOL H0x0144000f_Fire_15(const CEntityEvent &__eeInput);
-#define  STATE_CWalker_Death 0x01440010
+  BOOL H0x01440010_Fire_16(const CEntityEvent &__eeInput);
+  BOOL H0x01440011_Fire_17(const CEntityEvent &__eeInput);
+  BOOL H0x01440012_Fire_18(const CEntityEvent &__eeInput);
+#define  STATE_CWalker_MachinegunAttack 0x01440013
   BOOL 
-#line 392 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 504 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+MachinegunAttack(const CEntityEvent &__eeInput);
+  BOOL H0x01440014_MachinegunAttack_01(const CEntityEvent &__eeInput);
+  BOOL H0x01440015_MachinegunAttack_02(const CEntityEvent &__eeInput);
+  BOOL H0x01440016_MachinegunAttack_03(const CEntityEvent &__eeInput);
+  BOOL H0x01440017_MachinegunAttack_04(const CEntityEvent &__eeInput);
+  BOOL H0x01440018_MachinegunAttack_05(const CEntityEvent &__eeInput);
+  BOOL H0x01440019_MachinegunAttack_06(const CEntityEvent &__eeInput);
+  BOOL H0x0144001a_MachinegunAttack_07(const CEntityEvent &__eeInput);
+  BOOL H0x0144001b_MachinegunAttack_08(const CEntityEvent &__eeInput);
+  BOOL H0x0144001c_MachinegunAttack_09(const CEntityEvent &__eeInput);
+  BOOL H0x0144001d_MachinegunAttack_10(const CEntityEvent &__eeInput);
+#define  STATE_CWalker_Death 0x0144001e
+  BOOL 
+#line 564 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 Death(const CEntityEvent &__eeInput);
-  BOOL H0x01440011_Death_01(const CEntityEvent &__eeInput);
-  BOOL H0x01440012_Death_02(const CEntityEvent &__eeInput);
-  BOOL H0x01440013_Death_03(const CEntityEvent &__eeInput);
-  BOOL H0x01440014_Death_04(const CEntityEvent &__eeInput);
-  BOOL H0x01440015_Death_05(const CEntityEvent &__eeInput);
-  BOOL H0x01440016_Death_06(const CEntityEvent &__eeInput);
+  BOOL H0x0144001f_Death_01(const CEntityEvent &__eeInput);
+  BOOL H0x01440020_Death_02(const CEntityEvent &__eeInput);
+  BOOL H0x01440021_Death_03(const CEntityEvent &__eeInput);
+  BOOL H0x01440022_Death_04(const CEntityEvent &__eeInput);
+  BOOL H0x01440023_Death_05(const CEntityEvent &__eeInput);
+  BOOL H0x01440024_Death_06(const CEntityEvent &__eeInput);
 #define  STATE_CWalker_Main 1
   BOOL 
-#line 453 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
+#line 625 "V:/Programs/SamSDK/Sources/EntitiesMP/Walker.es"
 Main(const CEntityEvent &__eeInput);
 };
 #endif // _EntitiesMP_Walker_INCLUDED
