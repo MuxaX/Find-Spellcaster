@@ -508,50 +508,46 @@ static void HUD_DrawText( FLOAT fCenterX, FLOAT fCenterY, const CTString &strTex
 
 
 // draw bar
-static void HUD_DrawBar( FLOAT fCenterX, FLOAT fCenterY, FLOAT pixSizeX, FLOAT pixSizeY,
+/*static void HUD_DrawBar( FLOAT fCenterX, FLOAT fCenterY, FLOAT pixSizeX, FLOAT pixSizeY,
                          enum BarOrientations eBarOrientation, COLOR colDefault, FLOAT fNormValue, CTextureObject &toTextureBar)
 {
-  // determine color
-  COLOR col = colDefault;
-  if( col==NONE) col = GetCurrentColor( fNormValue);
-  // determine location and size
-  PIX pixCenterI = (PIX)(fCenterX*_pixDPWidth  / 640.0f);
-  PIX pixCenterJ = (PIX)(fCenterY*_pixDPHeight / (480.0f * _pDP->dp_fWideAdjustment));
-  PIX pixSizeI   = (PIX)(_fResolutionScaling*pixSizeX);
-  PIX pixSizeJ   = (PIX)(_fResolutionScaling*pixSizeY);
-  // fill bar background area
-  PIX pixLeft  = pixCenterI-pixSizeI/2;
-  PIX pixUpper = pixCenterJ-pixSizeJ/2;
-  // determine bar position and inner size
-  const FLOAT fCenterI = fCenterX*_pixDPWidth  / 640.0f;
-  const FLOAT fCenterJ = fCenterY*_pixDPHeight / (480.0f * _pDP->dp_fWideAdjustment);
-  CTextureData *ptd = (CTextureData*)toTextureBar.GetData();
-  const FLOAT fHalfSizeI = _fResolutionScaling*_fCustomScaling * ptd->GetPixWidth()  *0.5f;
-  const FLOAT fHalfSizeJ = _fResolutionScaling*_fCustomScaling * ptd->GetPixHeight() *0.5f;
-  switch( eBarOrientation) {
-  case BO_UP:
-    pixSizeJ *= fNormValue;
-    break;
-  case BO_DOWN:
-    pixUpper  = pixUpper + (PIX)ceil(pixSizeJ * (1.0f-fNormValue));
-    pixSizeJ *= fNormValue;
-    break;
-  case BO_LEFT:
-    pixSizeI *= fNormValue;
-	//_pDP->InitTexture( &toTextureBar);
-  //_pDP->Fill( pixLeft, pixUpper, pixSizeI, pixSizeJ, col|_ulAlphaHUD);
-   // _pDP->AddTexture(fCenterI-fHalfSizeI, fCenterJ-fHalfSizeJ, pixSizeI, fCenterJ+fHalfSizeJ, col|_ulAlphaHUD);
-   // _pDP->FlushRenderingQueue();
-	//CPrintF("pixSizeI = %i\n", pixSizeI);
-    break;
-  case BO_RIGHT:
-    pixLeft   = pixLeft + (PIX)ceil(pixSizeI * (1.0f-fNormValue));
-    pixSizeI *= fNormValue;
-    break;
-  }
-  // done
-
-}
+    // determine color
+    COLOR col = colDefault;
+    if( col==NONE) col = GetCurrentColor( fNormValue);
+    
+    // Используем базовое разрешение 1600x900 для расчета позиций
+    PIX pixCenterI = (PIX)(fCenterX * _fWidthRatio);
+    PIX pixCenterJ = (PIX)(fCenterY * _fHeightRatio);
+    PIX pixSizeI   = (PIX)(pixSizeX * _fMinRatio);
+    PIX pixSizeJ   = (PIX)(pixSizeY * _fMinRatio);
+    
+    // fill bar background area
+    PIX pixLeft  = pixCenterI - pixSizeI/2;
+    PIX pixUpper = pixCenterJ - pixSizeJ/2;
+    
+    // determine bar position and inner size based on orientation
+    switch( eBarOrientation) {
+    case BO_UP:
+        pixSizeJ *= fNormValue;
+        break;
+    case BO_DOWN:
+        pixUpper  = pixUpper + (PIX)ceil(pixSizeJ * (1.0f-fNormValue));
+        pixSizeJ *= fNormValue;
+        break;
+    case BO_LEFT:
+        pixSizeI *= fNormValue;
+        break;
+    case BO_RIGHT:
+        pixLeft   = pixLeft + (PIX)ceil(pixSizeI * (1.0f-fNormValue));
+        pixSizeI *= fNormValue;
+        break;
+    }
+    
+    // Draw the bar using texture
+    _pDP->InitTexture( &toTextureBar);
+    _pDP->AddTexture( pixLeft, pixUpper, pixLeft + pixSizeI, pixUpper + pixSizeJ, col|_ulAlphaHUD);
+    _pDP->FlushRenderingQueue();
+}*/
 
 static void DrawRotatedQuad( class CTextureObject *_pTO, FLOAT fX, FLOAT fY, FLOAT fSize, ANGLE aAngle, COLOR col)
 {
@@ -1123,6 +1119,11 @@ extern void DrawHUD( const CPlayer *penPlayerCurrent, CDrawPort *pdpCurrent, BOO
   _pixDPHeight  = _pDP->GetHeight();
   _fCustomScaling     = hud_fScaling;
   _fResolutionScaling = (FLOAT)_pixDPWidth /640.0f;
+  	static FLOAT _fBaseWidth = 1600.0f;
+	static FLOAT _fBaseHeight = 900.0f;
+	static FLOAT _fWidthRatio = _pixDPWidth / _fBaseWidth;
+	static FLOAT _fHeightRatio = _pixDPHeight / _fBaseHeight;
+	static FLOAT _fMinRatio = min(_fWidthRatio, _fHeightRatio);
   _colHUD     = 0x14bdff00;
   _colHUDText = COL_GREEN;
   _ulAlphaHUD = NormFloatToByte(hud_fOpacity);
@@ -1184,56 +1185,49 @@ extern void DrawHUD( const CPlayer *penPlayerCurrent, CDrawPort *pdpCurrent, BOO
   FLOAT fMoverX, fMoverY;
   COLOR colDefault;
   
-  // prepare and draw health info
-  fValue = ClampDn( _penPlayer->GetHealth(), 0.0f);  // never show negative health
-  fNormValue = fValue/TOP_HEALTH;
-  //strValue.PrintF( "%d", (SLONG)ceil(fValue));
-  PrepareColorTransitions( C_WHITE, C_WHITE, C_WHITE, C_WHITE, 0.5f, 0.25f, FALSE);
-  fRow = pixBottomBound-fHalfUnit;
-  fCol = pixLeftBound+fHalfUnit;
-  
-  FLOAT fHealthBarWidth = 256.0f;
-  fHealthBarWidth = fHealthBarWidth * fNormValue;
-  FLOAT fHealthBarStatic = fHalfUnit + 35;
-  
-  PIXaabbox2D boxProgressBar;
-  boxProgressBar = PIXaabbox2D ( PIX2D(fHealthBarStatic, fHalfUnit+660), PIX2D(fHealthBarStatic+fHealthBarWidth, fHalfUnit+692));
-  
-  MEXaabbox2D boxProgressBarChange;
-  boxProgressBarChange =  MEXaabbox2D(MEX2D(0, 0), MEX2D((fHealthBarWidth)*-1, 32));
-  
-  _pDP->PutTexture( &_tohealthBar2, boxProgressBar, boxProgressBarChange, C_WHITE|255);
-  _pDP->FlushRenderingQueue();
-  
-  _pDP->InitTexture( &_tohealthBar1);
-  _pDP->AddTexture(fHealthBarStatic, fHalfUnit+660, fHealthBarStatic+256, fHalfUnit+692, C_WHITE|255);
-  _pDP->FlushRenderingQueue();
-  
-  colDefault = AddShaker( 5, fValue, penLast->m_iLastHealth, penLast->m_tmHealthChanged, fMoverX, fMoverY);
-  //HUD_DrawBorder( fCol+fMoverX, fRow+fMoverY, fOneUnit, fOneUnit, colBorder);
-  fCol += fAdvUnit+fChrUnit*3/2 -fHalfUnit;
- // HUD_DrawBorder( fCol, fRow, fChrUnit*3, fOneUnit, colBorder);
- 
-  //HUD_DrawBar(100/1.96f, fRow, 100/1.96f, 1, BO_LEFT, NONE, fNormValue, _tohealthBar);
-  //HUD_DrawText( fCol, fRow, strValue, colDefault, fNormValue);
-  fCol -= fAdvUnit+fChrUnit*3/2 -fHalfUnit;
-  //fCol -= fAdvUnit+fChrUnit*3/2 -fHalfUnit;
-  if(fValue<=25.0f)
-  {
-	  _pDP->InitTexture( &_toSmallHealth);
-      _pDP->AddTexture(fHalfUnit, fHalfUnit+655, fHalfUnit+32, fHalfUnit+687, C_WHITE|255);
-  }
-  else if(fValue<=60.0f)
-  {
-	  _pDP->InitTexture( &_toMiddleHealth);
-      _pDP->AddTexture(fHalfUnit, fHalfUnit+655, fHalfUnit+32, fHalfUnit+687, C_WHITE|255);
-  }
-  else
-  {
-	  _pDP->InitTexture( &_toHealth);
-      _pDP->AddTexture(fHalfUnit, fHalfUnit+655, fHalfUnit+32, fHalfUnit+687, C_WHITE|255);;
-  }
-  _pDP->FlushRenderingQueue();
+// prepare and draw health info
+fValue = ClampDn( _penPlayer->GetHealth(), 0.0f);  // never show negative health
+fNormValue = fValue/TOP_HEALTH;
+
+// Базовые координаты для разрешения 1600x900
+FLOAT fHealthBarX = 35.0f;
+FLOAT fHealthBarY = 755.0f;  // было 655, теперь 755 (+100)
+FLOAT fHealthBarWidth = 256.0f;
+FLOAT fHealthBarHeight = 32.0f;
+
+// Масштабируем координаты под текущее разрешение
+FLOAT fScaledX = fHealthBarX * _fWidthRatio;
+FLOAT fScaledY = fHealthBarY * _fHeightRatio;
+FLOAT fScaledWidth = fHealthBarWidth * _fMinRatio;
+FLOAT fScaledCurrentWidth = fScaledWidth * fNormValue;
+FLOAT fIconSize = 32.0f * _fMinRatio;
+
+// Отрисовка "пустой" части бара (статичная текстура) - теперь фон
+if (fScaledCurrentWidth > 0) {
+    _pDP->InitTexture( &_tohealthBar2);
+    _pDP->AddTexture(fScaledX, fScaledY, fScaledX + fScaledCurrentWidth, fScaledY + fHealthBarHeight * _fMinRatio, C_WHITE|_ulAlphaHUD);
+    _pDP->FlushRenderingQueue();
+}
+
+// Отрисовка фона бара здоровья (полная длина) - теперь заполняющаяся текстура
+_pDP->InitTexture( &_tohealthBar1);
+_pDP->AddTexture(fScaledX, fScaledY, fScaledX + fScaledWidth, fScaledY + fHealthBarHeight * _fMinRatio, C_WHITE|_ulAlphaHUD);
+_pDP->FlushRenderingQueue();
+
+
+// Отрисовка иконки здоровья
+FLOAT fIconX = fScaledX - fIconSize - 5.0f * _fMinRatio;
+FLOAT fIconY = fScaledY;
+
+if(fValue<=25.0f) {
+    _pDP->InitTexture( &_toSmallHealth);
+} else if(fValue<=60.0f) {
+    _pDP->InitTexture( &_toMiddleHealth);
+} else {
+    _pDP->InitTexture( &_toHealth);
+}
+_pDP->AddTexture(fIconX, fIconY, fIconX + fIconSize, fIconY + fIconSize, C_WHITE|_ulAlphaHUD);
+_pDP->FlushRenderingQueue();
   
   
   
@@ -1241,50 +1235,49 @@ extern void DrawHUD( const CPlayer *penPlayerCurrent, CDrawPort *pdpCurrent, BOO
   
 
   // prepare and draw armor info (eventually)
-  fValue = _penPlayer->m_fArmor;
-  if( fValue > 0.0f) {
+fValue = _penPlayer->m_fArmor;
+if( fValue > 0.0f) {
     fNormValue = fValue/TOP_ARMOR;
-    //strValue.PrintF( "%d", (SLONG)ceil(fValue));
-    PrepareColorTransitions( C_WHITE, C_WHITE, C_WHITE, C_WHITE, 0.5f, 0.25f, FALSE);
-    fRow = pixBottomBound-fHalfUnit-20;//*_pDP->dp_fWideAdjustment;
-    fCol = pixLeftBound+fHalfUnit;
-    colDefault = AddShaker( 3, fValue, penLast->m_iLastArmor, penLast->m_tmArmorChanged, fMoverX, fMoverY);
-	
-	FLOAT fArmorBarWidth = 256.0f;
-    fArmorBarWidth = fArmorBarWidth * fNormValue;
-    FLOAT fArmorBarStatic = fHalfUnit + 35;
-  
-    PIXaabbox2D boxProgressBar;
-    boxProgressBar = PIXaabbox2D ( PIX2D(fArmorBarStatic, fHalfUnit+620), PIX2D(fArmorBarStatic+fArmorBarWidth, fHalfUnit+652));
-  
-    MEXaabbox2D boxProgressBarChange;
-    boxProgressBarChange =  MEXaabbox2D(MEX2D(0, 0), MEX2D((fArmorBarWidth)*-1, 32));
-  
-    _pDP->PutTexture( &_tohealthBar2, boxProgressBar, boxProgressBarChange, C_WHITE|255);
-    _pDP->FlushRenderingQueue();
     
-    _pDP->InitTexture( &_toArmorBar);
-    _pDP->AddTexture(fHealthBarStatic, fHalfUnit+620, fHealthBarStatic+256, fHalfUnit+652, C_WHITE|255);
+    // Базовые координаты для разрешения 1600x900
+    FLOAT fArmorBarX = 35.0f;
+    FLOAT fArmorBarY = 720.0f;   // было 620, теперь 720 (+100) 
+    FLOAT fArmorBarWidth = 256.0f;
+    FLOAT fArmorBarHeight = 32.0f;
+
+    // Масштабируем координаты
+    FLOAT fScaledX = fArmorBarX * _fWidthRatio;
+    FLOAT fScaledY = fArmorBarY * _fHeightRatio;
+    FLOAT fScaledWidth = fArmorBarWidth * _fMinRatio;
+    FLOAT fScaledCurrentWidth = fScaledWidth * fNormValue;
+    FLOAT fIconSize = 32.0f * _fMinRatio;
+	
+	// Отрисовка заполнения бара брони - статичная текстура
+if (fScaledCurrentWidth > 0) {
+    _pDP->InitTexture( &_tohealthBar2);
+    _pDP->AddTexture(fScaledX, fScaledY, fScaledX + fScaledCurrentWidth, fScaledY + fArmorBarHeight * _fMinRatio, C_WHITE|_ulAlphaHUD);
     _pDP->FlushRenderingQueue();
-    //HUD_DrawBorder( fCol+fMoverX, fRow+fMoverY, fOneUnit, fOneUnit, colBorder);
-    fCol += fAdvUnit+fChrUnit*3/2 -fHalfUnit;
-    //HUD_DrawBorder( fCol, fRow, fChrUnit*3, fOneUnit, colBorder);
-	//HUD_DrawBar(fCol+6, fRow, fOneUnit*3, fOneUnit*0.4, BO_LEFT, NONE, fNormValue, _tohealthBar1);
-    //HUD_DrawText( fCol, fRow, strValue, NONE, fNormValue);
-    fCol -= fAdvUnit+fChrUnit*3/2 -fHalfUnit;
+}
+
+// Отрисовка фона бара брони - заполняющаяся текстура
+_pDP->InitTexture( &_toArmorBar);
+_pDP->AddTexture(fScaledX, fScaledY, fScaledX + fScaledWidth, fScaledY + fArmorBarHeight * _fMinRatio, C_WHITE|_ulAlphaHUD);
+_pDP->FlushRenderingQueue();
+
+    // Отрисовка иконки брони
+    FLOAT fIconX = fScaledX - fIconSize - 5.0f * _fMinRatio;
+    FLOAT fIconY = fScaledY;
+
     if (fValue<=25.5f) {
-       _pDP->InitTexture( &_toArmorSmall);
-       _pDP->AddTexture(fHalfUnit, fHalfUnit+610, fHalfUnit+32, fHalfUnit+642, C_WHITE|255);
+        _pDP->InitTexture( &_toArmorSmall);
     } else if (fValue<=60.5f) {
-       _pDP->InitTexture( &_toArmorMedium);
-       _pDP->AddTexture(fHalfUnit, fHalfUnit+610, fHalfUnit+32, fHalfUnit+642, C_WHITE|255);
+        _pDP->InitTexture( &_toArmorMedium);
     } else {
-       _pDP->InitTexture( &_toArmorLarge);
-       _pDP->AddTexture(fHalfUnit, fHalfUnit+610, fHalfUnit+32, fHalfUnit+642, C_WHITE|255);
-	   _pDP->FlushRenderingQueue();
+        _pDP->InitTexture( &_toArmorLarge);
     }
-	_pDP->FlushRenderingQueue();
-  }
+    _pDP->AddTexture(fIconX, fIconY, fIconX + fIconSize, fIconY + fIconSize, C_WHITE|_ulAlphaHUD);
+    _pDP->FlushRenderingQueue();
+}
 
   // prepare and draw ammo and weapon info
   CTextureObject *ptoCurrentAmmo=NULL, *ptoCurrentWeapon=NULL, *ptoWantedWeapon=NULL;
@@ -1393,7 +1386,7 @@ extern void DrawHUD( const CPlayer *penPlayerCurrent, CDrawPort *pdpCurrent, BOO
     }
     HUD_DrawBorder( fCol,         fRow, fOneUnitS, fOneUnitS, colBombBorder);
     HUD_DrawIcon(   fCol,         fRow, _toASeriousBomb, colBombIcon, fNormValue, FALSE);
-    HUD_DrawBar(    fCol+fBarPos, fRow, fOneUnitS/5, fOneUnitS-2, BO_DOWN, colBombBar, fNormValue, _toASeriousBomb);
+    //HUD_DrawBar(    fCol+fBarPos, fRow, fOneUnitS/5, fOneUnitS-2, BO_DOWN, colBombBar, fNormValue, _toASeriousBomb);
     // make space for serious bomb
     fCol -= fAdvUnitS;
   }
@@ -1436,7 +1429,7 @@ extern void DrawHUD( const CPlayer *penPlayerCurrent, CDrawPort *pdpCurrent, BOO
     // draw icon and a little bar
     HUD_DrawBorder( fCol,         fRow, fOneUnitS, fOneUnitS, colBorder);
     HUD_DrawIcon(   fCol,         fRow, _atoPowerups[i], C_WHITE /*_colHUD*/, fNormValue, TRUE);
-    HUD_DrawBar(    fCol+fBarPos, fRow, fOneUnitS/5, fOneUnitS-2, BO_DOWN, NONE, fNormValue, _tohealthBar1);
+    //HUD_DrawBar(    fCol+fBarPos, fRow, fOneUnitS/5, fOneUnitS-2, BO_DOWN, NONE, fNormValue, _tohealthBar1);
     // play sound if icon is flashing
     if(fNormValue<=(_cttHUD.ctt_fLowMedium/2)) {
       // activate blinking only if value is <= half the low edge
@@ -1503,42 +1496,51 @@ extern void DrawHUD( const CPlayer *penPlayerCurrent, CDrawPort *pdpCurrent, BOO
   fAdvUnit  *= fUpperSize;
   fNextUnit *= fUpperSize;
 
-  // draw oxygen info if needed
-  BOOL bOxygenOnScreen = TRUE;
-  hud_fScaling = Clamp( hud_fScaling, 0.5f, 1.2f);
-  _fCustomScaling     = hud_fScaling;
-  
-  fOneUnit  = (32+0) * _fCustomScaling;  // unit size
-  fHalfUnit = fOneUnit * 0.5f;
-  FLOAT fOxygenBarWidth = 256.0f;
-  FLOAT fOxygenBarStatic = fHalfUnit + 35;
-  
-  PIXaabbox2D boxProgressBarO2;
-  boxProgressBarO2 = PIXaabbox2D ( PIX2D(fOxygenBarStatic, fHalfUnit+700), PIX2D(fOxygenBarStatic+fOxygenBarWidth, fHalfUnit+732));
-  
-  MEXaabbox2D boxProgressBarChangeO2;
-  boxProgressBarChangeO2 =  MEXaabbox2D(MEX2D(0, 0), MEX2D(fOxygenBarWidth, 32));
-  
-  fValue = _penPlayer->en_tmMaxHoldBreath - (_pTimer->CurrentTick() - _penPlayer->en_tmLastBreathed);
-  if( _penPlayer->IsConnected() && (_penPlayer->GetFlags()&ENF_ALIVE) && fValue<60.0f) { 
-    // prepare and draw oxygen info
-    fRow = pixBottomBound-fHalfUnit;
-    fCol = 200.0f;
-    fAdv = fAdvUnit + fOneUnit*4/2 - fHalfUnit;
-    PrepareColorTransitions( C_OXYGEN, C_OXYGEN, C_OXYGEN, C_OXYGEN, 0.5f, 0.25f, FALSE);
+// draw oxygen info if needed
+BOOL bOxygenOnScreen = TRUE;
+fValue = _penPlayer->en_tmMaxHoldBreath - (_pTimer->CurrentTick() - _penPlayer->en_tmLastBreathed);
+if( _penPlayer->IsConnected() && (_penPlayer->GetFlags()&ENF_ALIVE) && fValue<60.0f) { 
+    // Базовые координаты для разрешения 1600x900
+    FLOAT fOxygenBarX = 35.0f;
+    FLOAT fOxygenBarY = 800.0f;  // было 700, теперь 800 (+100)  
+    FLOAT fOxygenBarWidth = 256.0f;
+    FLOAT fOxygenBarHeight = 32.0f;
+    
     fNormValue = fValue/60.0f;
-	fOxygenBarWidth = fOxygenBarWidth * fNormValue;
-	boxProgressBarO2 = PIXaabbox2D ( PIX2D(fOxygenBarStatic, fHalfUnit+700), PIX2D(fOxygenBarStatic+fOxygenBarWidth, fHalfUnit+732));
-	boxProgressBarChangeO2 =  MEXaabbox2D(MEX2D(0, 0), MEX2D((fOxygenBarWidth)*-1, 32));
-    //fNormValue = ClampDn(fNormValue, 0.0f);
-    HUD_DrawBorder( fCol,      fRow, fOneUnit,         fOneUnit, colBorder);
-    HUD_DrawBorder( fCol+fAdv, fRow, fOneUnit*4,       fOneUnit, colBorder);
-    bOxygenOnScreen = TRUE;
+    
+    // Масштабируем координаты
+    FLOAT fScaledX = fOxygenBarX * _fWidthRatio;
+    FLOAT fScaledY = fOxygenBarY * _fHeightRatio;
+    FLOAT fScaledWidth = fOxygenBarWidth * _fMinRatio;
+    FLOAT fScaledCurrentWidth = fScaledWidth * fNormValue;
+    FLOAT fIconSize = 32.0f * _fMinRatio;
 	
-  }
+	// Отрисовка заполнения бара кислорода - статичная текстура
+if (fScaledCurrentWidth > 0) {
+    _pDP->InitTexture( &_tohealthBar2);
+    _pDP->AddTexture(fScaledX, fScaledY, fScaledX + fScaledCurrentWidth, fScaledY + fOxygenBarHeight * _fMinRatio, C_WHITE|_ulAlphaHUD);
+    _pDP->FlushRenderingQueue();
+}
+
+// Отрисовка фона бара кислорода - заполняющаяся текстура
+_pDP->InitTexture( &_toOxygenBar);
+_pDP->AddTexture(fScaledX, fScaledY, fScaledX + fScaledWidth, fScaledY + fOxygenBarHeight * _fMinRatio, C_WHITE|_ulAlphaHUD);
+_pDP->FlushRenderingQueue();
+
+
+    // Отрисовка иконки кислорода
+    FLOAT fIconX = fScaledX - fIconSize - 5.0f * _fMinRatio;
+    FLOAT fIconY = fScaledY;
+    
+    _pDP->InitTexture( &_toOxygen);
+    _pDP->AddTexture(fIconX, fIconY, fIconX + fIconSize, fIconY + fIconSize, C_WHITE|_ulAlphaHUD);
+    _pDP->FlushRenderingQueue();
+    
+    bOxygenOnScreen = TRUE;
+}
   //CPrintF("pixSizeI = %i\n", pixSizeI);
 
-  _pDP->PutTexture( &_tohealthBar2, boxProgressBarO2, boxProgressBarChangeO2, C_WHITE|255);
+ /* _pDP->PutTexture( &_tohealthBar2, boxProgressBarO2, boxProgressBarChangeO2, C_WHITE|255);
   _pDP->FlushRenderingQueue();
 	
   _pDP->InitTexture( &_toOxygen);
@@ -1547,7 +1549,7 @@ extern void DrawHUD( const CPlayer *penPlayerCurrent, CDrawPort *pdpCurrent, BOO
   
   _pDP->InitTexture( &_toOxygenBar);
   _pDP->AddTexture(fHealthBarStatic, fHalfUnit+700, fHealthBarStatic+256, fHalfUnit+732, C_WHITE|255);
-  _pDP->FlushRenderingQueue();
+  _pDP->FlushRenderingQueue();*/
 
   // draw boss energy if needed
   if( _penPlayer->m_penMainMusicHolder!=NULL) {
@@ -1578,7 +1580,7 @@ extern void DrawHUD( const CPlayer *penPlayerCurrent, CDrawPort *pdpCurrent, BOO
       if( bOxygenOnScreen) fRow += fNextUnit;
       HUD_DrawBorder( fCol,      fRow, fOneUnit,          fOneUnit, colBorder);
       HUD_DrawBorder( fCol+fAdv, fRow, fOneUnit*16,       fOneUnit, colBorder);
-      HUD_DrawBar(    fCol+fAdv, fRow, fOneUnit*3, fOneUnit*0.4, BO_LEFT, NONE, fNormValue, _tohealthBar1);
+      //HUD_DrawBar(    fCol+fAdv, fRow, fOneUnit*3, fOneUnit*0.4, BO_LEFT, NONE, fNormValue, _tohealthBar1);
       HUD_DrawIcon(   fCol,      fRow, _toHealth, C_WHITE /*_colHUD*/, fNormValue, FALSE);
     }
   }
@@ -1983,4 +1985,3 @@ extern void EndHUD(void)
 {
 
 }
-

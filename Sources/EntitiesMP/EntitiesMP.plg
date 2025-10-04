@@ -6,21 +6,21 @@
 --------------------Configuration: EntitiesMP - Win32 Release--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPB28C.bat" with contents
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP6ADB.bat" with contents
 [
 @echo off
 cd                                                                                                                ..\
-ecc EntitiesMP/AltCannonBall.es
+ecc EntitiesMP/Player.es
 ]
-Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSPB28C.bat"
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPB28D.tmp" with contents
+Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSP6ADB.bat"
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP6ADC.tmp" with contents
 [
 /nologo /G5 /MD /W3 /GX /Zi /Ox /Ot /Og /Oi /Oy- /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Fr"Release/" /Fp"Release/EntitiesMP.pch" /Yu"StdH.h" /Fo"Release/" /Fd"Release/" /FD /c 
-"V:\Programs\SamSDK\Sources\EntitiesMP\AltCannonBall.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Player.cpp"
 ]
-Creating command line "cl.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSPB28D.tmp" 
-EntitiesMP/AltCannonBall.es
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPB31B.tmp" with contents
+Creating command line "cl.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSP6ADC.tmp" 
+EntitiesMP/Player.es
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP6CD1.tmp" with contents
 [
 /nologo /subsystem:windows /dll /incremental:no /pdb:"Release/EntitiesMP.pdb" /map:"Release/EntitiesMP.map" /debug /machine:I386 /out:"Release/EntitiesMP.dll" /implib:"Release/EntitiesMP.lib" /pdbtype:sept 
 .\Release\Common.obj
@@ -170,17 +170,17 @@ Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPB31B.tmp" with co
 .\Release\WorldLink.obj
 .\Release\WorldSettingsController.obj
 ]
-Creating command line "link.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSPB31B.tmp"
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPB31C.bat" with contents
+Creating command line "link.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSP6CD1.tmp"
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP6CD2.bat" with contents
 [
 @echo off
 copy Release\EntitiesMP.dll V:\Programs\SamSDK\Sources\Bin >nul
 copy Release\EntitiesMP.map V:\Programs\SamSDK\Sources\Bin >nul
 copy Release\EntitiesMP.lib V:\Programs\SamSDK\Sources\Bin >nul
 ]
-Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSPB31C.bat"
+Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSP6CD2.bat"
 Compiling...
-AltCannonBall.cpp
+Player.cpp
 Linking...
    Creating library Release/EntitiesMP.lib and object Release/EntitiesMP.exp
 <h3>Output Window</h3>

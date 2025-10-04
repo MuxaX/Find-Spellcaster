@@ -2699,7 +2699,7 @@ functions:
 	
 	/**********************************/
 	
-	/*Switch texture arm*/
+	 /*Switch texture arm*/
 	 FLOAT fDistance = 100.0f;
      TIME tmDelta = GetPlayerWeapons()->m_tmLastTarget - _pTimer->CurrentTick();
 	 FLOAT3D vOnScreen;
