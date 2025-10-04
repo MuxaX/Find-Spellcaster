@@ -2939,7 +2939,7 @@ aFOV  = 90.0f;
 #line 2450 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 2452 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if((((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_SNIPER ) || (((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_TOMMYGUN ) || (((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_ROCKETLAUNCHER ))
+if((((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_SNIPER ) || (((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_TOMMYGUN ) || (((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_ROCKETLAUNCHER ) || (((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_IRONCANNON ))
 #line 2453 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
 #line 2454 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
@@ -4764,2990 +4764,2992 @@ penWeapon  -> m_iWantedWeapon  == WEAPON_SNIPER ) || (penWeapon  -> m_iCurrentWe
 #line 3739 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 penWeapon  -> m_iWantedWeapon  == WEAPON_TOMMYGUN ) || (penWeapon  -> m_iCurrentWeapon  == WEAPON_ROCKETLAUNCHER  && 
 #line 3740 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penWeapon  -> m_iWantedWeapon  == WEAPON_ROCKETLAUNCHER )){
+penWeapon  -> m_iWantedWeapon  == WEAPON_ROCKETLAUNCHER ) || (penWeapon  -> m_iCurrentWeapon  == WEAPON_IRONCANNON  && 
 #line 3741 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_ulFlags  & PLF_ISZOOMING ){
+penWeapon  -> m_iWantedWeapon  == WEAPON_IRONCANNON )){
 #line 3742 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  &= ~ PLF_ISZOOMING ;
+if(m_ulFlags  & PLF_ISZOOMING ){
 #line 3743 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penWeapon  -> m_bSniping  = FALSE ;
+m_ulFlags  &= ~ PLF_ISZOOMING ;
 #line 3744 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penWeapon  -> m_fSniperFOVlast  = penWeapon  -> m_fSniperFOV  = penWeapon  -> m_fSniperMaxFOV ;
+penWeapon  -> m_bSniping  = FALSE ;
 #line 3745 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soSniperZoom  , SOUND_SILENCE  , SOF_3D );
+penWeapon  -> m_fSniperFOVlast  = penWeapon  -> m_fSniperFOV  = penWeapon  -> m_fSniperMaxFOV ;
 #line 3746 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_StopEffect  ("SniperZoom");}
+PlaySound  (m_soSniperZoom  , SOUND_SILENCE  , SOF_3D );
 #line 3747 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_StopEffect  ("SniperZoom");}
 #line 3748 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-else {
-#line 3749 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penWeapon  -> m_bSniping  = TRUE ;
-#line 3750 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  |= PLF_ISZOOMING ;
-#line 3751 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penWeapon  -> m_fSniperFOVlast  = penWeapon  -> m_fSniperFOV  = penWeapon  -> m_fMinimumZoomFOV ;
-#line 3752 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soSniperZoom  , SOUND_SNIPER_ZOOM  , SOF_3D  | SOF_LOOP );
-#line 3753 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_PlayEffect  ("SniperZoom");}
-#line 3754 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 3749 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+else {
+#line 3750 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+penWeapon  -> m_bSniping  = TRUE ;
+#line 3751 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_ulFlags  |= PLF_ISZOOMING ;
+#line 3752 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+penWeapon  -> m_fSniperFOVlast  = penWeapon  -> m_fSniperFOV  = penWeapon  -> m_fMinimumZoomFOV ;
+#line 3753 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soSniperZoom  , SOUND_SNIPER_ZOOM  , SOF_3D  | SOF_LOOP );
+#line 3754 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_PlayEffect  ("SniperZoom");}
 #line 3755 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 3756 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 3757 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-  
-#line 3763 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::SetGameEnd(void) 
-#line 3764 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
-#line 3765 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-_pNetwork  -> SetGameFinished  ();
-#line 3767 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-for(INDEX iPlayer  = 0;iPlayer  < GetMaxPlayers  ();iPlayer  ++){
-#line 3768 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CEntity  * pen  = GetPlayerEntity  (iPlayer );
-#line 3769 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(pen  != NULL ){
-#line 3770 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(cmp_ppenPlayer  == NULL  && _pNetwork  -> IsPlayerLocal  (pen )){
-#line 3771 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-cmp_ppenPlayer  = (CPlayer  *) pen ;
-#line 3772 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3758 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+  
+#line 3764 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+void CPlayer::SetGameEnd(void) 
+#line 3765 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 3766 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+_pNetwork  -> SetGameFinished  ();
+#line 3768 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+for(INDEX iPlayer  = 0;iPlayer  < GetMaxPlayers  ();iPlayer  ++){
+#line 3769 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CEntity  * pen  = GetPlayerEntity  (iPlayer );
+#line 3770 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(pen  != NULL ){
+#line 3771 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(cmp_ppenPlayer  == NULL  && _pNetwork  -> IsPlayerLocal  (pen )){
+#line 3772 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+cmp_ppenPlayer  = (CPlayer  *) pen ;
 #line 3773 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 3774 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 3775 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 3776 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
   
-#line 3777 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::CheckGameEnd(void) 
 #line 3778 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+void CPlayer::CheckGameEnd(void) 
 #line 3779 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 3780 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 BOOL bFinished  = FALSE ;
-#line 3781 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-INDEX iTimeLimit  = GetSP  () -> sp_iTimeLimit ;
 #line 3782 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(iTimeLimit  > 0 && _pTimer  -> CurrentTick  () >= iTimeLimit  * 60.0f){
+INDEX iTimeLimit  = GetSP  () -> sp_iTimeLimit ;
 #line 3783 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-bFinished  = TRUE ;
+if(iTimeLimit  > 0 && _pTimer  -> CurrentTick  () >= iTimeLimit  * 60.0f){
 #line 3784 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+bFinished  = TRUE ;
+#line 3785 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 3786 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-INDEX iFragLimit  = GetSP  () -> sp_iFragLimit ;
 #line 3787 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(iFragLimit  > 0 && m_psLevelStats  . ps_iKills  >= iFragLimit ){
+INDEX iFragLimit  = GetSP  () -> sp_iFragLimit ;
 #line 3788 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-bFinished  = TRUE ;
+if(iFragLimit  > 0 && m_psLevelStats  . ps_iKills  >= iFragLimit ){
 #line 3789 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 3791 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-INDEX iScoreLimit  = GetSP  () -> sp_iScoreLimit ;
-#line 3792 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(iScoreLimit  > 0 && m_psLevelStats  . ps_iScore  >= iScoreLimit ){
-#line 3793 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 bFinished  = TRUE ;
+#line 3790 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 3792 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+INDEX iScoreLimit  = GetSP  () -> sp_iScoreLimit ;
+#line 3793 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(iScoreLimit  > 0 && m_psLevelStats  . ps_iScore  >= iScoreLimit ){
 #line 3794 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+bFinished  = TRUE ;
+#line 3795 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 3796 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(bFinished ){
 #line 3797 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetGameEnd  ();
+if(bFinished ){
 #line 3798 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+SetGameEnd  ();
 #line 3799 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 3800 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
   
-#line 3802 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::PreapplyAction(const CPlayerAction & paAction) 
 #line 3803 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+void CPlayer::PreapplyAction(const CPlayerAction & paAction) 
 #line 3804 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 3805 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
   
-#line 3807 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::ApplyAction(const CPlayerAction & paOriginal,FLOAT tmLatency) 
 #line 3808 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+void CPlayer::ApplyAction(const CPlayerAction & paOriginal,FLOAT tmLatency) 
 #line 3809 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 3810 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(! (m_ulFlags  & PLF_INITIALIZED )){return ;}
-#line 3813 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3814 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(m_ulFlags  & PLF_NOTCONNECTED ){
-#line 3815 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetConnected  ();
 #line 3816 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetConnected  ();
+#line 3817 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 3818 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3819 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_ulFlags  |= PLF_APPLIEDACTION ;
-#line 3821 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3822 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CPlayerAction  paAction  = paOriginal ;
-#line 3826 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ANGLE3D aDeltaRotation  = paAction  . pa_aRotation  - m_aLastRotation ;
 #line 3827 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ANGLE3D aDeltaRotation  = paAction  . pa_aRotation  - m_aLastRotation ;
+#line 3828 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ANGLE3D aDeltaViewRotation  = paAction  . pa_aViewRotation  - m_aLastViewRotation ;
-#line 3829 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_ulFlags  & PLF_ISZOOMING ){
 #line 3830 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fRotationDamping  = ((CPlayerWeapons  &) * m_penWeapons ) . m_fSniperFOV  / ((CPlayerWeapons  &) * m_penWeapons ) . m_fSniperMaxFOV ;
+if(m_ulFlags  & PLF_ISZOOMING ){
 #line 3831 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-aDeltaRotation  *= fRotationDamping ;
+FLOAT fRotationDamping  = ((CPlayerWeapons  &) * m_penWeapons ) . m_fSniperFOV  / ((CPlayerWeapons  &) * m_penWeapons ) . m_fSniperMaxFOV ;
 #line 3832 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-aDeltaViewRotation  *= fRotationDamping ;
+aDeltaRotation  *= fRotationDamping ;
 #line 3833 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+aDeltaViewRotation  *= fRotationDamping ;
+#line 3834 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 3835 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_aLastRotation  = paAction  . pa_aRotation ;
 #line 3836 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_aLastRotation  = paAction  . pa_aRotation ;
+#line 3837 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_aLastViewRotation  = paAction  . pa_aViewRotation ;
-#line 3838 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-paAction  . pa_aRotation  = aDeltaRotation ;
 #line 3839 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+paAction  . pa_aRotation  = aDeltaRotation ;
+#line 3840 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 paAction  . pa_aViewRotation  = aDeltaViewRotation ;
-#line 3843 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-paAction  . pa_aRotation  /= _pTimer  -> TickQuantum ;
 #line 3844 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+paAction  . pa_aRotation  /= _pTimer  -> TickQuantum ;
+#line 3845 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 paAction  . pa_aViewRotation  /= _pTimer  -> TickQuantum ;
-#line 3847 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CEntity  * penMe  = this ;
 #line 3848 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(IsPredictor  ()){
+CEntity  * penMe  = this ;
 #line 3849 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penMe  = penMe  -> GetPredicted  ();
+if(IsPredictor  ()){
 #line 3850 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+penMe  = penMe  -> GetPredicted  ();
 #line 3851 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 3852 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetPredictable  (! _pNetwork  -> IsPlayerLocal  (penMe ));
-#line 3854 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(! IsPredictor  ()){
 #line 3855 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CheckGameEnd  ();
+if(! IsPredictor  ()){
 #line 3856 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CheckGameEnd  ();
+#line 3857 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 3859 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-paAction  . pa_vTranslation  (1) = Clamp  (paAction  . pa_vTranslation  (1) , - plr_fSpeedSide  , plr_fSpeedSide );
 #line 3860 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-paAction  . pa_vTranslation  (2) = Clamp  (paAction  . pa_vTranslation  (2) , - plr_fSpeedUp  , plr_fSpeedUp );
+paAction  . pa_vTranslation  (1) = Clamp  (paAction  . pa_vTranslation  (1) , - plr_fSpeedSide  , plr_fSpeedSide );
 #line 3861 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+paAction  . pa_vTranslation  (2) = Clamp  (paAction  . pa_vTranslation  (2) , - plr_fSpeedUp  , plr_fSpeedUp );
+#line 3862 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 paAction  . pa_vTranslation  (3) = Clamp  (paAction  . pa_vTranslation  (3) , - plr_fSpeedForward  , plr_fSpeedBackward );
-#line 3864 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(Abs  (paAction  . pa_vTranslation  (3)) < plr_fSpeedForward  / 1.99f 
 #line 3865 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(Abs  (paAction  . pa_vTranslation  (3)) < plr_fSpeedForward  / 1.99f 
+#line 3866 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 && Abs  (paAction  . pa_vTranslation  (1)) < plr_fSpeedSide  / 1.99f){
-#line 3867 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3868 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 en_fStepDnHeight  = 1.5f;
-#line 3870 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3871 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 3872 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_fStepDnHeight  = - 1;
 #line 3873 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_fStepDnHeight  = - 1;
+#line 3874 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 3876 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT3D & v  = paAction  . pa_vTranslation ;
 #line 3877 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fDiag  = Sqrt  (v  (1) * v  (1) + v  (3) * v  (3));
+FLOAT3D & v  = paAction  . pa_vTranslation ;
 #line 3878 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(fDiag  > 0.01f){
+FLOAT fDiag  = Sqrt  (v  (1) * v  (1) + v  (3) * v  (3));
 #line 3879 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fDiagLimited  = Min  (fDiag  , plr_fSpeedForward );
+if(fDiag  > 0.01f){
 #line 3880 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fFactor  = fDiagLimited  / fDiag ;
+FLOAT fDiagLimited  = Min  (fDiag  , plr_fSpeedForward );
 #line 3881 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-v  (1) *= fFactor ;
+FLOAT fFactor  = fDiagLimited  / fDiag ;
 #line 3882 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-v  (3) *= fFactor ;
+v  (1) *= fFactor ;
 #line 3883 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+v  (3) *= fFactor ;
+#line 3884 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 3885 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ulButtonsNow  = paAction  . pa_ulButtons ;
 #line 3886 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ulButtonsBefore  = m_ulLastButtons ;
+ulButtonsNow  = paAction  . pa_ulButtons ;
 #line 3887 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ulNewButtons  = ulButtonsNow  & ~ ulButtonsBefore ;
+ulButtonsBefore  = m_ulLastButtons ;
 #line 3888 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ulNewButtons  = ulButtonsNow  & ~ ulButtonsBefore ;
+#line 3889 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ulReleasedButtons  = (~ ulButtonsNow ) & (ulButtonsBefore );
-#line 3890 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulLastButtons  = ulButtonsNow ;
 #line 3891 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_ulLastButtons  = ulButtonsNow ;
+#line 3892 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 en_plLastViewpoint  = en_plViewpoint ;
-#line 3894 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerWeapons  * penWeapon  = GetPlayerWeapons  ();
 #line 3895 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if((penWeapon  -> m_iCurrentWeapon  == WEAPON_SNIPER ) || (penWeapon  -> m_iCurrentWeapon  == WEAPON_TOMMYGUN ) || (penWeapon  -> m_iCurrentWeapon  == WEAPON_ROCKETLAUNCHER ))
+CPlayerWeapons  * penWeapon  = GetPlayerWeapons  ();
 #line 3896 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+if((penWeapon  -> m_iCurrentWeapon  == WEAPON_SNIPER ) || (penWeapon  -> m_iCurrentWeapon  == WEAPON_TOMMYGUN ) || (penWeapon  -> m_iCurrentWeapon  == WEAPON_ROCKETLAUNCHER ) || (penWeapon  -> m_iCurrentWeapon  == WEAPON_IRONCANNON ))
 #line 3897 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(bUseButtonHeld  && m_ulFlags  & PLF_ISZOOMING )
+{
 #line 3898 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+if(bUseButtonHeld  && m_ulFlags  & PLF_ISZOOMING )
 #line 3899 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penWeapon  -> m_fSniperFOVlast  = penWeapon  -> m_fSniperFOV ;
-#line 3900 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penWeapon  -> m_fSniperFOV  -= penWeapon  -> m_fSnipingZoomSpeed ;
-#line 3901 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(penWeapon  -> m_fSniperFOV  < penWeapon  -> m_fSniperMinFOV )
-#line 3902 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
+#line 3900 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+penWeapon  -> m_fSniperFOVlast  = penWeapon  -> m_fSniperFOV ;
+#line 3901 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+penWeapon  -> m_fSniperFOV  -= penWeapon  -> m_fSnipingZoomSpeed ;
+#line 3902 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(penWeapon  -> m_fSniperFOV  < penWeapon  -> m_fSniperMinFOV )
 #line 3903 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penWeapon  -> m_fSniperFOVlast  = penWeapon  -> m_fSniperFOV  = penWeapon  -> m_fSniperMinFOV ;
+{
 #line 3904 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soSniperZoom  , SOUND_SILENCE  , SOF_3D );
+penWeapon  -> m_fSniperFOVlast  = penWeapon  -> m_fSniperFOV  = penWeapon  -> m_fSniperMinFOV ;
 #line 3905 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_StopEffect  ("SniperZoom");}
+PlaySound  (m_soSniperZoom  , SOUND_SILENCE  , SOF_3D );
 #line 3906 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_StopEffect  ("SniperZoom");}
 #line 3907 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 3908 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ulReleasedButtons  & PLACT_USE_HELD )
-#line 3909 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
-#line 3910 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penWeapon  -> m_fSniperFOVlast  = penWeapon  -> m_fSniperFOV ;
-#line 3911 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soSniperZoom  , SOUND_SILENCE  , SOF_3D );
-#line 3912 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_StopEffect  ("SniperZoom");}
-#line 3913 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 3909 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(ulReleasedButtons  & PLACT_USE_HELD )
+#line 3910 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 3911 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+penWeapon  -> m_fSniperFOVlast  = penWeapon  -> m_fSniperFOV ;
+#line 3912 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soSniperZoom  , SOUND_SILENCE  , SOF_3D );
+#line 3913 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_StopEffect  ("SniperZoom");}
 #line 3914 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 3917 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3915 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 3918 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(GetFlags  () & ENF_ALIVE ){
-#line 3919 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3920 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(m_penActionMarker  == NULL ){
-#line 3921 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3922 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AliveActions  (paAction );
-#line 3923 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3924 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 3925 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-AutoActions  (paAction );
 #line 3926 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+AutoActions  (paAction );
+#line 3927 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 3928 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
 #line 3929 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-DeathActions  (paAction );
+}else {
 #line 3930 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+DeathActions  (paAction );
+#line 3931 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 3932 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(Abs  (_pTimer  -> CurrentTick  () - m_tmAnalyseEnd ) < _pTimer  -> TickQuantum  * 2){
 #line 3933 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmAnalyseEnd  = 0;
+if(Abs  (_pTimer  -> CurrentTick  () - m_tmAnalyseEnd ) < _pTimer  -> TickQuantum  * 2){
 #line 3934 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_bPendingMessage  = TRUE ;
-#line 3935 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmMessagePlay  = 0;
-#line 3936 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 3937 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_bPendingMessage  && ! IsFuss  ()){
-#line 3938 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_bPendingMessage  = FALSE ;
-#line 3939 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmMessagePlay  = _pTimer  -> CurrentTick  () + 1.0f;
-#line 3940 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmAnimateInbox  = _pTimer  -> CurrentTick  ();
-#line 3941 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 3942 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(Abs  (_pTimer  -> CurrentTick  () - m_tmMessagePlay ) < _pTimer  -> TickQuantum  * 2){
-#line 3943 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_bPendingMessage  = FALSE ;
-#line 3944 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_tmAnalyseEnd  = 0;
-#line 3946 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(! m_bComputerInvoked  && GetSP  () -> sp_bSinglePlayer ){
-#line 3947 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PrintCenterMessage  (this  , this  , 
-#line 3948 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-TRANS  ("Press USE to read the message!") , 5.0f , MSS_NONE );
-#line 3949 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3935 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_bPendingMessage  = TRUE ;
+#line 3936 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_tmMessagePlay  = 0;
+#line 3937 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 3938 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_bPendingMessage  && ! IsFuss  ()){
+#line 3939 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_bPendingMessage  = FALSE ;
+#line 3940 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_tmMessagePlay  = _pTimer  -> CurrentTick  () + 1.0f;
+#line 3941 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_tmAnimateInbox  = _pTimer  -> CurrentTick  ();
+#line 3942 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 3943 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(Abs  (_pTimer  -> CurrentTick  () - m_tmMessagePlay ) < _pTimer  -> TickQuantum  * 2){
+#line 3944 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_bPendingMessage  = FALSE ;
+#line 3945 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_tmAnalyseEnd  = 0;
+#line 3947 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(! m_bComputerInvoked  && GetSP  () -> sp_bSinglePlayer ){
+#line 3948 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PrintCenterMessage  (this  , this  , 
+#line 3949 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+TRANS  ("Press USE to read the message!") , 5.0f , MSS_NONE );
 #line 3950 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 3953 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(CheatsEnabled  ()){
+#line 3951 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
 #line 3954 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Cheats  ();
+if(CheatsEnabled  ()){
 #line 3955 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+Cheats  ();
+#line 3956 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 3958 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3959 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(cht_iGoToMarker  > 0 && (GetFlags  () & ENF_ALIVE )){
-#line 3960 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_iLastViewState  = m_iViewState ;
 #line 3961 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SendEvent  (ERebirth  ());
+m_iLastViewState  = m_iViewState ;
 #line 3962 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SendEvent  (ERebirth  ());
+#line 3963 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 3965 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3966 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 UpdateLatency  (tmLatency );
-#line 3968 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CheckHighScore  ();
 #line 3969 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CheckHighScore  ();
+#line 3970 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
   
-#line 3973 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::Disconnect(void) 
 #line 3974 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+void CPlayer::Disconnect(void) 
+#line 3975 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
-#line 3976 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3977 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_strName  = GetPlayerName  ();
-#line 3978 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3979 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 en_pcCharacter  = CPlayerCharacter  ();
-#line 3980 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SendEvent  (EDisconnected  ());
 #line 3981 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SendEvent  (EDisconnected  ());
+#line 3982 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
   
-#line 3984 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::CharacterChanged(const CPlayerCharacter & pcNew) 
 #line 3985 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+void CPlayer::CharacterChanged(const CPlayerCharacter & pcNew) 
+#line 3986 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
-#line 3987 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3988 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CPlayerCharacter  pcOrg  = en_pcCharacter ;
-#line 3990 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_pcCharacter  = pcNew ;
 #line 3991 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_pcCharacter  = pcNew ;
+#line 3992 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ValidateCharacter  ();
-#line 3994 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3995 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(pcOrg  . GetName  () != pcNew  . GetName  ()){
-#line 3996 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPrintF  (TRANS  ("%s is now known as %s\n") , 
 #line 3997 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pcOrg  . GetNameForPrinting  () , pcNew  . GetNameForPrinting  ());
+CPrintF  (TRANS  ("%s is now known as %s\n") , 
 #line 3998 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+pcOrg  . GetNameForPrinting  () , pcNew  . GetNameForPrinting  ());
+#line 3999 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4001 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4002 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(pcOrg  . GetTeam  () != pcNew  . GetTeam  ()){
-#line 4003 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPrintF  (TRANS  ("%s switched to team %s\n") , 
 #line 4004 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pcNew  . GetNameForPrinting  () , pcNew  . GetTeamForPrinting  ());
+CPrintF  (TRANS  ("%s switched to team %s\n") , 
 #line 4005 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+pcNew  . GetNameForPrinting  () , pcNew  . GetTeamForPrinting  ());
+#line 4006 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4008 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerSettings  * ppsOrg  = (CPlayerSettings  *) pcOrg  . pc_aubAppearance ;
 #line 4009 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerSettings  * ppsNew  = (CPlayerSettings  *) pcNew  . pc_aubAppearance ;
+CPlayerSettings  * ppsOrg  = (CPlayerSettings  *) pcOrg  . pc_aubAppearance ;
 #line 4010 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlayerSettings  * ppsNew  = (CPlayerSettings  *) pcNew  . pc_aubAppearance ;
+#line 4011 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(memcmp  (ppsOrg  -> ps_achModelFile  , ppsNew  -> ps_achModelFile  , sizeof  (ppsOrg  -> ps_achModelFile )) != 0){
-#line 4012 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CTString strNewLook ;
 #line 4013 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CTString strNewLook ;
+#line 4014 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 BOOL bSuccess  = SetPlayerAppearance  (& m_moRender  , & en_pcCharacter  , strNewLook  , FALSE );
-#line 4015 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(bSuccess ){
 #line 4016 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(bSuccess ){
+#line 4017 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ParseGender  (strNewLook );
-#line 4018 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPrintF  (TRANS  ("%s now appears as %s\n") , 
 #line 4019 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPrintF  (TRANS  ("%s now appears as %s\n") , 
+#line 4020 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 pcNew  . GetNameForPrinting  () , strNewLook );
-#line 4021 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4022 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 4023 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPrintF  (TRANS  ("Cannot change appearance for %s: setting '%s' is unavailable\n") , 
 #line 4024 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pcNew  . GetNameForPrinting  () , (const char  *) ppsNew  -> GetModelFilename  ());
+CPrintF  (TRANS  ("Cannot change appearance for %s: setting '%s' is unavailable\n") , 
 #line 4025 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+pcNew  . GetNameForPrinting  () , (const char  *) ppsNew  -> GetModelFilename  ());
+#line 4026 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4027 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-GetPlayerAnimator  () -> SyncWeapon  ();
 #line 4028 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+GetPlayerAnimator  () -> SyncWeapon  ();
+#line 4029 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4030 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL b3RDPersonOld  = ppsOrg  -> ps_ulFlags  & PSF_PREFER3RDPERSON ;
 #line 4031 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL b3RDPersonNew  = ppsNew  -> ps_ulFlags  & PSF_PREFER3RDPERSON ;
+BOOL b3RDPersonOld  = ppsOrg  -> ps_ulFlags  & PSF_PREFER3RDPERSON ;
 #line 4032 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if((b3RDPersonOld  && ! b3RDPersonNew  && m_iViewState  == PVT_3RDPERSONVIEW ) 
+BOOL b3RDPersonNew  = ppsNew  -> ps_ulFlags  & PSF_PREFER3RDPERSON ;
 #line 4033 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-|| (b3RDPersonNew  && ! b3RDPersonOld  && m_iViewState  == PVT_PLAYEREYES )){
+if((b3RDPersonOld  && ! b3RDPersonNew  && m_iViewState  == PVT_3RDPERSONVIEW ) 
 #line 4034 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ChangePlayerView  ();
+|| (b3RDPersonNew  && ! b3RDPersonOld  && m_iViewState  == PVT_PLAYEREYES )){
 #line 4035 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+ChangePlayerView  ();
 #line 4036 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4037 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
   
-#line 4040 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::AliveActions(const CPlayerAction & pa) 
 #line 4041 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+void CPlayer::AliveActions(const CPlayerAction & pa) 
 #line 4042 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 4043 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CPlayerAction  paAction  = pa ;
-#line 4045 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4046 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(m_penCamera  != NULL ){
-#line 4047 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-paAction  . pa_vTranslation  = FLOAT3D (0 , 0 , 0);
 #line 4048 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-paAction  . pa_aRotation  = ANGLE3D (0 , 0 , 0);
+paAction  . pa_vTranslation  = FLOAT3D (0 , 0 , 0);
 #line 4049 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+paAction  . pa_aRotation  = ANGLE3D (0 , 0 , 0);
+#line 4050 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 paAction  . pa_aViewRotation  = ANGLE3D (0 , 0 , 0);
-#line 4051 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4052 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(ulNewButtons  & (PLACT_FIRE  | PLACT_USE )){
-#line 4053 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_penCamera  = NULL ;
 #line 4054 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+m_penCamera  = NULL ;
 #line 4055 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
+}
 #line 4056 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ButtonsActions  (paAction );
-#line 4057 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4060 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ActiveActions  (paAction );
-#line 4063 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT tmSinceWounding  = _pTimer  -> CurrentTick  () - m_tmWoundedTime ;
-#line 4064 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(tmSinceWounding  < 4.0f){
-#line 4066 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_fDamageAmmount  *= 1.0f - tmSinceWounding  / 4.0f;
-#line 4067 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 4069 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_fDamageAmmount  = 0.0f;
-#line 4070 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4057 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ButtonsActions  (paAction );
+#line 4058 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4061 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ActiveActions  (paAction );
+#line 4064 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT tmSinceWounding  = _pTimer  -> CurrentTick  () - m_tmWoundedTime ;
+#line 4065 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(tmSinceWounding  < 4.0f){
+#line 4067 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_fDamageAmmount  *= 1.0f - tmSinceWounding  / 4.0f;
+#line 4068 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 4070 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_fDamageAmmount  = 0.0f;
 #line 4071 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-  
-#line 4074 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::AutoActions(const CPlayerAction & pa) 
-#line 4075 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
-#line 4077 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ulNewButtons  & (PLACT_FIRE  | PLACT_ALTFIRE  | PLACT_USE  | PLACT_COMPUTER )){
-#line 4078 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_penCamera  != NULL ){
-#line 4079 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CEntity  * penOnBreak  = ((CCamera  &) * m_penCamera ) . m_penOnBreak ;
-#line 4080 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(penOnBreak  != NULL ){
-#line 4081 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SendToTarget  (penOnBreak  , EET_TRIGGER  , this );
-#line 4082 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4072 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+  
+#line 4075 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+void CPlayer::AutoActions(const CPlayerAction & pa) 
+#line 4076 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 4078 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(ulNewButtons  & (PLACT_FIRE  | PLACT_ALTFIRE  | PLACT_USE  | PLACT_COMPUTER )){
+#line 4079 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_penCamera  != NULL ){
+#line 4080 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CEntity  * penOnBreak  = ((CCamera  &) * m_penCamera ) . m_penOnBreak ;
+#line 4081 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(penOnBreak  != NULL ){
+#line 4082 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SendToTarget  (penOnBreak  , EET_TRIGGER  , this );
 #line 4083 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 4084 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4086 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4085 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4087 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CPlayerAction  paAction  = pa ;
-#line 4088 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-paAction  . pa_vTranslation  = FLOAT3D (0 , 0 , 0);
 #line 4089 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-paAction  . pa_aRotation  = ANGLE3D (0 , 0 , 0);
+paAction  . pa_vTranslation  = FLOAT3D (0 , 0 , 0);
 #line 4090 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+paAction  . pa_aRotation  = ANGLE3D (0 , 0 , 0);
+#line 4091 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 paAction  . pa_aViewRotation  = ANGLE3D (0 , 0 , 0);
-#line 4093 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_fAutoSpeed  > 0){
 #line 4094 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT3D vDelta  = 
+if(m_fAutoSpeed  > 0){
 #line 4095 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_penActionMarker  -> GetPlacement  () . pl_PositionVector  - 
+FLOAT3D vDelta  = 
 #line 4096 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-GetPlacement  () . pl_PositionVector ;
+m_penActionMarker  -> GetPlacement  () . pl_PositionVector  - 
 #line 4097 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fDistance  = vDelta  . Length  ();
+GetPlacement  () . pl_PositionVector ;
 #line 4098 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(fDistance  > 0.1f){
+FLOAT fDistance  = vDelta  . Length  ();
 #line 4099 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-vDelta  /= fDistance ;
+if(fDistance  > 0.1f){
 #line 4100 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+vDelta  /= fDistance ;
+#line 4101 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ANGLE aDH  = GetRelativeHeading  (vDelta );
-#line 4103 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fSpeed  = m_fAutoSpeed ;
 #line 4104 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT fSpeed  = m_fAutoSpeed ;
+#line 4105 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(GetActionMarker  () -> m_paaAction  == PAA_RUNANDSTOP ){
-#line 4106 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-fSpeed  = Min  (fSpeed  , fDistance  / _pTimer  -> TickQuantum );
 #line 4107 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+fSpeed  = Min  (fSpeed  , fDistance  / _pTimer  -> TickQuantum );
+#line 4108 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4109 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(Abs  (aDH ) > 5.0f){
 #line 4110 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(fSpeed  > m_fAutoSpeed  - 0.1f){
+if(Abs  (aDH ) > 5.0f){
 #line 4111 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-aDH  = Clamp  (aDH  , - 30.0f , 30.0f);
+if(fSpeed  > m_fAutoSpeed  - 0.1f){
 #line 4112 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+aDH  = Clamp  (aDH  , - 30.0f , 30.0f);
 #line 4113 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-paAction  . pa_aRotation  = ANGLE3D (aDH  / _pTimer  -> TickQuantum  , 0 , 0);
+}
 #line 4114 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+paAction  . pa_aRotation  = ANGLE3D (aDH  / _pTimer  -> TickQuantum  , 0 , 0);
+#line 4115 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4116 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-paAction  . pa_vTranslation  = FLOAT3D (0 , 0 , - fSpeed );
 #line 4117 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+paAction  . pa_vTranslation  = FLOAT3D (0 , 0 , - fSpeed );
 #line 4118 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
+}
 #line 4119 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-paAction  . pa_vTranslation  = m_vAutoSpeed ;
+}else {
 #line 4120 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+paAction  . pa_vTranslation  = m_vAutoSpeed ;
+#line 4121 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4122 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerActionMarker  * ppam  = GetActionMarker  ();
 #line 4123 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ASSERT  (ppam  != NULL );
+CPlayerActionMarker  * ppam  = GetActionMarker  ();
 #line 4124 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ppam  -> m_paaAction  == PAA_LOGO_FIRE_MINIGUN  || ppam  -> m_paaAction  == PAA_LOGO_FIRE_INTROSE )
+ASSERT  (ppam  != NULL );
 #line 4125 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+if(ppam  -> m_paaAction  == PAA_LOGO_FIRE_MINIGUN  || ppam  -> m_paaAction  == PAA_LOGO_FIRE_INTROSE )
 #line 4126 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_tmMinigunAutoFireStart  != - 1)
+{
 #line 4127 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+if(m_tmMinigunAutoFireStart  != - 1)
 #line 4128 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT tmDelta  = _pTimer  -> CurrentTick  () - m_tmMinigunAutoFireStart ;
+{
 #line 4129 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT aDH  = 0.0f;
+FLOAT tmDelta  = _pTimer  -> CurrentTick  () - m_tmMinigunAutoFireStart ;
 #line 4130 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT aDP  = 0.0f;
+FLOAT aDH  = 0.0f;
 #line 4131 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(tmDelta  >= 0.0f && tmDelta  <= 0.75f)
+FLOAT aDP  = 0.0f;
 #line 4132 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+if(tmDelta  >= 0.0f && tmDelta  <= 0.75f)
 #line 4133 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-aDH  = 0.0f;
+{
 #line 4134 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+aDH  = 0.0f;
 #line 4135 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-else if(tmDelta  >= 0.75f)
+}
 #line 4136 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+else if(tmDelta  >= 0.75f)
 #line 4137 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fDT  = tmDelta  - 0.75f;
+{
 #line 4138 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-aDH  = 1.0f * cos  (fDT  + PI  / 2.0f);
+FLOAT fDT  = tmDelta  - 0.75f;
 #line 4139 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-aDP  = 0.5f * cos  (fDT );
+aDH  = 1.0f * cos  (fDT  + PI  / 2.0f);
 #line 4140 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+aDP  = 0.5f * cos  (fDT );
 #line 4141 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ppam  -> m_paaAction  == PAA_LOGO_FIRE_INTROSE )
-#line 4142 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
-#line 4143 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fRatio  = CalculateRatio  (tmDelta  , 0.25 , 5 , 0.1f , 0.1f);
-#line 4144 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-aDP  = 2.0f * sin  (tmDelta  * 200.0f) * fRatio ;
-#line 4145 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(tmDelta  > 2.5f)
-#line 4146 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
-#line 4147 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-aDP  += (tmDelta  - 2.5f) * 4.0f;
-#line 4148 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4142 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(ppam  -> m_paaAction  == PAA_LOGO_FIRE_INTROSE )
+#line 4143 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 4144 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT fRatio  = CalculateRatio  (tmDelta  , 0.25 , 5 , 0.1f , 0.1f);
+#line 4145 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+aDP  = 2.0f * sin  (tmDelta  * 200.0f) * fRatio ;
+#line 4146 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(tmDelta  > 2.5f)
+#line 4147 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 4148 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+aDP  += (tmDelta  - 2.5f) * 4.0f;
 #line 4149 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 4150 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-paAction  . pa_aRotation  = ANGLE3D (aDH  / _pTimer  -> TickQuantum  , aDP  / _pTimer  -> TickQuantum  , 0);
-#line 4151 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4151 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+paAction  . pa_aRotation  = ANGLE3D (aDH  / _pTimer  -> TickQuantum  , aDP  / _pTimer  -> TickQuantum  , 0);
 #line 4152 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4155 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(! (m_ulFlags  & PLF_AUTOMOVEMENTS )){
-#line 4156 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ActiveActions  (paAction );
-#line 4157 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4153 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4156 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(! (m_ulFlags  & PLF_AUTOMOVEMENTS )){
+#line 4157 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ActiveActions  (paAction );
 #line 4158 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4159 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
   
-#line 4160 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::GetLerpedWeaponPosition(FLOAT3D vRel,CPlacement3D & pl) 
 #line 4161 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+void CPlayer::GetLerpedWeaponPosition(FLOAT3D vRel,CPlacement3D & pl) 
 #line 4162 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pl  = CPlacement3D (vRel  , ANGLE3D (0 , 0 , 0));
+{
 #line 4163 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlacement3D plView ;
+pl  = CPlacement3D (vRel  , ANGLE3D (0 , 0 , 0));
 #line 4164 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-_bDiscard3rdView  = GetViewEntity  () != this ;
+CPlacement3D plView ;
 #line 4165 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-GetLerpedAbsoluteViewPlacement  (plView );
+_bDiscard3rdView  = GetViewEntity  () != this ;
 #line 4166 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pl  . RelativeToAbsolute  (plView );
+GetLerpedAbsoluteViewPlacement  (plView );
 #line 4167 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+pl  . RelativeToAbsolute  (plView );
+#line 4168 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
   
-#line 4169 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::SpawnBubbles(INDEX ctBubbles) 
 #line 4170 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+void CPlayer::SpawnBubbles(INDEX ctBubbles) 
 #line 4171 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-for(INDEX iBouble  = 0;iBouble  < ctBubbles ;iBouble  ++)
-#line 4172 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
+#line 4172 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+for(INDEX iBouble  = 0;iBouble  < ctBubbles ;iBouble  ++)
 #line 4173 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT3D vRndRel  = FLOAT3D ((FRnd  () - 0.5f) * 0.25f , - 0.25f , - 0.5f + FRnd  () / 10.0f);
+{
 #line 4174 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ANGLE3D aDummy  = ANGLE3D (0 , 0 , 0);
+FLOAT3D vRndRel  = FLOAT3D ((FRnd  () - 0.5f) * 0.25f , - 0.25f , - 0.5f + FRnd  () / 10.0f);
 #line 4175 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ANGLE3D aDummy  = ANGLE3D (0 , 0 , 0);
+#line 4176 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CPlacement3D plMouth  = CPlacement3D (vRndRel  , aDummy );
-#line 4177 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plMouth  . RelativeToAbsolute  (en_plViewpoint );
 #line 4178 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plMouth  . RelativeToAbsolute  (GetPlacement  ());
+plMouth  . RelativeToAbsolute  (en_plViewpoint );
 #line 4179 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT3D vRndSpd  = FLOAT3D ((FRnd  () - 0.5f) * 0.25f , (FRnd  () - 0.5f) * 0.25f , (FRnd  () - 0.5f) * 0.25f);
+plMouth  . RelativeToAbsolute  (GetPlacement  ());
 #line 4180 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-AddBouble  (plMouth  . pl_PositionVector  , vRndSpd );
+FLOAT3D vRndSpd  = FLOAT3D ((FRnd  () - 0.5f) * 0.25f , (FRnd  () - 0.5f) * 0.25f , (FRnd  () - 0.5f) * 0.25f);
 #line 4181 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+AddBouble  (plMouth  . pl_PositionVector  , vRndSpd );
 #line 4182 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4183 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
   
-#line 4184 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::PlayPowerUpSound(void) {
 #line 4185 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_soPowerUpBeep  . Set3DParameters  (50.0f , 10.0f , 4.0f , 1.0f);
+void CPlayer::PlayPowerUpSound(void) {
 #line 4186 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soPowerUpBeep  , SOUND_POWERUP_BEEP  , SOF_3D  | SOF_VOLUMETRIC  | SOF_LOCAL );
+m_soPowerUpBeep  . Set3DParameters  (50.0f , 10.0f , 4.0f , 1.0f);
 #line 4187 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soPowerUpBeep  , SOUND_POWERUP_BEEP  , SOF_3D  | SOF_VOLUMETRIC  | SOF_LOCAL );
+#line 4188 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
   
-#line 4189 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::ActiveActions(const CPlayerAction & paAction) 
 #line 4190 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+void CPlayer::ActiveActions(const CPlayerAction & paAction) 
+#line 4191 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
-#line 4192 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4193 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 FLOAT3D vTranslation  = paAction  . pa_vTranslation ;
-#line 4194 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(cht_fTranslationMultiplier  && CheatsEnabled  ()){
 #line 4195 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-vTranslation  *= cht_fTranslationMultiplier ;
+if(cht_fTranslationMultiplier  && CheatsEnabled  ()){
 #line 4196 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+vTranslation  *= cht_fTranslationMultiplier ;
+#line 4197 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4199 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_KNIFE  && 
 #line 4200 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-! GetSP  () -> sp_bCooperative ){
+if(((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_KNIFE  && 
 #line 4201 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-vTranslation  *= 1.3f;
+! GetSP  () -> sp_bCooperative ){
 #line 4202 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+vTranslation  *= 1.3f;
+#line 4203 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4205 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-const TIME  tmDelta  = m_tmSeriousSpeed  - _pTimer  -> CurrentTick  ();
 #line 4206 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(tmDelta  > 0 && m_fAutoSpeed  == 0.0f){
+const TIME  tmDelta  = m_tmSeriousSpeed  - _pTimer  -> CurrentTick  ();
 #line 4207 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-vTranslation  (1) *= 2.0f;
+if(tmDelta  > 0 && m_fAutoSpeed  == 0.0f){
 #line 4208 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-vTranslation  (3) *= 2.0f;
+vTranslation  (1) *= 2.0f;
 #line 4209 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+vTranslation  (3) *= 2.0f;
+#line 4210 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4211 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_fAcceleration  = plr_fAcceleration ;
 #line 4212 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_fDeceleration  = plr_fDeceleration ;
+en_fAcceleration  = plr_fAcceleration ;
 #line 4213 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(! GetSP  () -> sp_bCooperative )
+en_fDeceleration  = plr_fDeceleration ;
 #line 4214 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+if(! GetSP  () -> sp_bCooperative )
 #line 4215 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-vTranslation  (1) *= 1.35f;
+{
 #line 4216 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+vTranslation  (1) *= 1.35f;
+#line 4217 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 vTranslation  (3) *= 1.35f;
-#line 4218 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4219 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4220 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CContentType  & ctUp  = GetWorld  () -> wo_actContentTypes  [ en_iUpContent  ];
 #line 4221 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CContentType  & ctDn  = GetWorld  () -> wo_actContentTypes  [ en_iDnContent  ];
+CContentType  & ctUp  = GetWorld  () -> wo_actContentTypes  [ en_iUpContent  ];
 #line 4222 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlayerState  pstWanted  = PST_STAND ;
+CContentType  & ctDn  = GetWorld  () -> wo_actContentTypes  [ en_iDnContent  ];
 #line 4223 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL bUpSwimable  = (ctUp  . ct_ulFlags  & CTF_SWIMABLE ) && en_fImmersionFactor  <= 0.99f;
+PlayerState  pstWanted  = PST_STAND ;
 #line 4224 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+BOOL bUpSwimable  = (ctUp  . ct_ulFlags  & CTF_SWIMABLE ) && en_fImmersionFactor  <= 0.99f;
+#line 4225 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 BOOL bDnSwimable  = (ctDn  . ct_ulFlags  & CTF_SWIMABLE ) && en_fImmersionFactor  >= 0.5f;
-#line 4227 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4228 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(bUpSwimable  || bDnSwimable ){
-#line 4229 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4230 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_ulFlags  |= PLF_JUMPALLOWED ;
-#line 4232 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4233 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(en_fImmersionFactor  >= 0.99f || bUpSwimable ){
-#line 4234 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4235 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 pstWanted  = PST_DIVE ;
-#line 4236 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4237 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 4238 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pstWanted  = PST_SWIM ;
 #line 4239 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+pstWanted  = PST_SWIM ;
+#line 4240 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4241 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4242 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 4243 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4244 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(en_penReference  != NULL ){
-#line 4245 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4246 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_fFallTime  = 0.0f;
-#line 4248 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4249 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 4250 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_fFallTime  += _pTimer  -> TickQuantum ;
 #line 4251 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_fFallTime  += _pTimer  -> TickQuantum ;
+#line 4252 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4253 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4254 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(vTranslation  (2) < 0.1f){
-#line 4255 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  |= PLF_JUMPALLOWED ;
 #line 4256 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_ulFlags  |= PLF_JUMPALLOWED ;
+#line 4257 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4259 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4260 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(m_fFallTime  >= 0.5f){
-#line 4261 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4262 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 pstWanted  = PST_FALL ;
-#line 4263 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4264 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 4265 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4266 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(vTranslation  (2) < - 0.01f){
-#line 4267 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4268 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 pstWanted  = PST_CROUCH ;
-#line 4269 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4270 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 4271 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pstWanted  = PST_STAND ;
 #line 4272 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+pstWanted  = PST_STAND ;
 #line 4273 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 4274 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4278 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(! (GetPhysicsFlags  () & EPF_TRANSLATEDBYGRAVITY )){
+#line 4275 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
 #line 4279 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDesiredRotation  (paAction  . pa_aRotation );
+if(! (GetPhysicsFlags  () & EPF_TRANSLATEDBYGRAVITY )){
 #line 4280 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-StartModelAnim  (PLAYER_ANIM_STAND  , AOF_LOOPING  | AOF_NORESTART );
+SetDesiredRotation  (paAction  . pa_aRotation );
 #line 4281 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+StartModelAnim  (PLAYER_ANIM_STAND  , AOF_LOOPING  | AOF_NORESTART );
+#line 4282 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetDesiredTranslation  (vTranslation );
-#line 4283 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
 #line 4284 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlayerState  pstOld  = m_pstState ;
-#line 4287 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(pstWanted  != m_pstState ){
-#line 4289 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-switch(pstWanted ){
-#line 4291 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case PST_STAND : {
-#line 4293 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ChangeCollisionBoxIndexNow  (PLAYER_COLLISION_BOX_STAND )){
-#line 4294 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_plViewpoint  . pl_PositionVector  (2) = plr_fViewHeightStand ;
-#line 4295 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_pstState  == PST_CROUCH ){
-#line 4296 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerAnimator  &) * m_penAnimator ) . Rise  ();
-#line 4297 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 4298 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerAnimator  &) * m_penAnimator ) . Stand  ();
-#line 4299 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4300 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_pstState  = PST_STAND ;
-#line 4301 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4302 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}break ;
-#line 4304 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case PST_CROUCH : {
-#line 4306 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ChangeCollisionBoxIndexNow  (PLAYER_COLLISION_BOX_CROUCH )){
-#line 4307 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_pstState  = PST_CROUCH ;
-#line 4308 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_plViewpoint  . pl_PositionVector  (2) = plr_fViewHeightCrouch ;
-#line 4309 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerAnimator  &) * m_penAnimator ) . Crouch  ();
-#line 4310 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4311 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}break ;
-#line 4313 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case PST_SWIM : {
-#line 4315 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ChangeCollisionBoxIndexNow  (PLAYER_COLLISION_BOX_SWIMSMALL )){
-#line 4316 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ChangeCollisionBoxIndexWhenPossible  (PLAYER_COLLISION_BOX_SWIM );
-#line 4317 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_pstState  = PST_SWIM ;
-#line 4318 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_plViewpoint  . pl_PositionVector  (2) = plr_fViewHeightSwim ;
-#line 4319 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerAnimator  &) * m_penAnimator ) . Swim  ();
-#line 4320 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_fSwimTime  = _pTimer  -> CurrentTick  ();
-#line 4321 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4322 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}break ;
-#line 4324 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case PST_DIVE : {
-#line 4326 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ChangeCollisionBoxIndexNow  (PLAYER_COLLISION_BOX_SWIMSMALL )){
-#line 4327 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ChangeCollisionBoxIndexWhenPossible  (PLAYER_COLLISION_BOX_SWIM );
-#line 4328 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_pstState  = PST_DIVE ;
-#line 4329 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_plViewpoint  . pl_PositionVector  (2) = plr_fViewHeightDive ;
-#line 4330 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerAnimator  &) * m_penAnimator ) . Swim  ();
-#line 4331 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4332 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}break ;
-#line 4334 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case PST_FALL : {
-#line 4336 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4285 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlayerState  pstOld  = m_pstState ;
+#line 4288 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(pstWanted  != m_pstState ){
+#line 4290 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+switch(pstWanted ){
+#line 4292 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+case PST_STAND : {
+#line 4294 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(ChangeCollisionBoxIndexNow  (PLAYER_COLLISION_BOX_STAND )){
-#line 4337 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_pstState  = PST_FALL ;
-#line 4338 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4295 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 en_plViewpoint  . pl_PositionVector  (2) = plr_fViewHeightStand ;
-#line 4339 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerAnimator  &) * m_penAnimator ) . Fall  ();
-#line 4340 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4296 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_pstState  == PST_CROUCH ){
+#line 4297 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerAnimator  &) * m_penAnimator ) . Rise  ();
+#line 4298 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 4299 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerAnimator  &) * m_penAnimator ) . Stand  ();
+#line 4300 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4341 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4301 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_pstState  = PST_STAND ;
+#line 4302 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4303 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }break ;
-#line 4342 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4305 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+case PST_CROUCH : {
+#line 4307 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(ChangeCollisionBoxIndexNow  (PLAYER_COLLISION_BOX_CROUCH )){
+#line 4308 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_pstState  = PST_CROUCH ;
+#line 4309 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_plViewpoint  . pl_PositionVector  (2) = plr_fViewHeightCrouch ;
+#line 4310 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerAnimator  &) * m_penAnimator ) . Crouch  ();
+#line 4311 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4312 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}break ;
+#line 4314 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+case PST_SWIM : {
+#line 4316 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(ChangeCollisionBoxIndexNow  (PLAYER_COLLISION_BOX_SWIMSMALL )){
+#line 4317 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ChangeCollisionBoxIndexWhenPossible  (PLAYER_COLLISION_BOX_SWIM );
+#line 4318 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_pstState  = PST_SWIM ;
+#line 4319 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_plViewpoint  . pl_PositionVector  (2) = plr_fViewHeightSwim ;
+#line 4320 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerAnimator  &) * m_penAnimator ) . Swim  ();
+#line 4321 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_fSwimTime  = _pTimer  -> CurrentTick  ();
+#line 4322 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4323 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}break ;
+#line 4325 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+case PST_DIVE : {
+#line 4327 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(ChangeCollisionBoxIndexNow  (PLAYER_COLLISION_BOX_SWIMSMALL )){
+#line 4328 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ChangeCollisionBoxIndexWhenPossible  (PLAYER_COLLISION_BOX_SWIM );
+#line 4329 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_pstState  = PST_DIVE ;
+#line 4330 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_plViewpoint  . pl_PositionVector  (2) = plr_fViewHeightDive ;
+#line 4331 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerAnimator  &) * m_penAnimator ) . Swim  ();
+#line 4332 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4333 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}break ;
+#line 4335 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+case PST_FALL : {
+#line 4337 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(ChangeCollisionBoxIndexNow  (PLAYER_COLLISION_BOX_STAND )){
+#line 4338 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_pstState  = PST_FALL ;
+#line 4339 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_plViewpoint  . pl_PositionVector  (2) = plr_fViewHeightStand ;
+#line 4340 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerAnimator  &) * m_penAnimator ) . Fall  ();
+#line 4341 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4342 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}break ;
 #line 4343 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4346 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_pstState  != pstOld ){
-#line 4348 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL bWasInWater  = (pstOld  == PST_SWIM  || pstOld  == PST_DIVE );
-#line 4349 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL bIsInWater  = (m_pstState  == PST_SWIM  || m_pstState  == PST_DIVE );
-#line 4351 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(bIsInWater  && ! bWasInWater ){
-#line 4352 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soBody  , GenderSound  (SOUND_WATER_ENTER ) , SOF_3D );
-#line 4354 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(! bIsInWater  && bWasInWater ){
-#line 4355 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soBody  , GenderSound  (SOUND_WATER_LEAVE ) , SOF_3D );
-#line 4356 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmOutOfWater  = _pTimer  -> CurrentTick  ();
-#line 4359 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(bIsInWater ){
-#line 4361 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(pstOld  == PST_SWIM  && m_pstState  == PST_DIVE ){
-#line 4362 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soFootL  , GenderSound  (SOUND_DIVEIN ) , SOF_3D );
-#line 4363 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_PlayEffect  ("DiveIn");}
-#line 4364 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_bMoveSoundLeft  = TRUE ;
-#line 4365 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmMoveSound  = _pTimer  -> CurrentTick  ();
-#line 4367 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(m_pstState  == PST_SWIM  && pstOld  == PST_DIVE ){
-#line 4368 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soFootL  , GenderSound  (SOUND_DIVEOUT ) , SOF_3D );
-#line 4369 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_bMoveSoundLeft  = TRUE ;
-#line 4370 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmMoveSound  = _pTimer  -> CurrentTick  ();
-#line 4371 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4344 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4347 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_pstState  != pstOld ){
+#line 4349 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+BOOL bWasInWater  = (pstOld  == PST_SWIM  || pstOld  == PST_DIVE );
+#line 4350 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+BOOL bIsInWater  = (m_pstState  == PST_SWIM  || m_pstState  == PST_DIVE );
+#line 4352 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(bIsInWater  && ! bWasInWater ){
+#line 4353 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soBody  , GenderSound  (SOUND_WATER_ENTER ) , SOF_3D );
+#line 4355 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(! bIsInWater  && bWasInWater ){
+#line 4356 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soBody  , GenderSound  (SOUND_WATER_LEAVE ) , SOF_3D );
+#line 4357 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_tmOutOfWater  = _pTimer  -> CurrentTick  ();
+#line 4360 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(bIsInWater ){
+#line 4362 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(pstOld  == PST_SWIM  && m_pstState  == PST_DIVE ){
+#line 4363 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soFootL  , GenderSound  (SOUND_DIVEIN ) , SOF_3D );
+#line 4364 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_PlayEffect  ("DiveIn");}
+#line 4365 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_bMoveSoundLeft  = TRUE ;
+#line 4366 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_tmMoveSound  = _pTimer  -> CurrentTick  ();
+#line 4368 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(m_pstState  == PST_SWIM  && pstOld  == PST_DIVE ){
+#line 4369 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soFootL  , GenderSound  (SOUND_DIVEOUT ) , SOF_3D );
+#line 4370 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_bMoveSoundLeft  = TRUE ;
+#line 4371 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_tmMoveSound  = _pTimer  -> CurrentTick  ();
 #line 4372 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4374 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(pstOld  == PST_FALL  && (m_pstState  == PST_STAND  || m_pstState  == PST_CROUCH )){
+#line 4373 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
 #line 4375 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soFootL  , GenderSound  (SOUND_LAND ) , SOF_3D );
+if(pstOld  == PST_FALL  && (m_pstState  == PST_STAND  || m_pstState  == PST_CROUCH )){
 #line 4376 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_PlayEffect  ("Land");}
+PlaySound  (m_soFootL  , GenderSound  (SOUND_LAND ) , SOF_3D );
 #line 4377 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_PlayEffect  ("Land");}
+#line 4378 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4379 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_pstState  == PST_DIVE ){
 #line 4380 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_soLocalAmbientLoop  . Set3DParameters  (50.0f , 10.0f , 0.25f , 1.0f);
+if(m_pstState  == PST_DIVE ){
 #line 4381 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soLocalAmbientLoop  , SOUND_WATERAMBIENT  , 
+m_soLocalAmbientLoop  . Set3DParameters  (50.0f , 10.0f , 0.25f , 1.0f);
 #line 4382 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SOF_LOOP  | SOF_3D  | SOF_VOLUMETRIC  | SOF_LOCAL );
+PlaySound  (m_soLocalAmbientLoop  , SOUND_WATERAMBIENT  , 
 #line 4383 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(pstOld  == PST_DIVE ){
+SOF_LOOP  | SOF_3D  | SOF_VOLUMETRIC  | SOF_LOCAL );
 #line 4384 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_soLocalAmbientLoop  . Stop  ();
+}else if(pstOld  == PST_DIVE ){
 #line 4385 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+m_soLocalAmbientLoop  . Stop  ();
 #line 4386 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4388 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(en_tmJumped  + _pTimer  -> TickQuantum  >= _pTimer  -> CurrentTick  () && 
+#line 4387 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
 #line 4389 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(en_tmJumped  + _pTimer  -> TickQuantum  >= _pTimer  -> CurrentTick  () && 
+#line 4390 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 en_tmJumped  <= _pTimer  -> CurrentTick  () && en_penReference  == NULL ){
-#line 4391 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDefaultMouthPitch  ();
 #line 4392 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soMouth  , GenderSound  (SOUND_JUMP ) , SOF_3D );
+SetDefaultMouthPitch  ();
 #line 4393 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soMouth  , GenderSound  (SOUND_JUMP ) , SOF_3D );
+#line 4394 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_PlayEffect  ("Jump");}
-#line 4395 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  &= ~ PLF_JUMPALLOWED ;
 #line 4396 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_ulFlags  &= ~ PLF_JUMPALLOWED ;
+#line 4397 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4399 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_pstState  == PST_SWIM  || pstWanted  == PST_SWIM  
 #line 4400 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-|| (pstWanted  == PST_DIVE  && m_pstState  != pstWanted )){
+if(m_pstState  == PST_SWIM  || pstWanted  == PST_SWIM  
 #line 4401 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_fDensity  = 500.0f;
+|| (pstWanted  == PST_DIVE  && m_pstState  != pstWanted )){
 #line 4402 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
+en_fDensity  = 500.0f;
 #line 4403 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_fDensity  = 1000.0f;
+}else {
 #line 4404 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_fDensity  = 1000.0f;
+#line 4405 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4406 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(_pTimer  -> CurrentTick  () >= m_tmNextAmbientOnce )
 #line 4407 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+if(_pTimer  -> CurrentTick  () >= m_tmNextAmbientOnce )
 #line 4408 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_pstState  == PST_DIVE )
-#line 4409 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
+#line 4409 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_pstState  == PST_DIVE )
 #line 4410 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soLocalAmbientOnce  , SOUND_WATERBUBBLES  , 
+{
 #line 4411 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SOF_3D  | SOF_VOLUMETRIC  | SOF_LOCAL );
+PlaySound  (m_soLocalAmbientOnce  , SOUND_WATERBUBBLES  , 
 #line 4412 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_soLocalAmbientOnce  . Set3DParameters  (25.0f , 5.0f , 2.0f , Lerp  (0.5f , 1.5f , FRnd  ()));
+SOF_3D  | SOF_VOLUMETRIC  | SOF_LOCAL );
 #line 4413 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SpawnBubbles  (5 + INDEX (FRnd  () * 5));
+m_soLocalAmbientOnce  . Set3DParameters  (25.0f , 5.0f , 2.0f , Lerp  (0.5f , 1.5f , FRnd  ()));
 #line 4414 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+SpawnBubbles  (5 + INDEX (FRnd  () * 5));
 #line 4415 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmNextAmbientOnce  = _pTimer  -> CurrentTick  () + 5.0f + FRnd  ();
+}
 #line 4416 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_tmNextAmbientOnce  = _pTimer  -> CurrentTick  () + 5.0f + FRnd  ();
+#line 4417 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4420 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4421 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(m_pstState  == PST_CROUCH ){
-#line 4422 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4423 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 vTranslation  /= 2.5f;
-#line 4424 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-vTranslation  (2) = 0.0f;
 #line 4425 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4428 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_pstState  == PST_DIVE ){
-#line 4430 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOATmatrix3D mPitch ;
-#line 4431 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-MakeRotationMatrixFast  (mPitch  , FLOAT3D (0 , en_plViewpoint  . pl_OrientationAngle  (2) , 0));
-#line 4432 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fZ  = vTranslation  (3);
-#line 4433 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-vTranslation  (3) = 0.0f;
-#line 4434 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-vTranslation  += FLOAT3D (0 , 0 , fZ ) * mPitch ;
-#line 4436 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(m_pstState  == PST_SWIM ){
-#line 4438 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOATmatrix3D mPitch ;
-#line 4439 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fPitch  = en_plViewpoint  . pl_OrientationAngle  (2);
-#line 4440 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(fPitch  > - 30.0f){
-#line 4441 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-fPitch  = 0;
-#line 4442 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4443 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-MakeRotationMatrixFast  (mPitch  , FLOAT3D (0 , fPitch  , 0));
-#line 4444 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fZ  = vTranslation  (3);
-#line 4445 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-vTranslation  (3) = 0.0f;
-#line 4446 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-vTranslation  += FLOAT3D (0 , 0 , fZ ) * mPitch ;
-#line 4447 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4450 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_pstState  == PST_SWIM  || m_pstState  == PST_DIVE ){
-#line 4452 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-vTranslation  (2) *= 0.5f;
-#line 4453 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4456 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_pstState  == PST_SWIM  && _pTimer  -> CurrentTick  () < m_fSwimTime  + 0.5f 
-#line 4457 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-|| _pTimer  -> CurrentTick  () < m_tmOutOfWater  + 0.5f){
-#line 4459 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-vTranslation  (2) = 0;
-#line 4461 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4466 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(! (m_ulFlags  & PLF_JUMPALLOWED ) && vTranslation  (2) > 0){
-#line 4467 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 vTranslation  (2) = 0.0f;
+#line 4426 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4429 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_pstState  == PST_DIVE ){
+#line 4431 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOATmatrix3D mPitch ;
+#line 4432 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+MakeRotationMatrixFast  (mPitch  , FLOAT3D (0 , en_plViewpoint  . pl_OrientationAngle  (2) , 0));
+#line 4433 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT fZ  = vTranslation  (3);
+#line 4434 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+vTranslation  (3) = 0.0f;
+#line 4435 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+vTranslation  += FLOAT3D (0 , 0 , fZ ) * mPitch ;
+#line 4437 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(m_pstState  == PST_SWIM ){
+#line 4439 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOATmatrix3D mPitch ;
+#line 4440 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT fPitch  = en_plViewpoint  . pl_OrientationAngle  (2);
+#line 4441 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(fPitch  > - 30.0f){
+#line 4442 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+fPitch  = 0;
+#line 4443 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4444 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+MakeRotationMatrixFast  (mPitch  , FLOAT3D (0 , fPitch  , 0));
+#line 4445 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT fZ  = vTranslation  (3);
+#line 4446 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+vTranslation  (3) = 0.0f;
+#line 4447 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+vTranslation  += FLOAT3D (0 , 0 , fZ ) * mPitch ;
+#line 4448 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4451 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_pstState  == PST_SWIM  || m_pstState  == PST_DIVE ){
+#line 4453 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+vTranslation  (2) *= 0.5f;
+#line 4454 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4457 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_pstState  == PST_SWIM  && _pTimer  -> CurrentTick  () < m_fSwimTime  + 0.5f 
+#line 4458 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+|| _pTimer  -> CurrentTick  () < m_tmOutOfWater  + 0.5f){
+#line 4460 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+vTranslation  (2) = 0;
+#line 4462 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4467 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(! (m_ulFlags  & PLF_JUMPALLOWED ) && vTranslation  (2) > 0){
 #line 4468 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+vTranslation  (2) = 0.0f;
+#line 4469 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4471 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4472 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetDesiredTranslation  (vTranslation );
-#line 4474 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_plViewpoint  . Rotate_HPB  (ANGLE3D (
 #line 4475 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-(ANGLE) ((FLOAT) paAction  . pa_aRotation  (1) * _pTimer  -> TickQuantum ) , 
+en_plViewpoint  . Rotate_HPB  (ANGLE3D (
 #line 4476 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-(ANGLE) ((FLOAT) paAction  . pa_aRotation  (2) * _pTimer  -> TickQuantum ) , 
+(ANGLE) ((FLOAT) paAction  . pa_aRotation  (1) * _pTimer  -> TickQuantum ) , 
 #line 4477 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+(ANGLE) ((FLOAT) paAction  . pa_aRotation  (2) * _pTimer  -> TickQuantum ) , 
+#line 4478 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 (ANGLE) ((FLOAT) paAction  . pa_aRotation  (3) * _pTimer  -> TickQuantum )));
-#line 4479 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-RoundViewAngle  (en_plViewpoint  . pl_OrientationAngle  (2) , PITCH_MAX );
 #line 4480 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+RoundViewAngle  (en_plViewpoint  . pl_OrientationAngle  (2) , PITCH_MAX );
+#line 4481 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 RoundViewAngle  (en_plViewpoint  . pl_OrientationAngle  (3) , BANKING_MAX );
-#line 4483 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(vTranslation  . Length  () > 0.1f){
 #line 4484 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDesiredRotation  (ANGLE3D (en_plViewpoint  . pl_OrientationAngle  (1) / _pTimer  -> TickQuantum  , 0.0f , 0.0f));
+if(vTranslation  . Length  () > 0.1f){
 #line 4485 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_ulFlags  & PLF_VIEWROTATIONCHANGED ){
+SetDesiredRotation  (ANGLE3D (en_plViewpoint  . pl_OrientationAngle  (1) / _pTimer  -> TickQuantum  , 0.0f , 0.0f));
 #line 4486 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  &= ~ PLF_VIEWROTATIONCHANGED ;
+if(m_ulFlags  & PLF_VIEWROTATIONCHANGED ){
 #line 4487 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOATmatrix3D mViewRot ;
+m_ulFlags  &= ~ PLF_VIEWROTATIONCHANGED ;
 #line 4488 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-MakeRotationMatrixFast  (mViewRot  , ANGLE3D (en_plViewpoint  . pl_OrientationAngle  (1) , 0 , 0));
+FLOATmatrix3D mViewRot ;
 #line 4489 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT3D vTransRel  = vTranslation  * mViewRot ;
+MakeRotationMatrixFast  (mViewRot  , ANGLE3D (en_plViewpoint  . pl_OrientationAngle  (1) , 0 , 0));
 #line 4490 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDesiredTranslation  (vTransRel );
+FLOAT3D vTransRel  = vTranslation  * mViewRot ;
 #line 4491 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+SetDesiredTranslation  (vTransRel );
 #line 4492 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4493 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 en_plViewpoint  . pl_OrientationAngle  (1) = 0.0f;
-#line 4495 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
 #line 4496 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  |= PLF_VIEWROTATIONCHANGED ;
-#line 4497 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDesiredRotation  (ANGLE3D (0.0f , 0.0f , 0.0f));
-#line 4498 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ANGLE aDiff  = en_plViewpoint  . pl_OrientationAngle  (1) - HEADING_MAX ;
-#line 4499 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(aDiff  > 0.0f){
-#line 4500 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDesiredRotation  (ANGLE3D (aDiff  / _pTimer  -> TickQuantum  , 0.0f , 0.0f));
-#line 4501 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4502 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-aDiff  = en_plViewpoint  . pl_OrientationAngle  (1) + HEADING_MAX ;
-#line 4503 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(aDiff  < 0.0f){
-#line 4504 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDesiredRotation  (ANGLE3D (aDiff  / _pTimer  -> TickQuantum  , 0.0f , 0.0f));
-#line 4505 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4506 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-RoundViewAngle  (en_plViewpoint  . pl_OrientationAngle  (1) , HEADING_MAX );
-#line 4507 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4510 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fWantSpeed  = en_vDesiredTranslationRelative  . Length  ();
-#line 4511 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fGoesSpeed  = en_vCurrentTranslationAbsolute  . Length  ();
-#line 4512 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL bOnGround  = (m_pstState  == PST_STAND ) || (m_pstState  == PST_CROUCH );
-#line 4513 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL bRunning  = bOnGround  && fWantSpeed  > 5.0f && fGoesSpeed  > 5.0f;
-#line 4514 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL bWalking  = bOnGround  && ! bRunning  && fWantSpeed  > 2.0f && fGoesSpeed  > 2.0f;
-#line 4515 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL bSwimming  = (m_pstState  == PST_SWIM ) && fWantSpeed  > 2.0f && fGoesSpeed  > 2.0f;
-#line 4516 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL bDiving  = (m_pstState  == PST_DIVE ) && fWantSpeed  > 2.0f && fGoesSpeed  > 2.0f;
-#line 4517 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-TIME  tmNow  = _pTimer  -> CurrentTick  ();
-#line 4518 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-INDEX iSoundWalkL  = SOUND_WALK_L ;
-#line 4519 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-INDEX iSoundWalkR  = SOUND_WALK_R ;
-#line 4520 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if((ctDn  . ct_ulFlags  & CTF_SWIMABLE ) && en_fImmersionFactor  >= 0.1f){
-#line 4521 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iSoundWalkL  = SOUND_WATERWALK_L ;
-#line 4522 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iSoundWalkR  = SOUND_WATERWALK_R ;
-#line 4523 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(en_pbpoStandOn  != NULL  && 
-#line 4524 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_pbpoStandOn  -> bpo_bppProperties  . bpp_ubSurfaceType  == SURFACE_SAND ){
-#line 4525 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iSoundWalkL  = SOUND_WALK_SAND_L ;
-#line 4526 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iSoundWalkR  = SOUND_WALK_SAND_R ;
-#line 4527 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(en_pbpoStandOn  != NULL  && 
-#line 4528 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_pbpoStandOn  -> bpo_bppProperties  . bpp_ubSurfaceType  == SURFACE_RED_SAND ){
-#line 4529 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iSoundWalkL  = SOUND_WALK_SAND_L ;
-#line 4530 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iSoundWalkR  = SOUND_WALK_SAND_R ;
-#line 4531 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(en_pbpoStandOn  != NULL  && 
-#line 4532 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-(en_pbpoStandOn  -> bpo_bppProperties  . bpp_ubSurfaceType  == SURFACE_GRASS  || 
-#line 4533 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_pbpoStandOn  -> bpo_bppProperties  . bpp_ubSurfaceType  == SURFACE_GRASS_SLIDING  || 
-#line 4534 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_pbpoStandOn  -> bpo_bppProperties  . bpp_ubSurfaceType  == SURFACE_GRASS_NOIMPACT )){
-#line 4535 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iSoundWalkL  = SOUND_WALK_GRASS_L ;
-#line 4536 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iSoundWalkR  = SOUND_WALK_GRASS_R ;
-#line 4537 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(en_pbpoStandOn  != NULL  && 
-#line 4538 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_pbpoStandOn  -> bpo_bppProperties  . bpp_ubSurfaceType  == SURFACE_WOOD ){
-#line 4539 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iSoundWalkL  = SOUND_WALK_WOOD_L ;
-#line 4540 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iSoundWalkR  = SOUND_WALK_WOOD_R ;
-#line 4541 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(en_pbpoStandOn  != NULL  && 
-#line 4542 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_pbpoStandOn  -> bpo_bppProperties  . bpp_ubSurfaceType  == SURFACE_SNOW ){
-#line 4543 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iSoundWalkL  = SOUND_WALK_SNOW_L ;
-#line 4544 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iSoundWalkR  = SOUND_WALK_SNOW_R ;
-#line 4545 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(en_pbpoStandOn  != NULL  && 
-#line 4546 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_pbpoStandOn  -> bpo_bppProperties  . bpp_ubSurfaceType  == SURFACE_GLASS ){
-#line 4547 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iSoundWalkL  = SOUND_WALK_L ;
-#line 4548 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iSoundWalkR  = SOUND_WALK_R ;
-#line 4549 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4550 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-else {
-#line 4551 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4552 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iSoundWalkL  += m_iGender  * GENDEROFFSET ;
-#line 4553 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iSoundWalkR  += m_iGender  * GENDEROFFSET ;
-#line 4554 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(bRunning ){
-#line 4555 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(tmNow  > m_tmMoveSound  + plr_fRunSoundDelay ){
-#line 4556 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmMoveSound  = tmNow ;
-#line 4557 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_bMoveSoundLeft  = ! m_bMoveSoundLeft ;
-#line 4558 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_bMoveSoundLeft ){
-#line 4559 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soFootL  , iSoundWalkL  , SOF_3D );
-#line 4560 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 4561 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soFootR  , iSoundWalkR  , SOF_3D );
-#line 4562 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4497 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_ulFlags  |= PLF_VIEWROTATIONCHANGED ;
+#line 4498 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetDesiredRotation  (ANGLE3D (0.0f , 0.0f , 0.0f));
+#line 4499 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ANGLE aDiff  = en_plViewpoint  . pl_OrientationAngle  (1) - HEADING_MAX ;
+#line 4500 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(aDiff  > 0.0f){
+#line 4501 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetDesiredRotation  (ANGLE3D (aDiff  / _pTimer  -> TickQuantum  , 0.0f , 0.0f));
+#line 4502 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4503 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+aDiff  = en_plViewpoint  . pl_OrientationAngle  (1) + HEADING_MAX ;
+#line 4504 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(aDiff  < 0.0f){
+#line 4505 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetDesiredRotation  (ANGLE3D (aDiff  / _pTimer  -> TickQuantum  , 0.0f , 0.0f));
+#line 4506 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4507 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+RoundViewAngle  (en_plViewpoint  . pl_OrientationAngle  (1) , HEADING_MAX );
+#line 4508 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4511 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT fWantSpeed  = en_vDesiredTranslationRelative  . Length  ();
+#line 4512 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT fGoesSpeed  = en_vCurrentTranslationAbsolute  . Length  ();
+#line 4513 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+BOOL bOnGround  = (m_pstState  == PST_STAND ) || (m_pstState  == PST_CROUCH );
+#line 4514 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+BOOL bRunning  = bOnGround  && fWantSpeed  > 5.0f && fGoesSpeed  > 5.0f;
+#line 4515 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+BOOL bWalking  = bOnGround  && ! bRunning  && fWantSpeed  > 2.0f && fGoesSpeed  > 2.0f;
+#line 4516 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+BOOL bSwimming  = (m_pstState  == PST_SWIM ) && fWantSpeed  > 2.0f && fGoesSpeed  > 2.0f;
+#line 4517 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+BOOL bDiving  = (m_pstState  == PST_DIVE ) && fWantSpeed  > 2.0f && fGoesSpeed  > 2.0f;
+#line 4518 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+TIME  tmNow  = _pTimer  -> CurrentTick  ();
+#line 4519 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+INDEX iSoundWalkL  = SOUND_WALK_L ;
+#line 4520 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+INDEX iSoundWalkR  = SOUND_WALK_R ;
+#line 4521 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if((ctDn  . ct_ulFlags  & CTF_SWIMABLE ) && en_fImmersionFactor  >= 0.1f){
+#line 4522 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iSoundWalkL  = SOUND_WATERWALK_L ;
+#line 4523 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iSoundWalkR  = SOUND_WATERWALK_R ;
+#line 4524 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(en_pbpoStandOn  != NULL  && 
+#line 4525 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_pbpoStandOn  -> bpo_bppProperties  . bpp_ubSurfaceType  == SURFACE_SAND ){
+#line 4526 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iSoundWalkL  = SOUND_WALK_SAND_L ;
+#line 4527 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iSoundWalkR  = SOUND_WALK_SAND_R ;
+#line 4528 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(en_pbpoStandOn  != NULL  && 
+#line 4529 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_pbpoStandOn  -> bpo_bppProperties  . bpp_ubSurfaceType  == SURFACE_RED_SAND ){
+#line 4530 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iSoundWalkL  = SOUND_WALK_SAND_L ;
+#line 4531 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iSoundWalkR  = SOUND_WALK_SAND_R ;
+#line 4532 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(en_pbpoStandOn  != NULL  && 
+#line 4533 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+(en_pbpoStandOn  -> bpo_bppProperties  . bpp_ubSurfaceType  == SURFACE_GRASS  || 
+#line 4534 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_pbpoStandOn  -> bpo_bppProperties  . bpp_ubSurfaceType  == SURFACE_GRASS_SLIDING  || 
+#line 4535 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_pbpoStandOn  -> bpo_bppProperties  . bpp_ubSurfaceType  == SURFACE_GRASS_NOIMPACT )){
+#line 4536 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iSoundWalkL  = SOUND_WALK_GRASS_L ;
+#line 4537 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iSoundWalkR  = SOUND_WALK_GRASS_R ;
+#line 4538 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(en_pbpoStandOn  != NULL  && 
+#line 4539 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_pbpoStandOn  -> bpo_bppProperties  . bpp_ubSurfaceType  == SURFACE_WOOD ){
+#line 4540 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iSoundWalkL  = SOUND_WALK_WOOD_L ;
+#line 4541 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iSoundWalkR  = SOUND_WALK_WOOD_R ;
+#line 4542 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(en_pbpoStandOn  != NULL  && 
+#line 4543 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_pbpoStandOn  -> bpo_bppProperties  . bpp_ubSurfaceType  == SURFACE_SNOW ){
+#line 4544 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iSoundWalkL  = SOUND_WALK_SNOW_L ;
+#line 4545 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iSoundWalkR  = SOUND_WALK_SNOW_R ;
+#line 4546 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(en_pbpoStandOn  != NULL  && 
+#line 4547 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_pbpoStandOn  -> bpo_bppProperties  . bpp_ubSurfaceType  == SURFACE_GLASS ){
+#line 4548 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iSoundWalkL  = SOUND_WALK_L ;
+#line 4549 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iSoundWalkR  = SOUND_WALK_R ;
+#line 4550 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4551 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+else {
+#line 4552 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4553 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iSoundWalkL  += m_iGender  * GENDEROFFSET ;
+#line 4554 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iSoundWalkR  += m_iGender  * GENDEROFFSET ;
+#line 4555 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(bRunning ){
+#line 4556 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(tmNow  > m_tmMoveSound  + plr_fRunSoundDelay ){
+#line 4557 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_tmMoveSound  = tmNow ;
+#line 4558 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_bMoveSoundLeft  = ! m_bMoveSoundLeft ;
+#line 4559 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_bMoveSoundLeft ){
+#line 4560 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soFootL  , iSoundWalkL  , SOF_3D );
+#line 4561 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 4562 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soFootR  , iSoundWalkR  , SOF_3D );
 #line 4563 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 4564 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(bWalking ){
-#line 4565 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(tmNow  > m_tmMoveSound  + plr_fWalkSoundDelay ){
-#line 4566 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmMoveSound  = tmNow ;
-#line 4567 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_bMoveSoundLeft  = ! m_bMoveSoundLeft ;
-#line 4568 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_bMoveSoundLeft ){
-#line 4569 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soFootL  , iSoundWalkL  , SOF_3D );
-#line 4570 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
-#line 4571 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soFootR  , iSoundWalkR  , SOF_3D );
-#line 4572 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4565 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(bWalking ){
+#line 4566 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(tmNow  > m_tmMoveSound  + plr_fWalkSoundDelay ){
+#line 4567 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_tmMoveSound  = tmNow ;
+#line 4568 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_bMoveSoundLeft  = ! m_bMoveSoundLeft ;
+#line 4569 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_bMoveSoundLeft ){
+#line 4570 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soFootL  , iSoundWalkL  , SOF_3D );
+#line 4571 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 4572 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soFootR  , iSoundWalkR  , SOF_3D );
 #line 4573 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 4574 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(bDiving ){
-#line 4575 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(tmNow  > m_tmMoveSound  + plr_fDiveSoundDelay ){
-#line 4576 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmMoveSound  = tmNow ;
-#line 4577 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_bMoveSoundLeft  = ! m_bMoveSoundLeft ;
-#line 4578 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_bMoveSoundLeft ){
-#line 4579 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soFootL  , GenderSound  (SOUND_DIVE_L ) , SOF_3D );
-#line 4580 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
-#line 4581 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soFootR  , GenderSound  (SOUND_DIVE_R ) , SOF_3D );
-#line 4582 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4575 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(bDiving ){
+#line 4576 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(tmNow  > m_tmMoveSound  + plr_fDiveSoundDelay ){
+#line 4577 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_tmMoveSound  = tmNow ;
+#line 4578 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_bMoveSoundLeft  = ! m_bMoveSoundLeft ;
+#line 4579 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_bMoveSoundLeft ){
+#line 4580 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soFootL  , GenderSound  (SOUND_DIVE_L ) , SOF_3D );
+#line 4581 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 4582 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soFootR  , GenderSound  (SOUND_DIVE_R ) , SOF_3D );
 #line 4583 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 4584 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(bSwimming ){
-#line 4585 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(tmNow  > m_tmMoveSound  + plr_fSwimSoundDelay ){
-#line 4586 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmMoveSound  = tmNow ;
-#line 4587 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_bMoveSoundLeft  = ! m_bMoveSoundLeft ;
-#line 4588 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_bMoveSoundLeft ){
-#line 4589 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soFootL  , GenderSound  (SOUND_SWIM_L ) , SOF_3D );
-#line 4590 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
-#line 4591 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soFootR  , GenderSound  (SOUND_SWIM_R ) , SOF_3D );
-#line 4592 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4585 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(bSwimming ){
+#line 4586 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(tmNow  > m_tmMoveSound  + plr_fSwimSoundDelay ){
+#line 4587 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_tmMoveSound  = tmNow ;
+#line 4588 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_bMoveSoundLeft  = ! m_bMoveSoundLeft ;
+#line 4589 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_bMoveSoundLeft ){
+#line 4590 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soFootL  , GenderSound  (SOUND_SWIM_L ) , SOF_3D );
+#line 4591 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 4592 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soFootR  , GenderSound  (SOUND_SWIM_R ) , SOF_3D );
 #line 4593 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 4594 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4597 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-TIME  tmBreathDelay  = tmNow  - en_tmLastBreathed ;
-#line 4598 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(en_tmMaxHoldBreath  - tmBreathDelay  < 30.0f){
-#line 4600 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_tmMouthSoundLast  + 2.0f < tmNow ){
-#line 4601 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmMouthSoundLast  = tmNow ;
-#line 4602 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetRandomMouthPitch  (0.9f , 1.1f);
-#line 4603 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soMouth  , GenderSound  (SOUND_DROWN ) , SOF_3D );
-#line 4604 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4595 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4598 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+TIME  tmBreathDelay  = tmNow  - en_tmLastBreathed ;
+#line 4599 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(en_tmMaxHoldBreath  - tmBreathDelay  < 30.0f){
+#line 4601 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_tmMouthSoundLast  + 2.0f < tmNow ){
+#line 4602 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_tmMouthSoundLast  = tmNow ;
+#line 4603 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetRandomMouthPitch  (0.9f , 1.1f);
+#line 4604 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soMouth  , GenderSound  (SOUND_DROWN ) , SOF_3D );
 #line 4605 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4608 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerAnimator  &) * m_penAnimator ) . AnimatePlayer  ();
-#line 4609 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4606 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4609 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerAnimator  &) * m_penAnimator ) . AnimatePlayer  ();
 #line 4610 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4611 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
   
-#line 4613 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::RoundViewAngle(ANGLE & aViewAngle,ANGLE aRound) {
 #line 4614 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(aViewAngle  > aRound ){
+void CPlayer::RoundViewAngle(ANGLE & aViewAngle,ANGLE aRound) {
 #line 4615 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-aViewAngle  = aRound ;
+if(aViewAngle  > aRound ){
 #line 4616 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+aViewAngle  = aRound ;
 #line 4617 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(aViewAngle  < - aRound ){
-#line 4618 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-aViewAngle  = - aRound ;
-#line 4619 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4618 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(aViewAngle  < - aRound ){
+#line 4619 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+aViewAngle  = - aRound ;
 #line 4620 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4621 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
   
-#line 4623 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4624 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void CPlayer::DeathActions(const CPlayerAction & paAction) {
-#line 4625 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_penView  != NULL ){
 #line 4626 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ASSERT  (IsPredicted  () && m_penView  -> IsPredicted  () || IsPredictor  () && m_penView  -> IsPredictor  () || ! IsPredicted  () && ! m_penView  -> IsPredicted  () && ! IsPredictor  () && ! m_penView  -> IsPredictor  ());
+if(m_penView  != NULL ){
 #line 4627 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_plViewpoint  . pl_PositionVector  = FLOAT3D (0 , 1 , 0);
+ASSERT  (IsPredicted  () && m_penView  -> IsPredicted  () || IsPredictor  () && m_penView  -> IsPredictor  () || ! IsPredicted  () && ! m_penView  -> IsPredicted  () && ! IsPredictor  () && ! m_penView  -> IsPredictor  ());
 #line 4628 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_plViewpoint  . pl_OrientationAngle  += (ANGLE3D (
+en_plViewpoint  . pl_PositionVector  = FLOAT3D (0 , 1 , 0);
 #line 4629 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-(ANGLE) ((FLOAT) paAction  . pa_aRotation  (1) * _pTimer  -> TickQuantum ) , 
+en_plViewpoint  . pl_OrientationAngle  += (ANGLE3D (
 #line 4630 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-(ANGLE) ((FLOAT) paAction  . pa_aRotation  (2) * _pTimer  -> TickQuantum ) , 
+(ANGLE) ((FLOAT) paAction  . pa_aRotation  (1) * _pTimer  -> TickQuantum ) , 
 #line 4631 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-(ANGLE) ((FLOAT) paAction  . pa_aRotation  (3) * _pTimer  -> TickQuantum )));
+(ANGLE) ((FLOAT) paAction  . pa_aRotation  (2) * _pTimer  -> TickQuantum ) , 
 #line 4632 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+(ANGLE) ((FLOAT) paAction  . pa_aRotation  (3) * _pTimer  -> TickQuantum )));
+#line 4633 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4635 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4636 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(m_iMayRespawn  == 2 && (ulReleasedButtons  & PLACT_FIRE ) && ! IsPredictor  ()){
-#line 4637 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4638 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(GetSP  () -> sp_bSinglePlayer ){
-#line 4639 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4640 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 _pShell  -> Execute  ("gam_bQuickLoad=1;");
-#line 4641 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4642 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else if(! GetSP  () -> sp_bCooperative ){
-#line 4643 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4644 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SendEvent  (EEnd  ());
-#line 4645 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4646 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 4647 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4648 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(m_ulLastButtons  & PLACT_RELOAD ){
-#line 4649 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  &= ~ PLF_RESPAWNINPLACE ;
 #line 4650 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_ulFlags  &= ~ PLF_RESPAWNINPLACE ;
+#line 4651 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4652 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4653 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(GetSP  () -> sp_ctCredits  != 0){
-#line 4654 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4655 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(GetSP  () -> sp_ctCredits  == - 1 || GetSP  () -> sp_ctCreditsLeft  != 0){
-#line 4656 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(GetSP  () -> sp_ctCredits  != - 1){
 #line 4657 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CSessionProperties  *) GetSP  ()) -> sp_ctCreditsLeft  --;
+if(GetSP  () -> sp_ctCredits  != - 1){
 #line 4658 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CSessionProperties  *) GetSP  ()) -> sp_ctCreditsLeft  --;
+#line 4659 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4661 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPrintF  (TRANS  ("%s is riding the gun again\n") , GetPlayerName  ());
 #line 4662 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPrintF  (TRANS  ("%s is riding the gun again\n") , GetPlayerName  ());
+#line 4663 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SendEvent  (EEnd  ());
-#line 4665 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(GetSP  () -> sp_ctCredits  > 0){
 #line 4666 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(GetSP  () -> sp_ctCreditsLeft  == 0){
+if(GetSP  () -> sp_ctCredits  > 0){
 #line 4667 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPrintF  (TRANS  ("  no more credits left!\n"));
+if(GetSP  () -> sp_ctCreditsLeft  == 0){
 #line 4668 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
+CPrintF  (TRANS  ("  no more credits left!\n"));
 #line 4669 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPrintF  (TRANS  ("  %d credits left\n") , GetSP  () -> sp_ctCreditsLeft );
+}else {
 #line 4670 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+CPrintF  (TRANS  ("  %d credits left\n") , GetSP  () -> sp_ctCreditsLeft );
 #line 4671 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4673 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
-#line 4675 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPrintF  (TRANS  ("%s rests in peace - out of credits\n") , GetPlayerName  ());
-#line 4676 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4672 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4674 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 4676 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPrintF  (TRANS  ("%s rests in peace - out of credits\n") , GetPlayerName  ());
 #line 4677 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 4678 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 4679 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4681 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_iMayRespawn  == 1 && ! (ulButtonsNow  & PLACT_FIRE )){
-#line 4682 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_iMayRespawn  = 2;
-#line 4683 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4680 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4682 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_iMayRespawn  == 1 && ! (ulButtonsNow  & PLACT_FIRE )){
+#line 4683 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_iMayRespawn  = 2;
 #line 4684 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4685 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
   
-#line 4688 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::ButtonsActions(CPlayerAction & paAction) 
 #line 4689 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+void CPlayer::ButtonsActions(CPlayerAction & paAction) 
+#line 4690 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
-#line 4691 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if((ulNewButtons  & PLACT_SELECT_WEAPON_MASK ) != 0){
 #line 4692 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ESelectWeapon  eSelect ;
+if((ulNewButtons  & PLACT_SELECT_WEAPON_MASK ) != 0){
 #line 4693 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-eSelect  . iWeapon  = (ulNewButtons  & PLACT_SELECT_WEAPON_MASK ) >> PLACT_SELECT_WEAPON_SHIFT ;
-#line 4694 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (eSelect );
-#line 4695 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4698 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ulNewButtons  & PLACT_WEAPON_NEXT ){
-#line 4699 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(((CPlayerWeapons  &) * m_penWeapons ) . m_bSniping ){
-#line 4700 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ApplySniperZoom  (0);
-#line 4701 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(TRUE ){
-#line 4702 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ESelectWeapon  eSelect ;
-#line 4703 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-eSelect  . iWeapon  = - 1;
-#line 4704 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4694 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+eSelect  . iWeapon  = (ulNewButtons  & PLACT_SELECT_WEAPON_MASK ) >> PLACT_SELECT_WEAPON_SHIFT ;
+#line 4695 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (eSelect );
-#line 4705 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4696 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4699 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(ulNewButtons  & PLACT_WEAPON_NEXT ){
+#line 4700 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(((CPlayerWeapons  &) * m_penWeapons ) . m_bSniping ){
+#line 4701 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ApplySniperZoom  (0);
+#line 4702 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(TRUE ){
+#line 4703 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ESelectWeapon  eSelect ;
+#line 4704 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+eSelect  . iWeapon  = - 1;
+#line 4705 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (eSelect );
 #line 4706 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4709 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ulNewButtons  & PLACT_WEAPON_PREV ){
-#line 4710 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(((CPlayerWeapons  &) * m_penWeapons ) . m_bSniping ){
-#line 4711 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ApplySniperZoom  (1);
-#line 4712 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(TRUE ){
-#line 4713 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ESelectWeapon  eSelect ;
-#line 4714 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-eSelect  . iWeapon  = - 2;
-#line 4715 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (eSelect );
-#line 4716 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4707 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4710 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(ulNewButtons  & PLACT_WEAPON_PREV ){
+#line 4711 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(((CPlayerWeapons  &) * m_penWeapons ) . m_bSniping ){
+#line 4712 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ApplySniperZoom  (1);
+#line 4713 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(TRUE ){
+#line 4714 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ESelectWeapon  eSelect ;
+#line 4715 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+eSelect  . iWeapon  = - 2;
+#line 4716 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (eSelect );
 #line 4717 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 4718 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ulNewButtons  & PLACT_WEAPON_FLIP ){
+}
 #line 4719 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ESelectWeapon  eSelect ;
+if(ulNewButtons  & PLACT_WEAPON_FLIP ){
 #line 4720 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-eSelect  . iWeapon  = - 3;
+ESelectWeapon  eSelect ;
 #line 4721 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (eSelect );
+eSelect  . iWeapon  = - 3;
 #line 4722 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (eSelect );
+#line 4723 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4725 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ulNewButtons  & PLACT_FIRE ){
 #line 4726 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (EFireWeapon  ());
+if(ulNewButtons  & PLACT_FIRE ){
 #line 4727 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (EFireWeapon  ());
+#line 4728 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4729 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ulReleasedButtons  & PLACT_FIRE ){
 #line 4730 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (EReleaseWeapon  ());
+if(ulReleasedButtons  & PLACT_FIRE ){
 #line 4731 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (EReleaseWeapon  ());
+#line 4732 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4733 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ulReleasedButtons  & PLACT_RELOAD ){
 #line 4734 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (EReloadWeapon  ());
+if(ulReleasedButtons  & PLACT_RELOAD ){
 #line 4735 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (EReloadWeapon  ());
+#line 4736 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4737 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ulNewButtons  & PLACT_ALTFIRE ){
 #line 4738 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (EAltFireWeapon  ());
+if(ulNewButtons  & PLACT_ALTFIRE ){
 #line 4739 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (EAltFireWeapon  ());
+#line 4740 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4741 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ulReleasedButtons  & PLACT_ALTFIRE ){
 #line 4742 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (EReleaseWeaponAlt  ());
+if(ulReleasedButtons  & PLACT_ALTFIRE ){
 #line 4743 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (EReleaseWeaponAlt  ());
+#line 4744 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4745 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ulNewButtons  & PLACT_FIREBOMB ){
 #line 4746 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_iSeriousBombCount  > 0 && m_tmSeriousBombFired  + 4.0f < _pTimer  -> CurrentTick  ()){
+if(ulNewButtons  & PLACT_FIREBOMB ){
 #line 4747 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-const FLOAT tmNow  = _pTimer  -> CurrentTick  ();
+if(m_iSeriousBombCount  > 0 && m_tmSeriousBombFired  + 4.0f < _pTimer  -> CurrentTick  ()){
 #line 4748 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_iLastSeriousBombCount  = m_iSeriousBombCount ;
+const FLOAT tmNow  = _pTimer  -> CurrentTick  ();
 #line 4749 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Glare  (1.0f , 2.8f , 0.3f , 0.3f);
+m_iLastSeriousBombCount  = m_iSeriousBombCount ;
 #line 4750 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_iSeriousBombCount  --;
+Glare  (1.0f , 2.8f , 0.3f , 0.3f);
 #line 4751 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_iSeriousBombCount  --;
+#line 4752 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_tmSeriousBombFired  = _pTimer  -> CurrentTick  ();
-#line 4753 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmSeriousDamage  = tmNow  + m_tmSeriousDamageMax ;
 #line 4754 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmSeriousSpeed  = tmNow  + m_tmSeriousSpeedMax ;
+m_tmSeriousDamage  = tmNow  + m_tmSeriousDamageMax ;
 #line 4755 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_tmSeriousSpeed  = tmNow  + m_tmSeriousSpeedMax ;
+#line 4756 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CPrintF  ("m_tmSeriousDamage = %i\n" , m_tmSeriousDamage );
-#line 4760 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
 #line 4761 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4766 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ulNewButtons  & PLACT_USE ){
+#line 4762 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
 #line 4767 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if((((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_SNIPER ) || (((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_TOMMYGUN ) || (((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_ROCKETLAUNCHER )){
+if(ulNewButtons  & PLACT_USE ){
 #line 4768 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-UsePressed  (FALSE );
+if((((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_SNIPER ) || (((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_TOMMYGUN ) || (((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_ROCKETLAUNCHER ) || (((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_IRONCANNON )){
 #line 4769 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
-#line 4770 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-UsePressed  (ulNewButtons  & PLACT_COMPUTER );
-#line 4771 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4773 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if((ulNewButtons  & PLACT_SNIPER_USE  && ((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_SNIPER ) || (ulNewButtons  & PLACT_SNIPER_USE  && ((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_TOMMYGUN ) || (ulNewButtons  & PLACT_SNIPER_USE  && ((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_ROCKETLAUNCHER )){
-#line 4774 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 UsePressed  (FALSE );
-#line 4776 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(ulNewButtons  & PLACT_COMPUTER ){
+#line 4770 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 4771 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+UsePressed  (ulNewButtons  & PLACT_COMPUTER );
+#line 4772 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4774 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if((ulNewButtons  & PLACT_SNIPER_USE  && ((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_SNIPER ) || (ulNewButtons  & PLACT_SNIPER_USE  && ((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_TOMMYGUN ) || (ulNewButtons  & PLACT_SNIPER_USE  && ((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_ROCKETLAUNCHER ) || (ulNewButtons  & PLACT_SNIPER_USE  && ((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  == WEAPON_IRONCANNON )){
+#line 4775 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+UsePressed  (FALSE );
 #line 4777 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ComputerPressed  ();
+}else if(ulNewButtons  & PLACT_COMPUTER ){
 #line 4778 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ComputerPressed  ();
+#line 4779 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4781 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ulNewButtons  & PLACT_USE_HELD ){
 #line 4782 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-bUseButtonHeld  = TRUE ;
+if(ulNewButtons  & PLACT_USE_HELD ){
 #line 4783 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+bUseButtonHeld  = TRUE ;
+#line 4784 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4786 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ulReleasedButtons  & PLACT_USE_HELD ){
 #line 4787 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-bUseButtonHeld  = FALSE ;
+if(ulReleasedButtons  & PLACT_USE_HELD ){
 #line 4788 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+bUseButtonHeld  = FALSE ;
+#line 4789 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4791 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ulNewButtons  & PLACT_SNIPER_ZOOMIN ){
 #line 4792 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ApplySniperZoom  (1);
+if(ulNewButtons  & PLACT_SNIPER_ZOOMIN ){
 #line 4793 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ApplySniperZoom  (1);
+#line 4794 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4796 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ulNewButtons  & PLACT_SNIPER_ZOOMOUT ){
 #line 4797 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ApplySniperZoom  (0);
+if(ulNewButtons  & PLACT_SNIPER_ZOOMOUT ){
 #line 4798 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ApplySniperZoom  (0);
+#line 4799 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4801 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ulNewButtons  & PLACT_3RD_PERSON_VIEW ){
 #line 4802 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ChangePlayerView  ();
+if(ulNewButtons  & PLACT_3RD_PERSON_VIEW ){
 #line 4803 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ChangePlayerView  ();
+#line 4804 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4806 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4807 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(ulButtonsNow  & PLACT_CENTER_VIEW ){
-#line 4808 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-paAction  . pa_aRotation  (2) += Clamp  (- en_plViewpoint  . pl_OrientationAngle  (2) / _pTimer  -> TickQuantum  , - 900.0f , + 900.0f);
 #line 4809 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+paAction  . pa_aRotation  (2) += Clamp  (- en_plViewpoint  . pl_OrientationAngle  (2) / _pTimer  -> TickQuantum  , - 900.0f , + 900.0f);
 #line 4810 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4811 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
   
-#line 4812 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::ApplySniperZoom(BOOL bZoomIn) 
 #line 4813 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+void CPlayer::ApplySniperZoom(BOOL bZoomIn) 
+#line 4814 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
-#line 4815 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  != WEAPON_SNIPER  || 
 #line 4816 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . m_bSniping  == FALSE  || ((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  != WEAPON_TOMMYGUN  
+if(((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  != WEAPON_SNIPER  || 
 #line 4817 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-|| ((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  != WEAPON_ROCKETLAUNCHER ){
+((CPlayerWeapons  &) * m_penWeapons ) . m_bSniping  == FALSE  || ((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  != WEAPON_TOMMYGUN  
 #line 4818 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return ;
+|| ((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  != WEAPON_ROCKETLAUNCHER  || ((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  != WEAPON_IRONCANNON ){
 #line 4819 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+return ;
 #line 4820 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL bZoomChanged ;
+}
 #line 4821 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if((((CPlayerWeapons  &) * m_penWeapons ) . SniperZoomDiscrete  (bZoomIn  , bZoomChanged )) || (((CPlayerWeapons  &) * m_penWeapons ) . AGZoomDiscrete  (bZoomIn  , bZoomChanged ))){
+BOOL bZoomChanged ;
 #line 4822 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(bZoomChanged ){
+if((((CPlayerWeapons  &) * m_penWeapons ) . SniperZoomDiscrete  (bZoomIn  , bZoomChanged )) || (((CPlayerWeapons  &) * m_penWeapons ) . AGZoomDiscrete  (bZoomIn  , bZoomChanged ))){
 #line 4823 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soSniperZoom  , SOUND_SNIPER_QZOOM  , SOF_3D );
+if(bZoomChanged ){
 #line 4824 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+PlaySound  (m_soSniperZoom  , SOUND_SNIPER_QZOOM  , SOF_3D );
 #line 4825 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  |= PLF_ISZOOMING ;
+}
 #line 4826 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+m_ulFlags  |= PLF_ISZOOMING ;
 #line 4827 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-else 
-#line 4828 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
-#line 4829 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  &= ~ PLF_ISZOOMING ;
-#line 4830 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soSniperZoom  , SOUND_SILENCE  , SOF_3D );
-#line 4831 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_StopEffect  ("SniperZoom");}
-#line 4832 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4828 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+else 
+#line 4829 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 4830 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_ulFlags  &= ~ PLF_ISZOOMING ;
+#line 4831 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soSniperZoom  , SOUND_SILENCE  , SOF_3D );
+#line 4832 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_StopEffect  ("SniperZoom");}
 #line 4833 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4834 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
   
-#line 4836 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL CPlayer::CheatsEnabled(void) 
 #line 4837 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+BOOL CPlayer::CheatsEnabled(void) 
 #line 4838 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return (GetSP  () -> sp_ctMaxPlayers  == 1 || GetSP  () -> sp_bQuickTest ) && m_penActionMarker  == NULL  && ! _SE_DEMO ;
+{
 #line 4839 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return (GetSP  () -> sp_ctMaxPlayers  == 1 || GetSP  () -> sp_bQuickTest ) && m_penActionMarker  == NULL  && ! _SE_DEMO ;
+#line 4840 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
   
-#line 4842 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::Cheats(void) 
 #line 4843 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+void CPlayer::Cheats(void) 
 #line 4844 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 4845 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 BOOL bFlyOn  = cht_bFly  || cht_bGhost ;
-#line 4846 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL bIsFlying  = ! (GetPhysicsFlags  () & EPF_TRANSLATEDBYGRAVITY );
 #line 4847 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(bFlyOn  && ! bIsFlying ){
+BOOL bIsFlying  = ! (GetPhysicsFlags  () & EPF_TRANSLATEDBYGRAVITY );
 #line 4848 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetPhysicsFlags  (GetPhysicsFlags  () & ~ (EPF_TRANSLATEDBYGRAVITY  | EPF_ORIENTEDBYGRAVITY ));
+if(bFlyOn  && ! bIsFlying ){
 #line 4849 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_plViewpoint  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
+SetPhysicsFlags  (GetPhysicsFlags  () & ~ (EPF_TRANSLATEDBYGRAVITY  | EPF_ORIENTEDBYGRAVITY ));
 #line 4850 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(! bFlyOn  && bIsFlying ){
-#line 4851 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetPhysicsFlags  (GetPhysicsFlags  () | EPF_TRANSLATEDBYGRAVITY  | EPF_ORIENTEDBYGRAVITY );
-#line 4852 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 en_plViewpoint  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
+#line 4851 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(! bFlyOn  && bIsFlying ){
+#line 4852 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetPhysicsFlags  (GetPhysicsFlags  () | EPF_TRANSLATEDBYGRAVITY  | EPF_ORIENTEDBYGRAVITY );
 #line 4853 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_plViewpoint  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
+#line 4854 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4856 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL bIsGhost  = ! (GetCollisionFlags  () & ((ECBI_BRUSH  | ECBI_MODEL ) << ECB_TEST ));
 #line 4857 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(cht_bGhost  && ! bIsGhost ){
+BOOL bIsGhost  = ! (GetCollisionFlags  () & ((ECBI_BRUSH  | ECBI_MODEL ) << ECB_TEST ));
 #line 4858 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetCollisionFlags  (GetCollisionFlags  () & ~ ((ECBI_BRUSH  | ECBI_MODEL ) << ECB_TEST ));
+if(cht_bGhost  && ! bIsGhost ){
 #line 4859 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(! cht_bGhost  && bIsGhost ){
+SetCollisionFlags  (GetCollisionFlags  () & ~ ((ECBI_BRUSH  | ECBI_MODEL ) << ECB_TEST ));
 #line 4860 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetCollisionFlags  (GetCollisionFlags  () | ((ECBI_BRUSH  | ECBI_MODEL ) << ECB_TEST ));
+}else if(! cht_bGhost  && bIsGhost ){
 #line 4861 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetCollisionFlags  (GetCollisionFlags  () | ((ECBI_BRUSH  | ECBI_MODEL ) << ECB_TEST ));
+#line 4862 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4864 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-const TIME  tmDelta  = m_tmInvisibility  - _pTimer  -> CurrentTick  ();
 #line 4865 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(cht_bInvisible  || tmDelta  > 0){
+const TIME  tmDelta  = m_tmInvisibility  - _pTimer  -> CurrentTick  ();
 #line 4866 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetFlags  (GetFlags  () | ENF_INVISIBLE );
+if(cht_bInvisible  || tmDelta  > 0){
 #line 4867 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
+SetFlags  (GetFlags  () | ENF_INVISIBLE );
 #line 4868 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetFlags  (GetFlags  () & ~ ENF_INVISIBLE );
+}else {
 #line 4869 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetFlags  (GetFlags  () & ~ ENF_INVISIBLE );
+#line 4870 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4872 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(cht_bGiveAll ){
 #line 4873 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-cht_bGiveAll  = FALSE ;
+if(cht_bGiveAll ){
 #line 4874 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . CheatGiveAll  ();
+cht_bGiveAll  = FALSE ;
 #line 4875 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerWeapons  &) * m_penWeapons ) . CheatGiveAll  ();
+#line 4876 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4877 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(cht_bKillAll ){
 #line 4878 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-cht_bKillAll  = FALSE ;
+if(cht_bKillAll ){
 #line 4879 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-KillAllEnemies  (this );
+cht_bKillAll  = FALSE ;
 #line 4880 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+KillAllEnemies  (this );
+#line 4881 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4882 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(cht_bOpen ){
 #line 4883 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-cht_bOpen  = FALSE ;
+if(cht_bOpen ){
 #line 4884 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . CheatOpen  ();
+cht_bOpen  = FALSE ;
 #line 4885 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerWeapons  &) * m_penWeapons ) . CheatOpen  ();
+#line 4886 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4887 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(cht_bAllMessages ){
 #line 4888 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-cht_bAllMessages  = FALSE ;
+if(cht_bAllMessages ){
 #line 4889 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CheatAllMessages  ();
+cht_bAllMessages  = FALSE ;
 #line 4890 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CheatAllMessages  ();
+#line 4891 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 4892 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(cht_bRefresh ){
 #line 4893 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-cht_bRefresh  = FALSE ;
+if(cht_bRefresh ){
 #line 4894 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetHealth  (TopHealth  ());
+cht_bRefresh  = FALSE ;
 #line 4895 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+SetHealth  (TopHealth  ());
 #line 4896 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 4897 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
   
-#line 4905 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::GetLerpedAbsoluteViewPlacement(CPlacement3D & plView) {
 #line 4906 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(! (m_ulFlags  & PLF_INITIALIZED )){
+void CPlayer::GetLerpedAbsoluteViewPlacement(CPlacement3D & plView) {
 #line 4907 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plView  = GetPlacement  ();
+if(! (m_ulFlags  & PLF_INITIALIZED )){
 #line 4908 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-_bDiscard3rdView  = FALSE ;
+plView  = GetPlacement  ();
 #line 4909 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return ;
-#line 4910 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4912 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL bSharpTurning  = 
-#line 4913 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-(GetSettings  () -> ps_ulFlags  & PSF_SHARPTURNING ) && 
-#line 4914 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-_pNetwork  -> IsPlayerLocal  ((CPlayer  *) GetPredictionTail  ());
-#line 4917 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fLerpFactor  = _pTimer  -> GetLerpFactor  ();
-#line 4918 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plView  . Lerp  (en_plLastViewpoint  , en_plViewpoint  , fLerpFactor );
-#line 4921 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerAnimator  &) * m_penAnimator ) . ChangeView  (plView );
-#line 4923 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerAnimator  &) * m_penAnimator ) . BodyAndHeadOrientation  (plView );
-#line 4926 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_iViewState  == PVT_PLAYEREYES  || _bDiscard3rdView ){
-#line 4927 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlacement3D plPosLerped  = GetLerpedPlacement  ();
-#line 4928 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(bSharpTurning ){
-#line 4930 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayer  * pen  = (CPlayer  *) GetPredictionTail  ();
-#line 4932 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_ulFlags  & PLF_ISZOOMING ){
-#line 4933 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fRotationDamping  = ((CPlayerWeapons  &) * m_penWeapons ) . m_fSniperFOV  / ((CPlayerWeapons  &) * m_penWeapons ) . m_fSniperMaxFOV ;
-#line 4934 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plView  . pl_OrientationAngle  = pen  -> en_plViewpoint  . pl_OrientationAngle  + (pen  -> m_aLocalRotation  - pen  -> m_aLastRotation ) * fRotationDamping ;
-#line 4935 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
-#line 4936 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plView  . pl_OrientationAngle  = pen  -> en_plViewpoint  . pl_OrientationAngle  + (pen  -> m_aLocalRotation  - pen  -> m_aLastRotation );
-#line 4937 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4939 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-RoundViewAngle  (plView  . pl_OrientationAngle  (2) , PITCH_MAX );
-#line 4940 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-RoundViewAngle  (plView  . pl_OrientationAngle  (3) , BANKING_MAX );
-#line 4945 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ANGLE3D aCurr  = pen  -> GetPlacement  () . pl_OrientationAngle ;
-#line 4946 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ANGLE3D aLast  = pen  -> en_plLastPlacement  . pl_OrientationAngle ;
-#line 4947 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ANGLE3D aDesired  = pen  -> en_aDesiredRotationRelative  * _pTimer  -> TickQuantum ;
-#line 4948 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOATmatrix3D mCurr ;MakeRotationMatrixFast  (mCurr  , aCurr );
-#line 4949 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOATmatrix3D mLast ;MakeRotationMatrixFast  (mLast  , aLast );
-#line 4950 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOATmatrix3D mDesired ;MakeRotationMatrixFast  (mDesired  , aDesired );
-#line 4951 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-mDesired  = en_mRotation  * (mDesired  * ! en_mRotation );
-#line 4952 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOATmatrix3D mForced  = ! mDesired  * mCurr  * ! mLast ;
-#line 4953 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ANGLE3D aForced ;DecomposeRotationMatrixNoSnap  (aForced  , mForced );
-#line 4954 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(aForced  . MaxNorm  () < 1E-2){
-#line 4955 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-aForced  = ANGLE3D (0 , 0 , 0);
-#line 4956 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4957 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOATquat3D qForced ;qForced  . FromEuler  (aForced );
-#line 4958 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOATquat3D qZero ;qZero  . FromEuler  (ANGLE3D (0 , 0 , 0));
-#line 4959 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOATquat3D qLerped  = Slerp  (fLerpFactor  , qZero  , qForced );
-#line 4960 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOATmatrix3D m ;
-#line 4961 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-qLerped  . ToMatrix  (m );
-#line 4962 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m  = m  * mDesired  * mLast ;
-#line 4963 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-DecomposeRotationMatrixNoSnap  (plPosLerped  . pl_OrientationAngle  , m );
-#line 4964 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4965 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plView  . RelativeToAbsoluteSmooth  (plPosLerped );
-#line 4967 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(m_iViewState  == PVT_3RDPERSONVIEW ){
-#line 4968 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plView  = m_pen3rdPersonView  -> GetLerpedPlacement  ();
-#line 4970 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(m_iViewState  == PVT_PLAYERAUTOVIEW ){
-#line 4971 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plView  = m_penView  -> GetLerpedPlacement  ();
-#line 4973 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
-#line 4974 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ASSERTALWAYS  ("Unknown player view");
-#line 4975 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4976 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 _bDiscard3rdView  = FALSE ;
+#line 4910 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return ;
+#line 4911 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4913 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+BOOL bSharpTurning  = 
+#line 4914 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+(GetSettings  () -> ps_ulFlags  & PSF_SHARPTURNING ) && 
+#line 4915 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+_pNetwork  -> IsPlayerLocal  ((CPlayer  *) GetPredictionTail  ());
+#line 4918 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT fLerpFactor  = _pTimer  -> GetLerpFactor  ();
+#line 4919 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+plView  . Lerp  (en_plLastViewpoint  , en_plViewpoint  , fLerpFactor );
+#line 4922 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerAnimator  &) * m_penAnimator ) . ChangeView  (plView );
+#line 4924 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerAnimator  &) * m_penAnimator ) . BodyAndHeadOrientation  (plView );
+#line 4927 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_iViewState  == PVT_PLAYEREYES  || _bDiscard3rdView ){
+#line 4928 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlacement3D plPosLerped  = GetLerpedPlacement  ();
+#line 4929 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(bSharpTurning ){
+#line 4931 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlayer  * pen  = (CPlayer  *) GetPredictionTail  ();
+#line 4933 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_ulFlags  & PLF_ISZOOMING ){
+#line 4934 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT fRotationDamping  = ((CPlayerWeapons  &) * m_penWeapons ) . m_fSniperFOV  / ((CPlayerWeapons  &) * m_penWeapons ) . m_fSniperMaxFOV ;
+#line 4935 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+plView  . pl_OrientationAngle  = pen  -> en_plViewpoint  . pl_OrientationAngle  + (pen  -> m_aLocalRotation  - pen  -> m_aLastRotation ) * fRotationDamping ;
+#line 4936 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 4937 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+plView  . pl_OrientationAngle  = pen  -> en_plViewpoint  . pl_OrientationAngle  + (pen  -> m_aLocalRotation  - pen  -> m_aLastRotation );
+#line 4938 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4940 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+RoundViewAngle  (plView  . pl_OrientationAngle  (2) , PITCH_MAX );
+#line 4941 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+RoundViewAngle  (plView  . pl_OrientationAngle  (3) , BANKING_MAX );
+#line 4946 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ANGLE3D aCurr  = pen  -> GetPlacement  () . pl_OrientationAngle ;
+#line 4947 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ANGLE3D aLast  = pen  -> en_plLastPlacement  . pl_OrientationAngle ;
+#line 4948 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ANGLE3D aDesired  = pen  -> en_aDesiredRotationRelative  * _pTimer  -> TickQuantum ;
+#line 4949 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOATmatrix3D mCurr ;MakeRotationMatrixFast  (mCurr  , aCurr );
+#line 4950 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOATmatrix3D mLast ;MakeRotationMatrixFast  (mLast  , aLast );
+#line 4951 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOATmatrix3D mDesired ;MakeRotationMatrixFast  (mDesired  , aDesired );
+#line 4952 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+mDesired  = en_mRotation  * (mDesired  * ! en_mRotation );
+#line 4953 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOATmatrix3D mForced  = ! mDesired  * mCurr  * ! mLast ;
+#line 4954 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ANGLE3D aForced ;DecomposeRotationMatrixNoSnap  (aForced  , mForced );
+#line 4955 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(aForced  . MaxNorm  () < 1E-2){
+#line 4956 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+aForced  = ANGLE3D (0 , 0 , 0);
+#line 4957 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4958 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOATquat3D qForced ;qForced  . FromEuler  (aForced );
+#line 4959 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOATquat3D qZero ;qZero  . FromEuler  (ANGLE3D (0 , 0 , 0));
+#line 4960 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOATquat3D qLerped  = Slerp  (fLerpFactor  , qZero  , qForced );
+#line 4961 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOATmatrix3D m ;
+#line 4962 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+qLerped  . ToMatrix  (m );
+#line 4963 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m  = m  * mDesired  * mLast ;
+#line 4964 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+DecomposeRotationMatrixNoSnap  (plPosLerped  . pl_OrientationAngle  , m );
+#line 4965 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 4966 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+plView  . RelativeToAbsoluteSmooth  (plPosLerped );
+#line 4968 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(m_iViewState  == PVT_3RDPERSONVIEW ){
+#line 4969 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+plView  = m_pen3rdPersonView  -> GetLerpedPlacement  ();
+#line 4971 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(m_iViewState  == PVT_PLAYERAUTOVIEW ){
+#line 4972 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+plView  = m_penView  -> GetLerpedPlacement  ();
+#line 4974 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 4975 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ASSERTALWAYS  ("Unknown player view");
+#line 4976 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
 #line 4977 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+_bDiscard3rdView  = FALSE ;
+#line 4978 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
   
-#line 4980 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4981 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CEntity * CPlayer::GetViewEntity(void) {
-#line 4982 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_iViewState  == PVT_PLAYEREYES ){
 #line 4983 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_iViewState  == PVT_PLAYEREYES ){
+#line 4984 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return this ;
-#line 4985 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(m_iViewState  == PVT_3RDPERSONVIEW ){
 #line 4986 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_ulFlags  & PLF_ISZOOMING ){
+}else if(m_iViewState  == PVT_3RDPERSONVIEW ){
 #line 4987 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return this ;
+if(m_ulFlags  & PLF_ISZOOMING ){
 #line 4988 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+return this ;
 #line 4989 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(((CPlayerView  &) * m_pen3rdPersonView ) . m_fDistance  > 2.0f){
+}
 #line 4990 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return m_pen3rdPersonView ;
+if(((CPlayerView  &) * m_pen3rdPersonView ) . m_fDistance  > 2.0f){
 #line 4991 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
+return m_pen3rdPersonView ;
 #line 4992 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return this ;
+}else {
 #line 4993 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 4995 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(m_iViewState  == PVT_PLAYERAUTOVIEW ){
-#line 4996 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(((CPlayerView  &) * m_penView ) . m_fDistance  > 2.0f){
-#line 4997 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return m_penView ;
-#line 4998 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
-#line 4999 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return this ;
-#line 5000 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4994 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5002 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4996 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(m_iViewState  == PVT_PLAYERAUTOVIEW ){
+#line 4997 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(((CPlayerView  &) * m_penView ) . m_fDistance  > 2.0f){
+#line 4998 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return m_penView ;
+#line 4999 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 5003 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ASSERTALWAYS  ("Unknown player view");
-#line 5004 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return NULL ;
-#line 5005 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5000 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return this ;
+#line 5001 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5003 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 5004 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ASSERTALWAYS  ("Unknown player view");
+#line 5005 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return NULL ;
 #line 5006 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5007 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
   
-#line 5008 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::RenderChainsawParticles(BOOL bThird) 
 #line 5009 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+void CPlayer::RenderChainsawParticles(BOOL bThird) 
 #line 5010 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fStretch  = 1.0f;
+{
 #line 5011 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(bThird )
+FLOAT fStretch  = 1.0f;
 #line 5012 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
-#line 5013 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-fStretch  = 0.4f;
-#line 5014 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 5016 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT tmNow  = _pTimer  -> GetLerpedCurrentTick  ();
-#line 5017 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-for(INDEX iSpray  = 0;iSpray  < MAX_BULLET_SPRAYS ;iSpray  ++)
-#line 5018 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
-#line 5019 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BulletSprayLaunchData  & bsld  = m_absldData  [ iSpray  ];
-#line 5020 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fLife  = 1.25f;
-#line 5021 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(tmNow  > (bsld  . bsld_tmLaunch  + fLife )){continue ;}
-#line 5022 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Particles_BulletSpray  (bsld  . bsld_iRndBase  , bsld  . bsld_vPos  , bsld  . bsld_vG  , 
-#line 5023 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-bsld  . bsld_eptType  , bsld  . bsld_tmLaunch  , bsld  . bsld_vStretch  * fStretch  , 1.0f);
-#line 5024 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 5027 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-for(INDEX iGore  = 0;iGore  < MAX_GORE_SPRAYS ;iGore  ++)
-#line 5028 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
-#line 5029 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-GoreSprayLaunchData  & gsld  = m_agsldData  [ iGore  ];
-#line 5030 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fLife  = 2.0f;
-#line 5031 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(tmNow  > (gsld  . gsld_tmLaunch  + fLife )){continue ;}
-#line 5032 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT3D vPos  = gsld  . gsld_vPos ;
-#line 5033 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(bThird )
-#line 5034 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5013 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
+#line 5014 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+fStretch  = 0.4f;
+#line 5015 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 5017 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT tmNow  = _pTimer  -> GetLerpedCurrentTick  ();
+#line 5018 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+for(INDEX iSpray  = 0;iSpray  < MAX_BULLET_SPRAYS ;iSpray  ++)
+#line 5019 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 5020 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+BulletSprayLaunchData  & bsld  = m_absldData  [ iSpray  ];
+#line 5021 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT fLife  = 1.25f;
+#line 5022 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(tmNow  > (bsld  . bsld_tmLaunch  + fLife )){continue ;}
+#line 5023 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+Particles_BulletSpray  (bsld  . bsld_iRndBase  , bsld  . bsld_vPos  , bsld  . bsld_vG  , 
+#line 5024 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+bsld  . bsld_eptType  , bsld  . bsld_tmLaunch  , bsld  . bsld_vStretch  * fStretch  , 1.0f);
+#line 5025 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 5028 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+for(INDEX iGore  = 0;iGore  < MAX_GORE_SPRAYS ;iGore  ++)
+#line 5029 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 5030 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+GoreSprayLaunchData  & gsld  = m_agsldData  [ iGore  ];
+#line 5031 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT fLife  = 2.0f;
+#line 5032 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(tmNow  > (gsld  . gsld_tmLaunch  + fLife )){continue ;}
+#line 5033 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT3D vPos  = gsld  . gsld_vPos ;
+#line 5034 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(bThird )
 #line 5035 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-vPos  = gsld  . gsld_v3rdPos ;
+{
 #line 5036 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+vPos  = gsld  . gsld_v3rdPos ;
 #line 5037 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Particles_BloodSpray  (gsld  . gsld_sptType  , vPos  , gsld  . gsld_vG  , gsld  . gsld_fGA  , 
-#line 5038 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-gsld  . gsld_boxHitted  , gsld  . gsld_vSpilDirection  , 
-#line 5039 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-gsld  . gsld_tmLaunch  , gsld  . gsld_fDamagePower  * fStretch  , gsld  . gsld_colParticles );
-#line 5040 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5038 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+Particles_BloodSpray  (gsld  . gsld_sptType  , vPos  , gsld  . gsld_vG  , gsld  . gsld_fGA  , 
+#line 5039 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+gsld  . gsld_boxHitted  , gsld  . gsld_vSpilDirection  , 
+#line 5040 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+gsld  . gsld_tmLaunch  , gsld  . gsld_fDamagePower  * fStretch  , gsld  . gsld_colParticles );
 #line 5041 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5042 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
   
-#line 5044 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::RenderHUD(CPerspectiveProjection3D & prProjection,CDrawPort * pdp,
 #line 5045 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT3D vViewerLightDirection,COLOR colViewerLight,COLOR colViewerAmbient,
+void CPlayer::RenderHUD(CPerspectiveProjection3D & prProjection,CDrawPort * pdp,
 #line 5046 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL bRenderWeapon,INDEX iEye) 
+FLOAT3D vViewerLightDirection,COLOR colViewerLight,COLOR colViewerAmbient,
 #line 5047 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+BOOL bRenderWeapon,INDEX iEye) 
 #line 5048 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlacement3D plViewOld  = prProjection  . ViewerPlacementR  ();
+{
 #line 5049 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlacement3D plViewOld  = prProjection  . ViewerPlacementR  ();
+#line 5050 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 BOOL bSniping  = ((CPlayerWeapons  &) * m_penWeapons ) . m_bSniping ;
-#line 5052 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL bRenderModels  = _pShell  -> GetINDEX  ("gfx_bRenderModels");
 #line 5053 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+BOOL bRenderModels  = _pShell  -> GetINDEX  ("gfx_bRenderModels");
+#line 5054 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(hud_bShowWeapon  && bRenderModels  && ! bSniping ){
-#line 5055 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . RenderWeaponModel  (prProjection  , pdp  , 
 #line 5056 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-vViewerLightDirection  , colViewerLight  , colViewerAmbient  , bRenderWeapon  , iEye );
+((CPlayerWeapons  &) * m_penWeapons ) . RenderWeaponModel  (prProjection  , pdp  , 
 #line 5057 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+vViewerLightDirection  , colViewerLight  , colViewerAmbient  , bRenderWeapon  , iEye );
+#line 5058 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5060 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_iViewState  == PVT_PLAYEREYES )
 #line 5061 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+if(m_iViewState  == PVT_PLAYEREYES )
 #line 5062 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-prProjection  . ViewerPlacementL  () = plViewOld ;
-#line 5063 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-prProjection  . Prepare  ();
-#line 5064 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CAnyProjection3D  apr ;
-#line 5065 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-apr  = prProjection ;
-#line 5066 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Stereo_AdjustProjection  (* apr  , iEye  , 1);
-#line 5067 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Particle_PrepareSystem  (pdp  , apr );
-#line 5068 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Particle_PrepareEntity  (2.0f , FALSE  , FALSE  , this );
-#line 5069 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-RenderChainsawParticles  (FALSE );
-#line 5070 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Particle_EndSystem  ();
-#line 5071 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 5074 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlacement3D plView ;
-#line 5075 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_iViewState  == PVT_PLAYEREYES ){
-#line 5077 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plView  = en_plViewpoint ;
-#line 5078 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plView  . RelativeToAbsolute  (GetPlacement  ());
-#line 5079 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(m_iViewState  == PVT_3RDPERSONVIEW ){
-#line 5081 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plView  = ((CPlayerView  &) * m_pen3rdPersonView ) . GetPlacement  ();
-#line 5082 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 5083 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(! bSniping ){
-#line 5084 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . RenderCrosshair  (prProjection  , pdp  , plView );
-#line 5085 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 5088 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayer  * pen  = (CPlayer  *) GetPredictionTail  ();
-#line 5090 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ULONG  ulR  = 255 , ulG  = 0 , ulB  = 0;
-#line 5091 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ULONG  ulA  = pen  -> m_fDamageAmmount  * 5.0f;
-#line 5094 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT tmSinceWounding  = _pTimer  -> CurrentTick  () - pen  -> m_tmWoundedTime ;
-#line 5095 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(tmSinceWounding  < 4.0f){
-#line 5097 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(tmSinceWounding  < 0.001f){ulA  = (ulA  + 64) / 2;}
-#line 5098 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 5110 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
-#line 5111 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-COLOR colGlare  = GetWorldGlaring  ();
-#line 5112 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-UBYTE  ubR  , ubG  , ubB  , ubA ;
-#line 5113 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ColorToRGBA  (colGlare  , ubR  , ubG  , ubB  , ubA );
-#line 5114 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ubA  != 0){
-#line 5115 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pdp  -> dp_ulBlendingRA  += ULONG  (ubR ) * ULONG  (ubA );
-#line 5116 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pdp  -> dp_ulBlendingGA  += ULONG  (ubG ) * ULONG  (ubA );
-#line 5117 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pdp  -> dp_ulBlendingBA  += ULONG  (ubB ) * ULONG  (ubA );
-#line 5118 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pdp  -> dp_ulBlendingA  += ULONG  (ubA );
-#line 5119 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5063 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+prProjection  . ViewerPlacementL  () = plViewOld ;
+#line 5064 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+prProjection  . Prepare  ();
+#line 5065 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CAnyProjection3D  apr ;
+#line 5066 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+apr  = prProjection ;
+#line 5067 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+Stereo_AdjustProjection  (* apr  , iEye  , 1);
+#line 5068 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+Particle_PrepareSystem  (pdp  , apr );
+#line 5069 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+Particle_PrepareEntity  (2.0f , FALSE  , FALSE  , this );
+#line 5070 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+RenderChainsawParticles  (FALSE );
+#line 5071 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+Particle_EndSystem  ();
+#line 5072 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5075 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlacement3D plView ;
+#line 5076 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_iViewState  == PVT_PLAYEREYES ){
+#line 5078 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+plView  = en_plViewpoint ;
+#line 5079 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+plView  . RelativeToAbsolute  (GetPlacement  ());
+#line 5080 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(m_iViewState  == PVT_3RDPERSONVIEW ){
+#line 5082 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+plView  = ((CPlayerView  &) * m_pen3rdPersonView ) . GetPlacement  ();
+#line 5083 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 5084 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(! bSniping ){
+#line 5085 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerWeapons  &) * m_penWeapons ) . RenderCrosshair  (prProjection  , pdp  , plView );
+#line 5086 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 5089 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlayer  * pen  = (CPlayer  *) GetPredictionTail  ();
+#line 5091 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ULONG  ulR  = 255 , ulG  = 0 , ulB  = 0;
+#line 5092 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ULONG  ulA  = pen  -> m_fDamageAmmount  * 5.0f;
+#line 5095 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT tmSinceWounding  = _pTimer  -> CurrentTick  () - pen  -> m_tmWoundedTime ;
+#line 5096 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(tmSinceWounding  < 4.0f){
+#line 5098 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(tmSinceWounding  < 0.001f){ulA  = (ulA  + 64) / 2;}
+#line 5099 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 5111 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 5112 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+COLOR colGlare  = GetWorldGlaring  ();
+#line 5113 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+UBYTE  ubR  , ubG  , ubB  , ubA ;
+#line 5114 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ColorToRGBA  (colGlare  , ubR  , ubG  , ubB  , ubA );
+#line 5115 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(ubA  != 0){
+#line 5116 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+pdp  -> dp_ulBlendingRA  += ULONG  (ubR ) * ULONG  (ubA );
+#line 5117 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+pdp  -> dp_ulBlendingGA  += ULONG  (ubG ) * ULONG  (ubA );
+#line 5118 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+pdp  -> dp_ulBlendingBA  += ULONG  (ubB ) * ULONG  (ubA );
+#line 5119 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+pdp  -> dp_ulBlendingA  += ULONG  (ubA );
 #line 5120 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5123 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5121 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 5124 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 pdp  -> BlendScreen  ();
-#line 5126 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5127 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(hud_bShowInfo ){
-#line 5128 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL bSnooping  = FALSE ;
 #line 5129 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayer  * penHUDPlayer  = this ;
+BOOL bSnooping  = FALSE ;
 #line 5130 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlayer  * penHUDPlayer  = this ;
+#line 5131 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CPlayer  * penHUDOwner  = this ;
-#line 5132 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(penHUDPlayer  -> IsPredicted  ()){
 #line 5133 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penHUDPlayer  = (CPlayer  *) penHUDPlayer  -> GetPredictor  ();
+if(penHUDPlayer  -> IsPredicted  ()){
 #line 5134 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+penHUDPlayer  = (CPlayer  *) penHUDPlayer  -> GetPredictor  ();
+#line 5135 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5137 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerWeapons  * pen  = (CPlayerWeapons  *) & * penHUDPlayer  -> m_penWeapons ;
 #line 5138 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-TIME  tmDelta  = _pTimer  -> CurrentTick  () - pen  -> m_tmSnoopingStarted ;
+CPlayerWeapons  * pen  = (CPlayerWeapons  *) & * penHUDPlayer  -> m_penWeapons ;
 #line 5139 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(tmDelta  < plr_tmSnoopingTime ){
+TIME  tmDelta  = _pTimer  -> CurrentTick  () - pen  -> m_tmSnoopingStarted ;
 #line 5140 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ASSERT  (pen  -> m_penTargeting  != NULL );
+if(tmDelta  < plr_tmSnoopingTime ){
 #line 5141 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penHUDPlayer  = (CPlayer  *) & * pen  -> m_penTargeting ;
+ASSERT  (pen  -> m_penTargeting  != NULL );
 #line 5142 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-bSnooping  = TRUE ;
+penHUDPlayer  = (CPlayer  *) & * pen  -> m_penTargeting ;
 #line 5143 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+bSnooping  = TRUE ;
 #line 5144 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-DrawHUD  (penHUDPlayer  , pdp  , bSnooping  , penHUDOwner );
-#line 5145 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5145 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+DrawHUD  (penHUDPlayer  , pdp  , bSnooping  , penHUDOwner );
 #line 5146 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5147 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
   
-#line 5153 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CEntity * CPlayer::GetDeathmatchStartMarker(void) 
 #line 5154 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CEntity * CPlayer::GetDeathmatchStartMarker(void) 
+#line 5155 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
-#line 5156 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CTString strPlayerStart  = "Player Start - ";
 #line 5157 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CTString strPlayerStart  = "Player Start - ";
+#line 5158 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 INDEX ctMarkers  = _pNetwork  -> GetNumberOfEntitiesWithName  (strPlayerStart );
-#line 5159 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5160 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(ctMarkers  == 0){
-#line 5161 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return NULL ;
 #line 5162 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 5164 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ctMarkers  == 1){
-#line 5166 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return _pNetwork  -> GetEntityWithName  (strPlayerStart  , 0);
-#line 5167 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 5171 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CStaticArray  < MarkerDistance  > amdMarkers ;
-#line 5172 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-amdMarkers  . New  (ctMarkers );
-#line 5174 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{for(INDEX iMarker  = 0;iMarker  < ctMarkers ;iMarker  ++){
-#line 5175 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-amdMarkers  [ iMarker  ] . md_ppm  = (CPlayerMarker  *) _pNetwork  -> GetEntityWithName  (strPlayerStart  , iMarker );
-#line 5176 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(amdMarkers  [ iMarker  ] . md_ppm  == NULL ){
-#line 5177 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return NULL ;
+#line 5163 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 5165 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(ctMarkers  == 1){
+#line 5167 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return _pNetwork  -> GetEntityWithName  (strPlayerStart  , 0);
+#line 5168 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 5172 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CStaticArray  < MarkerDistance  > amdMarkers ;
+#line 5173 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+amdMarkers  . New  (ctMarkers );
+#line 5175 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{for(INDEX iMarker  = 0;iMarker  < ctMarkers ;iMarker  ++){
+#line 5176 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+amdMarkers  [ iMarker  ] . md_ppm  = (CPlayerMarker  *) _pNetwork  -> GetEntityWithName  (strPlayerStart  , iMarker );
+#line 5177 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(amdMarkers  [ iMarker  ] . md_ppm  == NULL ){
 #line 5178 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return NULL ;
+#line 5179 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5180 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fMinD  = UpperLimit  (0.0f);
 #line 5181 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-for(INDEX iPlayer  = 0;iPlayer  < GetMaxPlayers  ();iPlayer  ++){
+FLOAT fMinD  = UpperLimit  (0.0f);
 #line 5182 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayer  * ppl  = (CPlayer  *) & * GetPlayerEntity  (iPlayer );
+for(INDEX iPlayer  = 0;iPlayer  < GetMaxPlayers  ();iPlayer  ++){
 #line 5183 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ppl  == NULL ){
+CPlayer  * ppl  = (CPlayer  *) & * GetPlayerEntity  (iPlayer );
 #line 5184 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-continue ;
+if(ppl  == NULL ){
 #line 5185 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+continue ;
 #line 5186 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fD  = 
-#line 5187 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-(amdMarkers  [ iMarker  ] . md_ppm  -> GetPlacement  () . pl_PositionVector  - 
-#line 5188 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ppl  -> GetPlacement  () . pl_PositionVector ) . Length  ();
-#line 5189 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(fD  < fMinD ){
-#line 5190 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-fMinD  = fD ;
-#line 5191 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5187 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT fD  = 
+#line 5188 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+(amdMarkers  [ iMarker  ] . md_ppm  -> GetPlacement  () . pl_PositionVector  - 
+#line 5189 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ppl  -> GetPlacement  () . pl_PositionVector ) . Length  ();
+#line 5190 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(fD  < fMinD ){
+#line 5191 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+fMinD  = fD ;
 #line 5192 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 5193 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-amdMarkers  [ iMarker  ] . md_fMinD  = fMinD ;
+}
 #line 5194 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+amdMarkers  [ iMarker  ] . md_fMinD  = fMinD ;
+#line 5195 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }}
-#line 5197 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-qsort  (& amdMarkers  [ 0 ] , ctMarkers  , sizeof  (amdMarkers  [ 0 ]) , & qsort_CompareMarkerDistance );
 #line 5198 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+qsort  (& amdMarkers  [ 0 ] , ctMarkers  , sizeof  (amdMarkers  [ 0 ]) , & qsort_CompareMarkerDistance );
+#line 5199 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ASSERT  (amdMarkers  [ 0 ] . md_fMinD  >= amdMarkers  [ ctMarkers  - 1 ] . md_fMinD );
-#line 5200 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-INDEX ctFarMarkers  = ctMarkers  / 2;
 #line 5201 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ASSERT  (ctFarMarkers  > 0);
+INDEX ctFarMarkers  = ctMarkers  / 2;
 #line 5202 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ASSERT  (ctFarMarkers  > 0);
+#line 5203 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 INDEX iStartMarker  = IRnd  () % ctFarMarkers ;
-#line 5204 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-INDEX iMarker  = iStartMarker ;
 #line 5205 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FOREVER {
+INDEX iMarker  = iStartMarker ;
 #line 5206 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(_pTimer  -> CurrentTick  () > amdMarkers  [ iMarker  ] . md_ppm  -> m_tmLastSpawned  + 1.0f){
+FOREVER {
 #line 5207 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-break ;
+if(_pTimer  -> CurrentTick  () > amdMarkers  [ iMarker  ] . md_ppm  -> m_tmLastSpawned  + 1.0f){
 #line 5208 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 5209 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iMarker  = (iMarker  + 1) % ctMarkers ;
-#line 5210 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(iMarker  == iStartMarker ){
-#line 5211 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 break ;
-#line 5212 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5209 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5210 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iMarker  = (iMarker  + 1) % ctMarkers ;
+#line 5211 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(iMarker  == iStartMarker ){
+#line 5212 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+break ;
 #line 5213 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5215 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return amdMarkers  [ iMarker  ] . md_ppm ;
+#line 5214 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
 #line 5216 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return amdMarkers  [ iMarker  ] . md_ppm ;
+#line 5217 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
   
-#line 5222 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::InitializePlayer() 
 #line 5223 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+void CPlayer::InitializePlayer() 
+#line 5224 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
-#line 5225 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_plViewpoint  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
 #line 5226 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_plViewpoint  . pl_PositionVector  = FLOAT3D (0.0f , plr_fViewHeightStand  , 0.0f);
+en_plViewpoint  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
 #line 5227 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_plViewpoint  . pl_PositionVector  = FLOAT3D (0.0f , plr_fViewHeightStand  , 0.0f);
+#line 5228 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 en_plLastViewpoint  = en_plViewpoint ;
-#line 5230 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  &= PLF_INITIALIZED  | PLF_LEVELSTARTED  | PLF_RESPAWNINPLACE ;
 #line 5231 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_fFallTime  = 0.0f;
+m_ulFlags  &= PLF_INITIALIZED  | PLF_LEVELSTARTED  | PLF_RESPAWNINPLACE ;
 #line 5232 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_pstState  = PST_STAND ;
+m_fFallTime  = 0.0f;
 #line 5233 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_fDamageAmmount  = 0.0f;
+m_pstState  = PST_STAND ;
 #line 5234 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmWoundedTime  = 0.0f;
+m_fDamageAmmount  = 0.0f;
 #line 5235 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmInvisibility  = 0.0f , 
+m_tmWoundedTime  = 0.0f;
 #line 5236 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmInvulnerability  = 0.0f , 
+m_tmInvisibility  = 0.0f , 
 #line 5237 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmSeriousDamage  = 0.0f , 
+m_tmInvulnerability  = 0.0f , 
 #line 5238 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_tmSeriousDamage  = 0.0f , 
+#line 5239 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_tmSeriousSpeed  = 0.0f , 
-#line 5241 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5242 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ((CPlayerAnimator  &) * m_penAnimator ) . Initialize  ();
-#line 5243 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5244 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 GetPlayerWeapons  () -> SendEvent  (EStart  ());
-#line 5246 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5247 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Particles_AfterBurner_Prepare  (this );
-#line 5249 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetPhysicsFlags  (EPF_MODEL_WALKING  | EPF_HASLUNGS );
 #line 5250 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetCollisionFlags  (ECF_MODEL  | ((ECBI_PLAYER ) << ECB_IS ));
+SetPhysicsFlags  (EPF_MODEL_WALKING  | EPF_HASLUNGS );
 #line 5251 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetCollisionFlags  (ECF_MODEL  | ((ECBI_PLAYER ) << ECB_IS ));
+#line 5252 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetFlags  (GetFlags  () | ENF_ALIVE );
-#line 5253 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-StartModelAnim  (PLAYER_ANIM_STAND  , AOF_LOOPING );
 #line 5254 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-TeleportPlayer  (WLT_FIXED );
+StartModelAnim  (PLAYER_ANIM_STAND  , AOF_LOOPING );
 #line 5255 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+TeleportPlayer  (WLT_FIXED );
+#line 5256 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
   
-#line 5258 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT3D CPlayer::GetTeleportingOffset(void) 
 #line 5259 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT3D CPlayer::GetTeleportingOffset(void) 
+#line 5260 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
-#line 5261 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5262 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 INDEX iPlayer  = GetMyPlayerIndex  ();
-#line 5264 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-const FLOAT fOffsetY  = 0.1f;
 #line 5265 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT3D vOffsetRel  = FLOAT3D (0 , fOffsetY  , 0);
+const FLOAT fOffsetY  = 0.1f;
 #line 5266 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(GetSP  () -> sp_bCooperative  && ! GetSP  () -> sp_bSinglePlayer ){
+FLOAT3D vOffsetRel  = FLOAT3D (0 , fOffsetY  , 0);
 #line 5267 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-INDEX iRow  = iPlayer  / 4;
+if(GetSP  () -> sp_bCooperative  && ! GetSP  () -> sp_bSinglePlayer ){
 #line 5268 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-INDEX iCol  = iPlayer  % 4;
+INDEX iRow  = iPlayer  / 4;
 #line 5269 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-vOffsetRel  = FLOAT3D (- 3.0f + iCol  * 2.0f , fOffsetY  , - 3.0f + iRow  * 2.0f);
+INDEX iCol  = iPlayer  % 4;
 #line 5270 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+vOffsetRel  = FLOAT3D (- 3.0f + iCol  * 2.0f , fOffsetY  , - 3.0f + iRow  * 2.0f);
+#line 5271 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5272 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return vOffsetRel ;
 #line 5273 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return vOffsetRel ;
+#line 5274 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
   
-#line 5276 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::RemapLevelNames(INDEX & iLevel) 
 #line 5277 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+void CPlayer::RemapLevelNames(INDEX & iLevel) 
 #line 5278 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-switch(iLevel ){
+{
 #line 5279 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case 10: 
+switch(iLevel ){
 #line 5280 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iLevel  = 1;
+case 10: 
 #line 5281 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-break ;
+iLevel  = 1;
 #line 5282 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case 11: 
+break ;
 #line 5283 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iLevel  = 2;
+case 11: 
 #line 5284 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-break ;
+iLevel  = 2;
 #line 5285 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case 12: 
+break ;
 #line 5286 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iLevel  = 3;
+case 12: 
 #line 5287 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-break ;
+iLevel  = 3;
 #line 5288 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case 13: 
+break ;
 #line 5289 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iLevel  = 4;
+case 13: 
 #line 5290 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-break ;
+iLevel  = 4;
 #line 5291 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case 14: 
+break ;
 #line 5292 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iLevel  = 5;
+case 14: 
 #line 5293 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-break ;
+iLevel  = 5;
 #line 5294 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case 15: 
+break ;
 #line 5295 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iLevel  = 6;
+case 15: 
 #line 5296 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-break ;
+iLevel  = 6;
 #line 5297 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case 21: 
+break ;
 #line 5298 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iLevel  = 7;
+case 21: 
 #line 5299 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-break ;
+iLevel  = 7;
 #line 5300 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case 22: 
+break ;
 #line 5301 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iLevel  = 8;
+case 22: 
 #line 5302 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-break ;
+iLevel  = 8;
 #line 5303 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case 23: 
+break ;
 #line 5304 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iLevel  = 9;
+case 23: 
 #line 5305 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-break ;
+iLevel  = 9;
 #line 5306 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case 24: 
+break ;
 #line 5307 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iLevel  = 10;
+case 24: 
 #line 5308 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-break ;
+iLevel  = 10;
 #line 5309 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case 31: 
+break ;
 #line 5310 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iLevel  = 11;
+case 31: 
 #line 5311 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-break ;
+iLevel  = 11;
 #line 5312 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case 32: 
+break ;
 #line 5313 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iLevel  = 12;
+case 32: 
 #line 5314 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-break ;
+iLevel  = 12;
 #line 5315 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-case 33: 
+break ;
 #line 5316 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iLevel  = 13;
+case 33: 
 #line 5317 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-break ;
+iLevel  = 13;
 #line 5318 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-default  : 
-#line 5319 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iLevel  = - 1;
-#line 5320 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 break ;
+#line 5319 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+default  : 
+#line 5320 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iLevel  = - 1;
 #line 5321 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+break ;
 #line 5322 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5323 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
   
-#line 5325 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::TeleportPlayer(enum WorldLinkType EwltType) 
 #line 5326 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+void CPlayer::TeleportPlayer(enum WorldLinkType EwltType) 
 #line 5327 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-INDEX iLevel  = - 1;
+{
 #line 5328 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+INDEX iLevel  = - 1;
+#line 5329 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CTString strLevelName  = GetWorld  () -> wo_fnmFileName  . FileName  ();
-#line 5331 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-INDEX u  , v ;
 #line 5332 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-u  = v  = - 1;
+INDEX u  , v ;
 #line 5333 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-strLevelName  . ScanF  ("%01d_%01d_" , & u  , & v );
+u  = v  = - 1;
 #line 5334 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+strLevelName  . ScanF  ("%01d_%01d_" , & u  , & v );
+#line 5335 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 iLevel  = u  * 10 + v ;
-#line 5336 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5337 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 RemapLevelNames  (iLevel );
-#line 5338 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(iLevel  > 0){
 #line 5339 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CSessionProperties  *) GetSP  ()) -> sp_ulLevelsMask  |= 1 << (iLevel  - 1);
+if(iLevel  > 0){
 #line 5340 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CSessionProperties  *) GetSP  ()) -> sp_ulLevelsMask  |= 1 << (iLevel  - 1);
+#line 5341 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5343 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5344 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 INDEX iPlayer  = GetMyPlayerIndex  ();
-#line 5345 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5346 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CPlacement3D plSet  = GetPlacement  ();
-#line 5347 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5348 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Teleport  (CPlacement3D (FLOAT3D (32000.0f + 100.0f * iPlayer  , 32000.0f , 0) , ANGLE3D (0 , 0 , 0)));
-#line 5349 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ForceCollisionBoxIndexChange  (PLAYER_COLLISION_BOX_STAND );
 #line 5350 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_plViewpoint  . pl_PositionVector  (2) = plr_fViewHeightStand ;
+ForceCollisionBoxIndexChange  (PLAYER_COLLISION_BOX_STAND );
 #line 5351 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerAnimator  &) * m_penAnimator ) . m_bDisableAnimating  = FALSE ;
+en_plViewpoint  . pl_PositionVector  (2) = plr_fViewHeightStand ;
 #line 5352 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerAnimator  &) * m_penAnimator ) . Stand  ();
+((CPlayerAnimator  &) * m_penAnimator ) . m_bDisableAnimating  = FALSE ;
 #line 5353 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerAnimator  &) * m_penAnimator ) . Stand  ();
+#line 5354 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_pstState  = PST_STAND ;
-#line 5356 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5357 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 FLOAT3D vOffsetRel  = GetTeleportingOffset  ();
-#line 5359 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL bSetHealth  = FALSE ;
 #line 5360 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BOOL bAdjustHealth  = FALSE ;
+BOOL bSetHealth  = FALSE ;
 #line 5361 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CEntity  * pen  = NULL ;
+BOOL bAdjustHealth  = FALSE ;
 #line 5362 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(GetSP  () -> sp_bCooperative ){
+CEntity  * pen  = NULL ;
 #line 5363 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(GetSP  () -> sp_bCooperative ){
+#line 5364 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(cht_iGoToMarker  >= 0){
-#line 5365 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CTString strPlayerStart ;
 #line 5366 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-strPlayerStart  . PrintF  ("Player Start - %d" , (INDEX) cht_iGoToMarker );
+CTString strPlayerStart ;
 #line 5367 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pen  = _pNetwork  -> GetEntityWithName  (strPlayerStart  , 0);
+strPlayerStart  . PrintF  ("Player Start - %d" , (INDEX) cht_iGoToMarker );
 #line 5368 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pen  -> SendEvent  (ETrigger  ());
+pen  = _pNetwork  -> GetEntityWithName  (strPlayerStart  , 0);
 #line 5369 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-cht_iGoToMarker  = - 1;
+pen  -> SendEvent  (ETrigger  ());
 #line 5370 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-bSetHealth  = TRUE ;
+cht_iGoToMarker  = - 1;
 #line 5371 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-bAdjustHealth  = FALSE ;
-#line 5373 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(m_penMainMusicHolder  != NULL  && ! (m_ulFlags  & PLF_CHANGINGLEVEL )){
-#line 5374 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CMusicHolder  * pmh  = (CMusicHolder  *) & * m_penMainMusicHolder ;
-#line 5375 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(pmh  -> m_penRespawnMarker  != NULL ){
-#line 5377 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pen  = pmh  -> m_penRespawnMarker ;
-#line 5378 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 bSetHealth  = TRUE ;
-#line 5379 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5372 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 bAdjustHealth  = FALSE ;
+#line 5374 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(m_penMainMusicHolder  != NULL  && ! (m_ulFlags  & PLF_CHANGINGLEVEL )){
+#line 5375 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CMusicHolder  * pmh  = (CMusicHolder  *) & * m_penMainMusicHolder ;
+#line 5376 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(pmh  -> m_penRespawnMarker  != NULL ){
+#line 5378 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+pen  = pmh  -> m_penRespawnMarker ;
+#line 5379 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+bSetHealth  = TRUE ;
 #line 5380 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+bAdjustHealth  = FALSE ;
 #line 5381 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5384 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5382 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 5385 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(pen  == NULL  && GetSP  () -> sp_bQuickTest  && m_strGroup  == ""){
-#line 5386 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CTString strPlayerStart ;
 #line 5387 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-strPlayerStart  . PrintF  ("Player Quick Start");
-#line 5388 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pen  = _pNetwork  -> GetEntityWithName  (strPlayerStart  , 0);
-#line 5389 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-bSetHealth  = TRUE ;
-#line 5390 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-bAdjustHealth  = FALSE ;
-#line 5391 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 5393 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(pen  == NULL ){
-#line 5395 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CTString strPlayerStart ;
-#line 5396 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-strPlayerStart  . PrintF  ("Player Start - %s" , m_strGroup );
-#line 5397 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5388 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+strPlayerStart  . PrintF  ("Player Quick Start");
+#line 5389 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 pen  = _pNetwork  -> GetEntityWithName  (strPlayerStart  , 0);
-#line 5398 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_strGroup  == ""){
-#line 5399 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5390 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 bSetHealth  = TRUE ;
-#line 5400 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5391 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 bAdjustHealth  = FALSE ;
-#line 5401 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
-#line 5402 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(EwltType  == WLT_FIXED ){
-#line 5403 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-bSetHealth  = FALSE ;
-#line 5404 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-bAdjustHealth  = TRUE ;
-#line 5405 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
-#line 5406 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-bSetHealth  = FALSE ;
-#line 5407 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-bAdjustHealth  = FALSE ;
-#line 5408 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5392 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5394 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(pen  == NULL ){
+#line 5396 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CTString strPlayerStart ;
+#line 5397 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+strPlayerStart  . PrintF  ("Player Start - %s" , m_strGroup );
+#line 5398 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+pen  = _pNetwork  -> GetEntityWithName  (strPlayerStart  , 0);
+#line 5399 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_strGroup  == ""){
+#line 5400 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+bSetHealth  = TRUE ;
+#line 5401 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+bAdjustHealth  = FALSE ;
+#line 5402 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 5403 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(EwltType  == WLT_FIXED ){
+#line 5404 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+bSetHealth  = FALSE ;
+#line 5405 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+bAdjustHealth  = TRUE ;
+#line 5406 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 5407 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+bSetHealth  = FALSE ;
+#line 5408 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+bAdjustHealth  = FALSE ;
 #line 5409 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 5410 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5412 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5411 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 5413 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(pen  == NULL ){
-#line 5414 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CTString strPlayerStart ;
 #line 5415 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-strPlayerStart  . PrintF  ("Player Start - ");
+CTString strPlayerStart ;
 #line 5416 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pen  = _pNetwork  -> GetEntityWithName  (strPlayerStart  , 0);
+strPlayerStart  . PrintF  ("Player Start - ");
 #line 5417 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-bSetHealth  = TRUE ;
+pen  = _pNetwork  -> GetEntityWithName  (strPlayerStart  , 0);
 #line 5418 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-bAdjustHealth  = FALSE ;
-#line 5419 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 5420 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
-#line 5421 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 bSetHealth  = TRUE ;
-#line 5422 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5419 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 bAdjustHealth  = FALSE ;
-#line 5424 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pen  = GetDeathmatchStartMarker  ();
-#line 5425 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(pen  != NULL ){
-#line 5426 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerMarker  &) * pen ) . m_tmLastSpawned  = _pTimer  -> CurrentTick  ();
-#line 5427 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5420 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5421 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 5422 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+bSetHealth  = TRUE ;
+#line 5423 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+bAdjustHealth  = FALSE ;
+#line 5425 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+pen  = GetDeathmatchStartMarker  ();
+#line 5426 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(pen  != NULL ){
+#line 5427 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerMarker  &) * pen ) . m_tmLastSpawned  = _pTimer  -> CurrentTick  ();
 #line 5428 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5431 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if((m_ulFlags  & PLF_RESPAWNINPLACE ) && pen  != NULL  && ! ((CPlayerMarker  *) & * pen ) -> m_bNoRespawnInPlace ){
-#line 5432 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  &= ~ PLF_RESPAWNINPLACE ;
-#line 5434 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetHealth  (TopHealth  ());
-#line 5435 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_iMana  = GetSP  () -> sp_iInitialMana ;
-#line 5436 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_fArmor  = 0.0f;
-#line 5438 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Teleport  (CPlacement3D (m_vDied  , m_aDied ));
-#line 5441 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(pen  != NULL ){
-#line 5443 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_penMainMusicHolder  != NULL ){
-#line 5444 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CMusicHolder  * pmh  = (CMusicHolder  *) & * m_penMainMusicHolder ;
-#line 5445 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(pmh  -> m_penRespawnMarker  == NULL ){
-#line 5447 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pmh  -> m_penRespawnMarker  = pen ;
-#line 5448 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5429 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5432 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if((m_ulFlags  & PLF_RESPAWNINPLACE ) && pen  != NULL  && ! ((CPlayerMarker  *) & * pen ) -> m_bNoRespawnInPlace ){
+#line 5433 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_ulFlags  &= ~ PLF_RESPAWNINPLACE ;
+#line 5435 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetHealth  (TopHealth  ());
+#line 5436 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_iMana  = GetSP  () -> sp_iInitialMana ;
+#line 5437 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_fArmor  = 0.0f;
+#line 5439 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+Teleport  (CPlacement3D (m_vDied  , m_aDied ));
+#line 5442 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(pen  != NULL ){
+#line 5444 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_penMainMusicHolder  != NULL ){
+#line 5445 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CMusicHolder  * pmh  = (CMusicHolder  *) & * m_penMainMusicHolder ;
+#line 5446 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(pmh  -> m_penRespawnMarker  == NULL ){
+#line 5448 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+pmh  -> m_penRespawnMarker  = pen ;
 #line 5449 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5451 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerMarker  & CpmStart  = (CPlayerMarker  &) * pen ;
-#line 5453 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(bSetHealth ){
-#line 5454 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetHealth  (CpmStart  . m_fHealth  / 100.0f * TopHealth  ());
-#line 5455 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_iMana  = GetSP  () -> sp_iInitialMana ;
-#line 5456 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_fArmor  = CpmStart  . m_fShield ;
-#line 5457 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(bAdjustHealth ){
-#line 5458 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fHealth  = GetHealth  ();
-#line 5459 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fTopHealth  = TopHealth  ();
-#line 5460 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(fHealth  < fTopHealth ){
-#line 5461 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetHealth  (ClampUp  (fHealth  + fTopHealth  / 2.0f , fTopHealth ));
-#line 5462 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5450 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5452 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlayerMarker  & CpmStart  = (CPlayerMarker  &) * pen ;
+#line 5454 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(bSetHealth ){
+#line 5455 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetHealth  (CpmStart  . m_fHealth  / 100.0f * TopHealth  ());
+#line 5456 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_iMana  = GetSP  () -> sp_iInitialMana ;
+#line 5457 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_fArmor  = CpmStart  . m_fShield ;
+#line 5458 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(bAdjustHealth ){
+#line 5459 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT fHealth  = GetHealth  ();
+#line 5460 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT fTopHealth  = TopHealth  ();
+#line 5461 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(fHealth  < fTopHealth ){
+#line 5462 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetHealth  (ClampUp  (fHealth  + fTopHealth  / 2.0f , fTopHealth ));
 #line 5463 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5466 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5464 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 5467 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(CpmStart  . m_bStartInComputer  && GetSP  () -> sp_bSinglePlayer ){
-#line 5468 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(_pNetwork  -> IsPlayerLocal  (this )){
 #line 5469 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-cmp_ppenPlayer  = this ;
+if(_pNetwork  -> IsPlayerLocal  (this )){
 #line 5470 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+cmp_ppenPlayer  = this ;
 #line 5471 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-cmp_bInitialStart  = TRUE ;
+}
 #line 5472 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+cmp_bInitialStart  = TRUE ;
+#line 5473 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5475 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5476 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CMessageHolder  * penMessage  = (CMessageHolder  *) & * CpmStart  . m_penMessage ;
-#line 5477 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-while(penMessage  != NULL  && IsOfClass  (penMessage  , "MessageHolder")){
 #line 5478 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+while(penMessage  != NULL  && IsOfClass  (penMessage  , "MessageHolder")){
+#line 5479 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 const CTFileName & fnmMessage  = penMessage  -> m_fnmMessage ;
-#line 5480 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5481 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(! HasMessage  (fnmMessage )){
-#line 5482 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ReceiveComputerMessage  (fnmMessage  , 0);
 #line 5483 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ReceiveComputerMessage  (fnmMessage  , 0);
+#line 5484 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5485 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penMessage  = (CMessageHolder  *) & * penMessage  -> m_penNext ;
 #line 5486 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+penMessage  = (CMessageHolder  *) & * penMessage  -> m_penNext ;
+#line 5487 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5489 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(! GetSP  () -> sp_bCooperative ){
 #line 5490 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . InitializeWeapons  (CpmStart  . m_iGiveWeapons  , 0 , 0 , 
+if(! GetSP  () -> sp_bCooperative ){
 #line 5491 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CpmStart  . m_fMaxAmmoRatio );
+((CPlayerWeapons  &) * m_penWeapons ) . InitializeWeapons  (CpmStart  . m_iGiveWeapons  , 0 , 0 , 
 #line 5492 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
+CpmStart  . m_fMaxAmmoRatio );
 #line 5493 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . InitializeWeapons  (CpmStart  . m_iGiveWeapons  , CpmStart  . m_iTakeWeapons  , 
+}else {
 #line 5494 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-GetSP  () -> sp_bInfiniteAmmo  ? 0 : CpmStart  . m_iTakeAmmo  , CpmStart  . m_fMaxAmmoRatio );
+((CPlayerWeapons  &) * m_penWeapons ) . InitializeWeapons  (CpmStart  . m_iGiveWeapons  , CpmStart  . m_iTakeWeapons  , 
 #line 5495 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+GetSP  () -> sp_bInfiniteAmmo  ? 0 : CpmStart  . m_iTakeAmmo  , CpmStart  . m_fMaxAmmoRatio );
+#line 5496 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5497 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(EwltType  == WLT_RELATIVE ){
 #line 5498 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plSet  . AbsoluteToRelative  (_SwcWorldChange  . plLink );
+if(EwltType  == WLT_RELATIVE ){
 #line 5499 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plSet  . RelativeToAbsolute  (CpmStart  . GetPlacement  ());
+plSet  . AbsoluteToRelative  (_SwcWorldChange  . plLink );
 #line 5500 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+plSet  . RelativeToAbsolute  (CpmStart  . GetPlacement  ());
+#line 5501 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Teleport  (plSet );
-#line 5502 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(EwltType  == WLT_FIXED ){
 #line 5503 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlacement3D plNew  = CpmStart  . GetPlacement  ();
+}else if(EwltType  == WLT_FIXED ){
 #line 5504 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-vOffsetRel  *= CpmStart  . en_mRotation ;
+CPlacement3D plNew  = CpmStart  . GetPlacement  ();
 #line 5505 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plNew  . pl_PositionVector  += vOffsetRel ;
+vOffsetRel  *= CpmStart  . en_mRotation ;
 #line 5506 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+plNew  . pl_PositionVector  += vOffsetRel ;
+#line 5507 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Teleport  (plNew );
-#line 5508 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
 #line 5509 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ASSERTALWAYS  ("Unknown world link type");
+}else {
 #line 5510 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Teleport  (CPlacement3D (FLOAT3D (0 , 0 , 0) + vOffsetRel  , ANGLE3D (0 , 0 , 0)));
+ASSERTALWAYS  ("Unknown world link type");
 #line 5511 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 5513 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(CpmStart  . m_penTarget  != NULL ){
-#line 5514 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SendToTarget  (CpmStart  . m_penTarget  , EET_TRIGGER  , this );
-#line 5515 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 5518 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
-#line 5520 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetHealth  (TopHealth  ());
-#line 5521 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_iMana  = GetSP  () -> sp_iInitialMana ;
-#line 5522 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_fArmor  = 0.0f;
-#line 5524 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . InitializeWeapons  (0 , 0 , 0 , 0);
-#line 5526 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Teleport  (CPlacement3D (FLOAT3D (0 , 0 , 0) + vOffsetRel  , ANGLE3D (0 , 0 , 0)));
-#line 5527 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5512 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5529 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SendEventInRange  (ETeleport  () , FLOATaabbox3D (GetPlacement  () . pl_PositionVector  , 200.0f));
-#line 5531 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ForceFullStop  ();
-#line 5534 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_fMaxHealth  = TopHealth  ();
-#line 5537 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(GetSP  () -> sp_bSinglePlayer  && GetSP  () -> sp_gmGameMode  != CSessionProperties  :: GM_FLYOVER ){
-#line 5538 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CWorldSettingsController  * pwsc  = GetWSC  (this );
-#line 5539 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(pwsc  != NULL  && pwsc  -> m_bNoSaveGame ){
-#line 5540 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-NOTHING ;
-#line 5541 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5514 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(CpmStart  . m_penTarget  != NULL ){
+#line 5515 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SendToTarget  (CpmStart  . m_penTarget  , EET_TRIGGER  , this );
+#line 5516 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 5519 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 5543 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-_pShell  -> Execute  ("gam_bQuickSave=1;");
-#line 5544 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5521 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetHealth  (TopHealth  ());
+#line 5522 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_iMana  = GetSP  () -> sp_iInitialMana ;
+#line 5523 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_fArmor  = 0.0f;
+#line 5525 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerWeapons  &) * m_penWeapons ) . InitializeWeapons  (0 , 0 , 0 , 0);
+#line 5527 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+Teleport  (CPlacement3D (FLOAT3D (0 , 0 , 0) + vOffsetRel  , ANGLE3D (0 , 0 , 0)));
+#line 5528 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5530 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SendEventInRange  (ETeleport  () , FLOATaabbox3D (GetPlacement  () . pl_PositionVector  , 200.0f));
+#line 5532 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ForceFullStop  ();
+#line 5535 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_fMaxHealth  = TopHealth  ();
+#line 5538 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(GetSP  () -> sp_bSinglePlayer  && GetSP  () -> sp_gmGameMode  != CSessionProperties  :: GM_FLYOVER ){
+#line 5539 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CWorldSettingsController  * pwsc  = GetWSC  (this );
+#line 5540 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(pwsc  != NULL  && pwsc  -> m_bNoSaveGame ){
+#line 5541 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+NOTHING ;
+#line 5542 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 5544 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+_pShell  -> Execute  ("gam_bQuickSave=1;");
 #line 5545 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5547 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(! (m_ulFlags  & PLF_LEVELSTARTED )){
+#line 5546 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
 #line 5548 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  |= PLF_LEVELSTARTED ;
+if(! (m_ulFlags  & PLF_LEVELSTARTED )){
 #line 5549 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmLevelStarted  = _pNetwork  -> GetGameTime  ();
+m_ulFlags  |= PLF_LEVELSTARTED ;
 #line 5550 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_tmLevelStarted  = _pNetwork  -> GetGameTime  ();
+#line 5551 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5552 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CTString strDummy ;
 #line 5553 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetPlayerAppearance  (GetModelObject  () , NULL  , strDummy  , FALSE );
+CTString strDummy ;
 #line 5554 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ValidateCharacter  ();
+SetPlayerAppearance  (GetModelObject  () , NULL  , strDummy  , FALSE );
 #line 5555 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetPlayerAppearance  (& m_moRender  , & en_pcCharacter  , strDummy  , FALSE );
+ValidateCharacter  ();
 #line 5556 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ParseGender  (strDummy );
+SetPlayerAppearance  (& m_moRender  , & en_pcCharacter  , strDummy  , FALSE );
 #line 5557 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-GetPlayerAnimator  () -> SetWeapon  ();
+ParseGender  (strDummy );
 #line 5558 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+GetPlayerAnimator  () -> SetWeapon  ();
+#line 5559 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_ulFlags  |= PLF_SYNCWEAPON ;
-#line 5561 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5562 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SpawnTeleport  ();
-#line 5563 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SwitchToModel  ();
 #line 5564 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SwitchToModel  ();
+#line 5565 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_tmSpawned  = _pTimer  -> CurrentTick  ();
-#line 5566 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_tmLastBreathed  = _pTimer  -> CurrentTick  () + 0.1f;
 #line 5567 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_tmLastBreathed  = _pTimer  -> CurrentTick  () + 0.1f;
+#line 5568 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
   
-#line 5570 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::RecordEndOfLevelData(void) 
 #line 5571 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+void CPlayer::RecordEndOfLevelData(void) 
+#line 5572 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
-#line 5573 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5574 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ASSERT  (! m_bEndOfLevel );
-#line 5575 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmAnalyseEnd  = 0;
 #line 5576 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_bPendingMessage  = FALSE ;
+m_tmAnalyseEnd  = 0;
 #line 5577 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_bPendingMessage  = FALSE ;
+#line 5578 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_tmMessagePlay  = 0;
-#line 5579 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_iMayRespawn  = 0;
 #line 5580 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_iMayRespawn  = 0;
+#line 5581 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_bEndOfLevel  = TRUE ;
-#line 5582 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5583 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 time  (& m_iEndTime );
-#line 5584 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-TIME  tmLevelTime  = _pTimer  -> CurrentTick  () - m_tmLevelStarted ;
 #line 5585 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psLevelStats  . ps_tmTime  = tmLevelTime ;
+TIME  tmLevelTime  = _pTimer  -> CurrentTick  () - m_tmLevelStarted ;
 #line 5586 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psGameStats  . ps_tmTime  += tmLevelTime ;
+m_psLevelStats  . ps_tmTime  = tmLevelTime ;
 #line 5587 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fTimeDelta  = ClampDn  (floor  (m_tmEstTime ) - floor  (tmLevelTime ) , 0.0);
+m_psGameStats  . ps_tmTime  += tmLevelTime ;
 #line 5588 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_iTimeScore  = floor  (fTimeDelta  * 100.0f);
+FLOAT fTimeDelta  = ClampDn  (floor  (m_tmEstTime ) - floor  (tmLevelTime ) , 0.0);
 #line 5589 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psLevelStats  . ps_iScore  += m_iTimeScore ;
+m_iTimeScore  = floor  (fTimeDelta  * 100.0f);
 #line 5590 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_psLevelStats  . ps_iScore  += m_iTimeScore ;
+#line 5591 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_psGameStats  . ps_iScore  += m_iTimeScore ;
-#line 5593 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CTString strStats ;
 #line 5594 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-strStats  . PrintF  (TRANS  ("%s\n  Time:   %s\n  Score: %9d\n  Kills:   %03d/%03d\n  Secrets:   %02d/%02d\n") , 
+CTString strStats ;
 #line 5595 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-TranslateConst  (en_pwoWorld  -> GetName  () , 0) , TimeToString  (tmLevelTime ) , 
+strStats  . PrintF  (TRANS  ("%s\n  Time:   %s\n  Score: %9d\n  Kills:   %03d/%03d\n  Secrets:   %02d/%02d\n") , 
 #line 5596 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psLevelStats  . ps_iScore  , 
+TranslateConst  (en_pwoWorld  -> GetName  () , 0) , TimeToString  (tmLevelTime ) , 
 #line 5597 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psLevelStats  . ps_iKills  , m_psLevelTotal  . ps_iKills  , 
+m_psLevelStats  . ps_iScore  , 
 #line 5598 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psLevelStats  . ps_iSecrets  , m_psLevelTotal  . ps_iSecrets );
+m_psLevelStats  . ps_iKills  , m_psLevelTotal  . ps_iKills  , 
 #line 5599 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_strLevelStats  += strStats ;
+m_psLevelStats  . ps_iSecrets  , m_psLevelTotal  . ps_iSecrets );
 #line 5600 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_strLevelStats  += strStats ;
+#line 5601 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
   
-#line 5603 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::SpawnTeleport(void) 
 #line 5604 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+void CPlayer::SpawnTeleport(void) 
+#line 5605 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
-#line 5606 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5607 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(GetSP  () -> sp_bSinglePlayer ){
-#line 5608 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return ;
 #line 5609 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+return ;
 #line 5610 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ESpawnEffect  ese ;
+}
 #line 5611 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ese  . colMuliplier  = C_WHITE  | CT_OPAQUE ;
+ESpawnEffect  ese ;
 #line 5612 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ese  . betType  = BET_TELEPORT ;
+ese  . colMuliplier  = C_WHITE  | CT_OPAQUE ;
 #line 5613 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ese  . vNormal  = FLOAT3D (0 , 1 , 0);
+ese  . betType  = BET_TELEPORT ;
 #line 5614 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOATaabbox3D box ;
+ese  . vNormal  = FLOAT3D (0 , 1 , 0);
 #line 5615 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-GetBoundingBox  (box );
+FLOATaabbox3D box ;
 #line 5616 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fEntitySize  = box  . Size  () . MaxNorm  () * 2;
+GetBoundingBox  (box );
 #line 5617 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ese  . vStretch  = FLOAT3D (fEntitySize  , fEntitySize  , fEntitySize );
+FLOAT fEntitySize  = box  . Size  () . MaxNorm  () * 2;
 #line 5618 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CEntityPointer penEffect  = CreateEntity  (GetPlacement  () , CLASS_BASIC_EFFECT );
+ese  . vStretch  = FLOAT3D (fEntitySize  , fEntitySize  , fEntitySize );
 #line 5619 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penEffect  -> Initialize  (ese );
+CEntityPointer penEffect  = CreateEntity  (GetPlacement  () , CLASS_BASIC_EFFECT );
 #line 5620 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+penEffect  -> Initialize  (ese );
+#line 5621 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
   
-#line 5625 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::RenderParticles(void) 
 #line 5626 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+void CPlayer::RenderParticles(void) 
 #line 5627 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 5628 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 FLOAT tmNow  = _pTimer  -> GetLerpedCurrentTick  ();
-#line 5630 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5631 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Particles_EmptyShells  (this  , m_asldData );
-#line 5632 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(Particle_GetViewer  () == this ){
 #line 5633 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Particles_ViewerLocal  (this );
+if(Particle_GetViewer  () == this ){
 #line 5634 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+Particles_ViewerLocal  (this );
 #line 5635 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-else 
+}
 #line 5636 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+else 
+#line 5637 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
-#line 5638 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5639 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 RenderChainsawParticles  (TRUE );
-#line 5640 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(GetFlags  () & ENF_ALIVE ){
 #line 5641 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_tmSeriousDamage  > tmNow  && m_tmInvulnerability  > tmNow ){
+if(GetFlags  () & ENF_ALIVE ){
 #line 5642 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Particles_ModelGlow  (this  , Max  (m_tmSeriousDamage  , m_tmInvulnerability ) , PT_STAR08  , 0.15f , 2 , 0.03f , 0xff00ff00);
+if(m_tmSeriousDamage  > tmNow  && m_tmInvulnerability  > tmNow ){
 #line 5643 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(m_tmInvulnerability  > tmNow ){
+Particles_ModelGlow  (this  , Max  (m_tmSeriousDamage  , m_tmInvulnerability ) , PT_STAR08  , 0.15f , 2 , 0.03f , 0xff00ff00);
 #line 5644 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Particles_ModelGlow  (this  , m_tmInvulnerability  , PT_STAR05  , 0.15f , 2 , 0.03f , 0x3333ff00);
+}else if(m_tmInvulnerability  > tmNow ){
 #line 5645 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(m_tmSeriousDamage  > tmNow ){
+Particles_ModelGlow  (this  , m_tmInvulnerability  , PT_STAR05  , 0.15f , 2 , 0.03f , 0x3333ff00);
 #line 5646 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Particles_ModelGlow  (this  , m_tmSeriousDamage  , PT_STAR08  , 0.15f , 2 , 0.03f , 0xff777700);
+}else if(m_tmSeriousDamage  > tmNow ){
 #line 5647 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+Particles_ModelGlow  (this  , m_tmSeriousDamage  , PT_STAR08  , 0.15f , 2 , 0.03f , 0xff777700);
 #line 5648 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_tmSeriousSpeed  > tmNow ){
+}
 #line 5649 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Particles_RunAfterBurner  (this  , m_tmSeriousSpeed  , 0.3f , 0);
+if(m_tmSeriousSpeed  > tmNow ){
 #line 5650 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+Particles_RunAfterBurner  (this  , m_tmSeriousSpeed  , 0.3f , 0);
 #line 5651 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(! GetSP  () -> sp_bCooperative ){
-#line 5652 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerWeapons  * wpn  = GetPlayerWeapons  ();
-#line 5653 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(wpn  -> m_tmLastSniperFire  == _pTimer  -> CurrentTick  ())
-#line 5654 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
-#line 5655 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CAttachmentModelObject  & amoBody  = * GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO );
-#line 5656 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOATmatrix3D m ;
-#line 5657 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-MakeRotationMatrix  (m  , amoBody  . amo_plRelative  . pl_OrientationAngle );
-#line 5658 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT3D vSource  = wpn  -> m_vBulletSource  + FLOAT3D (0.0f , 0.1f , - 0.4f) * GetRotationMatrix  () * m ;
-#line 5659 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Particles_SniperResidue  (this  , vSource  , wpn  -> m_vBulletTarget );
-#line 5660 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5652 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(! GetSP  () -> sp_bCooperative ){
+#line 5653 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlayerWeapons  * wpn  = GetPlayerWeapons  ();
+#line 5654 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(wpn  -> m_tmLastSniperFire  == _pTimer  -> CurrentTick  ())
+#line 5655 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 5656 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CAttachmentModelObject  & amoBody  = * GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO );
+#line 5657 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOATmatrix3D m ;
+#line 5658 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+MakeRotationMatrix  (m  , amoBody  . amo_plRelative  . pl_OrientationAngle );
+#line 5659 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT3D vSource  = wpn  -> m_vBulletSource  + FLOAT3D (0.0f , 0.1f , - 0.4f) * GetRotationMatrix  () * m ;
+#line 5660 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+Particles_SniperResidue  (this  , vSource  , wpn  -> m_vBulletTarget );
 #line 5661 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 5662 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 5663 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5666 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_tmSpiritStart  != 0.0f)
-#line 5667 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
-#line 5668 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Particles_Appearing  (this  , m_tmSpiritStart );
-#line 5669 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5664 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5667 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_tmSpiritStart  != 0.0f)
+#line 5668 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 5669 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+Particles_Appearing  (this  , m_tmSpiritStart );
 #line 5670 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-  
-#line 5672 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::TeleportToAutoMarker(CPlayerActionMarker * ppam) 
-#line 5673 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
-#line 5675 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(GetSP  () -> sp_bCooperative  && ! GetSP  () -> sp_bSinglePlayer ){
-#line 5677 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-for(INDEX iPlayer  = 0;iPlayer  < GetMaxPlayers  ();iPlayer  ++){
-#line 5678 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayer  * ppl  = (CPlayer  *) GetPlayerEntity  (iPlayer );
-#line 5679 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ppl  != NULL ){
-#line 5681 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlacement3D pl  = ppam  -> GetPlacement  ();
-#line 5682 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT3D vOffsetRel  = ppl  -> GetTeleportingOffset  ();
-#line 5683 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pl  . pl_PositionVector  += vOffsetRel  * ppam  -> en_mRotation ;
-#line 5684 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ppl  -> Teleport  (pl  , FALSE );
-#line 5686 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ppl  -> m_vDied  = pl  . pl_PositionVector ;
-#line 5687 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ppl  -> m_aDied  = pl  . pl_OrientationAngle ;
-#line 5688 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5671 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+  
+#line 5673 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+void CPlayer::TeleportToAutoMarker(CPlayerActionMarker * ppam) 
+#line 5674 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 5676 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(GetSP  () -> sp_bCooperative  && ! GetSP  () -> sp_bSinglePlayer ){
+#line 5678 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+for(INDEX iPlayer  = 0;iPlayer  < GetMaxPlayers  ();iPlayer  ++){
+#line 5679 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlayer  * ppl  = (CPlayer  *) GetPlayerEntity  (iPlayer );
+#line 5680 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(ppl  != NULL ){
+#line 5682 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlacement3D pl  = ppam  -> GetPlacement  ();
+#line 5683 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT3D vOffsetRel  = ppl  -> GetTeleportingOffset  ();
+#line 5684 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+pl  . pl_PositionVector  += vOffsetRel  * ppam  -> en_mRotation ;
+#line 5685 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ppl  -> Teleport  (pl  , FALSE );
+#line 5687 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ppl  -> m_vDied  = pl  . pl_PositionVector ;
+#line 5688 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ppl  -> m_aDied  = pl  . pl_OrientationAngle ;
 #line 5689 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5692 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
-#line 5694 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlacement3D pl  = ppam  -> GetPlacement  ();
-#line 5695 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT3D vOffsetRel  = GetTeleportingOffset  ();
-#line 5696 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pl  . pl_PositionVector  += vOffsetRel  * ppam  -> en_mRotation ;
-#line 5697 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Teleport  (pl  , FALSE );
-#line 5698 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5690 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5693 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 5695 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlacement3D pl  = ppam  -> GetPlacement  ();
+#line 5696 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+FLOAT3D vOffsetRel  = GetTeleportingOffset  ();
+#line 5697 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+pl  . pl_PositionVector  += vOffsetRel  * ppam  -> en_mRotation ;
+#line 5698 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+Teleport  (pl  , FALSE );
 #line 5699 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5700 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
   
-#line 5702 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-void CPlayer::CheckDeathForRespawnInPlace(EDeath eDeath) 
 #line 5703 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+void CPlayer::CheckDeathForRespawnInPlace(EDeath eDeath) 
+#line 5704 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 {
-#line 5705 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5706 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(! GetSP  () -> sp_bRespawnInPlace ){
-#line 5707 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return ;
 #line 5708 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return ;
+#line 5709 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5710 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CEntity  * penKiller  = eDeath  . eLastDamage  . penInflictor ;
 #line 5711 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CEntity  * penKiller  = eDeath  . eLastDamage  . penInflictor ;
+#line 5712 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(IsOfClass  (penKiller  , "Player") || IsDerivedFromClass  (penKiller  , "Enemy Base")){
-#line 5713 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  |= PLF_RESPAWNINPLACE ;
 #line 5714 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_vDied  = GetPlacement  () . pl_PositionVector ;
+m_ulFlags  |= PLF_RESPAWNINPLACE ;
 #line 5715 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_aDied  = GetPlacement  () . pl_OrientationAngle ;
+m_vDied  = GetPlacement  () . pl_PositionVector ;
 #line 5716 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+m_aDied  = GetPlacement  () . pl_OrientationAngle ;
 #line 5717 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5718 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
 BOOL CPlayer::
-#line 5723 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5724 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Wounded(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_Wounded
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EDamage, "CPlayer::Wounded expects 'EDamage' as input!");  const EDamage &eDamage = (const EDamage &)__eeInput;
-#line 5724 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5725 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EVoid());
-#line 5724 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5725 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 5731 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5732 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 WorldChange(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_WorldChange
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::WorldChange expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5733 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5734 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(GetSP  () -> sp_bSinglePlayer ){
-#line 5735 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CTString strDummy  ("1");
 #line 5736 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SaveStringVar  (GetWorld  () -> wo_fnmFileName  . NoExt  () + ".vis" , strDummy );
+CTString strDummy  ("1");
 #line 5737 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SaveStringVar  (GetWorld  () -> wo_fnmFileName  . NoExt  () + ".vis" , strDummy );
+#line 5738 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5739 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5740 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 FindMusicHolder  ();
-#line 5741 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_strGroup  = _SwcWorldChange  . strGroup ;
 #line 5742 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_strGroup  = _SwcWorldChange  . strGroup ;
+#line 5743 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 TeleportPlayer  ((WorldLinkType ) _SwcWorldChange  . iType );
-#line 5744 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5745 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetupLightSource  ();
-#line 5747 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerWeapons  * penWeapon  = GetPlayerWeapons  ();
 #line 5748 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penWeapon  -> m_fSniperFOVlast  = penWeapon  -> m_fSniperFOV  = penWeapon  -> m_fSniperMaxFOV ;
+CPlayerWeapons  * penWeapon  = GetPlayerWeapons  ();
 #line 5749 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penWeapon  -> m_bSniping  = FALSE ;
+penWeapon  -> m_fSniperFOVlast  = penWeapon  -> m_fSniperFOV  = penWeapon  -> m_fSniperMaxFOV ;
 #line 5750 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+penWeapon  -> m_bSniping  = FALSE ;
+#line 5751 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_ulFlags  &= ~ PLF_ISZOOMING ;
-#line 5753 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5754 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 PlaySound  (m_soWeaponAmbient  , SOUND_SILENCE  , SOF_3D );
-#line 5756 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-UpdateLevelStats  ();
 #line 5757 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  |= PLF_INITIALIZED ;
+UpdateLevelStats  ();
 #line 5758 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_ulFlags  |= PLF_INITIALIZED ;
+#line 5759 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_ulFlags  &= ~ PLF_CHANGINGLEVEL ;
-#line 5759 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5760 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EVoid());
-#line 5759 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5760 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 5762 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5763 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 WorldChangeDead(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_WorldChangeDead
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::WorldChangeDead expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5765 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5766 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_ulFlags  &= ~ PLF_RESPAWNINPLACE ;
-#line 5768 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5769 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(GetSP  () -> sp_bSinglePlayer ){
-#line 5770 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CTString strDummy  ("1");
 #line 5771 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SaveStringVar  (GetWorld  () -> wo_fnmFileName  . NoExt  () + ".vis" , strDummy );
+CTString strDummy  ("1");
 #line 5772 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SaveStringVar  (GetWorld  () -> wo_fnmFileName  . NoExt  () + ".vis" , strDummy );
+#line 5773 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5774 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5775 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 FindMusicHolder  ();
-#line 5777 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5778 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 STATE_CPlayer_Rebirth, TRUE;
 Jump(STATE_CURRENT, 0x01910008, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910008_WorldChangeDead_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -7757,424 +7759,424 @@ switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_C
 #define STATE_CURRENT 0x01910009
 const EReturn&__e= (EReturn&)__eeInput;
 ;
-#line 5780 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5781 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetupLightSource  ();
-#line 5783 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-UpdateLevelStats  ();
 #line 5784 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  |= PLF_INITIALIZED ;
+UpdateLevelStats  ();
 #line 5785 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_ulFlags  |= PLF_INITIALIZED ;
+#line 5786 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_ulFlags  &= ~ PLF_CHANGINGLEVEL ;
-#line 5786 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5787 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EVoid());
-#line 5786 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5787 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 5793 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5794 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Death(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_Death
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EDeath, "CPlayer::Death expects 'EDeath' as input!");  const EDeath &eDeath = (const EDeath &)__eeInput;
-#line 5796 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5797 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (EReleaseWeapon  ());
-#line 5798 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(_pNetwork  -> IsPlayerLocal  (this ))
 #line 5799 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+if(_pNetwork  -> IsPlayerLocal  (this ))
 #line 5800 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-IFeel_StopEffect  ("ChainsawFire");
+{
 #line 5801 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-IFeel_StopEffect  ("FlamethrowerFire");
+IFeel_StopEffect  ("ChainsawFire");
 #line 5802 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-IFeel_StopEffect  ("ChainsawIdle");
+IFeel_StopEffect  ("FlamethrowerFire");
 #line 5803 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-IFeel_StopEffect  ("SniperZoom");
+IFeel_StopEffect  ("ChainsawIdle");
 #line 5804 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-IFeel_StopEffect  ("Minigun_rotate");
+IFeel_StopEffect  ("SniperZoom");
 #line 5805 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+IFeel_StopEffect  ("Minigun_rotate");
+#line 5806 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5808 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerWeapons  * penWeapon  = GetPlayerWeapons  ();
 #line 5809 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  &= ~ PLF_ISZOOMING ;
+CPlayerWeapons  * penWeapon  = GetPlayerWeapons  ();
 #line 5810 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penWeapon  -> m_bSniping  = FALSE ;
+m_ulFlags  &= ~ PLF_ISZOOMING ;
 #line 5811 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+penWeapon  -> m_bSniping  = FALSE ;
+#line 5812 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 penWeapon  -> m_fSniperFOVlast  = penWeapon  -> m_fSniperFOV  = penWeapon  -> m_fSniperMaxFOV ;
-#line 5814 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soSniperZoom  , SOUND_SILENCE  , SOF_3D );
 #line 5815 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soSniperZoom  , SOUND_SILENCE  , SOF_3D );
+#line 5816 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 PlaySound  (m_soWeaponAmbient  , SOUND_SILENCE  , SOF_3D );
-#line 5818 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5819 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 penWeapon  -> m_aMiniGunLast  = penWeapon  -> m_aMiniGun ;
-#line 5821 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5822 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(GetSP  () -> sp_bSinglePlayer  || IsPredictor  ()){
-#line 5823 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5824 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 NOTHING ;
-#line 5825 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5826 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else if(GetSP  () -> sp_bCooperative ){
-#line 5827 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5828 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 PrintPlayerDeathMessage  (this  , eDeath );
-#line 5829 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5830 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CheckDeathForRespawnInPlace  (eDeath );
-#line 5831 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psLevelStats  . ps_iDeaths  += 1;
 #line 5832 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_psLevelStats  . ps_iDeaths  += 1;
+#line 5833 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_psGameStats  . ps_iDeaths  += 1;
-#line 5834 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5835 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 5836 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5837 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 PrintPlayerDeathMessage  (this  , eDeath );
-#line 5838 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5839 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CEntity  * penKiller  = eDeath  . eLastDamage  . penInflictor ;
-#line 5840 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5841 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CPlayer  * pplKillerPlayer  = NULL ;
-#line 5843 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5844 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(penKiller  != NULL ){
-#line 5845 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5846 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(IsOfClass  (penKiller  , "Player")){
-#line 5847 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(penKiller  != this ){
 #line 5848 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pplKillerPlayer  = (CPlayer  *) penKiller ;
+if(penKiller  != this ){
 #line 5849 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-EReceiveScore  eScore ;
+pplKillerPlayer  = (CPlayer  *) penKiller ;
 #line 5850 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-eScore  . iPoints  = m_iMana ;
+EReceiveScore  eScore ;
 #line 5851 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-eDeath  . eLastDamage  . penInflictor  -> SendEvent  (eScore );
+eScore  . iPoints  = m_iMana ;
 #line 5852 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+eDeath  . eLastDamage  . penInflictor  -> SendEvent  (eScore );
+#line 5853 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 eDeath  . eLastDamage  . penInflictor  -> SendEvent  (EKilledEnemy  ());
-#line 5854 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
 #line 5855 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psLevelStats  . ps_iScore  -= m_iMana ;
+}else {
 #line 5856 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psGameStats  . ps_iScore  -= m_iMana ;
+m_psLevelStats  . ps_iScore  -= m_iMana ;
 #line 5857 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psLevelStats  . ps_iKills  -= 1;
+m_psGameStats  . ps_iScore  -= m_iMana ;
 #line 5858 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psGameStats  . ps_iKills  -= 1;
+m_psLevelStats  . ps_iKills  -= 1;
 #line 5859 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_psGameStats  . ps_iKills  -= 1;
+#line 5860 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5861 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
 #line 5862 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psLevelStats  . ps_iScore  -= m_iMana ;
+}else {
 #line 5863 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psGameStats  . ps_iScore  -= m_iMana ;
-#line 5864 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psLevelStats  . ps_iKills  -= 1;
-#line 5865 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psGameStats  . ps_iKills  -= 1;
-#line 5866 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 5868 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
-#line 5869 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_psLevelStats  . ps_iScore  -= m_iMana ;
-#line 5870 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5864 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_psGameStats  . ps_iScore  -= m_iMana ;
-#line 5871 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5865 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_psLevelStats  . ps_iKills  -= 1;
-#line 5872 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5866 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_psGameStats  . ps_iKills  -= 1;
-#line 5873 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5867 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5876 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(! GetSP  () -> sp_bUseFrags ){
-#line 5878 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(pplKillerPlayer  != NULL ){
-#line 5880 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPrintF  (TRANS  ("  %s: +%d points\n") , pplKillerPlayer  -> GetPlayerName  () , m_iMana );
-#line 5882 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5869 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 5884 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPrintF  (TRANS  ("  %s: -%d points\n") , GetPlayerName  () , m_iMana );
-#line 5885 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5870 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_psLevelStats  . ps_iScore  -= m_iMana ;
+#line 5871 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_psGameStats  . ps_iScore  -= m_iMana ;
+#line 5872 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_psLevelStats  . ps_iKills  -= 1;
+#line 5873 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_psGameStats  . ps_iKills  -= 1;
+#line 5874 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5877 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(! GetSP  () -> sp_bUseFrags ){
+#line 5879 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(pplKillerPlayer  != NULL ){
+#line 5881 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPrintF  (TRANS  ("  %s: +%d points\n") , pplKillerPlayer  -> GetPlayerName  () , m_iMana );
+#line 5883 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 5885 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPrintF  (TRANS  ("  %s: -%d points\n") , GetPlayerName  () , m_iMana );
 #line 5886 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5889 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psLevelStats  . ps_iDeaths  += 1;
+#line 5887 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
 #line 5890 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psGameStats  . ps_iDeaths  += 1;
+m_psLevelStats  . ps_iDeaths  += 1;
 #line 5891 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_psGameStats  . ps_iDeaths  += 1;
+#line 5892 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5894 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5895 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_iLastViewState  = m_iViewState ;
-#line 5897 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5898 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetFlags  (GetFlags  () & ~ ENF_ALIVE );
-#line 5899 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDesiredTranslation  (FLOAT3D (0.0f , 0.0f , 0.0f));
 #line 5900 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetDesiredTranslation  (FLOAT3D (0.0f , 0.0f , 0.0f));
+#line 5901 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetDesiredRotation  (ANGLE3D (0.0f , 0.0f , 0.0f));
-#line 5903 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5904 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ((CPlayerAnimator  &) * m_penAnimator ) . RemoveWeapon  ();
-#line 5905 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5906 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 GetPlayerWeapons  () -> SendEvent  (EStop  ());
-#line 5908 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5909 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(! GetSP  () -> sp_bCooperative ){
-#line 5910 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-GetPlayerWeapons  () -> DropWeapon  ();
 #line 5911 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+GetPlayerWeapons  () -> DropWeapon  ();
+#line 5912 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5915 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-INDEX iAnim1 ;
 #line 5916 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-INDEX iAnim2 ;
+INDEX iAnim1 ;
 #line 5917 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_pstState  == PST_SWIM  || m_pstState  == PST_DIVE ){
+INDEX iAnim2 ;
 #line 5918 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iAnim1  = PLAYER_ANIM_DEATH_UNDERWATER ;
+if(m_pstState  == PST_SWIM  || m_pstState  == PST_DIVE ){
 #line 5919 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iAnim2  = BODY_ANIM_DEATH_UNDERWATER ;
+iAnim1  = PLAYER_ANIM_DEATH_UNDERWATER ;
 #line 5920 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(eDeath  . eLastDamage  . dmtType  == DMT_SPIKESTAB ){
+iAnim2  = BODY_ANIM_DEATH_UNDERWATER ;
 #line 5921 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iAnim1  = PLAYER_ANIM_DEATH_SPIKES ;
+}else if(eDeath  . eLastDamage  . dmtType  == DMT_SPIKESTAB ){
 #line 5922 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iAnim2  = BODY_ANIM_DEATH_SPIKES ;
+iAnim1  = PLAYER_ANIM_DEATH_SPIKES ;
 #line 5923 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(eDeath  . eLastDamage  . dmtType  == DMT_ABYSS ){
+iAnim2  = BODY_ANIM_DEATH_SPIKES ;
 #line 5924 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iAnim1  = PLAYER_ANIM_ABYSSFALL ;
+}else if(eDeath  . eLastDamage  . dmtType  == DMT_ABYSS ){
 #line 5925 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iAnim2  = BODY_ANIM_ABYSSFALL ;
+iAnim1  = PLAYER_ANIM_ABYSSFALL ;
 #line 5926 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
+iAnim2  = BODY_ANIM_ABYSSFALL ;
 #line 5927 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT3D vFront ;
+}else {
 #line 5928 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-GetHeadingDirection  (0 , vFront );
+FLOAT3D vFront ;
 #line 5929 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-FLOAT fDamageDir  = m_vDamage  % vFront ;
+GetHeadingDirection  (0 , vFront );
 #line 5930 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(fDamageDir  < 0){
+FLOAT fDamageDir  = m_vDamage  % vFront ;
 #line 5931 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(Abs  (fDamageDir ) < 10.0f){
+if(fDamageDir  < 0){
 #line 5932 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iAnim1  = PLAYER_ANIM_DEATH_EASYFALLBACK ;
-#line 5933 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iAnim2  = BODY_ANIM_DEATH_EASYFALLBACK ;
-#line 5934 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
-#line 5935 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iAnim1  = PLAYER_ANIM_DEATH_BACK ;
-#line 5936 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iAnim2  = BODY_ANIM_DEATH_BACK ;
-#line 5937 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 5938 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
-#line 5939 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(Abs  (fDamageDir ) < 10.0f){
-#line 5940 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iAnim1  = PLAYER_ANIM_DEATH_EASYFALLFORWARD ;
-#line 5941 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iAnim2  = BODY_ANIM_DEATH_EASYFALLFORWARD ;
-#line 5942 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5933 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iAnim1  = PLAYER_ANIM_DEATH_EASYFALLBACK ;
+#line 5934 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iAnim2  = BODY_ANIM_DEATH_EASYFALLBACK ;
+#line 5935 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 5943 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iAnim1  = PLAYER_ANIM_DEATH_FORWARD ;
-#line 5944 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-iAnim2  = BODY_ANIM_DEATH_FORWARD ;
-#line 5945 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5936 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iAnim1  = PLAYER_ANIM_DEATH_BACK ;
+#line 5937 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iAnim2  = BODY_ANIM_DEATH_BACK ;
+#line 5938 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 5939 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 5940 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(Abs  (fDamageDir ) < 10.0f){
+#line 5941 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iAnim1  = PLAYER_ANIM_DEATH_EASYFALLFORWARD ;
+#line 5942 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iAnim2  = BODY_ANIM_DEATH_EASYFALLFORWARD ;
+#line 5943 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 5944 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iAnim1  = PLAYER_ANIM_DEATH_FORWARD ;
+#line 5945 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+iAnim2  = BODY_ANIM_DEATH_FORWARD ;
 #line 5946 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 5947 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
 #line 5948 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_plViewpoint  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
+}
 #line 5949 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-StartModelAnim  (iAnim1  , 0);
+en_plViewpoint  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
 #line 5950 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+StartModelAnim  (iAnim1  , 0);
 #line 5951 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+#line 5952 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 moBody  . PlayAnim  (iAnim2  , 0);
-#line 5954 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetPhysicsFlags  (EPF_MODEL_CORPSE );
 #line 5955 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetPhysicsFlags  (EPF_MODEL_CORPSE );
+#line 5956 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetCollisionFlags  (ECF_CORPSE );
-#line 5958 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5959 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 en_fDensity  = 400.0f;
-#line 5961 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_pstState  == PST_DIVE ){
 #line 5962 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDefaultMouthPitch  ();
+if(m_pstState  == PST_DIVE ){
 #line 5963 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soMouth  , GenderSound  (SOUND_DEATHWATER ) , SOF_3D );
-#line 5964 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_PlayEffect  ("DeathWater");}
-#line 5965 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
-#line 5966 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetDefaultMouthPitch  ();
-#line 5967 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soMouth  , GenderSound  (SOUND_DEATH ) , SOF_3D );
-#line 5968 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_PlayEffect  ("Death");}
-#line 5969 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 5972 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ASSERT  (m_penView  == NULL );
-#line 5973 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_penView  == NULL ){
-#line 5974 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_penView  = CreateEntity  (GetPlacement  () , CLASS_PLAYER_VIEW );
-#line 5975 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-EViewInit  eInit ;
-#line 5976 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-eInit  . penOwner  = this ;
-#line 5977 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-eInit  . penCamera  = NULL ;
-#line 5978 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-eInit  . vtView  = VT_PLAYERDEATH ;
-#line 5979 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-eInit  . bDeathFixed  = eDeath  . eLastDamage  . dmtType  == DMT_ABYSS ;
-#line 5980 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_penView  -> Initialize  (eInit );
-#line 5981 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 5983 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ShouldBlowUp  ()){
-#line 5984 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BlowUp  ();
-#line 5985 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5964 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soMouth  , GenderSound  (SOUND_DEATHWATER ) , SOF_3D );
+#line 5965 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_PlayEffect  ("DeathWater");}
+#line 5966 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }else {
-#line 5987 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-LeaveStain  (TRUE );
-#line 5988 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5967 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetDefaultMouthPitch  ();
+#line 5968 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+PlaySound  (m_soMouth  , GenderSound  (SOUND_DEATH ) , SOF_3D );
+#line 5969 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_PlayEffect  ("Death");}
+#line 5970 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 5990 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5973 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ASSERT  (m_penView  == NULL );
+#line 5974 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_penView  == NULL ){
+#line 5975 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_penView  = CreateEntity  (GetPlacement  () , CLASS_PLAYER_VIEW );
+#line 5976 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+EViewInit  eInit ;
+#line 5977 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+eInit  . penOwner  = this ;
+#line 5978 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+eInit  . penCamera  = NULL ;
+#line 5979 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+eInit  . vtView  = VT_PLAYERDEATH ;
+#line 5980 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+eInit  . bDeathFixed  = eDeath  . eLastDamage  . dmtType  == DMT_ABYSS ;
+#line 5981 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_penView  -> Initialize  (eInit );
+#line 5982 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 5984 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(ShouldBlowUp  ()){
+#line 5985 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+BlowUp  ();
+#line 5986 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else {
+#line 5988 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+LeaveStain  (TRUE );
+#line 5989 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 5991 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_iMayRespawn  = 0;
-#line 5992 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5993 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(1.2f);
 Jump(STATE_CURRENT, 0x0191000b, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x0191000b_Death_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191000b
 switch(__eeInput.ee_slEvent){case(EVENTCODE_EBegin):{const EBegin&e= (EBegin&)__eeInput;
 
-#line 5995 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_iViewState  = PVT_PLAYERAUTOVIEW ;
 #line 5996 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
+m_iViewState  = PVT_PLAYERAUTOVIEW ;
 #line 5997 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 5998 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_ETimer):{const ETimer&e= (ETimer&)__eeInput;
 
-#line 6001 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_iMayRespawn  = 1;
 #line 6002 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
+m_iMayRespawn  = 1;
 #line 6003 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 6004 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EDamage):{const EDamage&eDamage= (EDamage&)__eeInput;
 
-#line 6006 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(eDamage  . dmtType  == DMT_ABYSS ){
 #line 6007 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_penView  != NULL ){
+if(eDamage  . dmtType  == DMT_ABYSS ){
 #line 6008 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerView  *) & * m_penView ) -> m_bFixed  = TRUE ;
+if(m_penView  != NULL ){
 #line 6009 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+((CPlayerView  *) & * m_penView ) -> m_bFixed  = TRUE ;
 #line 6010 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6012 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(ShouldBlowUp  ()){
-#line 6014 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BlowUp  ();
-#line 6015 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6011 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 6013 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(ShouldBlowUp  ()){
+#line 6015 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+BlowUp  ();
 #line 6016 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
+}
 #line 6017 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 6018 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EDeath):{const EDeath&e= (EDeath&)__eeInput;
 return TRUE;}ASSERT(FALSE);break;case(EVENTCODE_EEnd):{const EEnd&e= (EEnd&)__eeInput;
 
-#line 6023 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6024 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(! IsPredictor  ()){
-#line 6025 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-UnsetTimer();Jump(STATE_CURRENT,0x0191000c, FALSE, EInternal());return TRUE;
 #line 6026 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+UnsetTimer();Jump(STATE_CURRENT,0x0191000c, FALSE, EInternal());return TRUE;
 #line 6027 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 6028 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EAutoAction):{const EAutoAction&eAutoAction= (EAutoAction&)__eeInput;
 
-#line 6031 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6032 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(GetSP  () -> sp_bCooperative  && ! GetSP  () -> sp_bSinglePlayer ){
-#line 6033 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(eAutoAction  . penFirstMarker  != NULL  && 
 #line 6034 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(eAutoAction  . penFirstMarker  != NULL  && 
+#line 6035 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ((CPlayerActionMarker  *) & * eAutoAction  . penFirstMarker ) -> m_paaAction  == PAA_TELEPORT ){
-#line 6036 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-TeleportToAutoMarker  ((CPlayerActionMarker  *) & * eAutoAction  . penFirstMarker );
 #line 6037 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+TeleportToAutoMarker  ((CPlayerActionMarker  *) & * eAutoAction  . penFirstMarker );
 #line 6038 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6040 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
+#line 6039 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
 #line 6041 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 6042 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EDisconnected):{const EDisconnected&e= (EDisconnected&)__eeInput;
 return FALSE;}ASSERT(FALSE);break;case(EVENTCODE_EReceiveScore):{const EReceiveScore&e= (EReceiveScore&)__eeInput;
 return FALSE;}ASSERT(FALSE);break;case(EVENTCODE_EKilledEnemy):{const EKilledEnemy&e= (EKilledEnemy&)__eeInput;
 return FALSE;}ASSERT(FALSE);break;case(EVENTCODE_EPreLevelChange):{const EPreLevelChange&e= (EPreLevelChange&)__eeInput;
 return FALSE;}ASSERT(FALSE);break;case(EVENTCODE_EPostLevelChange):{const EPostLevelChange&e= (EPostLevelChange&)__eeInput;
 return FALSE;}ASSERT(FALSE);break;default:{return TRUE;}ASSERT(FALSE);break;
-#line 6048 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6049 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }return TRUE;}BOOL CPlayer::H0x0191000c_Death_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191000c
 
-#line 6050 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6051 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,ERebirth  ());
-#line 6050 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6051 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 6053 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6054 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 TheEnd(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_TheEnd
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::TheEnd expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6055 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6056 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(! _pNetwork  -> IsPlayingDemo  ()){
-#line 6057 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(GetSP  () -> sp_bSinglePlayer ){
 #line 6058 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-_pShell  -> Execute  ("gam_iRecordHighScore=0;");
+if(GetSP  () -> sp_bSinglePlayer ){
 #line 6059 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+_pShell  -> Execute  ("gam_iRecordHighScore=0;");
 #line 6060 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6062 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(GetSP  () -> sp_gdGameDifficulty  == CSessionProperties  :: GD_EXTREME ){
-#line 6064 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-_pShell  -> Execute  ("sam_bMentalActivated=1;");
-#line 6065 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6061 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6068 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6063 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(GetSP  () -> sp_gdGameDifficulty  == CSessionProperties  :: GD_EXTREME ){
+#line 6065 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+_pShell  -> Execute  ("sam_bMentalActivated=1;");
+#line 6066 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 6069 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (EReleaseWeapon  ());
-#line 6071 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6072 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetFlags  (GetFlags  () & ~ ENF_ALIVE );
-#line 6073 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDesiredTranslation  (FLOAT3D (0.0f , 0.0f , 0.0f));
 #line 6074 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetDesiredTranslation  (FLOAT3D (0.0f , 0.0f , 0.0f));
+#line 6075 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetDesiredRotation  (ANGLE3D (0.0f , 0.0f , 0.0f));
-#line 6077 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-StartModelAnim  (PLAYER_ANIM_STAND  , 0);
 #line 6078 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerAnimator  &) * m_penAnimator ) . BodyAnimationTemplate  (
+StartModelAnim  (PLAYER_ANIM_STAND  , 0);
 #line 6079 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BODY_ANIM_NORMALWALK  , BODY_ANIM_COLT_STAND  , BODY_ANIM_SHOTGUN_STAND  , BODY_ANIM_MINIGUN_STAND  , 
+((CPlayerAnimator  &) * m_penAnimator ) . BodyAnimationTemplate  (
 #line 6080 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+BODY_ANIM_NORMALWALK  , BODY_ANIM_COLT_STAND  , BODY_ANIM_SHOTGUN_STAND  , BODY_ANIM_MINIGUN_STAND  , 
+#line 6081 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AOF_LOOPING  | AOF_NORESTART );
-#line 6082 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6083 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 en_plViewpoint  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
-#line 6085 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_bEndOfGame  = TRUE ;
 #line 6086 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_bEndOfGame  = TRUE ;
+#line 6087 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetGameEnd  ();
-#line 6088 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6089 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAt(THINKTIME_NEVER);
 Jump(STATE_CURRENT, 0x0191000e, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x0191000e_TheEnd_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8184,144 +8186,144 @@ return TRUE;}ASSERT(FALSE);break;case(EVENTCODE_EReceiveScore):{const EReceiveSc
 return FALSE;}ASSERT(FALSE);break;case(EVENTCODE_EKilledEnemy):{const EKilledEnemy&e= (EKilledEnemy&)__eeInput;
 return FALSE;}ASSERT(FALSE);break;case(EVENTCODE_ECenterMessage):{const ECenterMessage&e= (ECenterMessage&)__eeInput;
 return FALSE;}ASSERT(FALSE);break;default:{return TRUE;}ASSERT(FALSE);break;
-#line 6094 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6095 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }return TRUE;}BOOL CPlayer::H0x0191000f_TheEnd_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191000f
  ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 6100 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6101 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 FirstInit(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_FirstInit
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::FirstInit expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6102 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6103 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 bUseButtonHeld  = FALSE ;
-#line 6105 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6106 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_iViewState  = m_iLastViewState ;
-#line 6108 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_penView  != NULL ){
 #line 6109 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerView  &) * m_penView ) . SendEvent  (EEnd  ());
+if(m_penView  != NULL ){
 #line 6110 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_penView  = NULL ;
+((CPlayerView  &) * m_penView ) . SendEvent  (EEnd  ());
 #line 6111 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_penView  = NULL ;
+#line 6112 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6113 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6114 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 FindMusicHolder  ();
-#line 6116 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6117 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 UpdateLevelStats  ();
-#line 6119 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6120 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 InitializePlayer  ();
-#line 6122 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6123 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ReceiveComputerMessage  (CTFILENAME  ("Data\\Messages\\Statistics\\Statistics.txt") , CMF_READ );
-#line 6124 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(GetSettings  () -> ps_ulFlags  & PSF_PREFER3RDPERSON ){
 #line 6125 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ChangePlayerView  ();
+if(GetSettings  () -> ps_ulFlags  & PSF_PREFER3RDPERSON ){
 #line 6126 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ChangePlayerView  ();
+#line 6127 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6128 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6129 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EVoid());
-#line 6128 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6129 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 6131 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6132 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Rebirth(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_Rebirth
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::Rebirth expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6133 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6134 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 bUseButtonHeld  = FALSE ;
-#line 6136 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6137 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_iViewState  = m_iLastViewState ;
-#line 6138 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(! (m_ulFlags  & PLF_RESPAWNINPLACE )){
 #line 6139 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-GetPlayerWeapons  () -> ClearWeapons  ();
+if(! (m_ulFlags  & PLF_RESPAWNINPLACE )){
 #line 6140 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+GetPlayerWeapons  () -> ClearWeapons  ();
+#line 6141 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6143 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_penView  != NULL ){
 #line 6144 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerView  &) * m_penView ) . SendEvent  (EEnd  ());
-#line 6145 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_penView  = NULL ;
-#line 6146 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 6149 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CEntityPointer penFlame  = GetChildOfClass  ("Flame");
-#line 6150 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(penFlame  != NULL )
-#line 6151 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
-#line 6153 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-EStopFlaming  esf ;
-#line 6154 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-esf  . m_bNow  = TRUE ;
-#line 6155 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penFlame  -> SendEvent  (esf );
-#line 6156 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
-#line 6158 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(m_penView  != NULL ){
-#line 6159 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6145 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ((CPlayerView  &) * m_penView ) . SendEvent  (EEnd  ());
-#line 6160 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6146 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_penView  = NULL ;
-#line 6161 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6147 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6163 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6150 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CEntityPointer penFlame  = GetChildOfClass  ("Flame");
+#line 6151 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(penFlame  != NULL )
+#line 6152 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+{
+#line 6154 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+EStopFlaming  esf ;
+#line 6155 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+esf  . m_bNow  = TRUE ;
+#line 6156 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+penFlame  -> SendEvent  (esf );
+#line 6157 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 6159 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_penView  != NULL ){
+#line 6160 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerView  &) * m_penView ) . SendEvent  (EEnd  ());
+#line 6161 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_penView  = NULL ;
+#line 6162 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 6164 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 FindMusicHolder  ();
-#line 6166 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6167 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 InitializePlayer  ();
-#line 6168 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6169 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 6168 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6169 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 6173 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6174 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoGoToMarker(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_AutoGoToMarker
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::AutoGoToMarker expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6175 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6176 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ULONG  ulFlags  = AOF_LOOPING  | AOF_NORESTART ;
-#line 6177 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-INDEX iAnim  = GetModelObject  () -> GetAnim  ();
 #line 6178 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(iAnim  != PLAYER_ANIM_STAND )
+INDEX iAnim  = GetModelObject  () -> GetAnim  ();
 #line 6179 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+if(iAnim  != PLAYER_ANIM_STAND )
 #line 6180 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ulFlags  |= AOF_SMOOTHCHANGE ;
+{
 #line 6181 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ulFlags  |= AOF_SMOOTHCHANGE ;
+#line 6182 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6183 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
 #line 6184 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plan  . m_bAttacking  = FALSE ;
+CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
 #line 6185 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plan  . BodyWalkAnimation  ();
+plan  . m_bAttacking  = FALSE ;
 #line 6186 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_fAutoSpeed  > plr_fSpeedForward  / 2){
+plan  . BodyWalkAnimation  ();
 #line 6187 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-StartModelAnim  (PLAYER_ANIM_RUN  , ulFlags );
+if(m_fAutoSpeed  > plr_fSpeedForward  / 2){
 #line 6188 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
+StartModelAnim  (PLAYER_ANIM_RUN  , ulFlags );
 #line 6189 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-StartModelAnim  (PLAYER_ANIM_NORMALWALK  , ulFlags );
+}else {
 #line 6190 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+StartModelAnim  (PLAYER_ANIM_NORMALWALK  , ulFlags );
+#line 6191 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6193 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6194 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Jump(STATE_CURRENT,0x01910015, FALSE, EInternal());return TRUE;}BOOL CPlayer::H0x01910015_AutoGoToMarker_03(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910015
 if(!(
-#line 6194 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-(m_penActionMarker  -> GetPlacement  () . pl_PositionVector  - 
 #line 6195 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+(m_penActionMarker  -> GetPlacement  () . pl_PositionVector  - 
+#line 6196 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 GetPlacement  () . pl_PositionVector ) . Length  () > 1.0f)){ Jump(STATE_CURRENT,0x01910016, FALSE, EInternal());return TRUE;}
-#line 6197 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6198 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(_pTimer  -> TickQuantum );
 Jump(STATE_CURRENT, 0x01910013, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910013_AutoGoToMarker_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8331,58 +8333,58 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910014
 ;Jump(STATE_CURRENT,0x01910015, FALSE, EInternal());return TRUE;
-#line 6198 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6199 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }BOOL CPlayer::H0x01910016_AutoGoToMarker_04(const CEntityEvent &__eeInput) {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910016
 
-#line 6201 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6202 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 6201 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6202 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 6205 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6206 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoGoToMarkerAndStop(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_AutoGoToMarkerAndStop
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::AutoGoToMarkerAndStop expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6207 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6208 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ULONG  ulFlags  = AOF_LOOPING  | AOF_NORESTART ;
-#line 6209 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-INDEX iAnim  = GetModelObject  () -> GetAnim  ();
 #line 6210 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(iAnim  != PLAYER_ANIM_STAND )
+INDEX iAnim  = GetModelObject  () -> GetAnim  ();
 #line 6211 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+if(iAnim  != PLAYER_ANIM_STAND )
 #line 6212 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ulFlags  |= AOF_SMOOTHCHANGE ;
+{
 #line 6213 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ulFlags  |= AOF_SMOOTHCHANGE ;
+#line 6214 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6215 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
 #line 6216 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plan  . BodyWalkAnimation  ();
+CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
 #line 6217 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_fAutoSpeed  > plr_fSpeedForward  / 2){
+plan  . BodyWalkAnimation  ();
 #line 6218 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-StartModelAnim  (PLAYER_ANIM_RUN  , ulFlags );
+if(m_fAutoSpeed  > plr_fSpeedForward  / 2){
 #line 6219 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
+StartModelAnim  (PLAYER_ANIM_RUN  , ulFlags );
 #line 6220 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-StartModelAnim  (PLAYER_ANIM_NORMALWALK  , ulFlags );
+}else {
 #line 6221 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+StartModelAnim  (PLAYER_ANIM_NORMALWALK  , ulFlags );
+#line 6222 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6224 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6225 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Jump(STATE_CURRENT,0x0191001a, FALSE, EInternal());return TRUE;}BOOL CPlayer::H0x0191001a_AutoGoToMarkerAndStop_03(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191001a
 if(!(
-#line 6225 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-(m_penActionMarker  -> GetPlacement  () . pl_PositionVector  - 
 #line 6226 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+(m_penActionMarker  -> GetPlacement  () . pl_PositionVector  - 
+#line 6227 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 GetPlacement  () . pl_PositionVector ) . Length  () > m_fAutoSpeed  * _pTimer  -> TickQuantum  * 2.00f)){ Jump(STATE_CURRENT,0x0191001b, FALSE, EInternal());return TRUE;}
-#line 6228 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6229 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(_pTimer  -> TickQuantum );
 Jump(STATE_CURRENT, 0x01910018, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910018_AutoGoToMarkerAndStop_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8392,36 +8394,36 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910019
 ;Jump(STATE_CURRENT,0x0191001a, FALSE, EInternal());return TRUE;
-#line 6229 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6230 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }BOOL CPlayer::H0x0191001b_AutoGoToMarkerAndStop_04(const CEntityEvent &__eeInput) {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191001b
 
-#line 6231 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6232 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_fAutoSpeed  = 0.0f;
-#line 6233 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
 #line 6234 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plan  . BodyStillAnimation  ();
+CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
 #line 6235 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+plan  . BodyStillAnimation  ();
+#line 6236 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 StartModelAnim  (PLAYER_ANIM_STAND  , AOF_LOOPING  | AOF_NORESTART );
-#line 6238 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6239 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ForceFullStop  ();
-#line 6241 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6242 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 6241 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6242 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 6245 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6246 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoUseItem(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_AutoUseItem
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::AutoUseItem expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6249 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
 #line 6250 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
+#line 6251 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 plan  . BodyPullItemAnimation  ();
-#line 6253 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6254 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(0.2f);
 Jump(STATE_CURRENT, 0x0191001d, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x0191001d_AutoUseItem_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8431,17 +8433,17 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191001e
 ;
-#line 6256 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerActionMarker  * ppam  = GetActionMarker  ();
 #line 6257 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(IsOfClass  (ppam  -> m_penItem  , "KeyItem")){
+CPlayerActionMarker  * ppam  = GetActionMarker  ();
 #line 6258 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CModelObject & moItem  = ppam  -> m_penItem  -> GetModelObject  () -> GetAttachmentModel  (0) -> amo_moModelObject ;
+if(IsOfClass  (ppam  -> m_penItem  , "KeyItem")){
 #line 6259 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-GetPlayerAnimator  () -> SetItem  (& moItem );
+CModelObject & moItem  = ppam  -> m_penItem  -> GetModelObject  () -> GetAttachmentModel  (0) -> amo_moModelObject ;
 #line 6260 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+GetPlayerAnimator  () -> SetItem  (& moItem );
+#line 6261 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6262 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6263 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(2.20f - 0.2f);
 Jump(STATE_CURRENT, 0x0191001f, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x0191001f_AutoUseItem_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8451,27 +8453,27 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910020
 ;
-#line 6265 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
 #line 6266 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
+#line 6267 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 plan  . BodyRemoveItem  ();
-#line 6268 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6269 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(GetActionMarker  () -> m_penTrigger  != NULL ){
-#line 6270 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SendToTarget  (GetActionMarker  () -> m_penTrigger  , EET_TRIGGER  , this );
 #line 6271 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SendToTarget  (GetActionMarker  () -> m_penTrigger  , EET_TRIGGER  , this );
+#line 6272 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6274 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(GetActionMarker  () -> m_penDoorController  != NULL ){
 #line 6275 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-EPass  ePass ;
+if(GetActionMarker  () -> m_penDoorController  != NULL ){
 #line 6276 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ePass  . penOther  = this ;
+EPass  ePass ;
 #line 6277 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-GetActionMarker  () -> m_penDoorController  -> SendEvent  (ePass );
+ePass  . penOther  = this ;
 #line 6278 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+GetActionMarker  () -> m_penDoorController  -> SendEvent  (ePass );
+#line 6279 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6280 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6281 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(3.25f - 2.20f);
 Jump(STATE_CURRENT, 0x01910021, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910021_AutoUseItem_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8481,26 +8483,26 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910022
 ;
-#line 6282 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
 #line 6283 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
+#line 6284 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 plan  . BodyRemoveItem  ();
-#line 6286 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6287 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 6286 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6287 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 6290 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6291 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoPickItem(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_AutoPickItem
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::AutoPickItem expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6294 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
 #line 6295 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plan  . BodyPickItemAnimation  ();
+CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
 #line 6296 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+plan  . BodyPickItemAnimation  ();
+#line 6297 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 StartModelAnim  (PLAYER_ANIM_KEYLIFT  , 0);
-#line 6298 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6299 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(1.2f);
 Jump(STATE_CURRENT, 0x01910024, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910024_AutoPickItem_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8510,29 +8512,29 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910025
 ;
-#line 6301 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6302 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(GetActionMarker  () -> m_penTrigger  != NULL ){
-#line 6303 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SendToTarget  (GetActionMarker  () -> m_penTrigger  , EET_TRIGGER  , this );
 #line 6304 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SendToTarget  (GetActionMarker  () -> m_penTrigger  , EET_TRIGGER  , this );
+#line 6305 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6307 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerActionMarker  * ppam  = GetActionMarker  ();
 #line 6308 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(IsOfClass  (ppam  -> m_penItem  , "KeyItem")){
+CPlayerActionMarker  * ppam  = GetActionMarker  ();
 #line 6309 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CModelObject & moItem  = ppam  -> m_penItem  -> GetModelObject  () -> GetAttachmentModel  (0) -> amo_moModelObject ;
+if(IsOfClass  (ppam  -> m_penItem  , "KeyItem")){
 #line 6310 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-GetPlayerAnimator  () -> SetItem  (& moItem );
+CModelObject & moItem  = ppam  -> m_penItem  -> GetModelObject  () -> GetAttachmentModel  (0) -> amo_moModelObject ;
 #line 6311 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-EPass  ePass ;
+GetPlayerAnimator  () -> SetItem  (& moItem );
 #line 6312 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ePass  . penOther  = this ;
+EPass  ePass ;
 #line 6313 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ppam  -> m_penItem  -> SendEvent  (ePass );
+ePass  . penOther  = this ;
 #line 6314 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ppam  -> m_penItem  -> SendEvent  (ePass );
+#line 6315 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6316 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6317 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(3.6f - 1.2f + GetActionMarker  () -> m_tmWait );
 Jump(STATE_CURRENT, 0x01910026, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910026_AutoPickItem_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8542,26 +8544,26 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910027
 ;
-#line 6318 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
 #line 6319 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
+#line 6320 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 plan  . BodyRemoveItem  ();
-#line 6322 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6323 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 6322 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6323 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 6325 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6326 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoFallDown(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_AutoFallDown
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::AutoFallDown expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6327 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-StartModelAnim  (PLAYER_ANIM_BRIDGEFALLPOSE  , 0);
 #line 6328 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+StartModelAnim  (PLAYER_ANIM_BRIDGEFALLPOSE  , 0);
 #line 6329 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+#line 6330 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 moBody  . PlayAnim  (BODY_ANIM_BRIDGEFALLPOSE  , 0);
-#line 6331 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6332 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(GetActionMarker  () -> m_tmWait );
 Jump(STATE_CURRENT, 0x01910029, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910029_AutoFallDown_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8571,22 +8573,22 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191002a
 ;
-#line 6334 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6335 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 6334 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6335 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 6337 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6338 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoFallToAbys(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_AutoFallToAbys
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::AutoFallToAbys expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6339 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-StartModelAnim  (PLAYER_ANIM_ABYSSFALL  , AOF_LOOPING );
 #line 6340 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+StartModelAnim  (PLAYER_ANIM_ABYSSFALL  , AOF_LOOPING );
 #line 6341 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+#line 6342 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 moBody  . PlayAnim  (BODY_ANIM_ABYSSFALL  , AOF_LOOPING );
-#line 6343 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6344 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(GetActionMarker  () -> m_tmWait );
 Jump(STATE_CURRENT, 0x0191002c, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x0191002c_AutoFallToAbys_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8596,24 +8598,24 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191002d
 ;
-#line 6346 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6347 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 6346 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6347 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 6350 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6351 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoLookAround(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_AutoLookAround
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::AutoLookAround expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6352 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-StartModelAnim  (PLAYER_ANIM_BACKPEDAL  , 0);
 #line 6353 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_vAutoSpeed  = FLOAT3D (0 , 0 , plr_fSpeedForward  / 4 / 0.75f);
+StartModelAnim  (PLAYER_ANIM_BACKPEDAL  , 0);
 #line 6354 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+m_vAutoSpeed  = FLOAT3D (0 , 0 , plr_fSpeedForward  / 4 / 0.75f);
 #line 6355 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+#line 6356 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 moBody  . PlayAnim  (BODY_ANIM_NORMALWALK  , 0);
-#line 6357 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6358 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(GetModelObject  () -> GetCurrentAnimLength  () / 2);
 Jump(STATE_CURRENT, 0x0191002f, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x0191002f_AutoLookAround_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8623,17 +8625,17 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910030
 ;
-#line 6359 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6360 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_vAutoSpeed  = FLOAT3D (0 , 0 , 0);
-#line 6362 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-StartModelAnim  (PLAYER_ANIM_STAND  , 0);
 #line 6363 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+StartModelAnim  (PLAYER_ANIM_STAND  , 0);
 #line 6364 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-moBody  . PlayAnim  (BODY_ANIM_LOOKAROUND  , 0);
+CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
 #line 6365 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+moBody  . PlayAnim  (BODY_ANIM_LOOKAROUND  , 0);
+#line 6366 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
-#line 6368 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6369 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(moBody  . GetCurrentAnimLength  () + 0.1f);
 Jump(STATE_CURRENT, 0x01910031, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910031_AutoLookAround_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8643,45 +8645,45 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910032
 ;
-#line 6371 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6372 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 6371 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6372 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 6374 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6375 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoTeleport(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_AutoTeleport
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::AutoTeleport expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6377 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6378 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 TeleportToAutoMarker  (GetActionMarker  ());
-#line 6380 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6381 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 6380 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6381 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 6383 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6384 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoAppear(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_AutoAppear
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::AutoAppear expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6386 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6387 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SwitchToEditorModel  ();
-#line 6389 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6390 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Teleport  (GetActionMarker  () -> GetPlacement  ());
-#line 6391 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetPhysicsFlags  (GetPhysicsFlags  () & ~ (EPF_TRANSLATEDBYGRAVITY  | EPF_ORIENTEDBYGRAVITY ));
 #line 6392 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  |= PLF_AUTOMOVEMENTS ;
+SetPhysicsFlags  (GetPhysicsFlags  () & ~ (EPF_TRANSLATEDBYGRAVITY  | EPF_ORIENTEDBYGRAVITY ));
 #line 6393 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDesiredRotation  (ANGLE3D (60 , 0 , 0));
+m_ulFlags  |= PLF_AUTOMOVEMENTS ;
 #line 6394 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-StartModelAnim  (PLAYER_ANIM_SPAWNPOSE  , AOF_LOOPING );
+SetDesiredRotation  (ANGLE3D (60 , 0 , 0));
 #line 6395 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+StartModelAnim  (PLAYER_ANIM_SPAWNPOSE  , AOF_LOOPING );
 #line 6396 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+#line 6397 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 moBody  . PlayAnim  (BODY_ANIM_SPAWNPOSE  , AOF_LOOPING );
-#line 6399 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6400 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_tmSpiritStart  = _pTimer  -> CurrentTick  ();
-#line 6401 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6402 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(5);
 Jump(STATE_CURRENT, 0x01910035, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910035_AutoAppear_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8691,11 +8693,11 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910036
 ;
-#line 6404 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SwitchToModel  ();
 #line 6405 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SwitchToModel  ();
+#line 6406 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_tmFadeStart  = _pTimer  -> CurrentTick  ();
-#line 6407 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6408 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(5);
 Jump(STATE_CURRENT, 0x01910037, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910037_AutoAppear_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8705,23 +8707,23 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910038
 ;
-#line 6409 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-COLOR colAlpha  = GetModelObject  () -> mo_colBlendColor ;
 #line 6410 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+COLOR colAlpha  = GetModelObject  () -> mo_colBlendColor ;
+#line 6411 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 GetModelObject  () -> mo_colBlendColor  = colAlpha  | 0xFF;
-#line 6413 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetPhysicsFlags  (GetPhysicsFlags  () | EPF_TRANSLATEDBYGRAVITY  | EPF_ORIENTEDBYGRAVITY );
 #line 6414 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDesiredRotation  (ANGLE3D (0 , 0 , 0));
+SetPhysicsFlags  (GetPhysicsFlags  () | EPF_TRANSLATEDBYGRAVITY  | EPF_ORIENTEDBYGRAVITY );
 #line 6415 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetDesiredRotation  (ANGLE3D (0 , 0 , 0));
+#line 6416 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_ulFlags  &= ~ PLF_AUTOMOVEMENTS ;
-#line 6418 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-StartModelAnim  (PLAYER_ANIM_SPAWN_FALLDOWN  , 0);
 #line 6419 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+StartModelAnim  (PLAYER_ANIM_SPAWN_FALLDOWN  , 0);
 #line 6420 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+#line 6421 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 moBody  . PlayAnim  (BODY_ANIM_SPAWN_FALLDOWN  , 0);
-#line 6422 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6423 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(GetModelObject  () -> GetCurrentAnimLength  ());
 Jump(STATE_CURRENT, 0x01910039, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910039_AutoAppear_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8731,13 +8733,13 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191003a
 ;
-#line 6425 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-StartModelAnim  (PLAYER_ANIM_SPAWN_GETUP  , AOF_SMOOTHCHANGE );
 #line 6426 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+StartModelAnim  (PLAYER_ANIM_SPAWN_GETUP  , AOF_SMOOTHCHANGE );
 #line 6427 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+#line 6428 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 moBody  . PlayAnim  (BODY_ANIM_SPAWN_GETUP  , AOF_SMOOTHCHANGE );
-#line 6429 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6430 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(GetModelObject  () -> GetCurrentAnimLength  ());
 Jump(STATE_CURRENT, 0x0191003b, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x0191003b_AutoAppear_07(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8747,32 +8749,32 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191003c
 ;
-#line 6432 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6433 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 6432 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6433 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 6435 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6436 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 TravellingInBeam(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_TravellingInBeam
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::TravellingInBeam expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6438 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6439 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Teleport  (GetActionMarker  () -> GetPlacement  ());
-#line 6440 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetPhysicsFlags  (GetPhysicsFlags  () & ~ (EPF_TRANSLATEDBYGRAVITY  | EPF_ORIENTEDBYGRAVITY ));
 #line 6441 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  |= PLF_AUTOMOVEMENTS ;
+SetPhysicsFlags  (GetPhysicsFlags  () & ~ (EPF_TRANSLATEDBYGRAVITY  | EPF_ORIENTEDBYGRAVITY ));
 #line 6442 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDesiredRotation  (ANGLE3D (60 , 0 , 0));
+m_ulFlags  |= PLF_AUTOMOVEMENTS ;
 #line 6443 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDesiredTranslation  (ANGLE3D (0 , 20.0f , 0));
+SetDesiredRotation  (ANGLE3D (60 , 0 , 0));
 #line 6444 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-StartModelAnim  (PLAYER_ANIM_SPAWNPOSE  , AOF_LOOPING );
+SetDesiredTranslation  (ANGLE3D (0 , 20.0f , 0));
 #line 6445 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+StartModelAnim  (PLAYER_ANIM_SPAWNPOSE  , AOF_LOOPING );
 #line 6446 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+#line 6447 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 moBody  . PlayAnim  (BODY_ANIM_SPAWNPOSE  , AOF_LOOPING );
-#line 6448 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6449 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(8.0f);
 Jump(STATE_CURRENT, 0x0191003e, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x0191003e_TravellingInBeam_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8782,34 +8784,34 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191003f
 ;
-#line 6450 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6451 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SwitchToEditorModel  ();
-#line 6452 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6453 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 6452 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6453 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 6455 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6456 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 LogoFireMinigun(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_LogoFireMinigun
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::LogoFireMinigun expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6458 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlacement3D pl  = GetActionMarker  () -> GetPlacement  ();
 #line 6459 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pl  . pl_PositionVector  += FLOAT3D (0 , 0.01f , 0) * GetActionMarker  () -> en_mRotation ;
+CPlacement3D pl  = GetActionMarker  () -> GetPlacement  ();
 #line 6460 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Teleport  (pl );
+pl  . pl_PositionVector  += FLOAT3D (0 , 0.01f , 0) * GetActionMarker  () -> en_mRotation ;
 #line 6461 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_plViewpoint  . pl_OrientationAngle  (1) = 20.0f;
+Teleport  (pl );
 #line 6462 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_plViewpoint  . pl_OrientationAngle  (1) = 20.0f;
+#line 6463 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 en_plLastViewpoint  . pl_OrientationAngle  = en_plViewpoint  . pl_OrientationAngle ;
-#line 6465 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6466 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 StartModelAnim  (PLAYER_ANIM_INTRO  , AOF_LOOPING );
-#line 6467 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6468 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_tmMinigunAutoFireStart  = _pTimer  -> CurrentTick  ();
-#line 6470 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (EFireWeapon  ());
 #line 6471 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (EFireWeapon  ());
+#line 6472 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(2.5f);
 Jump(STATE_CURRENT, 0x01910041, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910041_LogoFireMinigun_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8819,13 +8821,13 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910042
 ;
-#line 6472 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6473 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (EReleaseWeapon  ());
-#line 6475 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
 #line 6476 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+#line 6477 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 moBody  . PlayAnim  (BODY_ANIM_MINIGUN_STAND  , 0);
-#line 6478 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6479 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(0.5f);
 Jump(STATE_CURRENT, 0x01910043, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910043_LogoFireMinigun_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8835,39 +8837,39 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910044
 ;
-#line 6481 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6482 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CWorldSettingsController  * pwsc  = NULL ;
-#line 6483 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CBackgroundViewer  * penBcgViewer  = (CBackgroundViewer  *) GetWorld  () -> GetBackgroundViewer  ();
 #line 6484 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(penBcgViewer  != NULL )
+CBackgroundViewer  * penBcgViewer  = (CBackgroundViewer  *) GetWorld  () -> GetBackgroundViewer  ();
 #line 6485 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+if(penBcgViewer  != NULL )
 #line 6486 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pwsc  = (CWorldSettingsController  *) & * penBcgViewer  -> m_penWorldSettingsController ;
+{
 #line 6487 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pwsc  -> m_tmShakeStarted  = _pTimer  -> CurrentTick  ();
+pwsc  = (CWorldSettingsController  *) & * penBcgViewer  -> m_penWorldSettingsController ;
 #line 6488 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pwsc  -> m_vShakePos  = GetPlacement  () . pl_PositionVector ;
+pwsc  -> m_tmShakeStarted  = _pTimer  -> CurrentTick  ();
 #line 6489 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pwsc  -> m_fShakeFalloff  = 250.0f;
+pwsc  -> m_vShakePos  = GetPlacement  () . pl_PositionVector ;
 #line 6490 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+pwsc  -> m_fShakeFalloff  = 250.0f;
+#line 6491 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 pwsc  -> m_fShakeFade  = 3.0f;
-#line 6492 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pwsc  -> m_fShakeIntensityZ  = 0.1f * 2.0f;
 #line 6493 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pwsc  -> m_tmShakeFrequencyZ  = 5.0f;
+pwsc  -> m_fShakeIntensityZ  = 0.1f * 2.0f;
 #line 6494 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-pwsc  -> m_fShakeIntensityY  = 0.0f;
+pwsc  -> m_tmShakeFrequencyZ  = 5.0f;
 #line 6495 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+pwsc  -> m_fShakeIntensityY  = 0.0f;
+#line 6496 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 pwsc  -> m_fShakeIntensityB  = 0.0f;
-#line 6497 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6498 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 pwsc  -> m_bShakeFadeIn  = FALSE ;
-#line 6505 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6506 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6508 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmMinigunAutoFireStart  = - 1;
 #line 6509 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_tmMinigunAutoFireStart  = - 1;
+#line 6510 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(5.0f);
 Jump(STATE_CURRENT, 0x01910045, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910045_LogoFireMinigun_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8877,9 +8879,9 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910046
 ;
-#line 6510 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-IFeel_StopEffect  (NULL );
 #line 6511 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+IFeel_StopEffect  (NULL );
+#line 6512 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(5.0f);
 Jump(STATE_CURRENT, 0x01910047, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910047_LogoFireMinigun_07(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8889,24 +8891,24 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910048
 ;
-#line 6513 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6514 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 6513 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6514 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 6516 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6517 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoStoreWeapon(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_AutoStoreWeapon
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::AutoStoreWeapon expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6519 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
 #line 6520 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plan  . BodyAnimationTemplate  (BODY_ANIM_WAIT  , 
+CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
 #line 6521 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BODY_ANIM_COLT_REDRAWSLOW  , BODY_ANIM_SHOTGUN_REDRAWSLOW  , BODY_ANIM_MINIGUN_REDRAWSLOW  , 
+plan  . BodyAnimationTemplate  (BODY_ANIM_WAIT  , 
 #line 6522 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-0);
+BODY_ANIM_COLT_REDRAWSLOW  , BODY_ANIM_SHOTGUN_REDRAWSLOW  , BODY_ANIM_MINIGUN_REDRAWSLOW  , 
 #line 6523 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+0);
+#line 6524 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(plan  . m_fBodyAnimTime );
 Jump(STATE_CURRENT, 0x0191004a, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x0191004a_AutoStoreWeapon_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8916,33 +8918,33 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191004b
 ;
-#line 6525 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_iAutoOrgWeapon  = ((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon ;
 #line 6526 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  = WEAPON_NONE ;
+m_iAutoOrgWeapon  = ((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon ;
 #line 6527 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . m_iWantedWeapon  = WEAPON_NONE ;
-#line 6528 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_soWeaponAmbient  . Stop  ();
-#line 6531 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-GetPlayerAnimator  () -> SyncWeapon  ();
-#line 6533 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
-#line 6534 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plan  . m_iWeaponLast  = m_iAutoOrgWeapon ;
-#line 6535 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plan  . RemoveWeapon  ();
-#line 6536 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-GetPlayerAnimator  () -> SyncWeapon  ();
-#line 6538 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  = (WeaponType ) m_iAutoOrgWeapon ;
-#line 6539 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-plan  . BodyAnimationTemplate  (BODY_ANIM_WAIT  , BODY_ANIM_COLT_DEACTIVATETOWALK  , 
-#line 6540 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-BODY_ANIM_SHOTGUN_DEACTIVATETOWALK  , BODY_ANIM_MINIGUN_DEACTIVATETOWALK  , AOF_SMOOTHCHANGE );
-#line 6541 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  = WEAPON_NONE ;
-#line 6543 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6528 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerWeapons  &) * m_penWeapons ) . m_iWantedWeapon  = WEAPON_NONE ;
+#line 6529 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_soWeaponAmbient  . Stop  ();
+#line 6532 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+GetPlayerAnimator  () -> SyncWeapon  ();
+#line 6534 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
+#line 6535 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+plan  . m_iWeaponLast  = m_iAutoOrgWeapon ;
+#line 6536 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+plan  . RemoveWeapon  ();
+#line 6537 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+GetPlayerAnimator  () -> SyncWeapon  ();
+#line 6539 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  = (WeaponType ) m_iAutoOrgWeapon ;
+#line 6540 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+plan  . BodyAnimationTemplate  (BODY_ANIM_WAIT  , BODY_ANIM_COLT_DEACTIVATETOWALK  , 
+#line 6541 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+BODY_ANIM_SHOTGUN_DEACTIVATETOWALK  , BODY_ANIM_MINIGUN_DEACTIVATETOWALK  , AOF_SMOOTHCHANGE );
+#line 6542 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerWeapons  &) * m_penWeapons ) . m_iCurrentWeapon  = WEAPON_NONE ;
+#line 6544 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(plan  . m_fBodyAnimTime );
 Jump(STATE_CURRENT, 0x0191004c, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x0191004c_AutoStoreWeapon_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8952,34 +8954,34 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191004d
 ;
-#line 6546 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6547 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 6546 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6547 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 6550 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6551 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 DoAutoActions(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_DoAutoActions
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::DoAutoActions expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6553 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6554 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 en_plViewpoint  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
-#line 6555 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
 #line 6556 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
+#line 6557 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 plan  . m_bDisableAnimating  = TRUE ;
-#line 6559 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6560 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Jump(STATE_CURRENT,0x019100a2, FALSE, EInternal());return TRUE;}BOOL CPlayer::H0x019100a2_DoAutoActions_84(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x019100a2
 if(!(m_penActionMarker  != NULL  && IsOfClass  (m_penActionMarker  , "PlayerActionMarker"))){ Jump(STATE_CURRENT,0x019100a3, FALSE, EInternal());return TRUE;}
-#line 6562 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6563 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(!(GetActionMarker  () -> m_paaAction  == PAA_WAIT )){ Jump(STATE_CURRENT,0x019100a1, FALSE, EInternal());return TRUE;}
-#line 6564 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
 #line 6565 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+#line 6566 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 moBody  . PlayAnim  (BODY_ANIM_WAIT  , AOF_NORESTART  | AOF_LOOPING );
-#line 6567 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6568 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(GetActionMarker  () -> m_tmWait );
 Jump(STATE_CURRENT, 0x0191004f, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x0191004f_DoAutoActions_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -8993,13 +8995,13 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x019100a1
 if(!(GetActionMarker  () -> m_paaAction  == PAA_STOPANDWAIT )){ Jump(STATE_CURRENT,0x0191009f, FALSE, EInternal());return TRUE;}
-#line 6570 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-StartModelAnim  (PLAYER_ANIM_STAND  , 0);
 #line 6571 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+StartModelAnim  (PLAYER_ANIM_STAND  , 0);
 #line 6572 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CModelObject & moBody  = GetModelObject  () -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO ) -> amo_moModelObject ;
+#line 6573 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 moBody  . PlayAnim  (BODY_ANIM_WAIT  , AOF_NORESTART  | AOF_LOOPING );
-#line 6574 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6575 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(GetActionMarker  () -> m_tmWait );
 Jump(STATE_CURRENT, 0x01910051, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910051_DoAutoActions_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -9013,7 +9015,7 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191009f
 if(!(GetActionMarker  () -> m_paaAction  == PAA_APPEARING )){ Jump(STATE_CURRENT,0x0191009d, FALSE, EInternal());return TRUE;}
-#line 6578 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6579 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 STATE_CPlayer_AutoAppear, TRUE;
 Jump(STATE_CURRENT, 0x01910053, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910053_DoAutoActions_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -9027,7 +9029,7 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191009d
 if(!(GetActionMarker  () -> m_paaAction  == PAA_TRAVELING_IN_BEAM )){ Jump(STATE_CURRENT,0x0191009b, FALSE, EInternal());return TRUE;}
-#line 6580 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6581 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 STATE_CPlayer_TravellingInBeam, TRUE;
 Jump(STATE_CURRENT, 0x01910055, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910055_DoAutoActions_07(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -9041,17 +9043,17 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191009b
 if(!(GetActionMarker  () -> m_paaAction  == PAA_INTROSE_SELECT_WEAPON )){ Jump(STATE_CURRENT,0x01910099, FALSE, EInternal());return TRUE;}
-#line 6583 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ESelectWeapon  eSelect ;
 #line 6584 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-eSelect  . iWeapon  = 1;
+ESelectWeapon  eSelect ;
 #line 6585 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+eSelect  . iWeapon  = 1;
+#line 6586 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (eSelect );Jump(STATE_CURRENT,0x01910098, FALSE, EInternal());return TRUE;}BOOL CPlayer::H0x01910099_DoAutoActions_75(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910099
 if(!(GetActionMarker  () -> m_paaAction  == PAA_LOGO_FIRE_INTROSE )){ Jump(STATE_CURRENT,0x01910097, FALSE, EInternal());return TRUE;}
-#line 6587 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6588 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 STATE_CPlayer_LogoFireMinigun, TRUE;
 Jump(STATE_CURRENT, 0x01910057, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910057_DoAutoActions_09(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -9065,7 +9067,7 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910097
 if(!(GetActionMarker  () -> m_paaAction  == PAA_LOGO_FIRE_MINIGUN )){ Jump(STATE_CURRENT,0x01910095, FALSE, EInternal());return TRUE;}
-#line 6589 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6590 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 STATE_CPlayer_LogoFireMinigun, TRUE;
 Jump(STATE_CURRENT, 0x01910059, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910059_DoAutoActions_11(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -9079,7 +9081,7 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910095
 if(!(GetActionMarker  () -> m_paaAction  == PAA_TELEPORT )){ Jump(STATE_CURRENT,0x01910093, FALSE, EInternal());return TRUE;}
-#line 6592 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6593 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 STATE_CPlayer_AutoTeleport, TRUE;
 Jump(STATE_CURRENT, 0x0191005b, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x0191005b_DoAutoActions_13(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -9093,14 +9095,14 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910093
 if(!(GetActionMarker  () -> m_paaAction  == PAA_WAITFOREVER )){ Jump(STATE_CURRENT,0x01910091, FALSE, EInternal());return TRUE;}
-#line 6597 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6598 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAt(THINKTIME_NEVER);
 Jump(STATE_CURRENT, 0x0191005d, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x0191005d_DoAutoActions_15(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191005d
 switch(__eeInput.ee_slEvent){case(EVENTCODE_EBegin):{const EBegin&e= (EBegin&)__eeInput;
 return TRUE;}ASSERT(FALSE);break;default:{return FALSE;}ASSERT(FALSE);break;
-#line 6600 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6601 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }return TRUE;}BOOL CPlayer::H0x0191005e_DoAutoActions_16(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
@@ -9110,7 +9112,7 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910091
 if(!(GetActionMarker  () -> m_paaAction  == PAA_STOREWEAPON )){ Jump(STATE_CURRENT,0x0191008f, FALSE, EInternal());return TRUE;}
-#line 6603 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6604 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 STATE_CPlayer_AutoStoreWeapon, TRUE;
 Jump(STATE_CURRENT, 0x0191005f, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x0191005f_DoAutoActions_17(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -9124,17 +9126,17 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191008f
 if(!(GetActionMarker  () -> m_paaAction  == PAA_DRAWWEAPON )){ Jump(STATE_CURRENT,0x0191008d, FALSE, EInternal());return TRUE;}
-#line 6608 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ESelectWeapon  eSelect ;
 #line 6609 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-eSelect  . iWeapon  = - 4;
+ESelectWeapon  eSelect ;
 #line 6610 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+eSelect  . iWeapon  = - 4;
+#line 6611 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (eSelect );Jump(STATE_CURRENT,0x0191008c, FALSE, EInternal());return TRUE;}BOOL CPlayer::H0x0191008d_DoAutoActions_63(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191008d
 if(!(GetActionMarker  () -> m_paaAction  == PAA_LOOKAROUND )){ Jump(STATE_CURRENT,0x0191008b, FALSE, EInternal());return TRUE;}
-#line 6614 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6615 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 STATE_CPlayer_AutoLookAround, TRUE;
 Jump(STATE_CURRENT, 0x01910061, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910061_DoAutoActions_19(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -9148,7 +9150,7 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191008b
 if(!(GetActionMarker  () -> m_paaAction  == PAA_USEITEM )){ Jump(STATE_CURRENT,0x01910089, FALSE, EInternal());return TRUE;}
-#line 6619 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6620 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 STATE_CPlayer_AutoUseItem, TRUE;
 Jump(STATE_CURRENT, 0x01910063, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910063_DoAutoActions_21(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -9162,7 +9164,7 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910089
 if(!(GetActionMarker  () -> m_paaAction  == PAA_PICKITEM )){ Jump(STATE_CURRENT,0x01910087, FALSE, EInternal());return TRUE;}
-#line 6624 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6625 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 STATE_CPlayer_AutoPickItem, TRUE;
 Jump(STATE_CURRENT, 0x01910065, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910065_DoAutoActions_23(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -9176,7 +9178,7 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910087
 if(!(GetActionMarker  () -> m_paaAction  == PAA_FALLDOWN )){ Jump(STATE_CURRENT,0x01910085, FALSE, EInternal());return TRUE;}
-#line 6629 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6630 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 STATE_CPlayer_AutoFallDown, TRUE;
 Jump(STATE_CURRENT, 0x01910067, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910067_DoAutoActions_25(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -9190,65 +9192,65 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910085
 if(!(GetActionMarker  () -> m_paaAction  == PAA_RELEASEPLAYER )){ Jump(STATE_CURRENT,0x01910083, FALSE, EInternal());return TRUE;}
-#line 6633 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_penCamera  != NULL ){
 #line 6634 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CCamera  *) & * m_penCamera ) -> m_bStopMoving  = TRUE ;
+if(m_penCamera  != NULL ){
 #line 6635 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+((CCamera  *) & * m_penCamera ) -> m_bStopMoving  = TRUE ;
 #line 6636 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_penCamera  = NULL ;
-#line 6638 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(GetPlayerWeapons  () -> m_iCurrentWeapon  == WEAPON_NONE ){
-#line 6640 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ESelectWeapon  eSelect ;
-#line 6641 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-eSelect  . iWeapon  = - 4;
-#line 6642 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (eSelect );
-#line 6643 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6645 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  |= PLF_SYNCWEAPON ;
+#line 6637 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_penCamera  = NULL ;
+#line 6639 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(GetPlayerWeapons  () -> m_iCurrentWeapon  == WEAPON_NONE ){
+#line 6641 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ESelectWeapon  eSelect ;
+#line 6642 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+eSelect  . iWeapon  = - 4;
+#line 6643 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (eSelect );
+#line 6644 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
 #line 6646 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_ulFlags  |= PLF_SYNCWEAPON ;
+#line 6647 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_tmSpiritStart  = 0;Jump(STATE_CURRENT,0x01910082, FALSE, EInternal());return TRUE;}BOOL CPlayer::H0x01910083_DoAutoActions_53(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910083
 if(!(GetActionMarker  () -> m_paaAction  == PAA_STARTCOMPUTER )){ Jump(STATE_CURRENT,0x01910081, FALSE, EInternal());return TRUE;}
-#line 6651 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(_pNetwork  -> IsPlayerLocal  (this ) && GetSP  () -> sp_bSinglePlayer ){
 #line 6652 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-cmp_ppenPlayer  = this ;
+if(_pNetwork  -> IsPlayerLocal  (this ) && GetSP  () -> sp_bSinglePlayer ){
 #line 6653 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-cmp_bInitialStart  = TRUE ;
+cmp_ppenPlayer  = this ;
 #line 6654 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+cmp_bInitialStart  = TRUE ;
+#line 6655 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }Jump(STATE_CURRENT,0x01910080, FALSE, EInternal());return TRUE;}BOOL CPlayer::H0x01910081_DoAutoActions_51(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910081
 if(!(GetActionMarker  () -> m_paaAction  == PAA_STARTINTROSCROLL )){ Jump(STATE_CURRENT,0x0191007f, FALSE, EInternal());return TRUE;}
-#line 6658 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6659 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 _pShell  -> Execute  ("sam_iStartCredits=1;");Jump(STATE_CURRENT,0x0191007e, FALSE, EInternal());return TRUE;}BOOL CPlayer::H0x0191007f_DoAutoActions_49(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191007f
 if(!(GetActionMarker  () -> m_paaAction  == PAA_STARTCREDITS )){ Jump(STATE_CURRENT,0x0191007d, FALSE, EInternal());return TRUE;}
-#line 6662 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6663 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 _pShell  -> Execute  ("sam_iStartCredits=2;");Jump(STATE_CURRENT,0x0191007c, FALSE, EInternal());return TRUE;}BOOL CPlayer::H0x0191007d_DoAutoActions_47(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191007d
 if(!(GetActionMarker  () -> m_paaAction  == PAA_STOPSCROLLER )){ Jump(STATE_CURRENT,0x0191007b, FALSE, EInternal());return TRUE;}
-#line 6666 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6667 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 _pShell  -> Execute  ("sam_iStartCredits=-1;");Jump(STATE_CURRENT,0x0191007a, FALSE, EInternal());return TRUE;}BOOL CPlayer::H0x0191007b_DoAutoActions_45(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191007b
 if(!(GetActionMarker  () -> m_paaAction  == PAA_RUN )){ Jump(STATE_CURRENT,0x01910079, FALSE, EInternal());return TRUE;}
-#line 6671 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_fAutoSpeed  = plr_fSpeedForward  * GetActionMarker  () -> m_fSpeed ;
 #line 6672 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_fAutoSpeed  = plr_fSpeedForward  * GetActionMarker  () -> m_fSpeed ;
+#line 6673 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 STATE_CPlayer_AutoGoToMarker, TRUE;
 Jump(STATE_CURRENT, 0x01910069, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x01910069_DoAutoActions_27(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -9262,9 +9264,9 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910079
 if(!(GetActionMarker  () -> m_paaAction  == PAA_RUNANDSTOP )){ Jump(STATE_CURRENT,0x01910077, FALSE, EInternal());return TRUE;}
-#line 6677 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_fAutoSpeed  = plr_fSpeedForward  * GetActionMarker  () -> m_fSpeed ;
 #line 6678 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_fAutoSpeed  = plr_fSpeedForward  * GetActionMarker  () -> m_fSpeed ;
+#line 6679 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 STATE_CPlayer_AutoGoToMarkerAndStop, TRUE;
 Jump(STATE_CURRENT, 0x0191006b, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x0191006b_DoAutoActions_29(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -9278,37 +9280,37 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910077
 if(!(GetActionMarker  () -> m_paaAction  == PAA_RECORDSTATS )){ Jump(STATE_CURRENT,0x01910075, FALSE, EInternal());return TRUE;}
-#line 6683 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6684 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(GetSP  () -> sp_bSinglePlayer  || GetSP  () -> sp_bPlayEntireGame ){
-#line 6685 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6686 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_tmEstTime  = GetActionMarker  () -> m_tmWait ;
-#line 6687 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-RecordEndOfLevelData  ();
 #line 6688 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
+RecordEndOfLevelData  ();
 #line 6689 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetGameEnd  ();
+}else {
 #line 6690 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetGameEnd  ();
+#line 6691 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }Jump(STATE_CURRENT,0x01910074, FALSE, EInternal());return TRUE;}BOOL CPlayer::H0x01910075_DoAutoActions_39(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910075
 if(!(GetActionMarker  () -> m_paaAction  == PAA_SHOWSTATS )){ Jump(STATE_CURRENT,0x01910073, FALSE, EInternal());return TRUE;}
-#line 6695 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(!(cmp_ppenPlayer  == NULL  && _pNetwork  -> IsPlayerLocal  (this ) && GetSP  () -> sp_bSinglePlayer )){ Jump(STATE_CURRENT,0x01910071, FALSE, EInternal());return TRUE;}
 #line 6696 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_bEndOfLevel  = TRUE ;
+if(!(cmp_ppenPlayer  == NULL  && _pNetwork  -> IsPlayerLocal  (this ) && GetSP  () -> sp_bSinglePlayer )){ Jump(STATE_CURRENT,0x01910071, FALSE, EInternal());return TRUE;}
 #line 6697 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-cmp_ppenPlayer  = this ;
+m_bEndOfLevel  = TRUE ;
 #line 6698 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  |= PLF_DONTRENDER ;
+cmp_ppenPlayer  = this ;
 #line 6699 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_ulFlags  |= PLF_DONTRENDER ;
+#line 6700 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Jump(STATE_CURRENT,0x0191006f, FALSE, EInternal());return TRUE;}BOOL CPlayer::H0x0191006f_DoAutoActions_33(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191006f
 if(!(m_bEndOfLevel )){ Jump(STATE_CURRENT,0x01910070, FALSE, EInternal());return TRUE;}
-#line 6700 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6701 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(_pTimer  -> TickQuantum );
 Jump(STATE_CURRENT, 0x0191006d, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x0191006d_DoAutoActions_31(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -9319,27 +9321,27 @@ return FALSE;}ASSERT(FALSE);break;case(EVENTCODE_EKilledEnemy):{const EKilledEne
 return FALSE;}ASSERT(FALSE);break;case(EVENTCODE_ECenterMessage):{const ECenterMessage&e= (ECenterMessage&)__eeInput;
 return FALSE;}ASSERT(FALSE);break;case(EVENTCODE_EPostLevelChange):{const EPostLevelChange&e= (EPostLevelChange&)__eeInput;
 
-#line 6706 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  &= ! PLF_DONTRENDER ;
 #line 6707 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_bEndOfLevel  = FALSE ;
+m_ulFlags  &= ! PLF_DONTRENDER ;
 #line 6708 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return FALSE;
+m_bEndOfLevel  = FALSE ;
 #line 6709 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return FALSE;
+#line 6710 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;default:{return TRUE;}ASSERT(FALSE);break;
-#line 6711 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6712 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }return TRUE;}BOOL CPlayer::H0x0191006e_DoAutoActions_32(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0191006e
 Jump(STATE_CURRENT,0x0191006f, FALSE, EInternal());return TRUE;
-#line 6712 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6713 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }BOOL CPlayer::H0x01910070_DoAutoActions_34(const CEntityEvent &__eeInput) {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910070
 
-#line 6713 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6714 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_ulFlags  &= ! PLF_DONTRENDER ;Jump(STATE_CURRENT,0x01910071, FALSE, EInternal());return TRUE;}BOOL CPlayer::H0x01910071_DoAutoActions_35(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
@@ -9349,33 +9351,33 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01910073
 if(GetActionMarker  () -> m_paaAction  == PAA_ENDOFGAME ){
-#line 6719 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Jump(STATE_CURRENT, STATE_CPlayer_TheEnd, TRUE, EVoid());return TRUE;
 #line 6720 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(GetActionMarker  () -> m_paaAction  == PAA_NOGRAVITY ){
+Jump(STATE_CURRENT, STATE_CPlayer_TheEnd, TRUE, EVoid());return TRUE;
 #line 6721 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetPhysicsFlags  (GetPhysicsFlags  () & ~ (EPF_TRANSLATEDBYGRAVITY  | EPF_ORIENTEDBYGRAVITY ));
+}else if(GetActionMarker  () -> m_paaAction  == PAA_NOGRAVITY ){
 #line 6722 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(GetActionMarker  () -> GetParent  () != NULL )
+SetPhysicsFlags  (GetPhysicsFlags  () & ~ (EPF_TRANSLATEDBYGRAVITY  | EPF_ORIENTEDBYGRAVITY ));
 #line 6723 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-{
+if(GetActionMarker  () -> GetParent  () != NULL )
 #line 6724 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetParent  (GetActionMarker  () -> GetParent  ());
+{
 #line 6725 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+SetParent  (GetActionMarker  () -> GetParent  ());
 #line 6726 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(GetActionMarker  () -> m_paaAction  == PAA_TURNONGRAVITY ){
-#line 6727 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetPhysicsFlags  (GetPhysicsFlags  () | EPF_TRANSLATEDBYGRAVITY  | EPF_ORIENTEDBYGRAVITY );
-#line 6728 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetParent  (NULL );
-#line 6729 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 6727 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}else if(GetActionMarker  () -> m_paaAction  == PAA_TURNONGRAVITY ){
+#line 6728 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetPhysicsFlags  (GetPhysicsFlags  () | EPF_TRANSLATEDBYGRAVITY  | EPF_ORIENTEDBYGRAVITY );
+#line 6729 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetParent  (NULL );
 #line 6730 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-else if(TRUE ){
+}
 #line 6731 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ASSERT  (FALSE );
+else if(TRUE ){
 #line 6732 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+ASSERT  (FALSE );
+#line 6733 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }Jump(STATE_CURRENT,0x01910072, FALSE, EInternal());return TRUE;}
 BOOL CPlayer::H0x01910072_DoAutoActions_36(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
@@ -9497,68 +9499,68 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x019100a0
 
-#line 6735 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(GetActionMarker  () -> m_penTrigger  != NULL  && 
 #line 6736 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(GetActionMarker  () -> m_penTrigger  != NULL  && 
+#line 6737 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 GetActionMarker  () -> m_paaAction  != PAA_PICKITEM ){
-#line 6738 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SendToTarget  (GetActionMarker  () -> m_penTrigger  , EET_TRIGGER  , this );
 #line 6739 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SendToTarget  (GetActionMarker  () -> m_penTrigger  , EET_TRIGGER  , this );
+#line 6740 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6742 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_penActionMarker  = GetActionMarker  () -> m_penTarget ;Jump(STATE_CURRENT,0x019100a2, FALSE, EInternal());return TRUE;
 #line 6743 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_penActionMarker  = GetActionMarker  () -> m_penTarget ;Jump(STATE_CURRENT,0x019100a2, FALSE, EInternal());return TRUE;
+#line 6744 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }BOOL CPlayer::H0x019100a3_DoAutoActions_85(const CEntityEvent &__eeInput) {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x019100a3
 
-#line 6746 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6747 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_fAutoSpeed  = 0.0f;
-#line 6749 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6750 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_penActionMarker  = NULL ;
-#line 6752 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
 #line 6753 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPlayerAnimator  & plan  = (CPlayerAnimator  &) * m_penAnimator ;
+#line 6754 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 plan  . m_bDisableAnimating  = FALSE ;
-#line 6756 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6757 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EVoid  ());
-#line 6756 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6757 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayer::
-#line 6761 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6762 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Main(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayer_Main
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayer::Main expects 'EVoid' as input!");  const EVoid &evoid = (const EVoid &)__eeInput;
-#line 6764 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6765 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 time  (& m_iStartTime );
-#line 6766 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ctUnreadMessages  = 0;
 #line 6767 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetFlags  (GetFlags  () | ENF_CROSSESLEVELS  | ENF_NOTIFYLEVELCHANGE );
+m_ctUnreadMessages  = 0;
 #line 6768 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetFlags  (GetFlags  () | ENF_CROSSESLEVELS  | ENF_NOTIFYLEVELCHANGE );
+#line 6769 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 InitAsEditorModel  ();
-#line 6771 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CTString strDummy ;
 #line 6772 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CTString strDummy ;
+#line 6773 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetPlayerAppearance  (GetModelObject  () , NULL  , strDummy  , FALSE );
-#line 6774 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ValidateCharacter  ();
 #line 6775 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetPlayerAppearance  (& m_moRender  , & en_pcCharacter  , strDummy  , FALSE );
+ValidateCharacter  ();
 #line 6776 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetPlayerAppearance  (& m_moRender  , & en_pcCharacter  , strDummy  , FALSE );
+#line 6777 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ParseGender  (strDummy );
-#line 6779 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6780 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(GetModelObject  () -> GetData  () == NULL ){
-#line 6781 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Return(STATE_CURRENT,EVoid());
-#line 6781 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
 #line 6782 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+Return(STATE_CURRENT,EVoid());
+#line 6782 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 6783 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6786 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6787 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ModelChangeNotify  ();
-#line 6789 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6790 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAfter(0.2f);
 Jump(STATE_CURRENT, 0x019100a4, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x019100a4_Main_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -9567,83 +9569,83 @@ switch(__eeInput.ee_slEvent){case(EVENTCODE_EBegin):{const EBegin&e= (EBegin&)__
 return TRUE;}ASSERT(FALSE);break;case(EVENTCODE_ETimer):{const ETimer&e= (ETimer&)__eeInput;
 UnsetTimer();Jump(STATE_CURRENT,0x019100a5, FALSE, EInternal());return TRUE;}ASSERT(FALSE);break;case(EVENTCODE_EDisconnected):{const EDisconnected&e= (EDisconnected&)__eeInput;
 
-#line 6793 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6794 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Destroy  ();
-#line 6794 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Return(STATE_CURRENT,EVoid());
-#line 6794 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
 #line 6795 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}ASSERT(FALSE);break;default: return FALSE; break;
+Return(STATE_CURRENT,EVoid());
+#line 6795 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
 #line 6796 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}ASSERT(FALSE);break;default: return FALSE; break;
+#line 6797 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }return TRUE;}BOOL CPlayer::H0x019100a5_Main_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x019100a5
 
-#line 6799 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(IsPredictor  ()){
 #line 6800 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(IsPredictor  ()){
+#line 6801 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Destroy  ();
-#line 6801 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Return(STATE_CURRENT,EVoid());
-#line 6801 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
 #line 6802 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+Return(STATE_CURRENT,EVoid());
+#line 6802 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 6803 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6805 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SwitchToModel  ();
 #line 6806 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SwitchToModel  ();
+#line 6807 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_ulFlags  |= PLF_INITIALIZED ;
-#line 6809 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-en_tmMaxHoldBreath  = 60.0f;
 #line 6810 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+en_tmMaxHoldBreath  = 60.0f;
+#line 6811 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 en_fDensity  = 1000.0f;
-#line 6812 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6813 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 ModelChangeNotify  ();
-#line 6815 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_penWeapons  = CreateEntity  (GetPlacement  () , CLASS_PLAYER_WEAPONS );
 #line 6816 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-EWeaponsInit  eInitWeapons ;
+m_penWeapons  = CreateEntity  (GetPlacement  () , CLASS_PLAYER_WEAPONS );
 #line 6817 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-eInitWeapons  . penOwner  = this ;
+EWeaponsInit  eInitWeapons ;
 #line 6818 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+eInitWeapons  . penOwner  = this ;
+#line 6819 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_penWeapons  -> Initialize  (eInitWeapons );
-#line 6821 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_penAnimator  = CreateEntity  (GetPlacement  () , CLASS_PLAYER_ANIMATOR );
 #line 6822 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-EAnimatorInit  eInitAnimator ;
+m_penAnimator  = CreateEntity  (GetPlacement  () , CLASS_PLAYER_ANIMATOR );
 #line 6823 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-eInitAnimator  . penPlayer  = this ;
+EAnimatorInit  eInitAnimator ;
 #line 6824 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+eInitAnimator  . penPlayer  = this ;
+#line 6825 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_penAnimator  -> Initialize  (eInitAnimator );
-#line 6827 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_soMouth  . Set3DParameters  (50.0f , 10.0f , 1.0f , 1.0f);
 #line 6828 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_soFootL  . Set3DParameters  (20.0f , 2.0f , 1.0f , 1.0f);
+m_soMouth  . Set3DParameters  (50.0f , 10.0f , 1.0f , 1.0f);
 #line 6829 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_soFootR  . Set3DParameters  (20.0f , 2.0f , 1.0f , 1.0f);
+m_soFootL  . Set3DParameters  (20.0f , 2.0f , 1.0f , 1.0f);
 #line 6830 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_soBody  . Set3DParameters  (25.0f , 5.0f , 1.0f , 1.0f);
+m_soFootR  . Set3DParameters  (20.0f , 2.0f , 1.0f , 1.0f);
 #line 6831 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_soMessage  . Set3DParameters  (25.0f , 5.0f , 1.0f , 1.0f);
+m_soBody  . Set3DParameters  (25.0f , 5.0f , 1.0f , 1.0f);
 #line 6832 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_soMessage  . Set3DParameters  (25.0f , 5.0f , 1.0f , 1.0f);
+#line 6833 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_soSniperZoom  . Set3DParameters  (25.0f , 5.0f , 1.0f , 1.0f);
-#line 6835 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6836 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetupLightSource  ();
-#line 6838 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-try {
 #line 6839 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_aoLightAnimation  . SetData_t  (CTFILENAME  ("Animations\\BasicEffects.ani"));
+try {
 #line 6840 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}catch  (char  * strError ){
+m_aoLightAnimation  . SetData_t  (CTFILENAME  ("Animations\\BasicEffects.ani"));
 #line 6841 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-WarningMessage  (TRANS  ("Cannot load Animations\\BasicEffects.ani: %s") , strError );
+}catch  (char  * strError ){
 #line 6842 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+WarningMessage  (TRANS  ("Cannot load Animations\\BasicEffects.ani: %s") , strError );
 #line 6843 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 6844 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 PlayLightAnim  (LIGHT_ANIM_NONE  , 0);
-#line 6845 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6846 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SetTimerAt(THINKTIME_NEVER);
 Jump(STATE_CURRENT, 0x019100a6, FALSE, EBegin());return TRUE;}BOOL CPlayer::H0x019100a6_Main_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -9654,244 +9656,244 @@ Call(STATE_CURRENT, STATE_CPlayer_Rebirth, TRUE, EVoid());return TRUE;}ASSERT(FA
 Call(STATE_CURRENT, STATE_CPlayer_Death, TRUE, eDeath );return TRUE;}ASSERT(FALSE);break;case(EVENTCODE_EDamage):{const EDamage&eDamage= (EDamage&)__eeInput;
 Call(STATE_CURRENT, STATE_CPlayer_Wounded, TRUE, eDamage );return TRUE;}ASSERT(FALSE);break;case(EVENTCODE_EPreLevelChange):{const EPreLevelChange&e= (EPreLevelChange&)__eeInput;
 
-#line 6851 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  &= ~ PLF_INITIALIZED ;
 #line 6852 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  |= PLF_CHANGINGLEVEL ;
+m_ulFlags  &= ~ PLF_INITIALIZED ;
 #line 6853 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  &= ~ PLF_LEVELSTARTED ;
+m_ulFlags  |= PLF_CHANGINGLEVEL ;
 #line 6854 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
+m_ulFlags  &= ~ PLF_LEVELSTARTED ;
 #line 6855 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 6856 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EPostLevelChange):{const EPostLevelChange&e= (EPostLevelChange&)__eeInput;
 
-#line 6857 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(GetSP  () -> sp_bSinglePlayer  || (GetFlags  () & ENF_ALIVE )){
 #line 6858 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Call(STATE_CURRENT, STATE_CPlayer_WorldChange, TRUE, EVoid());return TRUE;
+if(GetSP  () -> sp_bSinglePlayer  || (GetFlags  () & ENF_ALIVE )){
 #line 6859 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
+Call(STATE_CURRENT, STATE_CPlayer_WorldChange, TRUE, EVoid());return TRUE;
 #line 6860 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Call(STATE_CURRENT, STATE_CPlayer_WorldChangeDead, TRUE, EVoid());return TRUE;
+}else {
 #line 6861 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+Call(STATE_CURRENT, STATE_CPlayer_WorldChangeDead, TRUE, EVoid());return TRUE;
 #line 6862 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 6863 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_ETakingBreath):{const ETakingBreath&eTakingBreath= (ETakingBreath&)__eeInput;
 
-#line 6864 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDefaultMouthPitch  ();
 #line 6865 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(eTakingBreath  . fBreathDelay  < 0.2f){
+SetDefaultMouthPitch  ();
 #line 6866 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soMouth  , GenderSound  (SOUND_INHALE0 ) , SOF_3D );
+if(eTakingBreath  . fBreathDelay  < 0.2f){
 #line 6867 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else if(eTakingBreath  . fBreathDelay  < 0.8f){
+PlaySound  (m_soMouth  , GenderSound  (SOUND_INHALE0 ) , SOF_3D );
 #line 6868 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soMouth  , GenderSound  (SOUND_INHALE1 ) , SOF_3D );
+}else if(eTakingBreath  . fBreathDelay  < 0.8f){
 #line 6869 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}else {
+PlaySound  (m_soMouth  , GenderSound  (SOUND_INHALE1 ) , SOF_3D );
 #line 6870 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soMouth  , GenderSound  (SOUND_INHALE2 ) , SOF_3D );
+}else {
 #line 6871 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+PlaySound  (m_soMouth  , GenderSound  (SOUND_INHALE2 ) , SOF_3D );
 #line 6872 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
+}
 #line 6873 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 6874 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_ECameraStart):{const ECameraStart&eStart= (ECameraStart&)__eeInput;
 
-#line 6875 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6876 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_penCamera  = eStart  . penCamera ;
-#line 6877 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_penActionMarker  == NULL ){
 #line 6878 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDesiredTranslation  (FLOAT3D (0.0f , 0.0f , 0.0f));
+if(m_penActionMarker  == NULL ){
 #line 6879 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDesiredRotation  (ANGLE3D (0.0f , 0.0f , 0.0f));
+SetDesiredTranslation  (FLOAT3D (0.0f , 0.0f , 0.0f));
 #line 6880 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+SetDesiredRotation  (ANGLE3D (0.0f , 0.0f , 0.0f));
+#line 6881 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6882 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (EReleaseWeapon  ());
 #line 6883 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
+((CPlayerWeapons  &) * m_penWeapons ) . SendEvent  (EReleaseWeapon  ());
 #line 6884 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 6885 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_ECameraStop):{const ECameraStop&eCameraStop= (ECameraStop&)__eeInput;
 
-#line 6886 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_penCamera  == eCameraStop  . penCamera ){
 #line 6887 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_penCamera  = NULL ;
+if(m_penCamera  == eCameraStop  . penCamera ){
 #line 6888 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+m_penCamera  = NULL ;
 #line 6889 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
+}
 #line 6890 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 6891 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_ECenterMessage):{const ECenterMessage&eMsg= (ECenterMessage&)__eeInput;
 
-#line 6892 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_strCenterMessage  = eMsg  . strMessage ;
 #line 6893 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_tmCenterMessageEnd  = _pTimer  -> CurrentTick  () + eMsg  . tmLength ;
+m_strCenterMessage  = eMsg  . strMessage ;
 #line 6894 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(eMsg  . mssSound  == MSS_INFO ){
+m_tmCenterMessageEnd  = _pTimer  -> CurrentTick  () + eMsg  . tmLength ;
 #line 6895 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_soMessage  . Set3DParameters  (25.0f , 5.0f , 1.0f , 1.0f);
+if(eMsg  . mssSound  == MSS_INFO ){
 #line 6896 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soMessage  , SOUND_INFO  , SOF_3D  | SOF_VOLUMETRIC  | SOF_LOCAL );
+m_soMessage  . Set3DParameters  (25.0f , 5.0f , 1.0f , 1.0f);
 #line 6897 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+PlaySound  (m_soMessage  , SOUND_INFO  , SOF_3D  | SOF_VOLUMETRIC  | SOF_LOCAL );
 #line 6898 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
+}
 #line 6899 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 6900 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EComputerMessage):{const EComputerMessage&eMsg= (EComputerMessage&)__eeInput;
 
-#line 6901 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ReceiveComputerMessage  (eMsg  . fnmMessage  , CMF_ANALYZE );
 #line 6902 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
+ReceiveComputerMessage  (eMsg  . fnmMessage  , CMF_ANALYZE );
 #line 6903 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 6904 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EVoiceMessage):{const EVoiceMessage&eMsg= (EVoiceMessage&)__eeInput;
 
-#line 6905 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SayVoiceMessage  (eMsg  . fnmMessage );
 #line 6906 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
+SayVoiceMessage  (eMsg  . fnmMessage );
 #line 6907 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 6908 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EAutoAction):{const EAutoAction&eAutoAction= (EAutoAction&)__eeInput;
 
-#line 6910 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6911 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 m_penActionMarker  = eAutoAction  . penFirstMarker ;
-#line 6912 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-Call(STATE_CURRENT, STATE_CPlayer_DoAutoActions, TRUE, EVoid());return TRUE;
 #line 6913 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+Call(STATE_CURRENT, STATE_CPlayer_DoAutoActions, TRUE, EVoid());return TRUE;
+#line 6914 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EReceiveScore):{const EReceiveScore&eScore= (EReceiveScore&)__eeInput;
 
-#line 6915 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psLevelStats  . ps_iScore  += eScore  . iPoints ;
 #line 6916 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psGameStats  . ps_iScore  += eScore  . iPoints ;
+m_psLevelStats  . ps_iScore  += eScore  . iPoints ;
 #line 6917 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_iMana  += eScore  . iPoints  * GetSP  () -> sp_fManaTransferFactor ;
+m_psGameStats  . ps_iScore  += eScore  . iPoints ;
 #line 6918 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CheckHighScore  ();
+m_iMana  += eScore  . iPoints  * GetSP  () -> sp_fManaTransferFactor ;
 #line 6919 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
+CheckHighScore  ();
 #line 6920 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 6921 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EKilledEnemy):{const EKilledEnemy&e= (EKilledEnemy&)__eeInput;
 
-#line 6922 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psLevelStats  . ps_iKills  += 1;
 #line 6923 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psGameStats  . ps_iKills  += 1;
+m_psLevelStats  . ps_iKills  += 1;
 #line 6924 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
+m_psGameStats  . ps_iKills  += 1;
 #line 6925 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 6926 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_ESecretFound):{const ESecretFound&e= (ESecretFound&)__eeInput;
 
-#line 6927 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psLevelStats  . ps_iSecrets  += 1;
 #line 6928 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_psGameStats  . ps_iSecrets  += 1;
+m_psLevelStats  . ps_iSecrets  += 1;
 #line 6929 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
+m_psGameStats  . ps_iSecrets  += 1;
 #line 6930 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 6931 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EWeaponChanged):{const EWeaponChanged&e= (EWeaponChanged&)__eeInput;
 
-#line 6933 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-((CPlayerWeapons  &) * m_penWeapons ) . m_bSniping  = FALSE ;
 #line 6934 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_ulFlags  &= ~ PLF_ISZOOMING ;
+((CPlayerWeapons  &) * m_penWeapons ) . m_bSniping  = FALSE ;
 #line 6935 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soSniperZoom  , SOUND_SILENCE  , SOF_3D );
+m_ulFlags  &= ~ PLF_ISZOOMING ;
 #line 6936 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_StopEffect  ("SniperZoom");}
+PlaySound  (m_soSniperZoom  , SOUND_SILENCE  , SOF_3D );
 #line 6937 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
+if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_StopEffect  ("SniperZoom");}
 #line 6938 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 6939 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EEnd):{const EEnd&e= (EEnd&)__eeInput;
 
-#line 6941 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-ASSERT  (FALSE );
 #line 6942 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
+ASSERT  (FALSE );
 #line 6943 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+return TRUE;
+#line 6944 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EDisconnected):{const EDisconnected&e= (EDisconnected&)__eeInput;
 
-#line 6947 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-UnsetTimer();Jump(STATE_CURRENT,0x019100a7, FALSE, EInternal());return TRUE;
 #line 6948 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+UnsetTimer();Jump(STATE_CURRENT,0x019100a7, FALSE, EInternal());return TRUE;
+#line 6949 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }ASSERT(FALSE);break;case(EVENTCODE_ETouch):{const ETouch&eTouch= (ETouch&)__eeInput;
 
-#line 6951 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(IsOfClass  (eTouch  . penOther  , "Bouncer")){
 #line 6952 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(IsOfClass  (eTouch  . penOther  , "Bouncer")){
+#line 6953 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 JumpFromBouncer  (this  , eTouch  . penOther );
-#line 6954 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-SetDefaultMouthPitch  ();
 #line 6955 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-PlaySound  (m_soMouth  , GenderSound  (SOUND_JUMP ) , SOF_3D );
+SetDefaultMouthPitch  ();
 #line 6956 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_PlayEffect  ("Jump");}
+PlaySound  (m_soMouth  , GenderSound  (SOUND_JUMP ) , SOF_3D );
 #line 6957 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+if(_pNetwork  -> IsPlayerLocal  (this )){IFeel_PlayEffect  ("Jump");}
 #line 6958 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-return TRUE;
+}
 #line 6959 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}ASSERT(FALSE);break;default: return FALSE; break;
+return TRUE;
 #line 6960 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}ASSERT(FALSE);break;default: return FALSE; break;
+#line 6961 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }return TRUE;}BOOL CPlayer::H0x019100a7_Main_04(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x019100a7
 
-#line 6965 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6966 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 if(! IsPredictor  () && m_ulKeys  != 0){
-#line 6967 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayer  * penNextPlayer  = NULL ;
 #line 6968 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-for(INDEX iPlayer  = 0;iPlayer  < GetMaxPlayers  ();iPlayer  ++){
+CPlayer  * penNextPlayer  = NULL ;
 #line 6969 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPlayer  * pen  = (CPlayer  *) & * GetPlayerEntity  (iPlayer );
+for(INDEX iPlayer  = 0;iPlayer  < GetMaxPlayers  ();iPlayer  ++){
 #line 6970 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(pen  != NULL  && pen  != this  && (pen  -> GetFlags  () & ENF_ALIVE ) && ! (pen  -> GetFlags  () & ENF_DELETED )){
+CPlayer  * pen  = (CPlayer  *) & * GetPlayerEntity  (iPlayer );
 #line 6971 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penNextPlayer  = pen ;
+if(pen  != NULL  && pen  != this  && (pen  -> GetFlags  () & ENF_ALIVE ) && ! (pen  -> GetFlags  () & ENF_DELETED )){
 #line 6972 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+penNextPlayer  = pen ;
 #line 6973 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6976 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(penNextPlayer  != NULL ){
-#line 6978 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-CPrintF  (TRANS  ("%s leaving, all keys transfered to %s\n") , 
-#line 6979 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-(const char  *) m_strName  , (const char  *) penNextPlayer  -> GetPlayerName  ());
-#line 6980 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-penNextPlayer  -> m_ulKeys  |= m_ulKeys ;
-#line 6981 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6974 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 6977 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(penNextPlayer  != NULL ){
+#line 6979 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+CPrintF  (TRANS  ("%s leaving, all keys transfered to %s\n") , 
+#line 6980 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+(const char  *) m_strName  , (const char  *) penNextPlayer  -> GetPlayerName  ());
+#line 6981 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+penNextPlayer  -> m_ulKeys  |= m_ulKeys ;
 #line 6982 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
-#line 6985 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6983 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 6986 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 SpawnTeleport  ();
-#line 6988 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_penWeapons  -> Destroy  ();
 #line 6989 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_penAnimator  -> Destroy  ();
+m_penWeapons  -> Destroy  ();
 #line 6990 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_penView  != NULL ){
+m_penAnimator  -> Destroy  ();
 #line 6991 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_penView  -> Destroy  ();
+if(m_penView  != NULL ){
 #line 6992 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-}
+m_penView  -> Destroy  ();
 #line 6993 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-if(m_pen3rdPersonView  != NULL ){
-#line 6994 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
-m_pen3rdPersonView  -> Destroy  ();
-#line 6995 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 }
+#line 6994 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+if(m_pen3rdPersonView  != NULL ){
+#line 6995 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+m_pen3rdPersonView  -> Destroy  ();
 #line 6996 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+}
+#line 6997 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Destroy  ();
-#line 6997 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6998 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Return(STATE_CURRENT,EVoid());
-#line 6997 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6998 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 return TRUE; ASSERT(FALSE); return TRUE;};

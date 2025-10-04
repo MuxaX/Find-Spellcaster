@@ -1570,7 +1570,7 @@ functions:
     } else if (pen->m_iFlare==FLARE_REMOVE) {
       switch(m_iCurrentWeapon) {
 	    case WEAPON_COLT:
-		  ShowFlare(m_moWeapon, COLT_ATTACHMENT_COLT, COLTMAIN_ATTACHMENT_FLARE, 0.75f);
+		  HideFlare(m_moWeapon, COLT_ATTACHMENT_COLT, COLTMAIN_ATTACHMENT_FLARE);
           break;
         case WEAPON_DOUBLECOLT:
           HideFlare(m_moWeapon, P90_ATTACHMENT_P90_BODY, P90_BODY_ATTACHMENT_FLARE);
@@ -2317,7 +2317,7 @@ functions:
     ELaunchProjectile eLaunch;
     eLaunch.penLauncher = m_penPlayer;
     eLaunch.prtType = PRT_ALT_GRANAT;
-    eLaunch.fSpeed = 20.0f+iPower*5.0f;
+    eLaunch.fSpeed = 80.0f+iPower*25.0f;
     penAltGrenade->Initialize(eLaunch);
   };
 

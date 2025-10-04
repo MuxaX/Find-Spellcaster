@@ -12,6 +12,8 @@ CEntityProperty CAltCannonBall_properties[] = {
  CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x000005e2<<8)+11, offsetof(CAltCannonBall, m_fStartTime), "", 0, 0, 0),
  CEntityProperty(CEntityProperty::EPT_INDEX, NULL, (0x000005e2<<8)+12, offsetof(CAltCannonBall, m_iNextChannel), "", 0, 0, 0),
  CEntityProperty(CEntityProperty::EPT_BOOL, NULL, (0x000005e2<<8)+13, offsetof(CAltCannonBall, m_bSelfExploded), "", 0, 0, 0),
+ CEntityProperty(CEntityProperty::EPT_BOOL, NULL, (0x000005e2<<8)+14, offsetof(CAltCannonBall, m_bHasCollided), "", 0, 0, 0),
+ CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x000005e2<<8)+15, offsetof(CAltCannonBall, m_tmCollisionTime), "", 0, 0, 0),
  CEntityProperty(CEntityProperty::EPT_SOUNDOBJECT, NULL, (0x000005e2<<8)+20, offsetof(CAltCannonBall, m_soBounce0), "", 0, 0, 0),
  CEntityProperty(CEntityProperty::EPT_SOUNDOBJECT, NULL, (0x000005e2<<8)+21, offsetof(CAltCannonBall, m_soBounce1), "", 0, 0, 0),
  CEntityProperty(CEntityProperty::EPT_SOUNDOBJECT, NULL, (0x000005e2<<8)+22, offsetof(CAltCannonBall, m_soBounce2), "", 0, 0, 0),
@@ -39,12 +41,12 @@ CEntityComponent CAltCannonBall_components[] = {
 
 CEventHandlerEntry CAltCannonBall_handlers[] = {
  {0x05e20001, -1, CEntity::pEventHandler(&CAltCannonBall::
-#line 413 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 397 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 Bounce),DEBUGSTRING("CAltCannonBall::Bounce")},
  {0x05e20002, -1, CEntity::pEventHandler(&CAltCannonBall::H0x05e20002_Bounce_01), DEBUGSTRING("CAltCannonBall::H0x05e20002_Bounce_01")},
  {0x05e20003, -1, CEntity::pEventHandler(&CAltCannonBall::H0x05e20003_Bounce_02), DEBUGSTRING("CAltCannonBall::H0x05e20003_Bounce_02")},
  {1, -1, CEntity::pEventHandler(&CAltCannonBall::
-#line 489 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 534 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 Main),DEBUGSTRING("CAltCannonBall::Main")},
  {0x05e20004, -1, CEntity::pEventHandler(&CAltCannonBall::H0x05e20004_Main_01), DEBUGSTRING("CAltCannonBall::H0x05e20004_Main_01")},
  {0x05e20005, -1, CEntity::pEventHandler(&CAltCannonBall::H0x05e20005_Main_02), DEBUGSTRING("CAltCannonBall::H0x05e20005_Main_02")},

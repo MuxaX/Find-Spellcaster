@@ -1611,7 +1611,7 @@ switch(m_iCurrentWeapon ){
 #line 1572 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_COLT : 
 #line 1573 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShowFlare  (m_moWeapon  , COLT_ATTACHMENT_COLT  , COLTMAIN_ATTACHMENT_FLARE  , 0.75f);
+HideFlare  (m_moWeapon  , COLT_ATTACHMENT_COLT  , COLTMAIN_ATTACHMENT_FLARE );
 #line 1574 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
 #line 1575 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -2740,7 +2740,7 @@ eLaunch  . penLauncher  = m_penPlayer ;
 #line 2319 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 eLaunch  . prtType  = PRT_ALT_GRANAT ;
 #line 2320 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eLaunch  . fSpeed  = 20.0f + iPower  * 5.0f;
+eLaunch  . fSpeed  = 80.0f + iPower  * 25.0f;
 #line 2321 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 penAltGrenade  -> Initialize  (eLaunch );
 #line 2322 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"

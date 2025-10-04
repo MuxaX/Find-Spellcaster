@@ -77,6 +77,8 @@ void CAltCannonBall::SetDefaultProperties(void) {
   m_fStartTime = 0.0f;
   m_iNextChannel = 0;
   m_bSelfExploded = FALSE ;
+  m_bHasCollided = FALSE ;
+  m_tmCollisionTime = 0.0f;
   m_soBounce0.SetOwner(this);
 m_soBounce0.Stop_internal();
   m_soBounce1.SetOwner(this);
@@ -93,382 +95,386 @@ m_soBounce4.Stop_internal();
   CMovableModelEntity::SetDefaultProperties();
 }
   
-#line 121 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-void CAltCannonBall::PreMoving(void) {
-#line 122 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(m_tmExpandBox  > 0){
-#line 123 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(_pTimer  -> CurrentTick  () > m_fStartTime  + m_tmExpandBox ){
 #line 124 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-ChangeCollisionBoxIndexWhenPossible  (1);
+void CAltCannonBall::PreMoving(void) {
 #line 125 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-m_tmExpandBox  = 0;
+if(m_tmExpandBox  > 0){
 #line 126 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
+if(_pTimer  -> CurrentTick  () > m_fStartTime  + m_tmExpandBox ){
 #line 127 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
+ChangeCollisionBoxIndexWhenPossible  (1);
 #line 128 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-CMovableModelEntity  :: PreMoving  ();
+m_tmExpandBox  = 0;
 #line 129 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }
-  
+#line 130 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
 #line 131 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-void CAltCannonBall::PostMoving(void) 
+CMovableModelEntity  :: PreMoving  ();
 #line 132 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
-#line 133 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-CMovableModelEntity  :: PostMoving  ();
+}
+  
 #line 134 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(en_vCurrentTranslationAbsolute  . Length  () < 1.0f || 
+void CAltCannonBall::PostMoving(void) 
 #line 135 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-_pTimer  -> CurrentTick  () >= m_tmForceExplode  || 
+{
 #line 136 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-(GetCollisionBoxIndex  () == 0 && 
+CMovableModelEntity  :: PostMoving  ();
 #line 137 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-(_pTimer  -> CurrentTick  () > m_fStartTime  + m_tmExpandBox  + 0.5f)))
+if(en_vCurrentTranslationAbsolute  . Length  () < 1.0f || 
 #line 138 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
+_pTimer  -> CurrentTick  () >= m_tmForceExplode  || 
 #line 139 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-SendEvent  (EForceExplode  ());
+(GetCollisionBoxIndex  () == 0 && 
 #line 140 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
+(_pTimer  -> CurrentTick  () > m_fStartTime  + m_tmExpandBox  + 0.5f)))
 #line 141 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
-  
+{
+#line 142 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+SendEvent  (EForceExplode  ());
 #line 143 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-void CAltCannonBall::Read_t(CTStream * istr) 
+}
 #line 144 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
+  
+#line 146 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+void CAltCannonBall::Read_t(CTStream * istr) 
+#line 147 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 {
-#line 145 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-CMovableModelEntity  :: Read_t  (istr );
 #line 148 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+CMovableModelEntity  :: Read_t  (istr );
+#line 151 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }
   
-#line 152 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-CLightSource * CAltCannonBall::GetLightSource(void) 
-#line 153 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
-#line 154 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(! IsPredictor  ()){
 #line 155 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-return & m_lsLightSource ;
+CLightSource * CAltCannonBall::GetLightSource(void) 
 #line 156 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}else {
+{
 #line 157 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-return NULL ;}
+if(! IsPredictor  ()){
 #line 158 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
-  
+return & m_lsLightSource ;
+#line 159 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}else {
 #line 160 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-BOOL CAltCannonBall::AdjustShadingParameters(FLOAT3D & vLightDirection,COLOR & colLight,COLOR & colAmbient) 
+return NULL ;}
 #line 161 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
+}
+  
 #line 163 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-CModelObject * pmo  = GetModelObject  ();
+BOOL CAltCannonBall::AdjustShadingParameters(FLOAT3D & vLightDirection,COLOR & colLight,COLOR & colAmbient) 
 #line 164 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if((pmo  != NULL ) && (_pTimer  -> GetLerpedCurrentTick  () < (m_fStartTime  + m_tmInvisibility )))
-#line 165 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 {
+#line 166 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+CModelObject * pmo  = GetModelObject  ();
 #line 167 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-pmo  -> mo_colBlendColor  = 0;
+if((pmo  != NULL ) && (_pTimer  -> GetLerpedCurrentTick  () < (m_fStartTime  + m_tmInvisibility )))
 #line 168 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
-#line 169 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-else 
+{
 #line 170 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
+pmo  -> mo_colBlendColor  = 0;
+#line 171 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
 #line 172 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-pmo  -> mo_colBlendColor  = C_WHITE  | CT_OPAQUE ;
+else 
 #line 173 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
-#line 174 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-return CEntity  :: AdjustShadingParameters  (vLightDirection  , colLight  , colAmbient );
+{
 #line 175 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+pmo  -> mo_colBlendColor  = C_WHITE  | CT_OPAQUE ;
+#line 176 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }
-  
+#line 177 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+return CEntity  :: AdjustShadingParameters  (vLightDirection  , colLight  , colAmbient );
 #line 178 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-void CAltCannonBall::SetupLightSource(void) 
-#line 179 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
+}
+  
 #line 181 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-CLightSource  lsNew ;
+void CAltCannonBall::SetupLightSource(void) 
 #line 182 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-lsNew  . ls_ulFlags  = LSF_NONPERSISTENT  | LSF_DARKLIGHT  | LSF_DYNAMIC ;
-#line 183 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-lsNew  . ls_rHotSpot  = 0.0f;
+{
 #line 184 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-lsNew  . ls_colColor  = C_OXYGEN ;
+CLightSource  lsNew ;
 #line 185 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-lsNew  . ls_rFallOff  = 5.0f;
+lsNew  . ls_ulFlags  = LSF_NONPERSISTENT  | LSF_DARKLIGHT  | LSF_DYNAMIC ;
 #line 186 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-lsNew  . ls_plftLensFlare  = NULL ;
+lsNew  . ls_rHotSpot  = 0.0f;
 #line 187 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-lsNew  . ls_ubPolygonalMask  = 0;
+lsNew  . ls_colColor  = C_OXYGEN ;
 #line 188 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-lsNew  . ls_paoLightAnimation  = NULL ;
+lsNew  . ls_rFallOff  = 5.0f;
+#line 189 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+lsNew  . ls_plftLensFlare  = NULL ;
 #line 190 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-m_lsLightSource  . ls_penEntity  = this ;
+lsNew  . ls_ubPolygonalMask  = 0;
 #line 191 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+lsNew  . ls_paoLightAnimation  = NULL ;
+#line 193 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_lsLightSource  . ls_penEntity  = this ;
+#line 194 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 m_lsLightSource  . SetLightSource  (lsNew );
-#line 192 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 195 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }
   
-#line 196 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 199 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 void CAltCannonBall::RenderParticles(void) {
-#line 207 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 210 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 Particles_LaserBlueTrail  (this  , 5.0f);
-#line 209 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 212 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }
   
-#line 211 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-void CAltCannonBall::Initialize(void) {
-#line 213 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-InitAsModel  ();
 #line 214 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-SetPhysicsFlags  (EPF_PROJECTILE_FLYING );
-#line 215 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-SetCollisionFlags  (ECF_PROJECTILE_SOLID );
+void CAltCannonBall::Initialize(void) {
 #line 216 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-SetFlags  (GetFlags  () | ENF_SEETHROUGH );
+InitAsModel  ();
 #line 217 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-SetModel  (MODEL_BALL );
+SetPhysicsFlags  (EPF_PROJECTILE_FLYING );
 #line 218 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+SetCollisionFlags  (ECF_PROJECTILE_SOLID );
+#line 219 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+SetFlags  (GetFlags  () | ENF_SEETHROUGH );
+#line 220 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+SetModel  (MODEL_BALL );
+#line 221 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 SetModelMainTexture  (TEXTURE_IRON_BALL );
-#line 228 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-LaunchAsPropelledProjectile  (FLOAT3D (0.0f , 0.0f , - 240) , (CMovableEntity  *) (CEntity  *) m_penLauncher );
-#line 229 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-en_fBounceDampNormal  = 0.5f;
-#line 230 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-en_fBounceDampParallel  = 0.75f;
 #line 231 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-en_fAcceleration  = 0.0f;
+LaunchAsPropelledProjectile  (FLOAT3D (0.0f , 0.0f , - 240) , (CMovableEntity  *) (CEntity  *) m_penLauncher );
 #line 232 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-en_fDeceleration  = 5.0f;
+en_fBounceDampNormal  = 0.5f;
 #line 233 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-en_fCollisionSpeedLimit  = 40.0f;
+en_fBounceDampParallel  = 0.75f;
 #line 234 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-en_fCollisionDamageFactor  = 10.0f;
+en_fAcceleration  = 0.0f;
 #line 235 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-SetHealth  (50000.0f);
+en_fDeceleration  = 5.0f;
+#line 236 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+en_fCollisionSpeedLimit  = 40.0f;
 #line 237 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
-  
-#line 239 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-FLOAT CAltCannonBall::CalculateDamageToInflict(void) 
+en_fCollisionDamageFactor  = 10.0f;
+#line 238 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+SetHealth  (50000.0f);
 #line 240 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
-#line 241 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-FLOAT fMaxDamage  = IRON_DAMAGE_MAX ;
-#line 243 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-FLOAT fSpeedRatio  = en_vCurrentTranslationAbsolute  . Length  () / 140.0f;
-#line 245 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-FLOAT fApplyDamage  = Clamp  (fSpeedRatio  * fMaxDamage  , 0.0f , fMaxDamage );
-#line 246 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-return fApplyDamage ;
-#line 247 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }
   
+#line 242 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+FLOAT CAltCannonBall::CalculateDamageToInflict(void) 
+#line 243 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+{
+#line 244 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+FLOAT fMaxDamage  = IRON_DAMAGE_MAX ;
+#line 246 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+FLOAT fSpeedRatio  = en_vCurrentTranslationAbsolute  . Length  () / 140.0f;
+#line 248 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+FLOAT fApplyDamage  = Clamp  (fSpeedRatio  * fMaxDamage  , 0.0f , fMaxDamage );
 #line 249 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-void CAltCannonBall::Explosion(FLOAT3D vCenter,
+return fApplyDamage ;
 #line 250 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-const FLOAT3D & vStretchExplosion,
-#line 251 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-const FLOAT3D & vStretchShockwave,
+}
+  
 #line 252 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-const FLOAT3D & vStretchStain,
+void CAltCannonBall::Explosion(FLOAT3D vCenter,
 #line 253 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-BOOL bHasExplosion,
+const FLOAT3D & vStretchExplosion,
 #line 254 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-BOOL bHasShockWave,
+const FLOAT3D & vStretchShockwave,
 #line 255 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-BOOL bHasStain,
+const FLOAT3D & vStretchStain,
 #line 256 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-BOOL bHasLight) 
+BOOL bHasExplosion,
 #line 257 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
+BOOL bHasShockWave,
 #line 258 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-ESpawnEffect  ese ;
+BOOL bHasStain,
 #line 259 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-FLOAT3D vOnPlane ;
+BOOL bHasLight) 
 #line 260 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-FLOATplane3D vPlaneNormal ;
-#line 261 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-FLOAT fDistanceToEdge ;
-#line 264 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(bHasExplosion )
-#line 265 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 {
-#line 266 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-ese  . colMuliplier  = C_OXYGEN  | CT_OPAQUE ;
+#line 261 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+ESpawnEffect  ese ;
+#line 262 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+FLOAT3D vOnPlane ;
+#line 263 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+FLOATplane3D vPlaneNormal ;
+#line 264 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+FLOAT fDistanceToEdge ;
 #line 267 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(bHasLight )
+if(bHasExplosion )
 #line 268 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 {
 #line 269 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-ese  . betType  = BET_LASERBLUE ;
-#line 270 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
-#line 271 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-else 
-#line 272 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
-#line 273 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-ese  . betType  = BET_LASERBLUE ;
-#line 274 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
-#line 275 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-ese  . vStretch  = vStretchExplosion ;
-#line 276 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-CPlacement3D plHandle  = GetPlacement  ();
-#line 277 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-plHandle  . pl_PositionVector  += vCenter ;
-#line 278 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-SpawnEffect  (plHandle  , ese );
-#line 280 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
-#line 282 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(GetNearestPolygon  (vOnPlane  , vPlaneNormal  , fDistanceToEdge )){
-#line 283 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if((vOnPlane  - GetPlacement  () . pl_PositionVector ) . Length  () < 3.5f){
-#line 287 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 ese  . colMuliplier  = C_OXYGEN  | CT_OPAQUE ;
-#line 288 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 270 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+if(bHasLight )
+#line 271 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+{
+#line 272 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 ese  . betType  = BET_LASERBLUE ;
-#line 289 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-ese  . vNormal  = FLOAT3D (vPlaneNormal );
+#line 273 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
+#line 274 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+else 
+#line 275 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+{
+#line 276 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+ese  . betType  = BET_LASERBLUE ;
+#line 277 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
+#line 278 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+ese  . vStretch  = vStretchExplosion ;
+#line 279 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+CPlacement3D plHandle  = GetPlacement  ();
+#line 280 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+plHandle  . pl_PositionVector  += vCenter ;
+#line 281 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+SpawnEffect  (plHandle  , ese );
+#line 283 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
+#line 285 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+if(GetNearestPolygon  (vOnPlane  , vPlaneNormal  , fDistanceToEdge )){
+#line 286 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+if((vOnPlane  - GetPlacement  () . pl_PositionVector ) . Length  () < 3.5f){
 #line 290 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-ese  . vStretch  = vStretchShockwave ;
+ese  . colMuliplier  = C_OXYGEN  | CT_OPAQUE ;
 #line 291 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+ese  . betType  = BET_LASERBLUE ;
+#line 292 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+ese  . vNormal  = FLOAT3D (vPlaneNormal );
+#line 293 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+ese  . vStretch  = vStretchShockwave ;
+#line 294 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 SpawnEffect  (CPlacement3D (vOnPlane  , ANGLE3D (0 , 0 , 0)) , ese );
-#line 302 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
-#line 303 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
 #line 305 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-RangeDamage  ();
+}
 #line 306 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }
-  
-#line 315 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-BOOL CAltCannonBall::BallTouchExplode(CEntityPointer penHit) 
-#line 316 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
-#line 317 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-FLOAT fApplyDamage  = CalculateDamageToInflict  ();
-#line 320 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-FLOAT fHealth  = 100;
-#line 321 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-BOOL bForceCannonballToExplode  = FALSE ;
-#line 323 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(penHit  -> GetPhysicsFlags  () & EPF_MOVABLE ){
-#line 324 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-fHealth  = ((CMovableEntity  &) * penHit ) . GetHealth  ();
-#line 325 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(IsDerivedFromClass  (penHit  , "Enemy Base"))
-#line 326 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
-#line 327 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-bForceCannonballToExplode  = ((CEnemyBase  &) * penHit ) . ForcesCannonballToExplode  ();
-#line 328 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 308 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+RangeDamage  ();
+#line 309 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }
+  
+#line 318 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+BOOL CAltCannonBall::BallTouchExplode(CEntityPointer penHit) 
+#line 319 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+{
+#line 320 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+FLOAT fApplyDamage  = CalculateDamageToInflict  ();
+#line 323 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+FLOAT fHealth  = 100;
+#line 324 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+BOOL bForceCannonballToExplode  = FALSE ;
+#line 326 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+if(penHit  -> GetPhysicsFlags  () & EPF_MOVABLE ){
+#line 327 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+fHealth  = ((CMovableEntity  &) * penHit ) . GetHealth  ();
+#line 328 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+if(IsDerivedFromClass  (penHit  , "Enemy Base"))
 #line 329 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}else {
+{
 #line 330 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(IsOfClass  (penHit  , "ModelHolder2") || IsOfClass  (penHit  , "ExotechLarvaBattery")){
+bForceCannonballToExplode  = ((CEnemyBase  &) * penHit ) . ForcesCannonballToExplode  ();
 #line 331 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-fHealth  = ((CLiveEntity  &) * penHit ) . GetHealth  ();
+}
 #line 332 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }else {
 #line 333 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-return FALSE ;
+if(IsOfClass  (penHit  , "ModelHolder2") || IsOfClass  (penHit  , "ExotechLarvaBattery")){
 #line 334 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
+fHealth  = ((CLiveEntity  &) * penHit ) . GetHealth  ();
 #line 335 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
+}else {
+#line 336 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+return FALSE ;
 #line 337 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(IsOfClass  (penHit  , "ModelHolder2"))
+}
 #line 338 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
-#line 339 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-bForceCannonballToExplode  = TRUE ;
+}
 #line 340 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
-#line 346 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-FLOAT3D vDirection  = en_vCurrentTranslationAbsolute ;
-#line 347 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-vDirection  . Normalize  ();
-#line 349 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-const FLOAT fDamageMul  = GetSeriousDamageMultiplier  (m_penLauncher );
-#line 350 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-InflictDirectDamage  (penHit  , m_penLauncher  , DMT_CANNONBALL  , fApplyDamage  * fDamageMul  , 
-#line 351 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-GetPlacement  () . pl_PositionVector  , vDirection );
-#line 352 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-return (fApplyDamage  <= fHealth  || bForceCannonballToExplode );
-#line 353 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
-  
-#line 357 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-void CAltCannonBall::RangeDamage(void) 
-#line 358 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+if(IsOfClass  (penHit  , "ModelHolder2"))
+#line 341 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 {
-#line 359 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 342 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+bForceCannonballToExplode  = TRUE ;
+#line 343 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
+#line 349 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+FLOAT3D vDirection  = en_vCurrentTranslationAbsolute ;
+#line 350 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+vDirection  . Normalize  ();
+#line 352 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 const FLOAT fDamageMul  = GetSeriousDamageMultiplier  (m_penLauncher );
+#line 353 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+InflictDirectDamage  (penHit  , m_penLauncher  , DMT_CANNONBALL  , fApplyDamage  * fDamageMul  , 
+#line 354 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+GetPlacement  () . pl_PositionVector  , vDirection );
+#line 355 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+return (fApplyDamage  <= fHealth  || bForceCannonballToExplode );
+#line 356 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
+  
 #line 360 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-InflictRangeDamage  (m_penLauncher  , DMT_CANNONBALL_EXPLOSION  , 0 , 
+void CAltCannonBall::RangeDamage(void) 
 #line 361 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-GetPlacement  () . pl_PositionVector  , IRON_RANGE_HOTSPOT  , IRON_RANGE_FALLOFF );
+{
+#line 362 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+const FLOAT fDamageMul  = GetSeriousDamageMultiplier  (m_penLauncher );
 #line 363 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+InflictRangeDamage  (m_penLauncher  , DMT_CANNONBALL_EXPLOSION  , 0 , 
+#line 364 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+GetPlacement  () . pl_PositionVector  , IRON_RANGE_HOTSPOT  , IRON_RANGE_FALLOFF );
+#line 366 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }
   
-#line 367 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-void CAltCannonBall::SpawnEffect(const CPlacement3D & plEffect,const ESpawnEffect & eSpawnEffect) {
-#line 368 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-CEntityPointer penEffect  = CreateEntity  (plEffect  , CLASS_BASIC_EFFECT );
-#line 369 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-penEffect  -> Initialize  (eSpawnEffect );
 #line 370 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+void CAltCannonBall::SpawnEffect(const CPlacement3D & plEffect,const ESpawnEffect & eSpawnEffect) {
+#line 371 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+CEntityPointer penEffect  = CreateEntity  (plEffect  , CLASS_BASIC_EFFECT );
+#line 372 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+penEffect  -> Initialize  (eSpawnEffect );
+#line 373 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }
   
-#line 377 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-void CAltCannonBall::BounceSound(FLOAT fSpeed) {
-#line 378 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-FLOAT fVolume  = Clamp  (fSpeed  / 6.0f , 0.0f , 1.0f);
-#line 379 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(fVolume  < 0.1f){
 #line 380 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-return ;
+void CAltCannonBall::BounceSound(FLOAT fSpeed) {
 #line 381 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
+FLOAT fVolume  = Clamp  (fSpeed  / 6.0f , 0.0f , 1.0f);
 #line 382 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-CSoundObject & so  = (& m_soBounce0 ) [ m_iNextChannel  ];
+if(fVolume  < 0.1f){
 #line 383 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-m_iNextChannel  = (m_iNextChannel  + 1) % 5;
+return ;
 #line 384 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-so  . Set3DParameters  (70.0f , 10.0f , fVolume  , 1.0f);
+}
 #line 385 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-PlaySound  (so  , SOUND_BALL_BOUNCE  , SOF_3D );
+CSoundObject & so  = (& m_soBounce0 ) [ m_iNextChannel  ];
 #line 386 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_iNextChannel  = (m_iNextChannel  + 1) % 5;
+#line 387 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+so  . Set3DParameters  (70.0f , 10.0f , fVolume  , 1.0f);
+#line 388 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+PlaySound  (so  , SOUND_BALL_BOUNCE  , SOF_3D );
+#line 389 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }
 BOOL CAltCannonBall::
-#line 394 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 397 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 Bounce(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CAltCannonBall_Bounce
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CAltCannonBall::Bounce expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 396 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 399 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 CEntity  * penObstacle ;
-#line 397 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(CheckForCollisionNow  (0 , & penObstacle )){
-#line 399 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-Return(STATE_CURRENT,EEnd  ());
-#line 399 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-return TRUE;
 #line 400 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
+if(CheckForCollisionNow  (0 , & penObstacle )){
 #line 402 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-FLOAT fWaitTime  = IRON_LIFE_TIME ;
+Return(STATE_CURRENT,EEnd  ());
+#line 402 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+return TRUE;
+#line 403 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
 #line 405 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+FLOAT fWaitTime  = IRON_LIFE_TIME ;
+#line 406 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+BOOL m_bHasCollided  = FALSE ;
+#line 407 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+FLOAT m_tmCollisionTime  = 0.0f;
+#line 410 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 SetTimerAfter(fWaitTime );
 Jump(STATE_CURRENT, 0x05e20002, FALSE, EBegin());return TRUE;}BOOL CAltCannonBall::H0x05e20002_Bounce_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -476,142 +482,224 @@ Jump(STATE_CURRENT, 0x05e20002, FALSE, EBegin());return TRUE;}BOOL CAltCannonBal
 switch(__eeInput.ee_slEvent){case(EVENTCODE_EBegin):{const EBegin&e= (EBegin&)__eeInput;
 return TRUE;}ASSERT(FALSE);break;case(EVENTCODE_EPass):{const EPass&epass= (EPass&)__eeInput;
 
-#line 408 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-BOOL bHit ;
-#line 410 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-bHit  = epass  . penOther  != m_penLauncher  || _pTimer  -> CurrentTick  () > m_fIgnoreTime ;
-#line 412 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-bHit  &= ! IsOfClass  (epass  . penOther  , "Twister");
 #line 414 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(bHit )
-#line 415 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
+if(m_bHasCollided ){return TRUE;}
 #line 416 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(BallTouchExplode  (epass  . penOther )){UnsetTimer();Jump(STATE_CURRENT,0x05e20003, FALSE, EInternal());return TRUE;}
-#line 417 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
+BOOL bHit ;
 #line 418 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+bHit  = epass  . penOther  != m_penLauncher  || _pTimer  -> CurrentTick  () > m_fIgnoreTime ;
+#line 420 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+bHit  &= ! IsOfClass  (epass  . penOther  , "Twister");
+#line 422 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+if(bHit )
+#line 423 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+{
+#line 424 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+if(BallTouchExplode  (epass  . penOther )){
+#line 426 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_bHasCollided  = TRUE ;
+#line 427 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_tmCollisionTime  = _pTimer  -> CurrentTick  ();
+#line 428 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_tmForceExplode  = m_tmCollisionTime  + 2.0f;
+#line 431 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+SetDesiredTranslation  (FLOAT3D (0 , 0 , 0));
+#line 432 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+en_fDeceleration  = 100.0f;
+#line 433 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
+#line 434 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
+#line 435 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 return TRUE;
-#line 419 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 436 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }ASSERT(FALSE);break;case(EVENTCODE_ETouch):{const ETouch&etouch= (ETouch&)__eeInput;
 
-#line 421 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(IsOfClass  (etouch  . penOther  , "WorldBase"))
-#line 422 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
-#line 423 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-UnsetTimer();Jump(STATE_CURRENT,0x05e20003, FALSE, EInternal());return TRUE;
-#line 424 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
-#line 426 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(IsOfClass  (etouch  . penOther  , "Cannon ball"))
-#line 427 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
-#line 428 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-UnsetTimer();Jump(STATE_CURRENT,0x05e20003, FALSE, EInternal());return TRUE;
-#line 429 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
-#line 430 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(IsOfClass  (etouch  . penOther  , "Moving Brush"))
-#line 431 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
-#line 432 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-CMovingBrush  & br  = (CMovingBrush  &) * etouch  . penOther ;
-#line 433 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(br  . m_fHealth  > 0)
-#line 434 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
-#line 435 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-FLOAT3D vDirection  = en_vCurrentTranslationAbsolute ;
-#line 436 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-vDirection  . Normalize  ();
-#line 437 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-InflictDirectDamage  (etouch  . penOther  , m_penLauncher  , DMT_CANNONBALL  , CalculateDamageToInflict  () , 
-#line 438 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-GetPlacement  () . pl_PositionVector  , vDirection );
 #line 439 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-m_bSelfExploded  = FALSE ;
-#line 440 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-UnsetTimer();Jump(STATE_CURRENT,0x05e20003, FALSE, EInternal());return TRUE;
+if(m_bHasCollided ){return TRUE;}
 #line 441 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
+if(IsOfClass  (etouch  . penOther  , "WorldBase"))
 #line 442 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
-#line 443 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(IsOfClass  (etouch  . penOther  , "DestroyableArchitecture"))
+{
 #line 444 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
+m_bHasCollided  = TRUE ;
 #line 445 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-CDestroyableArchitecture  & br  = (CDestroyableArchitecture  &) * etouch  . penOther ;
+m_tmCollisionTime  = _pTimer  -> CurrentTick  ();
 #line 446 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-if(br  . m_fHealth  > 0)
-#line 447 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-{
-#line 448 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-FLOAT3D vDirection  = en_vCurrentTranslationAbsolute ;
+m_tmForceExplode  = m_tmCollisionTime  + 2.0f;
 #line 449 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-vDirection  . Normalize  ();
+SetDesiredTranslation  (FLOAT3D (0 , 0 , 0));
 #line 450 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-InflictDirectDamage  (etouch  . penOther  , m_penLauncher  , DMT_CANNONBALL  , CalculateDamageToInflict  () , 
-#line 451 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-GetPlacement  () . pl_PositionVector  , vDirection );
+en_fDeceleration  = 100.0f;
 #line 452 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-m_bSelfExploded  = FALSE ;
+BounceSound  (((FLOAT3D &) etouch  . plCollision ) % en_vCurrentTranslationAbsolute );
 #line 453 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-UnsetTimer();Jump(STATE_CURRENT,0x05e20003, FALSE, EInternal());return TRUE;
+return TRUE;
 #line 454 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }
-#line 455 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-}
+#line 456 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+else if(IsOfClass  (etouch  . penOther  , "Cannon ball"))
+#line 457 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+{
 #line 458 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-BounceSound  (((FLOAT3D &) etouch  . plCollision ) % en_vCurrentTranslationAbsolute );
+m_bHasCollided  = TRUE ;
 #line 459 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-return TRUE;
+m_tmCollisionTime  = _pTimer  -> CurrentTick  ();
 #line 460 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_tmForceExplode  = m_tmCollisionTime  + 2.0f;
+#line 462 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+SetDesiredTranslation  (FLOAT3D (0 , 0 , 0));
+#line 463 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+en_fDeceleration  = 100.0f;
+#line 464 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+return TRUE;
+#line 465 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
+#line 466 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+else if(IsOfClass  (etouch  . penOther  , "Moving Brush"))
+#line 467 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+{
+#line 468 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+CMovingBrush  & br  = (CMovingBrush  &) * etouch  . penOther ;
+#line 469 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+if(br  . m_fHealth  > 0)
+#line 470 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+{
+#line 471 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_bHasCollided  = TRUE ;
+#line 472 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_tmCollisionTime  = _pTimer  -> CurrentTick  ();
+#line 473 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_tmForceExplode  = m_tmCollisionTime  + 2.0f;
+#line 475 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+SetDesiredTranslation  (FLOAT3D (0 , 0 , 0));
+#line 476 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+en_fDeceleration  = 100.0f;
+#line 478 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+FLOAT3D vDirection  = en_vCurrentTranslationAbsolute ;
+#line 479 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+vDirection  . Normalize  ();
+#line 480 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+InflictDirectDamage  (etouch  . penOther  , m_penLauncher  , DMT_CANNONBALL  , CalculateDamageToInflict  () , 
+#line 481 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+GetPlacement  () . pl_PositionVector  , vDirection );
+#line 482 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
+#line 483 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
+#line 484 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+else if(IsOfClass  (etouch  . penOther  , "DestroyableArchitecture"))
+#line 485 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+{
+#line 486 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+CDestroyableArchitecture  & br  = (CDestroyableArchitecture  &) * etouch  . penOther ;
+#line 487 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+if(br  . m_fHealth  > 0)
+#line 488 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+{
+#line 489 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_bHasCollided  = TRUE ;
+#line 490 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_tmCollisionTime  = _pTimer  -> CurrentTick  ();
+#line 491 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_tmForceExplode  = m_tmCollisionTime  + 2.0f;
+#line 493 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+SetDesiredTranslation  (FLOAT3D (0 , 0 , 0));
+#line 494 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+en_fDeceleration  = 100.0f;
+#line 496 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+FLOAT3D vDirection  = en_vCurrentTranslationAbsolute ;
+#line 497 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+vDirection  . Normalize  ();
+#line 498 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+InflictDirectDamage  (etouch  . penOther  , m_penLauncher  , DMT_CANNONBALL  , CalculateDamageToInflict  () , 
+#line 499 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+GetPlacement  () . pl_PositionVector  , vDirection );
+#line 500 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
+#line 501 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
+#line 502 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+else 
+#line 503 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+{
+#line 505 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_bHasCollided  = TRUE ;
+#line 506 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_tmCollisionTime  = _pTimer  -> CurrentTick  ();
+#line 507 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_tmForceExplode  = m_tmCollisionTime  + 2.0f;
+#line 509 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+SetDesiredTranslation  (FLOAT3D (0 , 0 , 0));
+#line 510 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+en_fDeceleration  = 100.0f;
+#line 511 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
+#line 513 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+if(! m_bHasCollided ){
+#line 514 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+BounceSound  (((FLOAT3D &) etouch  . plCollision ) % en_vCurrentTranslationAbsolute );
+#line 515 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
+#line 516 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+return TRUE;
+#line 517 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EForceExplode):{const EForceExplode&e= (EForceExplode&)__eeInput;
-UnsetTimer();Jump(STATE_CURRENT,0x05e20003, FALSE, EInternal());return TRUE;}ASSERT(FALSE);break;case(EVENTCODE_EDeath):{const EDeath&e= (EDeath&)__eeInput;
+
+#line 520 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+if(_pTimer  -> CurrentTick  () >= m_tmForceExplode ){
+#line 521 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+UnsetTimer();Jump(STATE_CURRENT,0x05e20003, FALSE, EInternal());return TRUE;
+#line 522 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}else {
+#line 523 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+return TRUE;
+#line 524 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}
+#line 525 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+}ASSERT(FALSE);break;case(EVENTCODE_EDeath):{const EDeath&e= (EDeath&)__eeInput;
 UnsetTimer();Jump(STATE_CURRENT,0x05e20003, FALSE, EInternal());return TRUE;}ASSERT(FALSE);break;case(EVENTCODE_ETimer):{const ETimer&e= (ETimer&)__eeInput;
 UnsetTimer();Jump(STATE_CURRENT,0x05e20003, FALSE, EInternal());return TRUE;}ASSERT(FALSE);break;default: return FALSE; break;
-#line 464 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 528 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }return TRUE;}BOOL CAltCannonBall::H0x05e20003_Bounce_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x05e20003
 
-#line 465 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 529 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 m_bSelfExploded  = TRUE ;
-#line 466 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 530 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 466 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 530 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CAltCannonBall::
-#line 470 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 534 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 Main(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CAltCannonBall_Main
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_ELaunchAltCannonBall, "CAltCannonBall::Main expects 'ELaunchAltCannonBall' as input!");  const ELaunchAltCannonBall &eLaunch = (const ELaunchAltCannonBall &)__eeInput;
-#line 472 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 536 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 ASSERT  (eLaunch  . penLauncher  != NULL );
-#line 473 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 537 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 m_penLauncher  = eLaunch  . penLauncher ;
-#line 474 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 538 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 m_fLaunchPower  = eLaunch  . fLaunchPower ;
-#line 475 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 539 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 m_fCannonBallSize  = eLaunch  . fSize ;
-#line 476 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 540 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 Particles_LaserBlueTrail_Prepare  (this );
-#line 477 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-m_tmInvisibility  = 0.05f;
-#line 478 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 541 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_tmInvisibility  = 0.0f;
+#line 542 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 m_bSelfExploded  = FALSE ;
-#line 479 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 543 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 m_tmExpandBox  = 0.0001f;
-#line 481 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 545 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 m_tmForceExplode  = _pTimer  -> CurrentTick  () + 30.0f;
-#line 484 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 548 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 Initialize  ();
-#line 486 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 550 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 SendEvent  (EReturn  ());
-#line 487 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 551 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 SetTimerAt(THINKTIME_NEVER);
 Jump(STATE_CURRENT, 0x05e20004, FALSE, EBegin());return TRUE;}BOOL CAltCannonBall::H0x05e20004_Main_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -619,43 +707,47 @@ Jump(STATE_CURRENT, 0x05e20004, FALSE, EBegin());return TRUE;}BOOL CAltCannonBal
 switch(__eeInput.ee_slEvent){case(EVENTCODE_EBegin):{const EBegin&e= (EBegin&)__eeInput;
 return TRUE;}ASSERT(FALSE);break;case(EVENTCODE_EReturn):{const EReturn&e= (EReturn&)__eeInput;
 UnsetTimer();Jump(STATE_CURRENT,0x05e20005, FALSE, EInternal());return TRUE;}ASSERT(FALSE);break;default: return FALSE; break;
-#line 490 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 554 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }return TRUE;}BOOL CAltCannonBall::H0x05e20005_Main_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x05e20005
 
-#line 493 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 557 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 FLOAT tmCastCoverPath  = _pTimer  -> TickQuantum  * 1.5f;
-#line 494 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 558 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 CCastRay  crRay  (m_penLauncher  , GetPlacement  () , m_fLaunchPower  * tmCastCoverPath );
-#line 495 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 559 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 crRay  . cr_bHitTranslucentPortals  = FALSE ;
-#line 496 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 560 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 crRay  . cr_fTestR  = 0.75f / 2.0f * m_fCannonBallSize ;
-#line 497 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 561 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 crRay  . cr_ttHitModels  = CCastRay  :: TT_COLLISIONBOX ;
-#line 498 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 562 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 GetWorld  () -> CastRay  (crRay );
-#line 501 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 565 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 m_fIgnoreTime  = _pTimer  -> CurrentTick  () + 0.1f;
-#line 504 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 568 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 m_fStartTime  = _pTimer  -> CurrentTick  ();
-#line 505 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 569 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 if(crRay  . cr_penHit  != NULL )
-#line 506 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 570 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 {
-#line 507 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 571 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 if(crRay  . cr_penHit  -> GetRenderType  () == RT_MODEL  && BallTouchExplode  (crRay  . cr_penHit ))
-#line 508 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 572 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 {
-#line 509 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 573 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 m_tmForceExplode  = _pTimer  -> CurrentTick  () + tmCastCoverPath ;
-#line 510 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 574 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }
-#line 511 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 575 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 }
-#line 513 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 577 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_bHasCollided  = FALSE ;
+#line 578 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+m_tmCollisionTime  = 0.0f;
+#line 580 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 STATE_CAltCannonBall_Bounce, TRUE;
 Jump(STATE_CURRENT, 0x05e20006, FALSE, EBegin());return TRUE;}BOOL CAltCannonBall::H0x05e20006_Main_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -665,27 +757,27 @@ switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_C
 #define STATE_CURRENT 0x05e20007
 const EEnd&__e= (EEnd&)__eeInput;
 ;
-#line 516 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 583 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 SwitchToEditorModel  ();
-#line 518 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 585 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 ForceFullStop  ();
-#line 521 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 588 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 ESound  eSound ;
-#line 522 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 589 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 eSound  . EsndtSound  = SNDT_EXPLOSION ;
-#line 523 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 590 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 eSound  . penTarget  = m_penLauncher ;
-#line 528 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 595 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 Explosion  (FLOAT3D (0.0f , 0.0f , 0.0f) , STRETCH_3  , STRETCH_3  , STRETCH_4  , TRUE  , TRUE  , TRUE  , TRUE );
-#line 529 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 596 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 Explosion  (FLOAT3D (1.0f , 1.5f , 1.5f) , STRETCH_3  , STRETCH_3  , STRETCH_4  , TRUE  , FALSE  , FALSE  , FALSE );
-#line 530 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 597 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 Explosion  (FLOAT3D (- 2.0f , 1.0f , - 1.5f) , STRETCH_3  , STRETCH_3  , STRETCH_4  , TRUE  , FALSE  , FALSE  , FALSE );
-#line 531 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 598 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 Explosion  (FLOAT3D (- 1.0f , 0.5f , 1.0f) , STRETCH_4  , STRETCH_4  , STRETCH_4  , TRUE  , FALSE  , FALSE  , FALSE );
-#line 534 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 601 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 Destroy  ();
-#line 536 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 603 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 Return(STATE_CURRENT,EVoid());
-#line 536 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 603 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 return TRUE; ASSERT(FALSE); return TRUE;};

@@ -88,6 +88,9 @@ properties:
  12 INDEX m_iNextChannel = 0,         // next channel to play sound on
 
  13 BOOL m_bSelfExploded = FALSE,     // if cannonball exploded because of time, not because of impact
+ 
+ 14 BOOL m_bHasCollided = FALSE,      
+ 15 FLOAT m_tmCollisionTime = 0.0f,   
 
  // sound channels for bouncing sound
  20 CSoundObject m_soBounce0,
@@ -391,80 +394,141 @@ void BounceSound(FLOAT fSpeed) {
  *                   P R O C E D U R E S                    *
  ************************************************************/
 procedures:
-  Bounce(EVoid) {
-    // if already inside some entity
+Bounce(EVoid) {
+    // если уже внутри некоторой сущности
     CEntity *penObstacle;
     if (CheckForCollisionNow(0, &penObstacle)) {
-      // explode now
-      return EEnd();
+        // взрываемся сейчас
+        return EEnd();
     }
 
     FLOAT fWaitTime = IRON_LIFE_TIME;
-    // if this is nuke ball
+    BOOL m_bHasCollided = FALSE;
+    FLOAT m_tmCollisionTime = 0.0f;
+    
     // bounce loop
     wait(fWaitTime) {
-      on (EBegin) : { resume; }
-      on (EPass epass) : {
-        BOOL bHit;
-        // ignore launcher within 1 second
-        bHit = epass.penOther!=m_penLauncher || _pTimer->CurrentTick()>m_fIgnoreTime;
-        // ignore twister
-        bHit &= !IsOfClass(epass.penOther, "Twister");
+        on (EBegin) : { resume; }
+        on (EPass epass) : {
+            // Если уже столкнулись, игнорируем дальнейшие столкновения
+            if (m_bHasCollided) { resume; }
+            
+            BOOL bHit;
+            // ignore launcher within 1 second
+            bHit = epass.penOther!=m_penLauncher || _pTimer->CurrentTick()>m_fIgnoreTime;
+            // ignore twister
+            bHit &= !IsOfClass(epass.penOther, "Twister");
 
-        if (bHit)
-        {
-          if (BallTouchExplode(epass.penOther)) { stop; }
+            if (bHit)
+            {
+                if (BallTouchExplode(epass.penOther)) { 
+                    // Отмечаем столкновение и устанавливаем время взрыва
+                    m_bHasCollided = TRUE;
+                    m_tmCollisionTime = _pTimer->CurrentTick();
+                    m_tmForceExplode = m_tmCollisionTime + 2.0f;
+                    
+                    // Останавливаем движение при столкновении
+                    SetDesiredTranslation(FLOAT3D(0,0,0));
+                    en_fDeceleration = 100.0f; // Быстро останавливаемся
+                }
+            }
+            resume;
         }
-        resume;
-      }
-      on (ETouch etouch) : {
-	    if( IsOfClass(etouch.penOther, "WorldBase"))
-        {
-          stop;
+        on (ETouch etouch) : {
+            // Если уже столкнулись, игнорируем дальнейшие столкновения
+            if (m_bHasCollided) { resume; }
+            
+            if( IsOfClass(etouch.penOther, "WorldBase"))
+            {
+                // Отмечаем столкновение и устанавливаем время взрыва
+                m_bHasCollided = TRUE;
+                m_tmCollisionTime = _pTimer->CurrentTick();
+                m_tmForceExplode = m_tmCollisionTime + 2.0f;
+                
+                // Останавливаем движение при столкновении
+                SetDesiredTranslation(FLOAT3D(0,0,0));
+                en_fDeceleration = 100.0f; // Быстро останавливаемся
+                
+                BounceSound(((FLOAT3D&)etouch.plCollision) % en_vCurrentTranslationAbsolute);
+                resume;
+            }
+            // explode if touched another cannon ball
+            else if( IsOfClass(etouch.penOther, "Cannon ball"))
+            {
+                m_bHasCollided = TRUE;
+                m_tmCollisionTime = _pTimer->CurrentTick();
+                m_tmForceExplode = m_tmCollisionTime + 2.0f;
+                
+                SetDesiredTranslation(FLOAT3D(0,0,0));
+                en_fDeceleration = 100.0f;
+                resume;
+            }
+            else if( IsOfClass(etouch.penOther, "Moving Brush"))
+            {
+                CMovingBrush &br = (CMovingBrush &) *etouch.penOther;
+                if( br.m_fHealth>0)
+                {
+                    m_bHasCollided = TRUE;
+                    m_tmCollisionTime = _pTimer->CurrentTick();
+                    m_tmForceExplode = m_tmCollisionTime + 2.0f;
+                    
+                    SetDesiredTranslation(FLOAT3D(0,0,0));
+                    en_fDeceleration = 100.0f;
+                    
+                    FLOAT3D vDirection = en_vCurrentTranslationAbsolute;
+                    vDirection.Normalize();
+                    InflictDirectDamage(etouch.penOther, m_penLauncher, DMT_CANNONBALL, CalculateDamageToInflict(),
+                               GetPlacement().pl_PositionVector, vDirection);
+                }
+            }
+            else if( IsOfClass(etouch.penOther, "DestroyableArchitecture"))
+            {
+                CDestroyableArchitecture &br = (CDestroyableArchitecture &) *etouch.penOther;
+                if( br.m_fHealth>0)
+                {
+                    m_bHasCollided = TRUE;
+                    m_tmCollisionTime = _pTimer->CurrentTick();
+                    m_tmForceExplode = m_tmCollisionTime + 2.0f;
+                    
+                    SetDesiredTranslation(FLOAT3D(0,0,0));
+                    en_fDeceleration = 100.0f;
+                    
+                    FLOAT3D vDirection = en_vCurrentTranslationAbsolute;
+                    vDirection.Normalize();
+                    InflictDirectDamage(etouch.penOther, m_penLauncher, DMT_CANNONBALL, CalculateDamageToInflict(),
+                               GetPlacement().pl_PositionVector, vDirection);
+                }
+            }
+            else
+            {
+                // Для других объектов также отмечаем столкновение
+                m_bHasCollided = TRUE;
+                m_tmCollisionTime = _pTimer->CurrentTick();
+                m_tmForceExplode = m_tmCollisionTime + 2.0f;
+                
+                SetDesiredTranslation(FLOAT3D(0,0,0));
+                en_fDeceleration = 100.0f;
+            }
+            
+            if (!m_bHasCollided) {
+                BounceSound(((FLOAT3D&)etouch.plCollision) % en_vCurrentTranslationAbsolute);
+            }
+            resume;
         }
-        // explode if touched another cannon ball
-        if( IsOfClass(etouch.penOther, "Cannon ball"))
-        {
-          stop;
+        on (EForceExplode) : { 
+            // Если время взрыва наступило, выходим
+            if (_pTimer->CurrentTick() >= m_tmForceExplode) {
+                stop; 
+            } else {
+                resume;
+            }
         }
-        if( IsOfClass(etouch.penOther, "Moving Brush"))
-        {
-          CMovingBrush &br = (CMovingBrush &) *etouch.penOther;
-          if( br.m_fHealth>0)
-          {
-            FLOAT3D vDirection = en_vCurrentTranslationAbsolute;
-            vDirection.Normalize();
-            InflictDirectDamage(etouch.penOther, m_penLauncher, DMT_CANNONBALL, CalculateDamageToInflict(),
-                       GetPlacement().pl_PositionVector, vDirection);
-            m_bSelfExploded = FALSE;
-            stop;
-          }
-        }
-        if( IsOfClass(etouch.penOther, "DestroyableArchitecture"))
-        {
-          CDestroyableArchitecture &br = (CDestroyableArchitecture &) *etouch.penOther;
-          if( br.m_fHealth>0)
-          {
-            FLOAT3D vDirection = en_vCurrentTranslationAbsolute;
-            vDirection.Normalize();
-            InflictDirectDamage(etouch.penOther, m_penLauncher, DMT_CANNONBALL, CalculateDamageToInflict(),
-                       GetPlacement().pl_PositionVector, vDirection);
-            m_bSelfExploded = FALSE;
-            stop;
-          }
-        }
-        // clear time limit for launcher
-        //m_fIgnoreTime = 0.0f;
-        BounceSound(((FLOAT3D&)etouch.plCollision) % en_vCurrentTranslationAbsolute);
-        resume;
-      }
-      on (EForceExplode) : { stop; }
-      on (EDeath) : { stop; }
-      on (ETimer) : { stop; }
+        on (EDeath) : { stop; }
+        on (ETimer) : { stop; }
     }
     m_bSelfExploded = TRUE;
     return EEnd();
-  };
+};
 
   // --->>> MAIN
   Main(ELaunchAltCannonBall eLaunch) {
@@ -474,7 +538,7 @@ procedures:
     m_fLaunchPower = eLaunch.fLaunchPower;
     m_fCannonBallSize = eLaunch.fSize;
 	Particles_LaserBlueTrail_Prepare(this);
-    m_tmInvisibility = 0.05f;
+    m_tmInvisibility = 0.0f;
     m_bSelfExploded = FALSE;
     m_tmExpandBox = 0.0001f;
     // setup time for forced expolding
@@ -509,6 +573,9 @@ procedures:
         m_tmForceExplode = _pTimer->CurrentTick()+tmCastCoverPath;
       }
     }
+	
+		m_bHasCollided = FALSE;
+    m_tmCollisionTime = 0.0f;
 
     autocall Bounce() EEnd;
 

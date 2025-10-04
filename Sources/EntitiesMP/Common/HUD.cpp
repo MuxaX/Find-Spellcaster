@@ -141,6 +141,7 @@ static CTextureObject _toSniperEye;
 static CTextureObject _toSniperLed;
 static CTextureObject _toSniperMaskAG;
 static CTextureObject _toSniperMaskRL;
+static CTextureObject _toSniperMaskRailGun;
 
 //ProgressBar for PutTexture
 //static PIXaabbox2D _boxProgressBar;
@@ -896,6 +897,109 @@ static void HUD_DrawSniperMaskRL( void )
   }
 }
 
+static void HUD_DrawSniperMaskRailGun( void )
+{
+  // determine location
+  const FLOAT fSizeI = _pixDPWidth;
+  const FLOAT fSizeJ = _pixDPHeight;
+  const FLOAT fCenterI = fSizeI/2;  
+  const FLOAT fCenterJ = fSizeJ/2;  
+  const FLOAT fBlackStrip = (fSizeI-fSizeJ)/2;
+
+  COLOR colMask = C_WHITE|CT_OPAQUE;
+  
+  CTextureData *ptd = (CTextureData*)_toSniperMask.GetData();
+  const FLOAT fTexSizeI = ptd->GetPixWidth();
+  const FLOAT fTexSizeJ = ptd->GetPixHeight();
+
+  // main sniper mask
+  _pDP->InitTexture( &_toSniperMaskRailGun);
+  _pDP->AddTexture( fBlackStrip, 0, fSizeI-fBlackStrip, fSizeJ, 1.0f, 0.00f, 0, 1.0f, colMask);
+  //_pDP->AddTexture( fCenterI, 0, fSizeI-fBlackStrip, fCenterJ, 0, 0.02f, 0.98f, 1.0f, colMask);
+  //_pDP->AddTexture( fBlackStrip, fCenterJ, fCenterI, fSizeJ, 0.98f, 1.0f, 0, 0.02f, colMask);
+  //_pDP->AddTexture( fCenterI, fCenterJ, fSizeI-fBlackStrip, fSizeJ, 0, 1, 0.98f, 0.02f, colMask);
+  _pDP->FlushRenderingQueue();
+  _pDP->Fill( 0, 0, fBlackStrip+1, fSizeJ, C_BLACK|CT_OPAQUE);
+  _pDP->Fill( fSizeI-fBlackStrip-1, 0, fBlackStrip+1, fSizeJ, C_BLACK|CT_OPAQUE);
+
+  colMask = LerpColor(0xff49def2, C_WHITE, 0.25f);
+
+  FLOAT _fYResolutionScaling = (FLOAT)_pixDPHeight/480.0f;
+
+  FLOAT fDistance = _penWeapons->m_fRayHitDistance;
+  FLOAT aFOV = Lerp(_penWeapons->m_fSniperFOVlast, _penWeapons->m_fSniperFOV,
+                    _pTimer->GetLerpFactor());
+  CTString strTmp;
+  
+  // wheel
+  FLOAT fZoom = 1.0f/tan(RadAngle(aFOV)*0.5f);  // 2.0 - 8.0
+  
+  FLOAT fAFact = (Clamp(aFOV, 14.2f, 53.1f)-14.2f)/(53.1f-14.2f); // only for zooms 2x-4x !!!!!!
+  ANGLE aAngle = 314.0f+fAFact*292.0f;
+
+  //DrawRotatedQuad(&_toSniperWheel, fCenterI, fCenterJ, 40.0f*_fYResolutionScaling,
+  //                aAngle, colMask|0x44);
+  
+  FLOAT fTM = _pTimer->GetLerpedCurrentTick();
+  
+  COLOR colLED;
+  if (_penWeapons->m_tmLastSniperFire+1.25f<fTM) { // blinking
+    colLED = 0x44FF22BB;
+  } else {
+    colLED = 0xFF4422DD;
+  }
+
+  // reload indicator
+ // DrawAspectCorrectTextureCentered(&_toSniperLed, fCenterI-37.0f*_fYResolutionScaling,
+ //   fCenterJ+36.0f*_fYResolutionScaling, 15.0f*_fYResolutionScaling, colLED);
+    
+  if (_fResolutionScaling>=1.0f)
+  {
+    FLOAT _fIconSize;
+    FLOAT _fLeftX,  _fLeftYU,  _fLeftYD;
+    FLOAT _fRightX, _fRightYU, _fRightYD;
+
+    if (_fResolutionScaling<=1.3f) {
+      _pDP->SetFont( _pfdConsoleFont);
+      _pDP->SetTextAspect( 1.0f);
+      _pDP->SetTextScaling(1.0f);
+      _fIconSize = 22.8f;
+      _fLeftX = 159.0f;
+      _fLeftYU = 8.0f;
+      _fLeftYD = 6.0f;
+      _fRightX = 159.0f;
+      _fRightYU = 11.0f;
+      _fRightYD = 6.0f;
+    } else {
+      _pDP->SetFont( _pfdDisplayFont);
+      _pDP->SetTextAspect( 1.0f);
+      _pDP->SetTextScaling(0.7f*_fYResolutionScaling);
+      _fIconSize = 19.0f;
+      _fLeftX = 162.0f;
+      _fLeftYU = 8.0f;
+      _fLeftYD = 6.0f;
+      _fRightX = 162.0f;
+      _fRightYU = 11.0f;
+      _fRightYD = 6.0f;
+    }
+     
+    // arrow + distance
+    DrawAspectCorrectTextureCentered(&_toSniperArrow, fCenterI-_fLeftX*_fYResolutionScaling,
+      fCenterJ-_fLeftYU*_fYResolutionScaling, _fIconSize*_fYResolutionScaling, 0xff49def2 );
+    if (fDistance>9999.9f) { strTmp.PrintF("---.-");           }
+    else if (TRUE)         { strTmp.PrintF("%.1fm", fDistance); }
+    _pDP->PutTextC( strTmp, fCenterI-_fLeftX*_fYResolutionScaling,
+      (fCenterJ+_fLeftYD*_fYResolutionScaling)+10.0f, 0xff49def2|CT_OPAQUE);
+    
+    // eye + zoom level
+    DrawAspectCorrectTextureCentered(&_toSniperEye,   fCenterI+_fRightX*_fYResolutionScaling,
+      fCenterJ-_fRightYU*_fYResolutionScaling, _fIconSize*_fYResolutionScaling, 0xff49def2 ); //SE_COL_ORANGE_L
+    strTmp.PrintF("%.1fx", fZoom);
+    _pDP->PutTextC( strTmp, fCenterI+_fRightX*_fYResolutionScaling,
+      (fCenterJ+_fRightYD*_fYResolutionScaling)+10.0f, 0xff49def2|CT_OPAQUE);
+  }
+}
+
 
 // helper functions
 
@@ -1053,6 +1157,10 @@ extern void DrawHUD( const CPlayer *penPlayerCurrent, CDrawPort *pdpCurrent, BOO
     if ((((CPlayerWeapons*)&*penPlayerOwner->m_penWeapons)->m_iCurrentWeapon==WEAPON_ROCKETLAUNCHER
     &&((CPlayerWeapons*)&*penPlayerOwner->m_penWeapons)->m_bSniping) ) {
     HUD_DrawSniperMaskRL();
+  }
+    if ((((CPlayerWeapons*)&*penPlayerOwner->m_penWeapons)->m_iCurrentWeapon==WEAPON_IRONCANNON
+    &&((CPlayerWeapons*)&*penPlayerOwner->m_penWeapons)->m_bSniping) ) {
+    HUD_DrawSniperMaskRailGun();
   }
    
   // prepare font and text dimensions
@@ -1791,6 +1899,7 @@ extern void InitHUD(void)
     _toSniperLed.SetData_t(       CTFILENAME("TexturesMP\\Interface\\SniperLed.tex"));
 	_toSniperMaskAG.SetData_t(     CTFILENAME("TexturesMP\\Interface\\SniperMaskAG.tex"));
 	_toSniperMaskRL.SetData_t(     CTFILENAME("TexturesMP\\Interface\\SniperMaskRL.tex"));
+	_toSniperMaskRailGun.SetData_t( CTFILENAME("TexturesMP\\Interface\\SniperMaskRailGun.tex"));
 
     // initialize tile texture
     _toTile.SetData_t( CTFILENAME("Textures\\Interface\\Tile.tex"));
@@ -1855,6 +1964,7 @@ extern void InitHUD(void)
     ((CTextureData*)_toSniperLed.GetData())->Force(TEX_CONSTANT);
 	((CTextureData*)_toSniperMaskAG.GetData())->Force(TEX_CONSTANT);
 	((CTextureData*)_toSniperMaskRL.GetData())->Force(TEX_CONSTANT);
+	((CTextureData*)_toSniperMaskRailGun.GetData())->Force(TEX_CONSTANT);
 	
 	((CTextureData*)_tohealthBar1      .GetData())->Force(TEX_CONSTANT);
 	((CTextureData*)_tohealthBar2      .GetData())->Force(TEX_CONSTANT);

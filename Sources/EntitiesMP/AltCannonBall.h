@@ -29,6 +29,8 @@ public:
   FLOAT m_fStartTime;
   INDEX m_iNextChannel;
   BOOL m_bSelfExploded;
+  BOOL m_bHasCollided;
+  FLOAT m_tmCollisionTime;
   CSoundObject m_soBounce0;
   CSoundObject m_soBounce1;
   CSoundObject m_soBounce2;
@@ -39,70 +41,70 @@ public:
   FLOAT m_tmForceExplode;
 CLightSource m_lsLightSource;
    
-#line 121 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 124 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 void PreMoving(void);
    
-#line 131 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 134 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 void PostMoving(void);
    
-#line 143 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 146 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 void Read_t(CTStream * istr);
    
-#line 152 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 155 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 CLightSource * GetLightSource(void);
    
-#line 160 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 163 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 BOOL AdjustShadingParameters(FLOAT3D & vLightDirection,COLOR & colLight,COLOR & colAmbient);
    
-#line 178 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 181 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 void SetupLightSource(void);
    
-#line 196 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 199 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 void RenderParticles(void);
    
-#line 211 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 214 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 void Initialize(void);
    
-#line 239 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 242 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 FLOAT CalculateDamageToInflict(void);
    
-#line 249 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-void Explosion(FLOAT3D vCenter,
-#line 250 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-const FLOAT3D & vStretchExplosion,
-#line 251 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-const FLOAT3D & vStretchShockwave,
 #line 252 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-const FLOAT3D & vStretchStain,
+void Explosion(FLOAT3D vCenter,
 #line 253 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-BOOL bHasExplosion,
+const FLOAT3D & vStretchExplosion,
 #line 254 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-BOOL bHasShockWave,
+const FLOAT3D & vStretchShockwave,
 #line 255 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
-BOOL bHasStain,
+const FLOAT3D & vStretchStain,
 #line 256 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+BOOL bHasExplosion,
+#line 257 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+BOOL bHasShockWave,
+#line 258 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+BOOL bHasStain,
+#line 259 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 BOOL bHasLight);
    
-#line 334 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 318 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 BOOL BallTouchExplode(CEntityPointer penHit);
    
-#line 376 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 360 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 void RangeDamage(void);
    
-#line 386 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 370 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 void SpawnEffect(const CPlacement3D & plEffect,const ESpawnEffect & eSpawnEffect);
    
-#line 396 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 380 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 void BounceSound(FLOAT fSpeed);
 #define  STATE_CAltCannonBall_Bounce 0x05e20001
   BOOL 
-#line 413 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 397 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 Bounce(const CEntityEvent &__eeInput);
   BOOL H0x05e20002_Bounce_01(const CEntityEvent &__eeInput);
   BOOL H0x05e20003_Bounce_02(const CEntityEvent &__eeInput);
 #define  STATE_CAltCannonBall_Main 1
   BOOL 
-#line 489 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
+#line 534 "V:/Programs/SamSDK/Sources/EntitiesMP/AltCannonBall.es"
 Main(const CEntityEvent &__eeInput);
   BOOL H0x05e20004_Main_01(const CEntityEvent &__eeInput);
   BOOL H0x05e20005_Main_02(const CEntityEvent &__eeInput);

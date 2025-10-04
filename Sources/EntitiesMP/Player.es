@@ -2449,7 +2449,7 @@ functions:
       aFOV = 90.0f;
     }
     // if sniper active
-    if ((((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_SNIPER) || (((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_TOMMYGUN) || (((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_ROCKETLAUNCHER))
+    if ((((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_SNIPER) || (((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_TOMMYGUN) || (((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_ROCKETLAUNCHER) || (((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_IRONCANNON))
     {
       aFOV = Lerp(((CPlayerWeapons&)*m_penWeapons).m_fSniperFOVlast,
                   ((CPlayerWeapons&)*m_penWeapons).m_fSniperFOV,
@@ -3669,7 +3669,7 @@ functions:
   void ComputerPressed(void)
   {
     // call computer if not holding sniper
-//    if ((GetPlayerWeapons()->m_iCurrentWeapon!=WEAPON_SNIPER) || (GetPlayerWeapons()->m_iCurrentWeapon!=WEAPON_TOMMYGUN) || (GetPlayerWeapons()->m_iCurrentWeapon!=WEAPON_ROCKETLAUNCHER)){
+//    if ((GetPlayerWeapons()->m_iCurrentWeapon!=WEAPON_SNIPER) || (GetPlayerWeapons()->m_iCurrentWeapon!=WEAPON_TOMMYGUN) || (GetPlayerWeapons()->m_iCurrentWeapon!=WEAPON_ROCKETLAUNCHER) || (GetPlayerWeapons()->m_iCurrentWeapon!=WEAPON_IRONCANNON)){
       if (cmp_ppenPlayer==NULL && _pNetwork->IsPlayerLocal(this)) {
         cmp_ppenPlayer = this;
       }
@@ -3737,7 +3737,8 @@ functions:
       if ((penWeapon->m_iCurrentWeapon==WEAPON_SNIPER &&
           penWeapon->m_iWantedWeapon==WEAPON_SNIPER) || (penWeapon->m_iCurrentWeapon==WEAPON_TOMMYGUN &&
           penWeapon->m_iWantedWeapon==WEAPON_TOMMYGUN) || (penWeapon->m_iCurrentWeapon==WEAPON_ROCKETLAUNCHER &&
-          penWeapon->m_iWantedWeapon==WEAPON_ROCKETLAUNCHER)) {
+          penWeapon->m_iWantedWeapon==WEAPON_ROCKETLAUNCHER) || (penWeapon->m_iCurrentWeapon==WEAPON_IRONCANNON &&
+          penWeapon->m_iWantedWeapon==WEAPON_IRONCANNON)) {
         if (m_ulFlags&PLF_ISZOOMING) {
           m_ulFlags&=~PLF_ISZOOMING;
           penWeapon->m_bSniping = FALSE;
@@ -3892,7 +3893,7 @@ functions:
 
     // sniper zooming
     CPlayerWeapons *penWeapon = GetPlayerWeapons();
-    if ((penWeapon->m_iCurrentWeapon == WEAPON_SNIPER) || (penWeapon->m_iCurrentWeapon == WEAPON_TOMMYGUN) || (penWeapon->m_iCurrentWeapon == WEAPON_ROCKETLAUNCHER))
+    if ((penWeapon->m_iCurrentWeapon == WEAPON_SNIPER) || (penWeapon->m_iCurrentWeapon == WEAPON_TOMMYGUN) || (penWeapon->m_iCurrentWeapon == WEAPON_ROCKETLAUNCHER) || (penWeapon->m_iCurrentWeapon == WEAPON_IRONCANNON))
     {
       if (bUseButtonHeld && m_ulFlags&PLF_ISZOOMING)
       {
@@ -4764,13 +4765,13 @@ functions:
 
     // if use is pressed
     if (ulNewButtons&PLACT_USE) {
-      if ((((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_SNIPER) || (((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_TOMMYGUN) || (((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_ROCKETLAUNCHER)) {
+      if ((((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_SNIPER) || (((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_TOMMYGUN) || (((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_ROCKETLAUNCHER) || (((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_IRONCANNON)) {
         UsePressed(FALSE);
       } else {
         UsePressed(ulNewButtons&PLACT_COMPUTER);
       }
     // if USE is not detected due to doubleclick and player is holding sniper
-    } else if ((ulNewButtons&PLACT_SNIPER_USE && ((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_SNIPER) || (ulNewButtons&PLACT_SNIPER_USE && ((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_TOMMYGUN) || (ulNewButtons&PLACT_SNIPER_USE && ((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_ROCKETLAUNCHER)) {
+    } else if ((ulNewButtons&PLACT_SNIPER_USE && ((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_SNIPER) || (ulNewButtons&PLACT_SNIPER_USE && ((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_TOMMYGUN) || (ulNewButtons&PLACT_SNIPER_USE && ((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_ROCKETLAUNCHER) || (ulNewButtons&PLACT_SNIPER_USE && ((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon==WEAPON_IRONCANNON)) {
       UsePressed(FALSE);
     // if computer is pressed
     } else if (ulNewButtons&PLACT_COMPUTER) {
@@ -4814,7 +4815,7 @@ functions:
     // do nothing if not holding sniper and if not in sniping mode
     if (((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon!=WEAPON_SNIPER ||
       ((CPlayerWeapons&)*m_penWeapons).m_bSniping==FALSE || ((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon!=WEAPON_TOMMYGUN
-	  || ((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon!=WEAPON_ROCKETLAUNCHER) {
+	  || ((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon!=WEAPON_ROCKETLAUNCHER || ((CPlayerWeapons&)*m_penWeapons).m_iCurrentWeapon!=WEAPON_IRONCANNON) {
       return;
     }
     BOOL bZoomChanged;
