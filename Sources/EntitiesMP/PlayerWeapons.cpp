@@ -6922,7 +6922,7 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #define STATE_CURRENT 0x01920089
 if(!(m_iShellsMagazin  < 20 && m_iShellsMagazin  != 0 && m_iShells  < 20 && m_iShells  != 0)){ Jump(STATE_CURRENT,0x01920087, FALSE, EInternal());return TRUE;}
 #line 4993 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if((m_iShells  - (20 - m_iShells )) <= 0){
+if((m_iShells  - (20 - m_iShellsMagazin )) <= 0){
 #line 4994 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_iShellsMagazin  += m_iShells ;
 #line 4995 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -6956,7 +6956,7 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01920087
-if(!(m_iShells  < 20 , m_iShells  != 0)){ Jump(STATE_CURRENT,0x01920085, FALSE, EInternal());return TRUE;}
+if(!(m_iShells  < 20 && m_iShells  != 0)){ Jump(STATE_CURRENT,0x01920085, FALSE, EInternal());return TRUE;}
 #line 5008 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_iShellsMagazin  = m_iShells ;
 #line 5009 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"

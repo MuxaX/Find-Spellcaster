@@ -49,7 +49,7 @@ CEntityComponent CAmmoItem_components[] = {
 #define MODEL_RC_ROCKET ((0x00000323<<8)+21)
  CEntityComponent(ECT_MODEL, MODEL_RC_ROCKET, "EFNM" "Models\\Weapons\\RocketLauncher\\Projectile\\Rocket.mdl"),
 #define TEXTURE_ROCKET ((0x00000323<<8)+22)
- CEntityComponent(ECT_TEXTURE, TEXTURE_ROCKET, "EFNM" "Models\\Weapons\\RocketLauncher\\Projectile\\Rocket.tex"),
+ CEntityComponent(ECT_TEXTURE, TEXTURE_ROCKET, "EFNM" "Models\\Items\\Ammo\\Rockets\\Rocket.tex"),
 #define MODEL_GRENADES ((0x00000323<<8)+30)
  CEntityComponent(ECT_MODEL, MODEL_GRENADES, "EFNM" "Models\\Items\\Ammo\\Grenades\\Grenades.mdl"),
 #define MODEL_GR_GRENADE ((0x00000323<<8)+31)

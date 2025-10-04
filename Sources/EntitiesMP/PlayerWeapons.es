@@ -4990,7 +4990,7 @@ procedures:
     autowait(m_moWeapon.GetAnimLength(SINGLESHOTGUN_ANIM_RELOAD));
     }
 	else if(m_iShellsMagazin < 20 && m_iShellsMagazin != 0 && m_iShells < 20 && m_iShells !=0){
-	if ((m_iShells - (20 - m_iShells)) <= 0){
+	if ((m_iShells - (20 - m_iShellsMagazin)) <= 0){
 	m_iShellsMagazin += m_iShells;
 	m_iShells = 0;
 	} else{
@@ -5004,7 +5004,7 @@ procedures:
     m_moWeapon.PlayAnim(SINGLESHOTGUN_ANIM_RELOAD, 0);
     if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("Pancor_reload");}
     autowait(m_moWeapon.GetAnimLength(SINGLESHOTGUN_ANIM_RELOAD));
-	} else if(m_iShells < 20, m_iShells != 0) {
+	} else if(m_iShells < 20 && m_iShells != 0) {
     m_iShellsMagazin = m_iShells;
     m_iShells = 0;
     // sound

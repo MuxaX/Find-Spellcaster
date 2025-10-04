@@ -47,9 +47,6 @@ public:
 #line 68 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
 void Precache(void);
    
-#line 73 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
-void RenderParticles(void);
-   
 #line 86 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
 BOOL FillEntityStatistics(EntityStats * pes);
    

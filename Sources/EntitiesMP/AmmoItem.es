@@ -69,7 +69,7 @@ components:
 // ********* ROCKETS *********
  20 model   MODEL_ROCKETS         "Models\\Items\\Ammo\\Rockets\\Rockets.mdl",
  21 model   MODEL_RC_ROCKET       "Models\\Weapons\\RocketLauncher\\Projectile\\Rocket.mdl",
- 22 texture TEXTURE_ROCKET        "Models\\Weapons\\RocketLauncher\\Projectile\\Rocket.tex",
+ 22 texture TEXTURE_ROCKET        "Models\\Items\\Ammo\\Rockets\\Rocket.tex",
 
 // ********* GRENADES *********
  30 model   MODEL_GRENADES        "Models\\Items\\Ammo\\Grenades\\Grenades.mdl",
@@ -290,18 +290,18 @@ functions:
         m_strDescription.PrintF("Rockets: %d", (int) m_fValue);
         // set appearance
         AddItem(MODEL_ROCKETS, TEXTURE_ROCKET, 0, 0, 0);
-        AddItemAttachment(ROCKETS_ATTACHMENT_ROCKET1, MODEL_RC_ROCKET, TEXTURE_ROCKET, 0, 0, 0);
-        AddItemAttachment(ROCKETS_ATTACHMENT_ROCKET2, MODEL_RC_ROCKET, TEXTURE_ROCKET, 0, 0, 0);
-        AddItemAttachment(ROCKETS_ATTACHMENT_ROCKET3, MODEL_RC_ROCKET, TEXTURE_ROCKET, 0, 0, 0);
-        AddItemAttachment(ROCKETS_ATTACHMENT_ROCKET4, MODEL_RC_ROCKET, TEXTURE_ROCKET, 0, 0, 0);
-        AddItemAttachment(ROCKETS_ATTACHMENT_ROCKET5, MODEL_RC_ROCKET, TEXTURE_ROCKET, 0, 0, 0);
-        SetItemAttachmentAnim(ROCKETS_ATTACHMENT_ROCKET1, ROCKET_ANIM_FORAMMO);
-        SetItemAttachmentAnim(ROCKETS_ATTACHMENT_ROCKET2, ROCKET_ANIM_FORAMMO);
-        SetItemAttachmentAnim(ROCKETS_ATTACHMENT_ROCKET3, ROCKET_ANIM_FORAMMO);
-        SetItemAttachmentAnim(ROCKETS_ATTACHMENT_ROCKET4, ROCKET_ANIM_FORAMMO);
-        SetItemAttachmentAnim(ROCKETS_ATTACHMENT_ROCKET5, ROCKET_ANIM_FORAMMO);
+        //AddItemAttachment(ROCKETS_ATTACHMENT_ROCKET1, MODEL_RC_ROCKET, TEXTURE_ROCKET, 0, 0, 0);
+        //AddItemAttachment(ROCKETS_ATTACHMENT_ROCKET2, MODEL_RC_ROCKET, TEXTURE_ROCKET, 0, 0, 0);
+        //AddItemAttachment(ROCKETS_ATTACHMENT_ROCKET3, MODEL_RC_ROCKET, TEXTURE_ROCKET, 0, 0, 0);
+        //AddItemAttachment(ROCKETS_ATTACHMENT_ROCKET4, MODEL_RC_ROCKET, TEXTURE_ROCKET, 0, 0, 0);
+        //AddItemAttachment(ROCKETS_ATTACHMENT_ROCKET5, MODEL_RC_ROCKET, TEXTURE_ROCKET, 0, 0, 0);
+        //SetItemAttachmentAnim(ROCKETS_ATTACHMENT_ROCKET1, ROCKET_ANIM_FORAMMO);
+        //SetItemAttachmentAnim(ROCKETS_ATTACHMENT_ROCKET2, ROCKET_ANIM_FORAMMO);
+        //SetItemAttachmentAnim(ROCKETS_ATTACHMENT_ROCKET3, ROCKET_ANIM_FORAMMO);
+        //SetItemAttachmentAnim(ROCKETS_ATTACHMENT_ROCKET4, ROCKET_ANIM_FORAMMO);
+        //SetItemAttachmentAnim(ROCKETS_ATTACHMENT_ROCKET5, ROCKET_ANIM_FORAMMO);
         AddFlare(MODEL_FLARE, TEXTURE_FLARE, FLOAT3D(0,0.6f,0), FLOAT3D(2,2,0.75f) );
-        StretchItem(FLOAT3D(0.75f, 0.75f, 0.75f));
+        StretchItem(FLOAT3D(1.1f, 1.1f, 1.1f));
         break;
       case AIT_GRENADES:
         m_fValue = 5.0f;

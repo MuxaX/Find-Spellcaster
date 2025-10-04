@@ -63,12 +63,22 @@ CEntityComponent CGrunt_components[] = {
  CEntityComponent(ECT_TEXTURE, TEXTURE_SHELM_COMMANDER, "EFNM" "ModelsMP\\Enemies\\Grunt\\merc\\nightvision.tex"),
 #define SOUND_FIRE_1 ((0x00000157<<8)+62)
  CEntityComponent(ECT_SOUND, SOUND_FIRE_1, "EFNM" "ModelsMP\\Enemies\\Grunt\\Sounds\\Fire_1.wav"),
+#define SOUND_FIRE_2 ((0x00000157<<8)+63)
+ CEntityComponent(ECT_SOUND, SOUND_FIRE_2, "EFNM" "Models\\Weapons\\SingleShotgun\\Sounds\\_Fire.wav"),
+#define MODEL_SHOTGUN ((0x00000157<<8)+64)
+ CEntityComponent(ECT_MODEL, MODEL_SHOTGUN, "EFNM" "ModelsMP\\Enemies\\Grunt\\merc\\pancor_merc.mdl"),
+#define TEXTURE_SHOTGUN ((0x00000157<<8)+65)
+ CEntityComponent(ECT_TEXTURE, TEXTURE_SHOTGUN, "EFNM" "Models\\Weapons\\SingleShotgun\\Barrels.tex"),
+#define MODEL_SHIM_IN ((0x00000157<<8)+66)
+ CEntityComponent(ECT_MODEL, MODEL_SHIM_IN, "EFNM" "ModelsMP\\Enemies\\Grunt\\merc\\sh_indoor.mdl"),
+#define TEXTURE_SHIM_IN ((0x00000157<<8)+67)
+ CEntityComponent(ECT_TEXTURE, TEXTURE_SHIM_IN, "EFNM" "ModelsMP\\Enemies\\Grunt\\merc\\helm_indoor.tex"),
 };
 #define CGrunt_componentsct ARRAYCOUNT(CGrunt_components)
 
 CEventHandlerEntry CGrunt_handlers[] = {
  {0x01570000, -1, CEntity::pEventHandler(&CGrunt::
-#line 397 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 404 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 SoldierAttack),DEBUGSTRING("CGrunt::SoldierAttack")},
  {0x01570001, -1, CEntity::pEventHandler(&CGrunt::H0x01570001_SoldierAttack_01), DEBUGSTRING("CGrunt::H0x01570001_SoldierAttack_01")},
  {0x01570002, -1, CEntity::pEventHandler(&CGrunt::H0x01570002_SoldierAttack_02), DEBUGSTRING("CGrunt::H0x01570002_SoldierAttack_02")},
@@ -77,7 +87,7 @@ SoldierAttack),DEBUGSTRING("CGrunt::SoldierAttack")},
  {0x01570005, -1, CEntity::pEventHandler(&CGrunt::H0x01570005_SoldierAttack_05), DEBUGSTRING("CGrunt::H0x01570005_SoldierAttack_05")},
  {0x01570006, -1, CEntity::pEventHandler(&CGrunt::H0x01570006_SoldierAttack_06), DEBUGSTRING("CGrunt::H0x01570006_SoldierAttack_06")},
  {0x01570007, -1, CEntity::pEventHandler(&CGrunt::
-#line 433 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 440 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 CommanderAttack),DEBUGSTRING("CGrunt::CommanderAttack")},
  {0x01570008, -1, CEntity::pEventHandler(&CGrunt::H0x01570008_CommanderAttack_01), DEBUGSTRING("CGrunt::H0x01570008_CommanderAttack_01")},
  {0x01570009, -1, CEntity::pEventHandler(&CGrunt::H0x01570009_CommanderAttack_02), DEBUGSTRING("CGrunt::H0x01570009_CommanderAttack_02")},
@@ -86,14 +96,14 @@ CommanderAttack),DEBUGSTRING("CGrunt::CommanderAttack")},
  {0x0157000c, -1, CEntity::pEventHandler(&CGrunt::H0x0157000c_CommanderAttack_05), DEBUGSTRING("CGrunt::H0x0157000c_CommanderAttack_05")},
  {0x0157000d, -1, CEntity::pEventHandler(&CGrunt::H0x0157000d_CommanderAttack_06), DEBUGSTRING("CGrunt::H0x0157000d_CommanderAttack_06")},
  {0x0157000e, -1, CEntity::pEventHandler(&CGrunt::
-#line 469 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 476 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 ShotgunAttack),DEBUGSTRING("CGrunt::ShotgunAttack")},
  {0x0157000f, -1, CEntity::pEventHandler(&CGrunt::H0x0157000f_ShotgunAttack_01), DEBUGSTRING("CGrunt::H0x0157000f_ShotgunAttack_01")},
  {0x01570010, -1, CEntity::pEventHandler(&CGrunt::H0x01570010_ShotgunAttack_02), DEBUGSTRING("CGrunt::H0x01570010_ShotgunAttack_02")},
  {0x01570011, -1, CEntity::pEventHandler(&CGrunt::H0x01570011_ShotgunAttack_03), DEBUGSTRING("CGrunt::H0x01570011_ShotgunAttack_03")},
  {0x01570012, -1, CEntity::pEventHandler(&CGrunt::H0x01570012_ShotgunAttack_04), DEBUGSTRING("CGrunt::H0x01570012_ShotgunAttack_04")},
  {0x01570013, STATE_CEnemyBase_Fire, CEntity::pEventHandler(&CGrunt::
-#line 483 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 491 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 Fire),DEBUGSTRING("CGrunt::Fire")},
  {0x01570014, -1, CEntity::pEventHandler(&CGrunt::H0x01570014_Fire_01), DEBUGSTRING("CGrunt::H0x01570014_Fire_01")},
  {0x01570015, -1, CEntity::pEventHandler(&CGrunt::H0x01570015_Fire_02), DEBUGSTRING("CGrunt::H0x01570015_Fire_02")},
@@ -108,7 +118,7 @@ Fire),DEBUGSTRING("CGrunt::Fire")},
  {0x0157001e, -1, CEntity::pEventHandler(&CGrunt::H0x0157001e_Fire_11), DEBUGSTRING("CGrunt::H0x0157001e_Fire_11")},
  {0x0157001f, -1, CEntity::pEventHandler(&CGrunt::H0x0157001f_Fire_12), DEBUGSTRING("CGrunt::H0x0157001f_Fire_12")},
  {1, -1, CEntity::pEventHandler(&CGrunt::
-#line 499 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
+#line 507 "V:/Programs/SamSDK/Sources/EntitiesMP/Grunt.es"
 Main),DEBUGSTRING("CGrunt::Main")},
 };
 #define CGrunt_handlersct ARRAYCOUNT(CGrunt_handlers)

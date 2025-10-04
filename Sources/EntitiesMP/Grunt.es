@@ -86,6 +86,11 @@ components:
  60 model   MODEL_SHELM_COMMANDER   "ModelsMP\\Enemies\\Grunt\\merc\\sh_nv.mdl",
  61 texture TEXTURE_SHELM_COMMANDER "ModelsMP\\Enemies\\Grunt\\merc\\nightvision.tex",
  62 sound   SOUND_FIRE_1            "ModelsMP\\Enemies\\Grunt\\Sounds\\Fire_1.wav",
+ 63 sound   SOUND_FIRE_2            "Models\\Weapons\\SingleShotgun\\Sounds\\_Fire.wav",
+ 64 model   MODEL_SHOTGUN           "ModelsMP\\Enemies\\Grunt\\merc\\pancor_merc.mdl",
+ 65 texture TEXTURE_SHOTGUN         "Models\\Weapons\\SingleShotgun\\Barrels.tex",
+ 66 model   MODEL_SHIM_IN           "ModelsMP\\Enemies\\Grunt\\merc\\sh_indoor.mdl",
+ 67 texture TEXTURE_SHIM_IN         "ModelsMP\\Enemies\\Grunt\\merc\\helm_indoor.tex",
 
 functions:
     
@@ -199,6 +204,8 @@ functions:
   };
 
   void DeathNotify(void) {
+      m_soFire1.Stop();
+    m_soFire2.Stop();
     if(m_gtType==GT_SOLDIER) { ChangeCollisionBoxIndexWhenPossible(MERC_ELITE_COLLISION_BOX_DEATH); }
     if(m_gtType==GT_COMMANDER) { ChangeCollisionBoxIndexWhenPossible(MERC_IDLE_COLLISION_BOX_DEATH); }
     en_fDensity = 500.0f;
@@ -210,7 +217,7 @@ functions:
       StartModelAnim(MERC_ELITE_ANIM_IDLEPATROL, AOF_LOOPING|AOF_NORESTART);
     }
     if(m_gtType==GT_COMMANDER){
-      StartModelAnim(MERC_IDLE_ANIM_IDLE, AOF_LOOPING|AOF_NORESTART);
+      StartModelAnim(MERC_IDLE_ANIM_IDLE2, AOF_LOOPING|AOF_NORESTART);
     }
   };
   
@@ -470,6 +477,7 @@ procedures:
     StandingAnimFight();
     autowait(0.3f + FRnd()*0.2f); // Longer preparation before shooting
 
+    PlaySound(m_soFire1, SOUND_FIRE_2, SOF_3D|SOF_LOOP);
     StartModelAnim(MERC_IDLE_ANIM_FIRE, 0);
     FireShotgun();
     
@@ -542,12 +550,17 @@ procedures:
         // set your texture
         SetModel(MODEL_GRUNT_COMMANDER);
         SetModelMainTexture(TEXTURE_COMMANDER);
-        AddAttachment(MERC_IDLE_ATTACHMENT_SH_NV, MODEL_SHELM_COMMANDER, TEXTURE_SHELM_COMMANDER);
-        AddAttachment(MERC_IDLE_ATTACHMENT_AG36_MERC, MODEL_GUN_COMMANDER, TEXTURE_GUN_COMMANDER);
+        //AddAttachment(MERC_IDLE_ATTACHMENT_SH_NV, MODEL_SHELM_COMMANDER, TEXTURE_SHELM_COMMANDER);
+        //AddAttachment(MERC_IDLE_ATTACHMENT_AG36_MERC, MODEL_GUN_COMMANDER, TEXTURE_GUN_COMMANDER);
         if (m_gwtWeapon == GWT_SHOTGUN){
           m_fAttackDistance = 50.0f; // Close range
           m_fAttackFireTime = 1.5f;  // Slower firing rate
-        }
+		  AddAttachment(MERC_IDLE_ATTACHMENT_AG36_MERC, MODEL_SHOTGUN, TEXTURE_SHOTGUN);
+		  AddAttachment(MERC_IDLE_ATTACHMENT_SH_NV, MODEL_SHIM_IN, TEXTURE_SHIM_IN);
+        }else{
+			AddAttachment(MERC_IDLE_ATTACHMENT_AG36_MERC, MODEL_GUN_COMMANDER, TEXTURE_GUN_COMMANDER);
+			AddAttachment(MERC_IDLE_ATTACHMENT_SH_NV, MODEL_SHELM_COMMANDER, TEXTURE_SHELM_COMMANDER);
+		}
         // setup moving speed
         m_fWalkSpeed = FRnd() + 2.5f;
         m_aWalkRotateSpeed = AngleDeg(FRnd()*10.0f + 500.0f);

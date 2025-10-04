@@ -44,25 +44,6 @@ PrecacheSound  (SOUND_PICK );
 #line 70 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
 }
   
-#line 73 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
-void CAmmoPack::RenderParticles(void) 
-#line 74 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
-{
-#line 76 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
-if(GetRenderType  () != CEntity  :: RT_MODEL  || GetSP  () -> sp_gmGameMode  > CSessionProperties  :: GM_COOPERATIVE  
-#line 77 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
-|| ! ShowItemParticles  ())
-#line 78 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
-{
-#line 79 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
-return ;
-#line 80 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
-}
-#line 82 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
-Particles_Spiral  (this  , 3.0f * 0.5 , 2.5f * 0.5 , PT_STAR04  , 10);
-#line 83 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
-}
-  
 #line 86 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
 BOOL CAmmoPack::FillEntityStatistics(EntityStats * pes) 
 #line 87 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
@@ -272,8 +253,6 @@ m_iIronBalls  = Clamp  (m_iIronBalls  , INDEX (0) , MAX_IRONBALLS );
 m_iSniperBullets  = Clamp  (m_iSniperBullets  , INDEX (0) , MAX_SNIPERBULLETS );
 #line 216 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
 Initialize  ();
-#line 217 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
-StartModelAnim  (ITEMHOLDER_ANIM_MEDIUMOSCILATION  , AOF_LOOPING  | AOF_NORESTART );
 #line 218 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"
 ForceCollisionBoxIndexChange  (ITEMHOLDER_COLLISION_BOX_MEDIUM );
 #line 219 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoPack.es"

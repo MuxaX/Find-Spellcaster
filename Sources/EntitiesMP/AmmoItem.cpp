@@ -247,30 +247,10 @@ m_fRespawnTime  = (m_fCustomRespawnTime  > 0) ? m_fCustomRespawnTime  : 30.0f;
 m_strDescription  . PrintF  ("Rockets: %d" , (int ) m_fValue );
 #line 292 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoItem.es"
 AddItem  (MODEL_ROCKETS  , TEXTURE_ROCKET  , 0 , 0 , 0);
-#line 293 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoItem.es"
-AddItemAttachment  (ROCKETS_ATTACHMENT_ROCKET1  , MODEL_RC_ROCKET  , TEXTURE_ROCKET  , 0 , 0 , 0);
-#line 294 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoItem.es"
-AddItemAttachment  (ROCKETS_ATTACHMENT_ROCKET2  , MODEL_RC_ROCKET  , TEXTURE_ROCKET  , 0 , 0 , 0);
-#line 295 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoItem.es"
-AddItemAttachment  (ROCKETS_ATTACHMENT_ROCKET3  , MODEL_RC_ROCKET  , TEXTURE_ROCKET  , 0 , 0 , 0);
-#line 296 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoItem.es"
-AddItemAttachment  (ROCKETS_ATTACHMENT_ROCKET4  , MODEL_RC_ROCKET  , TEXTURE_ROCKET  , 0 , 0 , 0);
-#line 297 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoItem.es"
-AddItemAttachment  (ROCKETS_ATTACHMENT_ROCKET5  , MODEL_RC_ROCKET  , TEXTURE_ROCKET  , 0 , 0 , 0);
-#line 298 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoItem.es"
-SetItemAttachmentAnim  (ROCKETS_ATTACHMENT_ROCKET1  , ROCKET_ANIM_FORAMMO );
-#line 299 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoItem.es"
-SetItemAttachmentAnim  (ROCKETS_ATTACHMENT_ROCKET2  , ROCKET_ANIM_FORAMMO );
-#line 300 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoItem.es"
-SetItemAttachmentAnim  (ROCKETS_ATTACHMENT_ROCKET3  , ROCKET_ANIM_FORAMMO );
-#line 301 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoItem.es"
-SetItemAttachmentAnim  (ROCKETS_ATTACHMENT_ROCKET4  , ROCKET_ANIM_FORAMMO );
-#line 302 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoItem.es"
-SetItemAttachmentAnim  (ROCKETS_ATTACHMENT_ROCKET5  , ROCKET_ANIM_FORAMMO );
 #line 303 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoItem.es"
 AddFlare  (MODEL_FLARE  , TEXTURE_FLARE  , FLOAT3D (0 , 0.6f , 0) , FLOAT3D (2 , 2 , 0.75f));
 #line 304 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoItem.es"
-StretchItem  (FLOAT3D (0.75f , 0.75f , 0.75f));
+StretchItem  (FLOAT3D (1.1f , 1.1f , 1.1f));
 #line 305 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoItem.es"
 break ;
 #line 306 "V:/Programs/SamSDK/Sources/EntitiesMP/AmmoItem.es"

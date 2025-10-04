@@ -6,77 +6,100 @@
 #define _EntitiesMP_Demon_INCLUDED 1
 #include <EntitiesMP/EnemyBase.h>
 #include <EntitiesMP/BasicEffects.h>
+extern DECL_DLL CEntityPropertyEnumType DemonType_enum;
+enum DemonType {
+  BT_NORMAL = 0,
+  BT_ALBINOS = 1,
+};
+DECL_DLL inline void ClearToDefault(DemonType &e) { e = (DemonType)0; } ;
 extern "C" DECL_DLL CDLLEntityClass CDemon_DLLClass;
 class CDemon : public CEnemyBase {
 public:
   DECL_DLL virtual void SetDefaultProperties(void);
+  enum DemonType m_bcType;
   INDEX m_iCounter;
   CEntityPointer m_penFireFX;
+  BOOL m_bIsAttacking;
+  BOOL m_bIsVulnerable;
+  CEntityPointer m_penLight;
+  FLOAT m_tmProtectionEnd;
    
-#line 54 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 69 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 BOOL HandleEvent(const CEntityEvent & ee);
   
-#line 72 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 93 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 virtual CTString GetPlayerKillDescription(const CTString & strPlayerName,const EDeath & eDeath);
   
-#line 79 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 100 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 virtual const CTFileName & GetComputerMessageName(void)const;
    
-#line 84 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 110 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 void Precache(void);
    
-#line 99 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 129 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 void * GetEntityInfo(void);
    
-#line 103 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 133 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 BOOL ForcesCannonballToExplode(void);
    
-#line 117 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 147 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 void ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
-#line 118 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 148 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection);
    
-#line 134 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 166 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void ProtectionGlow(BOOL bProtected);
+   
+#line 181 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void RenderParticles(void);
+   
+#line 191 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void SwitchTexture(BOOL bProtected);
+   
+#line 228 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 INDEX AnimForDamage(FLOAT fDamage);
    
-#line 141 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 241 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 INDEX AnimForDeath(void);
    
-#line 153 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 253 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 FLOAT WaitForDust(FLOAT3D & vStretch);
    
-#line 159 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 259 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 void DeathNotify(void);
    
-#line 165 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 265 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 void StandingAnim(void);
    
-#line 170 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 270 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 void WalkingAnim(void);
    
-#line 179 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 279 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 void RunningAnim(void);
    
-#line 182 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 282 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 void RotatingAnim(void);
    
-#line 187 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 287 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 void IdleSound(void);
    
-#line 190 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 290 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 void SightSound(void);
    
-#line 193 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 293 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 void WoundSound(void);
    
-#line 196 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 296 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 void DeathSound(void);
    
-#line 202 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 302 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 void EnemyPostInit(void);
+   
+#line 307 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void PreMoving();
 #define  STATE_CDemon_Fire 0x01500000
   BOOL 
-#line 211 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 323 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 Fire(const CEntityEvent &__eeInput);
   BOOL H0x01500001_Fire_01(const CEntityEvent &__eeInput);
   BOOL H0x01500002_Fire_02(const CEntityEvent &__eeInput);
@@ -88,19 +111,41 @@ Fire(const CEntityEvent &__eeInput);
   BOOL H0x01500008_Fire_08(const CEntityEvent &__eeInput);
   BOOL H0x01500009_Fire_09(const CEntityEvent &__eeInput);
   BOOL H0x0150000a_Fire_10(const CEntityEvent &__eeInput);
-#define  STATE_CDemon_Hit 0x0150000b
+#define  STATE_CDemon_AlbinoFire 0x0150000b
   BOOL 
-#line 263 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 380 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+AlbinoFire(const CEntityEvent &__eeInput);
+  BOOL H0x0150000c_AlbinoFire_01(const CEntityEvent &__eeInput);
+  BOOL H0x0150000d_AlbinoFire_02(const CEntityEvent &__eeInput);
+  BOOL H0x0150000e_AlbinoFire_03(const CEntityEvent &__eeInput);
+  BOOL H0x0150000f_AlbinoFire_04(const CEntityEvent &__eeInput);
+  BOOL H0x01500010_AlbinoFire_05(const CEntityEvent &__eeInput);
+  BOOL H0x01500011_AlbinoFire_06(const CEntityEvent &__eeInput);
+  BOOL H0x01500012_AlbinoFire_07(const CEntityEvent &__eeInput);
+  BOOL H0x01500013_AlbinoFire_08(const CEntityEvent &__eeInput);
+  BOOL H0x01500014_AlbinoFire_09(const CEntityEvent &__eeInput);
+  BOOL H0x01500015_AlbinoFire_10(const CEntityEvent &__eeInput);
+#define  STATE_CDemon_Hit 0x01500016
+  BOOL 
+#line 456 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 Hit(const CEntityEvent &__eeInput);
-  BOOL H0x0150000c_Hit_01(const CEntityEvent &__eeInput);
-  BOOL H0x0150000d_Hit_02(const CEntityEvent &__eeInput);
-  BOOL H0x0150000e_Hit_03(const CEntityEvent &__eeInput);
-  BOOL H0x0150000f_Hit_04(const CEntityEvent &__eeInput);
-  BOOL H0x01500010_Hit_05(const CEntityEvent &__eeInput);
-  BOOL H0x01500011_Hit_06(const CEntityEvent &__eeInput);
+  BOOL H0x01500017_Hit_01(const CEntityEvent &__eeInput);
+  BOOL H0x01500018_Hit_02(const CEntityEvent &__eeInput);
+  BOOL H0x01500019_Hit_03(const CEntityEvent &__eeInput);
+  BOOL H0x0150001a_Hit_04(const CEntityEvent &__eeInput);
+  BOOL H0x0150001b_Hit_05(const CEntityEvent &__eeInput);
+  BOOL H0x0150001c_Hit_06(const CEntityEvent &__eeInput);
+#define  STATE_CDemon_ParticleUpdater 0x0150001d
+  BOOL 
+#line 478 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ParticleUpdater(const CEntityEvent &__eeInput);
+  BOOL H0x0150001e_ParticleUpdater_01(const CEntityEvent &__eeInput);
+  BOOL H0x0150001f_ParticleUpdater_02(const CEntityEvent &__eeInput);
+  BOOL H0x01500020_ParticleUpdater_03(const CEntityEvent &__eeInput);
+  BOOL H0x01500021_ParticleUpdater_04(const CEntityEvent &__eeInput);
 #define  STATE_CDemon_Main 1
   BOOL 
-#line 289 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 497 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 Main(const CEntityEvent &__eeInput);
 };
 #endif // _EntitiesMP_Demon_INCLUDED

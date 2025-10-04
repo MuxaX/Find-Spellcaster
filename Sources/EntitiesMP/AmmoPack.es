@@ -70,7 +70,7 @@ functions:
   }
 
   // render particles
-  void RenderParticles(void)
+  /*void RenderParticles(void)
   {
     // no particles when not existing or in DM modes
     if (GetRenderType()!=CEntity::RT_MODEL || GetSP()->sp_gmGameMode>CSessionProperties::GM_COOPERATIVE
@@ -80,7 +80,7 @@ functions:
     }
 
     Particles_Spiral(this, 3.0f*0.5, 2.5f*0.5, PT_STAR04, 10);
-  }
+  }*/
 
   /* Fill in entity statistics - for AI purposes only */
   BOOL FillEntityStatistics(EntityStats *pes)
@@ -214,7 +214,7 @@ procedures:
     m_iSniperBullets = Clamp( m_iSniperBullets, INDEX(0), MAX_SNIPERBULLETS);
 
     Initialize();     // initialize base class
-    StartModelAnim(ITEMHOLDER_ANIM_MEDIUMOSCILATION, AOF_LOOPING|AOF_NORESTART);
+    //StartModelAnim(ITEMHOLDER_ANIM_MEDIUMOSCILATION, AOF_LOOPING|AOF_NORESTART);
     ForceCollisionBoxIndexChange(ITEMHOLDER_COLLISION_BOX_MEDIUM);
     SetProperties();  // set properties
 

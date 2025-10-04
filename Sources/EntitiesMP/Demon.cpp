@@ -6,14 +6,17 @@
 
 #include "StdH.h"
 #include "ModelsMP/Enemies/Demon/Demon.h"
+#include "EntitiesMP/WorldSettingsController.h"
+#include "EntitiesMP/BackgroundViewer.h"
 
 #include <EntitiesMP/Demon.h>
 #include <EntitiesMP/Demon_tables.h>
-#line 12 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 19 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 
 #define REMINDER_DEATTACH_FIREBALL 666
 #define CLOSE_ATTACK_RANGE 10.0f
 #define DEMON_STRETCH 2.5f
+#define DEMON_ALBINOS_STRETCH 3.5f
 FLOAT3D vFireballLaunchPos = (FLOAT3D(0.06f, 2.6f, 0.15f)*DEMON_STRETCH);
 static _tmLastStandingAnim =0.0f;  
 
@@ -25,253 +28,382 @@ static EntityInfo eiDemon = {
 };
 
 void CDemon::SetDefaultProperties(void) {
+  m_bcType = BT_NORMAL ;
   m_iCounter = 0;
   m_penFireFX = NULL;
+  m_bIsAttacking = FALSE ;
+  m_bIsVulnerable = FALSE ;
+  m_penLight = NULL;
+  m_tmProtectionEnd = 0.0f;
   CEnemyBase::SetDefaultProperties();
 }
   
-#line 54 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-BOOL CDemon::HandleEvent(const CEntityEvent & ee) 
-#line 55 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-{
-#line 59 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-if(ee  . ee_slEvent  == EVENTCODE_EReminder )
-#line 60 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-{
-#line 61 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-EReminder  eReminder  = ((EReminder  &) ee );
-#line 62 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-if(eReminder  . iValue  == REMINDER_DEATTACH_FIREBALL )
-#line 63 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-{
-#line 64 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-RemoveAttachment  (DEMON_ATTACHMENT_FIREBALL );
-#line 65 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-}
-#line 66 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-return TRUE ;
-#line 67 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-}
-#line 68 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-return CEnemyBase  :: HandleEvent  (ee );
 #line 69 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-}
-  CTString CDemon::GetPlayerKillDescription(const CTString & strPlayerName,const EDeath & eDeath) 
-#line 73 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+BOOL CDemon::HandleEvent(const CEntityEvent & ee) 
+#line 70 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 {
 #line 74 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-CTString str ;
+if(ee  . ee_slEvent  == EVENTCODE_EReminder )
 #line 75 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-str  . PrintF  (TRANS  ("A Demon executed %s") , strPlayerName );
+{
 #line 76 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-return str ;
+EReminder  eReminder  = ((EReminder  &) ee );
 #line 77 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+if(eReminder  . iValue  == REMINDER_DEATTACH_FIREBALL )
+#line 78 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+{
+#line 79 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+RemoveAttachment  (DEMON_ATTACHMENT_FIREBALL );
+#line 80 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+if(m_bcType  == BT_ALBINOS ){
+#line 81 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_bIsAttacking  = FALSE ;
+#line 82 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_bIsVulnerable  = FALSE ;
+#line 83 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SwitchTexture  (TRUE );
+#line 84 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+#line 86 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+#line 87 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+return TRUE ;
+#line 88 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+#line 89 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+return CEnemyBase  :: HandleEvent  (ee );
+#line 90 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+  CTString CDemon::GetPlayerKillDescription(const CTString & strPlayerName,const EDeath & eDeath) 
+#line 94 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+{
+#line 95 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+CTString str ;
+#line 96 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+str  . PrintF  (TRANS  ("A Demon executed %s") , strPlayerName );
+#line 97 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+return str ;
+#line 98 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 }
   const CTFileName & CDemon::GetComputerMessageName(void)const {
-#line 80 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-static DECLARE_CTFILENAME  (fnmDemon  , "DataMP\\Messages\\Enemies\\Demon.txt");
-#line 81 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-return fnmDemon ;
-#line 82 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-}
-  
-#line 84 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-void CDemon::Precache(void) {
-#line 85 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-CEnemyBase  :: Precache  ();
-#line 86 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-PrecacheSound  (SOUND_IDLE );
-#line 87 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-PrecacheSound  (SOUND_SIGHT );
-#line 88 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-PrecacheSound  (SOUND_WOUND );
-#line 89 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-PrecacheSound  (SOUND_DEATH );
-#line 90 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-PrecacheSound  (SOUND_CAST );
-#line 91 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-PrecacheModel  (MODEL_DEMON );
-#line 92 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-PrecacheTexture  (TEXTURE_DEMON );
-#line 93 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-PrecacheModel  (MODEL_FIREBALL );
-#line 94 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-PrecacheTexture  (TEXTURE_FIREBALL );
-#line 95 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-PrecacheClass  (CLASS_PROJECTILE  , PRT_BEAST_PROJECTILE );
-#line 96 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-}
-  
-#line 99 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-void * CDemon::GetEntityInfo(void) {
-#line 100 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-return & eiDemon ;
 #line 101 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-}
-  
+static DECLARE_CTFILENAME  (fnmDemon  , "DataMP\\Messages\\Enemies\\Demon.txt");
+#line 102 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+static DECLARE_CTFILENAME  (AlbDemon  , "DataMP\\Messages\\Enemies\\AlbinosDemon.txt");
 #line 103 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-BOOL CDemon::ForcesCannonballToExplode(void) 
+switch(m_bcType ){
 #line 104 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-{
+default  : ASSERT  (FALSE );
 #line 105 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-return TRUE ;
+case BT_NORMAL : return fnmDemon ;
 #line 106 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+case BT_ALBINOS : return AlbDemon ;
+#line 107 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+#line 108 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 }
   
+#line 110 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void CDemon::Precache(void) {
+#line 111 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+CEnemyBase  :: Precache  ();
+#line 112 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+PrecacheSound  (SOUND_IDLE );
+#line 113 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+PrecacheSound  (SOUND_SIGHT );
+#line 114 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+PrecacheSound  (SOUND_WOUND );
+#line 115 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+PrecacheSound  (SOUND_DEATH );
+#line 116 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+PrecacheSound  (SOUND_CAST );
 #line 117 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-void CDemon::ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
+PrecacheModel  (MODEL_DEMON );
 #line 118 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection) 
+if(m_bcType  == BT_ALBINOS ){
 #line 119 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-{
+PrecacheTexture  (TEXTURE_ALBINOS );
+#line 120 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+PrecacheTexture  (TEXTURE_PROTECTED );
 #line 121 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-if(dmtType  == DMT_BULLET  && fDamageAmmount  > 100.0f)
+}else {
 #line 122 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-{
+PrecacheTexture  (TEXTURE_DEMON );}
 #line 123 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-fDamageAmmount  *= 0.5f;
+PrecacheModel  (MODEL_FIREBALL );
 #line 124 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+PrecacheTexture  (TEXTURE_FIREBALL );
+#line 125 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+PrecacheClass  (CLASS_PROJECTILE  , PRT_BEAST_PROJECTILE );
+#line 126 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 }
-#line 127 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-if(! IsOfClass  (penInflictor  , "Demon")){
-#line 128 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-CEnemyBase  :: ReceiveDamage  (penInflictor  , dmtType  , fDamageAmmount  , vHitPoint  , vDirection );
+  
 #line 129 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-}
+void * CDemon::GetEntityInfo(void) {
 #line 130 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+return & eiDemon ;
+#line 131 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 }
   
+#line 133 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+BOOL CDemon::ForcesCannonballToExplode(void) 
 #line 134 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-INDEX CDemon::AnimForDamage(FLOAT fDamage) {
+{
 #line 135 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-RemoveAttachment  (DEMON_ATTACHMENT_FIREBALL );
+return TRUE ;
 #line 136 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-StartModelAnim  (DEMON_ANIM_WOUND  , 0);
-#line 137 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-return DEMON_ANIM_WOUND ;
-#line 138 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 }
   
-#line 141 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-INDEX CDemon::AnimForDeath(void) {
-#line 142 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-if(m_penFireFX  != NULL )
-#line 143 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-{
-#line 144 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_penFireFX  -> SendEvent  (EStop  ());
-#line 145 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_penFireFX  = NULL ;
-#line 146 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-}
+#line 147 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void CDemon::ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
 #line 148 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-RemoveAttachment  (DEMON_ATTACHMENT_FIREBALL );
+FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection) 
 #line 149 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-StartModelAnim  (DEMON_ANIM_DEATHFORWARD  , 0);
-#line 150 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-return DEMON_ANIM_DEATHFORWARD ;
-#line 151 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-}
-  
-#line 153 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-FLOAT CDemon::WaitForDust(FLOAT3D & vStretch) 
-#line 154 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 {
+#line 150 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+if(m_bcType  == BT_ALBINOS  && ! m_bIsVulnerable ){
+#line 152 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+return ;
+#line 153 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
 #line 155 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-vStretch  = FLOAT3D (1 , 1 , 2) * 3.0f;
+if(dmtType  == DMT_BULLET  && fDamageAmmount  > 100.0f)
 #line 156 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-return 1.1f;
+{
 #line 157 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+fDamageAmmount  *= 0.5f;
+#line 158 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 }
-  
-#line 159 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-void CDemon::DeathNotify(void) {
-#line 160 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-ChangeCollisionBoxIndexWhenPossible  (DEMON_COLLISION_BOX_DEATH );
 #line 161 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-en_fDensity  = 500.0f;
+if(! IsOfClass  (penInflictor  , "Demon")){
 #line 162 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+CEnemyBase  :: ReceiveDamage  (penInflictor  , dmtType  , fDamageAmmount  , vHitPoint  , vDirection );
+#line 163 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+#line 164 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 }
   
-#line 165 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-void CDemon::StandingAnim(void) {
+#line 166 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void CDemon::ProtectionGlow(BOOL bProtected) {
 #line 167 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-StartModelAnim  (DEMON_ANIM_IDLE  , AOF_LOOPING  | AOF_NORESTART );
+if(m_bcType  != BT_ALBINOS ){
 #line 168 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+return ;
+#line 169 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 }
-  
-#line 170 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-void CDemon::WalkingAnim(void) {
+#line 171 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+if(bProtected ){
+#line 173 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_tmProtectionEnd  = _pTimer  -> CurrentTick  () + 1000.0f;
+#line 174 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}else {
 #line 176 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-RunningAnim  ();
+m_tmProtectionEnd  = 0.0f;
 #line 177 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 }
+#line 178 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
   
-#line 179 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-void CDemon::RunningAnim(void) {
-#line 180 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-StartModelAnim  (DEMON_ANIM_RUN  , AOF_LOOPING  | AOF_NORESTART );
 #line 181 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-}
-  
-#line 182 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-void CDemon::RotatingAnim(void) {
+void CDemon::RenderParticles(void) {
 #line 183 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-StartModelAnim  (DEMON_ANIM_RUN  , AOF_LOOPING  | AOF_NORESTART );
+if(m_bcType  == BT_ALBINOS  && m_tmProtectionEnd  > _pTimer  -> CurrentTick  ()){
 #line 184 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-}
-  
+FLOAT tmNow  = _pTimer  -> CurrentTick  ();
+#line 185 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+FLOAT fTimeLeft  = m_tmProtectionEnd  - tmNow ;
 #line 187 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-void CDemon::IdleSound(void) {
+Particles_ModelGlow  (this  , m_tmProtectionEnd  , PT_STAR06  , 0.3f , 4.0f , 1.0f , 0xffa71cc9);
 #line 188 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-PlaySound  (m_soSound  , SOUND_IDLE  , SOF_3D );
+}
 #line 189 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 }
   
-#line 190 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-void CDemon::SightSound(void) {
 #line 191 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-PlaySound  (m_soSound  , SOUND_SIGHT  , SOF_3D );
+void CDemon::SwitchTexture(BOOL bProtected) {
 #line 192 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-}
-  
+if(m_bcType  != BT_ALBINOS ){
 #line 193 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-void CDemon::WoundSound(void) {
+return ;
 #line 194 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-PlaySound  (m_soSound  , SOUND_WOUND  , SOF_3D );
-#line 195 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 }
-  
 #line 196 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-void CDemon::DeathSound(void) {
+if(bProtected ){
 #line 197 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-PlaySound  (m_soSound  , SOUND_DEATH  , SOF_3D );
-#line 198 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SetModelMainTexture  (TEXTURE_PROTECTED );
+#line 214 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}else {
+#line 215 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SetModelMainTexture  (TEXTURE_ALBINOS );
+#line 221 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+#line 223 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ModelChangeNotify  ();
+#line 224 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 }
   
-#line 202 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-void CDemon::EnemyPostInit(void) 
-#line 203 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 228 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+INDEX CDemon::AnimForDamage(FLOAT fDamage) {
+#line 229 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+RemoveAttachment  (DEMON_ATTACHMENT_FIREBALL );
+#line 231 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+if(m_bcType  == BT_ALBINOS  && m_bIsVulnerable ){
+#line 232 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_bIsVulnerable  = FALSE ;
+#line 233 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SwitchTexture  (TRUE );
+#line 234 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+#line 236 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+StartModelAnim  (DEMON_ANIM_WOUND  , 0);
+#line 237 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+return DEMON_ANIM_WOUND ;
+#line 238 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+  
+#line 241 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+INDEX CDemon::AnimForDeath(void) {
+#line 242 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+if(m_penFireFX  != NULL )
+#line 243 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 {
-#line 204 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 244 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_penFireFX  -> SendEvent  (EStop  ());
+#line 245 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_penFireFX  = NULL ;
+#line 246 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+#line 248 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+RemoveAttachment  (DEMON_ATTACHMENT_FIREBALL );
+#line 249 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+StartModelAnim  (DEMON_ANIM_DEATHFORWARD  , 0);
+#line 250 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+return DEMON_ANIM_DEATHFORWARD ;
+#line 251 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+  
+#line 253 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+FLOAT CDemon::WaitForDust(FLOAT3D & vStretch) 
+#line 254 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+{
+#line 255 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+vStretch  = FLOAT3D (1 , 1 , 2) * 3.0f;
+#line 256 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+return 1.1f;
+#line 257 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+  
+#line 259 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void CDemon::DeathNotify(void) {
+#line 260 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ChangeCollisionBoxIndexWhenPossible  (DEMON_COLLISION_BOX_DEATH );
+#line 261 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+en_fDensity  = 500.0f;
+#line 262 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+  
+#line 265 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void CDemon::StandingAnim(void) {
+#line 267 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+StartModelAnim  (DEMON_ANIM_IDLE  , AOF_LOOPING  | AOF_NORESTART );
+#line 268 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+  
+#line 270 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void CDemon::WalkingAnim(void) {
+#line 276 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+RunningAnim  ();
+#line 277 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+  
+#line 279 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void CDemon::RunningAnim(void) {
+#line 280 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+StartModelAnim  (DEMON_ANIM_RUN  , AOF_LOOPING  | AOF_NORESTART );
+#line 281 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+  
+#line 282 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void CDemon::RotatingAnim(void) {
+#line 283 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+StartModelAnim  (DEMON_ANIM_RUN  , AOF_LOOPING  | AOF_NORESTART );
+#line 284 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+  
+#line 287 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void CDemon::IdleSound(void) {
+#line 288 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+PlaySound  (m_soSound  , SOUND_IDLE  , SOF_3D );
+#line 289 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+  
+#line 290 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void CDemon::SightSound(void) {
+#line 291 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+PlaySound  (m_soSound  , SOUND_SIGHT  , SOF_3D );
+#line 292 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+  
+#line 293 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void CDemon::WoundSound(void) {
+#line 294 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+PlaySound  (m_soSound  , SOUND_WOUND  , SOF_3D );
+#line 295 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+  
+#line 296 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void CDemon::DeathSound(void) {
+#line 297 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+PlaySound  (m_soSound  , SOUND_DEATH  , SOF_3D );
+#line 298 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+  
+#line 302 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void CDemon::EnemyPostInit(void) 
+#line 303 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+{
+#line 304 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 m_soSound  . Set3DParameters  (160.0f , 50.0f , 2.0f , 1.0f);
-#line 205 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 305 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+  
+#line 307 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+void CDemon::PreMoving() {
+#line 308 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+CEnemyBase  :: PreMoving  ();
+#line 311 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+if(m_bcType  == BT_ALBINOS ){
+#line 312 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+RenderParticles  ();
+#line 313 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+#line 314 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 }
 BOOL CDemon::
-#line 211 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 323 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 Fire(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CDemon_Fire
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CDemon::Fire expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 215 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-if(m_fMoveSpeed  > 0.0f){
-#line 216 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-SetDesiredTranslation  (FLOAT3D (0.0f , 0.0f , - m_fMoveSpeed ));
-#line 217 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 326 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+if(m_bcType  == BT_ALBINOS ){
+#line 327 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+Jump(STATE_CURRENT, STATE_CDemon_AlbinoFire, TRUE, EVoid());return TRUE;
+#line 328 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+Return(STATE_CURRENT,EReturn  ());
+#line 328 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+return TRUE;
+#line 329 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 }
-#line 220 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 332 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+if(m_fMoveSpeed  > 0.0f){
+#line 333 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SetDesiredTranslation  (FLOAT3D (0.0f , 0.0f , - m_fMoveSpeed ));
+#line 334 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+#line 337 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 StartModelAnim  (DEMON_ANIM_ATTACK  , 0);
-#line 221 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 338 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 STATE_CMovableModelEntity_WaitUntilScheduledAnimStarts, FALSE;
 Jump(STATE_CURRENT, 0x01500001, FALSE, EBegin());return TRUE;}BOOL CDemon::H0x01500001_Fire_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -281,13 +413,13 @@ switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_C
 #define STATE_CURRENT 0x01500002
 const EReturn&__e= (EReturn&)__eeInput;
 ;
-#line 223 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 340 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 SetDesiredTranslation  (FLOAT3D (0.0f , 0.0f , 0.0f));
-#line 225 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 342 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 PlaySound  (m_soSound  , SOUND_CAST  , SOF_3D );
-#line 226 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 343 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 SpawnReminder  (this  , 3.0f , REMINDER_DEATTACH_FIREBALL );
-#line 228 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 345 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 SetTimerAfter(1.0f);
 Jump(STATE_CURRENT, 0x01500003, FALSE, EBegin());return TRUE;}BOOL CDemon::H0x01500003_Fire_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -297,25 +429,25 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01500004
 ;
-#line 231 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 348 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 CPlacement3D plFX  = GetPlacement  ();
-#line 232 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 349 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 const FLOATmatrix3D & m  = GetRotationMatrix  ();
-#line 233 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 350 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 plFX  . pl_PositionVector  = plFX  . pl_PositionVector  + vFireballLaunchPos  * m ;
-#line 234 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 351 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 ESpawnEffect  ese ;
-#line 235 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 352 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 ese  . colMuliplier  = C_WHITE  | CT_OPAQUE ;
-#line 236 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 353 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 ese  . betType  = BET_COLLECT_ENERGY ;
-#line 237 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 354 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 ese  . vStretch  = FLOAT3D (1.0f , 1.0f , 1.0f);
-#line 238 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 355 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 m_penFireFX  = CreateEntity  (plFX  , CLASS_BASIC_EFFECT );
-#line 239 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 356 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 m_penFireFX  -> Initialize  (ese );
-#line 241 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 358 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 SetTimerAfter(1.4f);
 Jump(STATE_CURRENT, 0x01500005, FALSE, EBegin());return TRUE;}BOOL CDemon::H0x01500005_Fire_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -325,13 +457,13 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01500006
 ;
-#line 243 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 360 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 AddAttachment  (DEMON_ATTACHMENT_FIREBALL  , MODEL_FIREBALL  , TEXTURE_FIREBALL );
-#line 244 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 361 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 CModelObject * pmoFire  = & GetModelObject  () -> GetAttachmentModel  (DEMON_ATTACHMENT_FIREBALL ) -> amo_moModelObject ;
-#line 245 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 362 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 pmoFire  -> StretchModel  (FLOAT3D (DEMON_STRETCH  , DEMON_STRETCH  , DEMON_STRETCH ));
-#line 246 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 363 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 SetTimerAfter(2.94f - 2.4f);
 Jump(STATE_CURRENT, 0x01500007, FALSE, EBegin());return TRUE;}BOOL CDemon::H0x01500007_Fire_07(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -341,23 +473,23 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01500008
 ;
-#line 248 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 365 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 RemoveAttachment  (DEMON_ATTACHMENT_FIREBALL );
-#line 249 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 366 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 MaybeSwitchToAnotherPlayer  ();
-#line 251 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 368 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 if(IsVisible  (m_penEnemy )){
-#line 252 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 369 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 ShootProjectile  (PRT_DEMON_FIREBALL  , vFireballLaunchPos  , ANGLE3D (0.0f , 0.0f , 0.0f));
-#line 253 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 370 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 }
-#line 254 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 371 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 else {
-#line 255 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 372 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 ShootProjectileAt  (m_vPlayerSpotted  , PRT_DEMON_FIREBALL  , vFireballLaunchPos  , ANGLE3D (0.0f , 0.0f , 0.0f));
-#line 256 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 373 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 }
-#line 258 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 375 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 SetTimerAfter(1.0f);
 Jump(STATE_CURRENT, 0x01500009, FALSE, EBegin());return TRUE;}BOOL CDemon::H0x01500009_Fire_09(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -367,140 +499,346 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0150000a
 ;
-#line 260 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 377 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 260 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 377 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CDemon::
-#line 263 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-Hit(const CEntityEvent &__eeInput) {
+#line 380 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+AlbinoFire(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT STATE_CDemon_Hit
-  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CDemon::Hit expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 265 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-if(!(CalcDist  (m_penEnemy ) < 6.0f)){ Jump(STATE_CURRENT,0x01500011, FALSE, EInternal());return TRUE;}
-#line 266 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-StartModelAnim  (DEMON_ANIM_WOUND  , 0);
-#line 267 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-SetTimerAfter(0.45f);
-Jump(STATE_CURRENT, 0x0150000c, FALSE, EBegin());return TRUE;}BOOL CDemon::H0x0150000c_Hit_01(const CEntityEvent &__eeInput) {
+#define STATE_CURRENT STATE_CDemon_AlbinoFire
+  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CDemon::AlbinoFire expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
+#line 383 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_bIsAttacking  = TRUE ;
+#line 384 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_bIsVulnerable  = TRUE ;
+#line 386 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SwitchTexture  (FALSE );
+#line 389 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+if(m_fMoveSpeed  > 0.0f){
+#line 390 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SetDesiredTranslation  (FLOAT3D (0.0f , 0.0f , - m_fMoveSpeed ));
+#line 391 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+#line 394 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+StartModelAnim  (DEMON_ANIM_ATTACK  , 0);
+#line 395 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+STATE_CMovableModelEntity_WaitUntilScheduledAnimStarts, FALSE;
+Jump(STATE_CURRENT, 0x0150000c, FALSE, EBegin());return TRUE;}BOOL CDemon::H0x0150000c_AlbinoFire_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0150000c
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0150000d, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CDemon::H0x0150000d_Hit_02(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CMovableModelEntity_WaitUntilScheduledAnimStarts, FALSE, EVoid());return TRUE;case EVENTCODE_EReturn: Jump(STATE_CURRENT,0x0150000d, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CDemon::H0x0150000d_AlbinoFire_02(const CEntityEvent &__eeInput){
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0150000d
+const EReturn&__e= (EReturn&)__eeInput;
 ;
-#line 268 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-PlaySound  (m_soSound  , SOUND_WOUND  , SOF_3D );
-#line 269 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-if(CalcDist  (m_penEnemy ) < CLOSE_ATTACK_RANGE  
-#line 270 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-&& IsInPlaneFrustum  (m_penEnemy  , CosFast  (60.0f)))
-#line 271 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-{
-#line 272 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-FLOAT3D vDirection  = m_penEnemy  -> GetPlacement  () . pl_PositionVector  - GetPlacement  () . pl_PositionVector ;
-#line 273 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-vDirection  . Normalize  ();
-#line 274 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-InflictDirectDamage  (m_penEnemy  , this  , DMT_CLOSERANGE  , 50.0f , FLOAT3D (0 , 0 , 0) , vDirection );
-#line 275 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-}
-#line 276 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-SetTimerAfter(1.5f);
-Jump(STATE_CURRENT, 0x0150000e, FALSE, EBegin());return TRUE;}BOOL CDemon::H0x0150000e_Hit_03(const CEntityEvent &__eeInput) {
+#line 397 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SetDesiredTranslation  (FLOAT3D (0.0f , 0.0f , 0.0f));
+#line 399 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+PlaySound  (m_soSound  , SOUND_CAST  , SOF_3D );
+#line 400 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SpawnReminder  (this  , 3.0f , REMINDER_DEATTACH_FIREBALL );
+#line 402 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SetTimerAfter(1.0f);
+Jump(STATE_CURRENT, 0x0150000e, FALSE, EBegin());return TRUE;}BOOL CDemon::H0x0150000e_AlbinoFire_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0150000e
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0150000f, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CDemon::H0x0150000f_Hit_04(const CEntityEvent &__eeInput){
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0150000f, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CDemon::H0x0150000f_AlbinoFire_04(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0150000f
 ;
-#line 277 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-MaybeSwitchToAnotherPlayer  ();Jump(STATE_CURRENT,0x01500010, FALSE, EInternal());return TRUE;}BOOL CDemon::H0x01500011_Hit_06(const CEntityEvent &__eeInput){
+#line 405 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+CPlacement3D plFX  = GetPlacement  ();
+#line 406 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+const FLOATmatrix3D & m  = GetRotationMatrix  ();
+#line 407 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+plFX  . pl_PositionVector  = plFX  . pl_PositionVector  + vFireballLaunchPos  * m ;
+#line 408 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ESpawnEffect  ese ;
+#line 409 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ese  . colMuliplier  = C_WHITE  | CT_OPAQUE ;
+#line 410 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ese  . betType  = BET_COLLECT_ENERGY ;
+#line 411 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ese  . vStretch  = FLOAT3D (1.0f , 1.0f , 1.0f);
+#line 412 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_penFireFX  = CreateEntity  (plFX  , CLASS_BASIC_EFFECT );
+#line 413 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_penFireFX  -> Initialize  (ese );
+#line 415 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SetTimerAfter(1.4f);
+Jump(STATE_CURRENT, 0x01500010, FALSE, EBegin());return TRUE;}BOOL CDemon::H0x01500010_AlbinoFire_05(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01500010
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01500011, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CDemon::H0x01500011_AlbinoFire_06(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01500011
-{
-#line 280 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_fShootTime  = _pTimer  -> CurrentTick  () + 0.5f;
-#line 281 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-}Jump(STATE_CURRENT,0x01500010, FALSE, EInternal());return TRUE;}
-BOOL CDemon::H0x01500010_Hit_05(const CEntityEvent &__eeInput){
+;
+#line 417 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+AddAttachment  (DEMON_ATTACHMENT_FIREBALL  , MODEL_FIREBALL  , TEXTURE_FIREBALL );
+#line 418 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+CModelObject * pmoFire  = & GetModelObject  () -> GetAttachmentModel  (DEMON_ATTACHMENT_FIREBALL ) -> amo_moModelObject ;
+#line 419 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+pmoFire  -> StretchModel  (FLOAT3D (DEMON_ALBINOS_STRETCH  , DEMON_ALBINOS_STRETCH  , DEMON_ALBINOS_STRETCH ));
+#line 420 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SetTimerAfter(2.94f - 2.4f);
+Jump(STATE_CURRENT, 0x01500012, FALSE, EBegin());return TRUE;}BOOL CDemon::H0x01500012_AlbinoFire_07(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01500012
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01500013, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CDemon::H0x01500013_AlbinoFire_08(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01500010
-
-#line 282 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#define STATE_CURRENT 0x01500013
+;
+#line 422 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+RemoveAttachment  (DEMON_ATTACHMENT_FIREBALL );
+#line 423 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+MaybeSwitchToAnotherPlayer  ();
+#line 426 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+if(IsVisible  (m_penEnemy )){
+#line 428 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ShootProjectile  (PRT_DEMON_FIREBALL  , vFireballLaunchPos  , ANGLE3D (0.0f , 0.0f , 0.0f));
+#line 431 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ShootProjectile  (PRT_DEMON_FIREBALL  , vFireballLaunchPos  , ANGLE3D (30.0f , 0.0f , 0.0f));
+#line 432 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ShootProjectile  (PRT_DEMON_FIREBALL  , vFireballLaunchPos  , ANGLE3D (- 30.0f , 0.0f , 0.0f));
+#line 433 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ShootProjectile  (PRT_DEMON_FIREBALL  , vFireballLaunchPos  , ANGLE3D (0.0f , 30.0f , 0.0f));
+#line 434 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ShootProjectile  (PRT_DEMON_FIREBALL  , vFireballLaunchPos  , ANGLE3D (0.0f , - 30.0f , 0.0f));
+#line 435 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+#line 436 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+else {
+#line 438 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ShootProjectileAt  (m_vPlayerSpotted  , PRT_DEMON_FIREBALL  , vFireballLaunchPos  , ANGLE3D (0.0f , 0.0f , 0.0f));
+#line 439 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ShootProjectile  (PRT_DEMON_FIREBALL  , vFireballLaunchPos  , ANGLE3D (0.0f , 60.0f , 0.0f));
+#line 440 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ShootProjectile  (PRT_DEMON_FIREBALL  , vFireballLaunchPos  , ANGLE3D (0.0f , - 60.0f , 0.0f));
+#line 441 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ShootProjectile  (PRT_DEMON_FIREBALL  , vFireballLaunchPos  , ANGLE3D (45.0f , 120.0f , 0.0f));
+#line 442 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ShootProjectile  (PRT_DEMON_FIREBALL  , vFireballLaunchPos  , ANGLE3D (- 45.0f , - 120.0f , 0.0f));
+#line 443 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+#line 445 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SetTimerAfter(1.0f);
+Jump(STATE_CURRENT, 0x01500014, FALSE, EBegin());return TRUE;}BOOL CDemon::H0x01500014_AlbinoFire_09(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01500014
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01500015, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CDemon::H0x01500015_AlbinoFire_10(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01500015
+;
+#line 448 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_bIsAttacking  = FALSE ;
+#line 449 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_bIsVulnerable  = FALSE ;
+#line 451 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SwitchTexture  (TRUE );
+#line 453 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 282 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 453 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CDemon::
-#line 289 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 456 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+Hit(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT STATE_CDemon_Hit
+  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CDemon::Hit expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
+#line 458 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+if(!(CalcDist  (m_penEnemy ) < 6.0f)){ Jump(STATE_CURRENT,0x0150001c, FALSE, EInternal());return TRUE;}
+#line 459 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+StartModelAnim  (DEMON_ANIM_WOUND  , 0);
+#line 460 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SetTimerAfter(0.45f);
+Jump(STATE_CURRENT, 0x01500017, FALSE, EBegin());return TRUE;}BOOL CDemon::H0x01500017_Hit_01(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01500017
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01500018, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CDemon::H0x01500018_Hit_02(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01500018
+;
+#line 461 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+PlaySound  (m_soSound  , SOUND_WOUND  , SOF_3D );
+#line 462 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+if(CalcDist  (m_penEnemy ) < CLOSE_ATTACK_RANGE  
+#line 463 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+&& IsInPlaneFrustum  (m_penEnemy  , CosFast  (60.0f)))
+#line 464 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+{
+#line 465 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+FLOAT3D vDirection  = m_penEnemy  -> GetPlacement  () . pl_PositionVector  - GetPlacement  () . pl_PositionVector ;
+#line 466 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+vDirection  . Normalize  ();
+#line 467 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+InflictDirectDamage  (m_penEnemy  , this  , DMT_CLOSERANGE  , 50.0f , FLOAT3D (0 , 0 , 0) , vDirection );
+#line 468 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+#line 469 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SetTimerAfter(1.5f);
+Jump(STATE_CURRENT, 0x01500019, FALSE, EBegin());return TRUE;}BOOL CDemon::H0x01500019_Hit_03(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01500019
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0150001a, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CDemon::H0x0150001a_Hit_04(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0150001a
+;
+#line 470 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+MaybeSwitchToAnotherPlayer  ();Jump(STATE_CURRENT,0x0150001b, FALSE, EInternal());return TRUE;}BOOL CDemon::H0x0150001c_Hit_06(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0150001c
+{
+#line 473 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_fShootTime  = _pTimer  -> CurrentTick  () + 0.5f;
+#line 474 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}Jump(STATE_CURRENT,0x0150001b, FALSE, EInternal());return TRUE;}
+BOOL CDemon::H0x0150001b_Hit_05(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0150001b
+
+#line 475 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+Return(STATE_CURRENT,EReturn  ());
+#line 475 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+return TRUE; ASSERT(FALSE); return TRUE;};BOOL CDemon::
+#line 478 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+ParticleUpdater(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT STATE_CDemon_ParticleUpdater
+  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CDemon::ParticleUpdater expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
+#line 480 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+Jump(STATE_CURRENT,0x01500020, FALSE, EInternal());return TRUE;}BOOL CDemon::H0x01500020_ParticleUpdater_03(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01500020
+if(!(TRUE )){ Jump(STATE_CURRENT,0x01500021, FALSE, EInternal());return TRUE;}
+#line 482 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SetTimerAfter(0.1f);
+Jump(STATE_CURRENT, 0x0150001e, FALSE, EBegin());return TRUE;}BOOL CDemon::H0x0150001e_ParticleUpdater_01(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0150001e
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0150001f, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CDemon::H0x0150001f_ParticleUpdater_02(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0150001f
+;
+#line 485 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+if(m_bcType  == BT_ALBINOS  && m_tmProtectionEnd  > _pTimer  -> CurrentTick  ()){
+#line 486 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+RenderParticles  ();
+#line 487 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}Jump(STATE_CURRENT,0x01500020, FALSE, EInternal());return TRUE;
+#line 488 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}BOOL CDemon::H0x01500021_ParticleUpdater_04(const CEntityEvent &__eeInput) {
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01500021
+
+#line 490 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+Return(STATE_CURRENT,EReturn  ());
+#line 490 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+return TRUE; ASSERT(FALSE); return TRUE;};BOOL CDemon::
+#line 497 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 Main(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CDemon_Main
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CDemon::Main expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 291 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 499 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 InitAsModel  ();
-#line 292 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 500 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 SetPhysicsFlags  (EPF_MODEL_WALKING );
-#line 293 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 501 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 SetCollisionFlags  (ECF_MODEL );
-#line 294 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 502 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 SetFlags  (GetFlags  () | ENF_ALIVE );
-#line 296 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 504 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 en_fDensity  = 1100.0f;
-#line 298 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 506 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 SetModel  (MODEL_DEMON );
-#line 299 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-StandingAnim  ();
-#line 301 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_fWalkSpeed  = FRnd  () / 1.0f + 12.0f;
-#line 302 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_aWalkRotateSpeed  = AngleDeg  (FRnd  () * 20.0f + 50.0f);
-#line 303 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_fCloseRunSpeed  = FRnd  () / 1.0f + 13.0f;
-#line 304 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_aCloseRotateSpeed  = AngleDeg  (FRnd  () * 100 + 900.0f);
-#line 305 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_fAttackRunSpeed  = FRnd  () / 1.0f + 9.0f;
-#line 306 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_aAttackRotateSpeed  = AngleDeg  (FRnd  () * 100.0f + 900.0f);
-#line 308 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_fAttackDistance  = 650.0f;
-#line 309 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_fCloseDistance  = 12.0f;
-#line 310 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_fStopDistance  = 0.0f;
-#line 311 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_fAttackFireTime  = 5.0f;
-#line 312 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_fCloseFireTime  = 1.0f;
-#line 313 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_fIgnoreRange  = 800.0f;
-#line 314 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_fStopDistance  = 5.0f;
-#line 315 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_tmGiveUp  = Max  (m_tmGiveUp  , 10.0f);
-#line 318 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-SetHealth  (500.0f);
-#line 319 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_fMaxHealth  = GetHealth  ();
-#line 320 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 507 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+if(m_bcType  == BT_ALBINOS ){
+#line 508 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SwitchTexture  (TRUE );
+#line 509 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}else {
+#line 510 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 SetModelMainTexture  (TEXTURE_DEMON );
-#line 321 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_fBlowUpAmount  = 10000.0f;
-#line 322 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_fBodyParts  = 4;
-#line 323 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
-m_fDamageWounded  = 1000.0f;
-#line 324 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 511 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+#line 512 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+StandingAnim  ();
+#line 514 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_fWalkSpeed  = FRnd  () / 1.0f + 12.0f;
+#line 515 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_aWalkRotateSpeed  = AngleDeg  (FRnd  () * 20.0f + 50.0f);
+#line 516 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_fCloseRunSpeed  = FRnd  () / 1.0f + 13.0f;
+#line 517 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_aCloseRotateSpeed  = AngleDeg  (FRnd  () * 100 + 900.0f);
+#line 518 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_fAttackRunSpeed  = FRnd  () / 1.0f + 9.0f;
+#line 519 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_aAttackRotateSpeed  = AngleDeg  (FRnd  () * 100.0f + 900.0f);
+#line 521 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_fAttackDistance  = 650.0f;
+#line 522 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_fCloseDistance  = 12.0f;
+#line 523 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_fStopDistance  = 0.0f;
+#line 524 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_fAttackFireTime  = 5.0f;
+#line 525 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_fCloseFireTime  = 1.0f;
+#line 526 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_fIgnoreRange  = 800.0f;
+#line 527 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_fStopDistance  = 5.0f;
+#line 528 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_tmGiveUp  = Max  (m_tmGiveUp  , 10.0f);
+#line 531 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+if(m_bcType  == BT_ALBINOS ){
+#line 532 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SetHealth  (900.0f);
+#line 533 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_iScore  = 7500;
+#line 534 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}else {
+#line 535 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+SetHealth  (500.0f);
+#line 536 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 m_iScore  = 5000;
-#line 325 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 537 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+#line 538 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_fMaxHealth  = GetHealth  ();
+#line 539 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_fBlowUpAmount  = 10000.0f;
+#line 540 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_fBodyParts  = 4;
+#line 541 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_fDamageWounded  = 1000.0f;
+#line 542 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+m_iScore  = 5000;
+#line 543 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 m_fLockOnEnemyTime  = 3.0f;
-#line 328 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 546 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+if(m_bcType  == BT_ALBINOS ){
+#line 547 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+GetModelObject  () -> StretchModel  (FLOAT3D (6.2f , 6.2f , 6.2f));
+#line 548 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}else {
+#line 549 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 GetModelObject  () -> StretchModel  (FLOAT3D (4.2f , 4.2f , 4.2f));
-#line 329 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 550 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+}
+#line 551 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 ModelChangeNotify  ();
-#line 332 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
+#line 554 "V:/Programs/SamSDK/Sources/EntitiesMP/Demon.es"
 Jump(STATE_CURRENT, STATE_CEnemyBase_MainLoop, FALSE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};
