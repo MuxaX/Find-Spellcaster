@@ -6,21 +6,13 @@
 --------------------Configuration: EntitiesMP - Win32 Release--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP6ADB.bat" with contents
-[
-@echo off
-cd                                                                                                                ..\
-ecc EntitiesMP/Player.es
-]
-Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSP6ADB.bat"
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP6ADC.tmp" with contents
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPEC1.tmp" with contents
 [
 /nologo /G5 /MD /W3 /GX /Zi /Ox /Ot /Og /Oi /Oy- /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Fr"Release/" /Fp"Release/EntitiesMP.pch" /Yu"StdH.h" /Fo"Release/" /Fd"Release/" /FD /c 
-"V:\Programs\SamSDK\Sources\EntitiesMP\Player.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Common\HUD.cpp"
 ]
-Creating command line "cl.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSP6ADC.tmp" 
-EntitiesMP/Player.es
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP6CD1.tmp" with contents
+Creating command line "cl.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSPEC1.tmp" 
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPEC2.tmp" with contents
 [
 /nologo /subsystem:windows /dll /incremental:no /pdb:"Release/EntitiesMP.pdb" /map:"Release/EntitiesMP.map" /debug /machine:I386 /out:"Release/EntitiesMP.dll" /implib:"Release/EntitiesMP.lib" /pdbtype:sept 
 .\Release\Common.obj
@@ -170,17 +162,18 @@ Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP6CD1.tmp" with co
 .\Release\WorldLink.obj
 .\Release\WorldSettingsController.obj
 ]
-Creating command line "link.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSP6CD1.tmp"
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP6CD2.bat" with contents
+Creating command line "link.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSPEC2.tmp"
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPEC3.bat" with contents
 [
 @echo off
 copy Release\EntitiesMP.dll V:\Programs\SamSDK\Sources\Bin >nul
 copy Release\EntitiesMP.map V:\Programs\SamSDK\Sources\Bin >nul
 copy Release\EntitiesMP.lib V:\Programs\SamSDK\Sources\Bin >nul
 ]
-Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSP6CD2.bat"
+Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSPEC3.bat"
 Compiling...
-Player.cpp
+HUD.cpp
+V:\Programs\SamSDK\Sources\EntitiesMP\Common\HUD.cpp(1354) : warning C4101: 'colBar' : unreferenced local variable
 Linking...
    Creating library Release/EntitiesMP.lib and object Release/EntitiesMP.exp
 <h3>Output Window</h3>
@@ -189,7 +182,7 @@ Copying EntitiesMP binaries to V:\Programs\SamSDK\Sources\Bin
 
 
 <h3>Results</h3>
-EntitiesMP.dll - 0 error(s), 0 warning(s)
+EntitiesMP.dll - 0 error(s), 1 warning(s)
 </pre>
 </body>
 </html>

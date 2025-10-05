@@ -1191,9 +1191,11 @@ fNormValue = fValue/TOP_HEALTH;
 
 // Базовые координаты для разрешения 1600x900
 FLOAT fHealthBarX = 35.0f;
-FLOAT fHealthBarY = 755.0f;  // было 655, теперь 755 (+100)
+FLOAT fHealthBarY = 810.0f;  // было 655, теперь 755 (+100)
 FLOAT fHealthBarWidth = 256.0f;
 FLOAT fHealthBarHeight = 32.0f;
+if (_pDP->GetWidth() == 1920 && _pDP->GetHeight() == 1080){ fHealthBarY += 180;}
+else if (_pDP->GetWidth() == 2560 && _pDP->GetHeight() == 1440) { fHealthBarY += 540;}
 
 // Масштабируем координаты под текущее разрешение
 FLOAT fScaledX = fHealthBarX * _fWidthRatio;
@@ -1241,7 +1243,7 @@ if( fValue > 0.0f) {
     
     // Базовые координаты для разрешения 1600x900
     FLOAT fArmorBarX = 35.0f;
-    FLOAT fArmorBarY = 720.0f;   // было 620, теперь 720 (+100) 
+    FLOAT fArmorBarY = fHealthBarY - 35.0f;   // было 620, теперь 720 (+100) 
     FLOAT fArmorBarWidth = 256.0f;
     FLOAT fArmorBarHeight = 32.0f;
 
@@ -1502,7 +1504,7 @@ fValue = _penPlayer->en_tmMaxHoldBreath - (_pTimer->CurrentTick() - _penPlayer->
 if( _penPlayer->IsConnected() && (_penPlayer->GetFlags()&ENF_ALIVE) && fValue<60.0f) { 
     // Базовые координаты для разрешения 1600x900
     FLOAT fOxygenBarX = 35.0f;
-    FLOAT fOxygenBarY = 800.0f;  // было 700, теперь 800 (+100)  
+    FLOAT fOxygenBarY = fHealthBarY + 35.0f;  // было 700, теперь 800 (+100)  
     FLOAT fOxygenBarWidth = 256.0f;
     FLOAT fOxygenBarHeight = 32.0f;
     
