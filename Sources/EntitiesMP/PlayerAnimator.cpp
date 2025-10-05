@@ -15,8 +15,8 @@
 #include "Models/Weapons/Colt/ColtMain.h"
 #include "Models/Weapons/SingleShotgun/SingleShotgunItem.h"
 #include "Models/Weapons/SingleShotgun/Barrels.h"
-#include "Models/Weapons/DoubleShotgun/DoubleShotgunItem.h"
-#include "Models/Weapons/DoubleShotgun/Dshotgunbarrels.h"
+#include "Models/Weapons/DoubleShotgun/SingleShotgunItem.h"
+#include "Models/Weapons/DoubleShotgun/Barrels.h"
 #include "Models/Weapons/TommyGun/TommyGunItem.h"
 #include "Models/Weapons/TommyGun/Body.h"
 #include "Models/Weapons/TommyGun/af36UndetBarrel.h"
@@ -148,7 +148,7 @@ void CPlayerAnimator_Precache(ULONG ulAvailable)
     pdec->PrecacheModel(MODEL_DS_SWITCH            ); 
     pdec->PrecacheTexture(TEXTURE_DS_HANDLE        );   
     pdec->PrecacheTexture(TEXTURE_DS_BARRELS       );   
-    pdec->PrecacheTexture(TEXTURE_DS_SWITCH        );   
+    //pdec->PrecacheTexture(TEXTURE_DS_SWITCH        );   
   }
 
   if ( ulAvailable&(1<<(WEAPON_TOMMYGUN-1)) ) {
@@ -568,25 +568,25 @@ break ;
 #line 644 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
 case WEAPON_DOUBLESHOTGUN : 
 #line 645 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
-AddWeaponAttachment  (BODY_ATTACHMENT_DOUBLE_SHOTGUN  , MODEL_DOUBLESHOTGUN  , TEXTURE_DS_HANDLE  , 0 , 0 , 0);
+AddWeaponAttachment  (BODY_ATTACHMENT_SINGLE_SHOTGUN  , MODEL_DOUBLESHOTGUN  , TEXTURE_DS_HANDLE  , 0 , 0 , 0);
 #line 646 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
-SetAttachment  (BODY_ATTACHMENT_DOUBLE_SHOTGUN );
+SetAttachment  (BODY_ATTACHMENT_SINGLE_SHOTGUN );
 #line 647 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
-AddWeaponAttachment  (DOUBLESHOTGUNITEM_ATTACHMENT_BARRELS  , MODEL_DS_BARRELS  , 
+AddWeaponAttachment  (SINGLESHOTGUNITEM_ATTACHMENT_BARRELS  , MODEL_DS_BARRELS  , 
 #line 648 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
 TEXTURE_DS_BARRELS  , TEX_REFL_BWRIPLES01  , TEX_SPEC_MEDIUM  , 0);
 #line 649 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
-AddWeaponAttachment  (DOUBLESHOTGUNITEM_ATTACHMENT_HANDLE  , MODEL_DS_HANDLE  , 
+AddWeaponAttachment  (SINGLESHOTGUNITEM_ATTACHMENT_HANDLE  , MODEL_DS_HANDLE  , 
 #line 650 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
 TEXTURE_DS_HANDLE  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
 #line 651 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
-AddWeaponAttachment  (DOUBLESHOTGUNITEM_ATTACHMENT_SWITCH  , MODEL_DS_SWITCH  , 
+AddWeaponAttachment  (SINGLESHOTGUNITEM_ATTACHMENT_SLIDER  , MODEL_DS_SWITCH  , 
 #line 652 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
-TEXTURE_DS_SWITCH  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+TEXTURE_DS_BARRELS  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
 #line 653 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
-SetAttachment  (DOUBLESHOTGUNITEM_ATTACHMENT_BARRELS );
+SetAttachment  (SINGLESHOTGUNITEM_ATTACHMENT_BARRELS );
 #line 654 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
-AddWeaponAttachment  (DSHOTGUNBARRELS_ATTACHMENT_FLARE  , MODEL_FLARE02  , TEXTURE_FLARE02  , 0 , 0 , 0);
+AddWeaponAttachment  (BARRELS_ATTACHMENT_FLARE  , MODEL_FLARE02  , TEXTURE_FLARE02  , 0 , 0 , 0);
 #line 655 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
 break ;
 #line 659 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
@@ -1587,7 +1587,7 @@ break ;
 #line 1387 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
 case WEAPON_DOUBLESHOTGUN : 
 #line 1388 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
-pmoModel  -> RemoveAttachmentModel  (BODY_ATTACHMENT_DOUBLE_SHOTGUN );
+pmoModel  -> RemoveAttachmentModel  (BODY_ATTACHMENT_SINGLE_SHOTGUN );
 #line 1389 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
 break ;
 #line 1390 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
@@ -1833,7 +1833,7 @@ break ;
 #line 1574 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
 case WEAPON_DOUBLESHOTGUN : 
 #line 1575 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
-ShowFlare  (BODY_ATTACHMENT_DOUBLE_SHOTGUN  , DOUBLESHOTGUNITEM_ATTACHMENT_BARRELS  , DSHOTGUNBARRELS_ATTACHMENT_FLARE );
+ShowFlare  (BODY_ATTACHMENT_SINGLE_SHOTGUN  , SINGLESHOTGUNITEM_ATTACHMENT_BARRELS  , BARRELS_ATTACHMENT_FLARE );
 #line 1576 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
 break ;
 #line 1577 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
@@ -1883,7 +1883,7 @@ break ;
 #line 1600 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
 case WEAPON_DOUBLESHOTGUN : 
 #line 1601 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
-HideFlare  (BODY_ATTACHMENT_DOUBLE_SHOTGUN  , DOUBLESHOTGUNITEM_ATTACHMENT_BARRELS  , DSHOTGUNBARRELS_ATTACHMENT_FLARE );
+HideFlare  (BODY_ATTACHMENT_SINGLE_SHOTGUN  , SINGLESHOTGUNITEM_ATTACHMENT_BARRELS  , BARRELS_ATTACHMENT_FLARE );
 #line 1602 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"
 break ;
 #line 1603 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerAnimator.es"

@@ -732,28 +732,76 @@ void RenderMessagePicture(CDrawPort *pdp)
 }
 
 
+void RenderLoadingScreen(CDrawPort *pdp)
+{
+    // Просто попробуем загрузить карту для текущего уровня по известному имени
+    CTString strLoadingPic = "TexturesMP\\Computer\\Map\\Book.tex"; // пример
+    
+    try {
+        CTextureObject toLoading;
+        toLoading.SetData_t(strLoadingPic);
+        
+        PIX pixImgW = toLoading.GetWidth();
+        PIX pixImgH = toLoading.GetHeight();
+        PIX pixBoxW = pdp->GetWidth() - 4;
+        PIX pixBoxH = pdp->GetHeight() - 4;
+        
+        FLOAT fScale = Min((FLOAT)pixBoxW / pixImgW, (FLOAT)pixBoxH / pixImgH);
+        PIX pixScaledW = PIX(pixImgW * fScale);
+        PIX pixScaledH = PIX(pixImgH * fScale);
+        PIX pixX = (pdp->GetWidth() - pixScaledW) / 2;
+        PIX pixY = (pdp->GetHeight() - pixScaledH) / 2;
+        
+        pdp->PutTexture(&toLoading, 
+            PIXaabbox2D(
+                PIX2D(pixX, pixY),
+                PIX2D(pixX + pixScaledW, pixY + pixScaledH)
+            )
+        );
+        
+    } catch (char *strError) {
+        pdp->SetFont(_pfdDisplayFont);
+        pdp->SetTextScaling(0.5f);
+        pdp->PutText("Level: Unknown", pdp->GetWidth()/2, pdp->GetHeight()/2, C_GRAY|CT_OPAQUE);
+    }
+}
+
 void RenderMessageStats(CDrawPort *pdp)
 {
-  CSessionProperties *psp = (CSessionProperties *)_pNetwork->GetSessionProperties();
-  ULONG ulLevelMask = psp->sp_ulLevelsMask;
-  CPrintF("ulLevelMask: %i\n", ulLevelMask);
-  INDEX iLevel = -1;
-  if (psp->sp_bCooperative) {
-    extern void RenderMap( CDrawPort *pdp, ULONG ulLevelMask/*, CProgressHookInfo *pphi*/);
-    if (pdp->Lock()) {
-      // get sizes
-      PIX pixSizeI = pdp->GetWidth();
-      PIX pixSizeJ = pdp->GetHeight();
-      // clear bcg
-      pdp->Fill( 1, 1, pixSizeI-2, pixSizeJ-2, C_BLACK|CT_OPAQUE);
-      // render the map if not fading
-      COLOR colFade = LCDFadedColor(C_WHITE|255);
-      if( (colFade&255) == 255) {
-        RenderMap( pdp, ulLevelMask/*, NULL*/);
-      }
-      pdp->Unlock();
+    //CPrintF("RenderMessageStats: Starting...\n");
+  
+    if (_pNetwork == NULL) {
+        CPrintF("RenderMessageStats: _pNetwork is NULL!\n");
+        return;
     }
-  }
+    
+    CSessionProperties *psp = (CSessionProperties *)_pNetwork->GetSessionProperties();
+  
+    if (psp == NULL) {
+        CPrintF("RenderMessageStats: SessionProperties is NULL!\n");
+        return;
+    }
+    
+    ULONG ulLevelMask = psp->sp_ulLevelsMask;
+    CPrintF("ulLevelMask: %i\n", ulLevelMask);
+    
+    if (psp->sp_bCooperative) {
+        if (pdp->Lock()) {
+            // get sizes
+            PIX pixSizeI = pdp->GetWidth();
+            PIX pixSizeJ = pdp->GetHeight();
+            
+            // clear background
+            pdp->Fill(1, 1, pixSizeI-2, pixSizeJ-2, C_BLACK|CT_OPAQUE);
+            
+            // render the loading screen if not fading
+            COLOR colFade = LCDFadedColor(C_WHITE|255);
+            if ((colFade&255) == 255) {
+                RenderLoadingScreen(pdp);
+            }
+            pdp->Unlock();
+        }
+    }
 }
 
 

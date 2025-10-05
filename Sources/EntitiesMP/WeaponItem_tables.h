@@ -70,13 +70,13 @@ CEntityComponent CWeaponItem_components[] = {
 #define TEXTURE_SS_BARRELS ((0x00000322<<8)+45)
  CEntityComponent(ECT_TEXTURE, TEXTURE_SS_BARRELS, "EFNM" "Models\\Weapons\\SingleShotgun\\Barrels.tex"),
 #define MODEL_DOUBLESHOTGUN ((0x00000322<<8)+50)
- CEntityComponent(ECT_MODEL, MODEL_DOUBLESHOTGUN, "EFNM" "Models\\Weapons\\DoubleShotgun\\DoubleShotgunItem.mdl"),
+ CEntityComponent(ECT_MODEL, MODEL_DOUBLESHOTGUN, "EFNM" "Models\\Weapons\\DoubleShotgun\\SingleShotgunItem.mdl"),
 #define MODEL_DS_HANDLE ((0x00000322<<8)+51)
- CEntityComponent(ECT_MODEL, MODEL_DS_HANDLE, "EFNM" "Models\\Weapons\\DoubleShotgun\\Dshotgunhandle.mdl"),
+ CEntityComponent(ECT_MODEL, MODEL_DS_HANDLE, "EFNM" "Models\\Weapons\\DoubleShotgun\\Handle.mdl"),
 #define MODEL_DS_BARRELS ((0x00000322<<8)+52)
- CEntityComponent(ECT_MODEL, MODEL_DS_BARRELS, "EFNM" "Models\\Weapons\\DoubleShotgun\\Dshotgunbarrels.mdl"),
+ CEntityComponent(ECT_MODEL, MODEL_DS_BARRELS, "EFNM" "Models\\Weapons\\DoubleShotgun\\Barrels.mdl"),
 #define MODEL_DS_SWITCH ((0x00000322<<8)+54)
- CEntityComponent(ECT_MODEL, MODEL_DS_SWITCH, "EFNM" "Models\\Weapons\\DoubleShotgun\\Switch.mdl"),
+ CEntityComponent(ECT_MODEL, MODEL_DS_SWITCH, "EFNM" "Models\\Weapons\\DoubleShotgun\\Slider.mdl"),
 #define TEXTURE_DS_HANDLE ((0x00000322<<8)+56)
  CEntityComponent(ECT_TEXTURE, TEXTURE_DS_HANDLE, "EFNM" "Models\\Weapons\\DoubleShotgun\\Handle.tex"),
 #define TEXTURE_DS_BARRELS ((0x00000322<<8)+57)

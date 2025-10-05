@@ -13,9 +13,9 @@
 #include "Models/Weapons/Colt/ColtMain.h"
 #include "Models/Weapons/SingleShotgun/SingleShotgun.h"
 #include "Models/Weapons/SingleShotgun/Barrels.h"
-#include "Models/Weapons/DoubleShotgun/DoubleShotgun.h"
-#include "Models/Weapons/DoubleShotgun/Dshotgunbarrels.h"
-#include "Models/Weapons/DoubleShotgun/HandWithAmmo.h"
+#include "Models/Weapons/DoubleShotgun/SingleShotgun.h"
+#include "Models/Weapons/DoubleShotgun/Barrels.h"
+//#include "Models/Weapons/DoubleShotgun/HandWithAmmo.h"
 #include "Models/Weapons/TommyGun/TommyGun.h"
 #include "Models/Weapons/TommyGun/Body.h"
 #include "Models/Weapons/MiniGun/MiniGun.h"
@@ -205,10 +205,10 @@ static FLOAT afSingleShotgunPellets[] =
 };
 static FLOAT afDoubleShotgunPellets[] =
 {
-      -0.3f,+0.15f, +0.0f,+0.15f, +0.3f,+0.15f,
-  -0.4f,+0.05f, -0.1f,+0.05f, +0.1f,+0.05f, +0.4f,+0.05f,
-      -0.3f,-0.05f, +0.0f,-0.05f, +0.3f,-0.05f,
-  -0.4f,-0.15f, -0.1f,-0.15f, +0.1f,-0.15f, +0.4f,-0.15f
+      -0.3f,+0.1f,    +0.0f,+0.1f,   +0.3f,+0.1f,
+  -0.4f,-0.1f,  -0.1f,-0.1f,  +0.1f,-0.1f,  +0.4f,-0.1f,
+      -0.3f,-0.05f, 
+  -0.4f,-0.15f 
 };
 
 // sniper discrete zoom values - 4 (1x,2x,4x,6x)
@@ -322,14 +322,14 @@ void CPlayerWeapons_Precache(ULONG ulAvailable)
     pdec->PrecacheModel(MODEL_DS_HANDLE            );
     pdec->PrecacheModel(MODEL_DS_BARRELS           );
     pdec->PrecacheModel(MODEL_DS_AMMO              );
-    pdec->PrecacheModel(MODEL_DS_SWITCH            );
-    pdec->PrecacheModel(MODEL_DS_HANDWITHAMMO      );
+    //pdec->PrecacheModel(MODEL_DS_SWITCH            );
+    //pdec->PrecacheModel(MODEL_DS_HANDWITHAMMO      );
     pdec->PrecacheTexture(TEXTURE_DS_HANDLE        );
     pdec->PrecacheTexture(TEXTURE_DS_BARRELS       );
-    pdec->PrecacheTexture(TEXTURE_DS_AMMO          );
-    pdec->PrecacheTexture(TEXTURE_DS_SWITCH        );
+    //pdec->PrecacheTexture(TEXTURE_DS_AMMO          );
+    //pdec->PrecacheTexture(TEXTURE_DS_SWITCH        );
     pdec->PrecacheSound(SOUND_DOUBLESHOTGUN_FIRE   );
-    pdec->PrecacheSound(SOUND_DOUBLESHOTGUN_RELOAD );
+    //pdec->PrecacheSound(SOUND_DOUBLESHOTGUN_RELOAD );
   }
 
   if ( ulAvailable&(1<<(WEAPON_TOMMYGUN-1)) ) {
@@ -741,18 +741,18 @@ components:
 308 sound   SOUND_SINGLESHOTGUN_ACTIVATE "Models\\Weapons\\SingleShotgun\\Sounds\\_activate.wav",
 
 // ************** DOUBLE SHOTGUN **************
- 50 model   MODEL_DOUBLESHOTGUN         "Models\\Weapons\\DoubleShotgun\\DoubleShotgun.mdl",
- 51 model   MODEL_DS_HANDLE             "Models\\Weapons\\DoubleShotgun\\Dshotgunhandle.mdl",
- 52 model   MODEL_DS_BARRELS            "Models\\Weapons\\DoubleShotgun\\Dshotgunbarrels.mdl",
- 53 model   MODEL_DS_AMMO               "Models\\Weapons\\DoubleShotgun\\Ammo.mdl",
- 54 model   MODEL_DS_SWITCH             "Models\\Weapons\\DoubleShotgun\\Switch.mdl",
- 55 model   MODEL_DS_HANDWITHAMMO       "Models\\Weapons\\DoubleShotgun\\HandWithAmmo.mdl",
+ 50 model   MODEL_DOUBLESHOTGUN         "Models\\Weapons\\DoubleShotgun\\SingleShotgun.mdl",
+ 51 model   MODEL_DS_HANDLE             "Models\\Weapons\\DoubleShotgun\\Handle.mdl",
+ 52 model   MODEL_DS_BARRELS            "Models\\Weapons\\DoubleShotgun\\Barrels.mdl",
+ 53 model   MODEL_DS_AMMO               "Models\\Weapons\\DoubleShotgun\\Slider.mdl",
+ //54 model   MODEL_DS_SWITCH             "Models\\Weapons\\DoubleShotgun\\Switch.mdl",
+ //55 model   MODEL_DS_HANDWITHAMMO       "Models\\Weapons\\DoubleShotgun\\HandWithAmmo.mdl",
  56 texture TEXTURE_DS_HANDLE           "Models\\Weapons\\DoubleShotgun\\Handle.tex",
  57 texture TEXTURE_DS_BARRELS          "Models\\Weapons\\DoubleShotgun\\Barrels.tex",
- 58 texture TEXTURE_DS_AMMO             "Models\\Weapons\\DoubleShotgun\\Ammo.tex",
- 59 texture TEXTURE_DS_SWITCH           "Models\\Weapons\\DoubleShotgun\\Switch.tex",
+ //58 texture TEXTURE_DS_AMMO             "Models\\Weapons\\DoubleShotgun\\Ammo.tex",
+ //59 texture TEXTURE_DS_SWITCH           "Models\\Weapons\\DoubleShotgun\\Switch.tex",
  60 sound   SOUND_DOUBLESHOTGUN_FIRE    "Models\\Weapons\\DoubleShotgun\\Sounds\\Fire.wav",
- 61 sound   SOUND_DOUBLESHOTGUN_RELOAD  "Models\\Weapons\\DoubleShotgun\\Sounds\\Reload.wav",
+ //61 sound   SOUND_DOUBLESHOTGUN_RELOAD  "Models\\Weapons\\DoubleShotgun\\Sounds\\Reload.wav",
 
 // ************** TOMMYGUN **************
  70 model   MODEL_TOMMYGUN              "Models\\Weapons\\TommyGun\\TommyGun.mdl",
@@ -1039,7 +1039,7 @@ functions:
     // DRAW WEAPON MODEL
     //  Double colt - second colt in mirror
     //  Double shotgun - hand with ammo
-    if(iWeaponData==WEAPON_DOUBLESHOTGUN )
+    /*if(iWeaponData==WEAPON_DOUBLESHOTGUN )
     {
       // prepare render model structure and projection
       CRenderModel rmMain;
@@ -1072,7 +1072,7 @@ functions:
       m_moWeaponSecond.SetupModelRendering(rmMain);
       m_moWeaponSecond.RenderModel(rmMain);
       EndModelRenderingView();
-    }
+    }*/
 
     // minigun specific (update rotation)
     if( iWeaponData==WEAPON_MINIGUN) { RotateMinigun(); }
@@ -1554,7 +1554,7 @@ functions:
           ShowFlare(m_moWeapon, SINGLESHOTGUN_ATTACHMENT_BARRELS, BARRELS_ATTACHMENT_FLARE, 1.0f);
           break;
         case WEAPON_DOUBLESHOTGUN:
-          ShowFlare(m_moWeapon, DOUBLESHOTGUN_ATTACHMENT_BARRELS, DSHOTGUNBARRELS_ATTACHMENT_FLARE, 1.75f);
+          ShowFlare(m_moWeapon, SINGLESHOTGUN_ATTACHMENT_BARRELS, BARRELS_ATTACHMENT_FLARE, 1.75f);
           break;
         case WEAPON_TOMMYGUN:
           ShowFlare(m_moWeapon, TOMMYGUN_ATTACHMENT_BODY, BODY_ATTACHMENT_FLARE, 0.5f);
@@ -1579,7 +1579,7 @@ functions:
           HideFlare(m_moWeapon, SINGLESHOTGUN_ATTACHMENT_BARRELS, BARRELS_ATTACHMENT_FLARE);
           break;
         case WEAPON_DOUBLESHOTGUN:
-          HideFlare(m_moWeapon, DOUBLESHOTGUN_ATTACHMENT_BARRELS, DSHOTGUNBARRELS_ATTACHMENT_FLARE);
+          HideFlare(m_moWeapon, SINGLESHOTGUN_ATTACHMENT_BARRELS, BARRELS_ATTACHMENT_FLARE);
           break;
         case WEAPON_TOMMYGUN:
           HideFlare(m_moWeapon, TOMMYGUN_ATTACHMENT_BODY, BODY_ATTACHMENT_FLARE);
@@ -1650,15 +1650,15 @@ functions:
         break; }
       case WEAPON_DOUBLESHOTGUN: {
         SetComponents(this, m_moWeapon, MODEL_DOUBLESHOTGUN, TEXTURE_HAND, 0, 0, 0);
-        AddAttachmentToModel(this, m_moWeapon, DOUBLESHOTGUN_ATTACHMENT_BARRELS, MODEL_DS_BARRELS, TEXTURE_DS_BARRELS, TEX_REFL_BWRIPLES01, TEX_SPEC_MEDIUM, 0);
-        AddAttachmentToModel(this, m_moWeapon, DOUBLESHOTGUN_ATTACHMENT_HANDLE, MODEL_DS_HANDLE, TEXTURE_DS_HANDLE, TEX_REFL_LIGHTMETAL01, TEX_SPEC_MEDIUM, 0);
-        AddAttachmentToModel(this, m_moWeapon, DOUBLESHOTGUN_ATTACHMENT_SWITCH, MODEL_DS_SWITCH, TEXTURE_DS_SWITCH, TEX_REFL_LIGHTMETAL01, TEX_SPEC_MEDIUM, 0);
-        AddAttachmentToModel(this, m_moWeapon, DOUBLESHOTGUN_ATTACHMENT_AMMO, MODEL_DS_AMMO, TEXTURE_DS_AMMO, 0 ,0, 0);
-        SetComponents(this, m_moWeaponSecond, MODEL_DS_HANDWITHAMMO, TEXTURE_HAND, 0, 0, 0);
-        CModelObject &mo = m_moWeapon.GetAttachmentModel(DOUBLESHOTGUN_ATTACHMENT_BARRELS)->amo_moModelObject;
-        AddAttachmentToModel(this, mo, DSHOTGUNBARRELS_ATTACHMENT_FLARE, MODEL_FLARE01, TEXTURE_FLARE01, 0, 0, 0);
+        AddAttachmentToModel(this, m_moWeapon, SINGLESHOTGUN_ATTACHMENT_BARRELS, MODEL_DS_BARRELS, TEXTURE_DS_BARRELS, TEX_REFL_BWRIPLES01, TEX_SPEC_MEDIUM, 0);
+        AddAttachmentToModel(this, m_moWeapon, SINGLESHOTGUN_ATTACHMENT_HANDLE, MODEL_DS_HANDLE, TEXTURE_DS_HANDLE, TEX_REFL_LIGHTMETAL01, TEX_SPEC_MEDIUM, 0);
+        //AddAttachmentToModel(this, m_moWeapon, DOUBLESHOTGUN_ATTACHMENT_SWITCH, MODEL_DS_SWITCH, TEXTURE_DS_SWITCH, TEX_REFL_LIGHTMETAL01, TEX_SPEC_MEDIUM, 0);
+        AddAttachmentToModel(this, m_moWeapon, SINGLESHOTGUN_ATTACHMENT_SLIDER, MODEL_DS_AMMO, TEXTURE_DS_BARRELS, 0 ,0, 0);
+        //SetComponents(this, m_moWeaponSecond, MODEL_DS_HANDWITHAMMO, TEXTURE_HAND, 0, 0, 0);
+        CModelObject &mo = m_moWeapon.GetAttachmentModel(SINGLESHOTGUN_ATTACHMENT_BARRELS)->amo_moModelObject;
+        AddAttachmentToModel(this, mo, BARRELS_ATTACHMENT_FLARE, MODEL_FLARE01, TEXTURE_FLARE01, 0, 0, 0);
         m_moWeaponSecond.StretchModel(FLOAT3D(1,1,1));
-        m_moWeapon.PlayAnim(DOUBLESHOTGUN_ANIM_WAIT1, 0);
+        m_moWeapon.PlayAnim(SINGLESHOTGUN_ANIM_WAIT1, 0);
         break; }
       case WEAPON_TOMMYGUN: {
         SetComponents(this, m_moWeapon, MODEL_TOMMYGUN, TEXTURE_HAND, 0, 0, 0);
@@ -2761,7 +2761,7 @@ functions:
         AddManaToPlayer(iAmmoPicked*70.0f*MANA_AMMO);
         break;
       case WEAPON_DOUBLESHOTGUN:
-        iAmmoPicked = Max(20.0f, m_iMaxShells*fMaxAmmoRatio);
+        iAmmoPicked = Max(5.0f, m_iMaxShells*fMaxAmmoRatio);
         m_iShells += iAmmoPicked;
         AddManaToPlayer(iAmmoPicked*70.0f*MANA_AMMO);
         break;
@@ -2862,8 +2862,8 @@ functions:
         NOTHING; break;
 	  case WEAPON_COLT: wit = WIT_COLT; break;
 	  case WEAPON_DOUBLECOLT: wit = WIT_DOUBLECOLT; break;
+	  case WEAPON_DOUBLESHOTGUN: wit = WIT_DOUBLESHOTGUN; break;
       case WEAPON_SINGLESHOTGUN: wit = WIT_SINGLESHOTGUN; break;
-      case WEAPON_DOUBLESHOTGUN: wit = WIT_DOUBLESHOTGUN; break;
       case WEAPON_TOMMYGUN: wit = WIT_TOMMYGUN; break;
       case WEAPON_SNIPER: wit = WIT_SNIPER; break;
       case WEAPON_MINIGUN: wit = WIT_MINIGUN; break;
@@ -2893,8 +2893,8 @@ functions:
     switch (Ewi.iWeapon) {
       case WIT_COLT: Ewi.iWeapon = WEAPON_COLT; break;
 	  case WIT_DOUBLECOLT: Ewi.iWeapon = WEAPON_DOUBLECOLT; break;
+	  case WIT_DOUBLESHOTGUN: Ewi.iWeapon = WEAPON_DOUBLESHOTGUN; break;
       case WIT_SINGLESHOTGUN: Ewi.iWeapon = WEAPON_SINGLESHOTGUN; break;
-      case WIT_DOUBLESHOTGUN: Ewi.iWeapon = WEAPON_DOUBLESHOTGUN; break;
       case WIT_TOMMYGUN: Ewi.iWeapon = WEAPON_TOMMYGUN; break;
       case WIT_SNIPER: Ewi.iWeapon = WEAPON_SNIPER; break;
       case WIT_MINIGUN: Ewi.iWeapon = WEAPON_MINIGUN; break;
@@ -2943,7 +2943,7 @@ functions:
         fnmMsg = CTFILENAME("Data\\Messages\\Weapons\\singleshotgun.txt");
         break;
       case WIT_DOUBLESHOTGUN:
-        ((CPlayer&)*m_penPlayer).ItemPicked(TRANS("Double Barrel Coach Gun"), 0);
+        ((CPlayer&)*m_penPlayer).ItemPicked(TRANS("SPAS-12"), 0);
         fnmMsg = CTFILENAME("Data\\Messages\\Weapons\\doubleshotgun.txt");
         break;
       case WIT_TOMMYGUN:
@@ -2951,11 +2951,11 @@ functions:
         fnmMsg = CTFILENAME("Data\\Messages\\Weapons\\tommygun.txt");
         break;
       case WIT_SNIPER:
-        ((CPlayer&)*m_penPlayer).ItemPicked(TRANS("RAPTOR 16mm Sniper"), 0);
+        ((CPlayer&)*m_penPlayer).ItemPicked(TRANS("AW-50"), 0);
         fnmMsg = CTFILENAME("DataMP\\Messages\\Weapons\\sniper.txt");
         break;
       case WIT_MINIGUN:
-        ((CPlayer&)*m_penPlayer).ItemPicked(TRANS("XM214-A Minigun"), 0);
+        ((CPlayer&)*m_penPlayer).ItemPicked(TRANS("M249 Para"), 0);
         fnmMsg = CTFILENAME("Data\\Messages\\Weapons\\minigun.txt");
         break;
       case WIT_ROCKETLAUNCHER:
@@ -2985,7 +2985,7 @@ functions:
 //        fnmMsg = CTFILENAME("Data\\Messages\\Weapons\\ghostbuster.txt");
 //        break;
       case WIT_CANNON:
-        ((CPlayer&)*m_penPlayer).ItemPicked(TRANS("SBC Cannon"), 0);
+        ((CPlayer&)*m_penPlayer).ItemPicked(TRANS("Rail gun"), 0);
         fnmMsg = CTFILENAME("Data\\Messages\\Weapons\\cannon.txt");
         break;
       default:
@@ -3224,7 +3224,7 @@ functions:
     switch(iWeapon) {
       case 1: return WEAPON_CHAINSAW;
       case 2: return WEAPON_DOUBLECOLT;
-      case 3: return WEAPON_DOUBLESHOTGUN;
+      case 3: return WEAPON_SINGLESHOTGUN;
       case 4: return WEAPON_MINIGUN;
       case 5: return WEAPON_ROCKETLAUNCHER;
       case 6: return WEAPON_FLAMER;
@@ -3354,7 +3354,7 @@ functions:
 	  case WEAPON_COLT: return (m_iPistol+m_iPistolMagazin>0);
 	  case WEAPON_DOUBLECOLT: return (m_iSMG+m_iSMGMagazin>0);
       case WEAPON_SINGLESHOTGUN: return (m_iShells+m_iShellsMagazin>0);
-      case WEAPON_DOUBLESHOTGUN: return (m_iShells>1);
+      case WEAPON_DOUBLESHOTGUN: return (m_iShells>0);
       case WEAPON_TOMMYGUN: return (m_iBullets+m_iBulletsMagazin>0 || m_iGrenades>0);
       case WEAPON_SNIPER: return (m_iSniperBullets>0);
       case WEAPON_MINIGUN: return (m_iBullets>0);
@@ -3389,7 +3389,7 @@ functions:
       case WEAPON_SINGLESHOTGUN:
         m_moWeapon.PlayAnim(SINGLESHOTGUN_ANIM_WAIT1, AOF_LOOPING|AOF_NORESTART|AOF_SMOOTHCHANGE); break;
       case WEAPON_DOUBLESHOTGUN:
-        m_moWeapon.PlayAnim(DOUBLESHOTGUN_ANIM_WAIT1, AOF_LOOPING|AOF_NORESTART|AOF_SMOOTHCHANGE); break;
+        m_moWeapon.PlayAnim(SINGLESHOTGUN_ANIM_WAIT1, AOF_LOOPING|AOF_NORESTART|AOF_SMOOTHCHANGE); break;
       case WEAPON_TOMMYGUN:
         m_moWeapon.PlayAnim(TOMMYGUN_ANIM_WAIT1, AOF_LOOPING|AOF_NORESTART|AOF_SMOOTHCHANGE); break;
       case WEAPON_SNIPER:
@@ -3474,9 +3474,9 @@ functions:
     // play boring anim
     INDEX iAnim;
     switch (IRnd()%3) {
-      case 0: iAnim = DOUBLESHOTGUN_ANIM_WAIT2; break;
-      case 1: iAnim = DOUBLESHOTGUN_ANIM_WAIT3; break;
-      case 2: iAnim = DOUBLESHOTGUN_ANIM_WAIT4; break;
+      case 0: iAnim = SINGLESHOTGUN_ANIM_WAIT2; break;
+      case 1: iAnim = SINGLESHOTGUN_ANIM_WAIT3; break;
+      //case 2: iAnim = DOUBLESHOTGUN_ANIM_WAIT4; break;
     }
     m_moWeapon.PlayAnim(iAnim, AOF_SMOOTHCHANGE);
     return m_moWeapon.GetAnimLength(iAnim);
@@ -3656,8 +3656,8 @@ functions:
       return WEAPON_CHAINSAW;
     } else if (wt==WEAPON_COLT) {
       return WEAPON_DOUBLECOLT;
-    } else if (wt==WEAPON_SINGLESHOTGUN) {
-      return WEAPON_DOUBLESHOTGUN;
+    } else if (wt==WEAPON_DOUBLESHOTGUN) {
+      return WEAPON_SINGLESHOTGUN;
     } else if (wt==WEAPON_TOMMYGUN) {
       return WEAPON_MINIGUN;
     } else if (wt==WEAPON_GRENADELAUNCHER) {
@@ -3981,7 +3981,7 @@ procedures:
         m_iAnim = SINGLESHOTGUN_ANIM_DEACTIVATE;
         break;
       case WEAPON_DOUBLESHOTGUN:
-        m_iAnim = DOUBLESHOTGUN_ANIM_DEACTIVATE;
+        m_iAnim = SINGLESHOTGUN_ANIM_DEACTIVATE;
         break;
       case WEAPON_TOMMYGUN:
         m_iAnim = TOMMYGUN_ANIM_DEACTIVATE;
@@ -4101,7 +4101,7 @@ procedures:
         PlaySound(pl.m_soWeaponAmbient, SOUND_SINGLESHOTGUN_ACTIVATE, SOF_3D|SOF_VOLUMETRIC);
         break;}
       case WEAPON_DOUBLESHOTGUN:
-        m_iAnim = DOUBLESHOTGUN_ANIM_ACTIVATE;
+        m_iAnim = SINGLESHOTGUN_ANIM_ACTIVATE;
         SetFlare(0, FLARE_REMOVE);
         break;
       case WEAPON_TOMMYGUN:{
@@ -4882,7 +4882,7 @@ procedures:
 	  if (m_iShellsMagazin>0){
 
 	  FireBullets(wpn_fFX[WEAPON_SINGLESHOTGUN], wpn_fFY[WEAPON_SINGLESHOTGUN],
-        500.0f, 15.0f, 10, afSingleShotgunPellets, 0.1f, 0.03f);
+        500.0f, 10.0f, 10, afSingleShotgunPellets, 0.1f, 0.03f);
 
 	  ShakeBullet(0.1f, 0.2f, 2.0f, 0.075f);
       DoRecoil();
@@ -5082,7 +5082,7 @@ procedures:
         }
       }
 
-      autowait(GetSP()->sp_bCooperative ? 0.5f : 0.375);*/
+      autowait(GetSP()->sp_bCooperative ? 0.3f : 0.3);*/
       /* drop shell */
 
       /* add one empty bullet shell */
@@ -5112,7 +5112,7 @@ procedures:
       /* drop shell */
        /* autowait(m_moWeapon.GetAnimLength(
           (GetSP()->sp_bCooperative ? SINGLESHOTGUN_ANIM_FIRE1:SINGLESHOTGUN_ANIM_FIRE1FAST) ) -
-          (GetSP()->sp_bCooperative ? 20.5f : 0.375f) );*/
+          (GetSP()->sp_bCooperative ? 20.5f : 0.3f) );*/
       // no ammo -> change weapon
    /* if (m_iShells<=0) { SelectNewWeapon(); }
     } else {
@@ -5125,19 +5125,19 @@ procedures:
   // ***************** FIRE DOUBLESHOTGUN *****************
   FireDoubleShotgun() {
     // fire two shell
-    if (m_iShells>1) {
+    if (m_iShells>0) {
       GetAnimator()->FireAnimation(BODY_ANIM_SHOTGUN_FIRELONG, 0);
       FireBullets(wpn_fFX[WEAPON_DOUBLESHOTGUN], wpn_fFY[WEAPON_DOUBLESHOTGUN],
-        500.0f, 20.0f, 14, afDoubleShotgunPellets, 0.25f, 0.03f);
+        500.0f, 15.0f, 10, afDoubleShotgunPellets, 0.25f, 0.03f);
 	  ShakeBullet(0.1f, 0.2f, 1.0f, 0.03f);
       DoRecoil();
       SpawnRangeSound(70.0f);
       if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("Dblshotgun_fire");}
-      DecAmmo(m_iShells, 2);
+      DecAmmo(m_iShells, 1);
       SetFlare(0, FLARE_ADD);
       PlayLightAnim(LIGHT_ANIM_COLT_SHOTGUN, 0);
-      m_moWeapon.PlayAnim(GetSP()->sp_bCooperative ? DOUBLESHOTGUN_ANIM_FIRE : DOUBLESHOTGUN_ANIM_FIREFAST, 0);
-      m_moWeaponSecond.PlayAnim(GetSP()->sp_bCooperative ? HANDWITHAMMO_ANIM_FIRE : HANDWITHAMMO_ANIM_FIREFAST, 0);
+      m_moWeapon.PlayAnim(GetSP()->sp_bCooperative ? SINGLESHOTGUN_ANIM_FIRE1 : SINGLESHOTGUN_ANIM_FIRE1FAST, 0);
+     // m_moWeaponSecond.PlayAnim(GetSP()->sp_bCooperative ? HANDWITHAMMO_ANIM_FIRE : HANDWITHAMMO_ANIM_FIREFAST, 0);
       // sound
       CPlayer &pl = (CPlayer&)*m_penPlayer;
       pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 1.5f, 1.0f);      // fire
@@ -5195,13 +5195,13 @@ procedures:
         }
       }
 
-      autowait(GetSP()->sp_bCooperative ? 0.25f : 0.15f);
-      if (m_iShells>=2) {
+      autowait(GetSP()->sp_bCooperative ? 0.9f : 0.9f);
+      /*if (m_iShells>=1) {
         CPlayer &pl = (CPlayer&)*m_penPlayer;
         PlaySound(pl.m_soWeapon1, SOUND_DOUBLESHOTGUN_RELOAD, SOF_3D|SOF_VOLUMETRIC);
-      }
+      }*/
       autowait( m_moWeapon.GetAnimLength(
-        (GetSP()->sp_bCooperative ? DOUBLESHOTGUN_ANIM_FIRE : DOUBLESHOTGUN_ANIM_FIREFAST)) -
+        (GetSP()->sp_bCooperative ? SINGLESHOTGUN_ANIM_FIRE1 : SINGLESHOTGUN_ANIM_FIRE1FAST)) -
         (GetSP()->sp_bCooperative ? 0.8f : 0.15f) );
       // no ammo -> change weapon
       if (m_iShells<=1) { SelectNewWeapon(); }

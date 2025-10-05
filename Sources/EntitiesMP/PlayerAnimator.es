@@ -11,8 +11,8 @@
 #include "Models/Weapons/Colt/ColtMain.h"
 #include "Models/Weapons/SingleShotgun/SingleShotgunItem.h"
 #include "Models/Weapons/SingleShotgun/Barrels.h"
-#include "Models/Weapons/DoubleShotgun/DoubleShotgunItem.h"
-#include "Models/Weapons/DoubleShotgun/Dshotgunbarrels.h"
+#include "Models/Weapons/DoubleShotgun/SingleShotgunItem.h"
+#include "Models/Weapons/DoubleShotgun/Barrels.h"
 #include "Models/Weapons/TommyGun/TommyGunItem.h"
 #include "Models/Weapons/TommyGun/Body.h"
 #include "Models/Weapons/TommyGun/af36UndetBarrel.h"
@@ -146,7 +146,7 @@ void CPlayerAnimator_Precache(ULONG ulAvailable)
     pdec->PrecacheModel(MODEL_DS_SWITCH            ); 
     pdec->PrecacheTexture(TEXTURE_DS_HANDLE        );   
     pdec->PrecacheTexture(TEXTURE_DS_BARRELS       );   
-    pdec->PrecacheTexture(TEXTURE_DS_SWITCH        );   
+    //pdec->PrecacheTexture(TEXTURE_DS_SWITCH        );   
   }
 
   if ( ulAvailable&(1<<(WEAPON_TOMMYGUN-1)) ) {
@@ -341,13 +341,13 @@ components:
  45 texture TEXTURE_SS_BARRELS          "Models\\Weapons\\SingleShotgun\\Barrels.tex",
 
 // ************** DOUBLE SHOTGUN **************
- 50 model   MODEL_DOUBLESHOTGUN         "Models\\Weapons\\DoubleShotgun\\DoubleShotgunItem.mdl",
- 51 model   MODEL_DS_HANDLE             "Models\\Weapons\\DoubleShotgun\\Dshotgunhandle.mdl",
- 52 model   MODEL_DS_BARRELS            "Models\\Weapons\\DoubleShotgun\\Dshotgunbarrels.mdl",
- 54 model   MODEL_DS_SWITCH             "Models\\Weapons\\DoubleShotgun\\Switch.mdl",
+ 50 model   MODEL_DOUBLESHOTGUN         "Models\\Weapons\\DoubleShotgun\\SingleShotgunItem.mdl",
+ 51 model   MODEL_DS_HANDLE             "Models\\Weapons\\DoubleShotgun\\Handle.mdl",
+ 52 model   MODEL_DS_BARRELS            "Models\\Weapons\\DoubleShotgun\\Barrels.mdl",
+ 54 model   MODEL_DS_SWITCH             "Models\\Weapons\\DoubleShotgun\\Slider.mdl",
  56 texture TEXTURE_DS_HANDLE           "Models\\Weapons\\DoubleShotgun\\Handle.tex",
  57 texture TEXTURE_DS_BARRELS          "Models\\Weapons\\DoubleShotgun\\Barrels.tex",
- 58 texture TEXTURE_DS_SWITCH           "Models\\Weapons\\DoubleShotgun\\Switch.tex",
+ //58 texture TEXTURE_DS_SWITCH           "Models\\Weapons\\DoubleShotgun\\Switch.tex",
 
 // ************** TOMMYGUN **************
  70 model   MODEL_TOMMYGUN              "Models\\Weapons\\TommyGun\\TommyGunItem.mdl",
@@ -642,16 +642,16 @@ functions:
 
     // *********** DOUBLE SHOTGUN ***********
       case WEAPON_DOUBLESHOTGUN:
-        AddWeaponAttachment(BODY_ATTACHMENT_DOUBLE_SHOTGUN, MODEL_DOUBLESHOTGUN, TEXTURE_DS_HANDLE, 0, 0, 0);
-        SetAttachment(BODY_ATTACHMENT_DOUBLE_SHOTGUN);
-        AddWeaponAttachment(DOUBLESHOTGUNITEM_ATTACHMENT_BARRELS, MODEL_DS_BARRELS,
+        AddWeaponAttachment(BODY_ATTACHMENT_SINGLE_SHOTGUN, MODEL_DOUBLESHOTGUN, TEXTURE_DS_HANDLE, 0, 0, 0);
+        SetAttachment(BODY_ATTACHMENT_SINGLE_SHOTGUN);
+        AddWeaponAttachment(SINGLESHOTGUNITEM_ATTACHMENT_BARRELS, MODEL_DS_BARRELS,
                             TEXTURE_DS_BARRELS, TEX_REFL_BWRIPLES01, TEX_SPEC_MEDIUM, 0);
-        AddWeaponAttachment(DOUBLESHOTGUNITEM_ATTACHMENT_HANDLE, MODEL_DS_HANDLE,
+        AddWeaponAttachment(SINGLESHOTGUNITEM_ATTACHMENT_HANDLE, MODEL_DS_HANDLE,
                             TEXTURE_DS_HANDLE, TEX_REFL_LIGHTMETAL01, TEX_SPEC_MEDIUM, 0);
-        AddWeaponAttachment(DOUBLESHOTGUNITEM_ATTACHMENT_SWITCH, MODEL_DS_SWITCH,
-                            TEXTURE_DS_SWITCH, TEX_REFL_LIGHTMETAL01, TEX_SPEC_MEDIUM, 0);
-        SetAttachment(DOUBLESHOTGUNITEM_ATTACHMENT_BARRELS);
-        AddWeaponAttachment(DSHOTGUNBARRELS_ATTACHMENT_FLARE, MODEL_FLARE02, TEXTURE_FLARE02, 0, 0, 0);
+        AddWeaponAttachment(SINGLESHOTGUNITEM_ATTACHMENT_SLIDER, MODEL_DS_SWITCH,
+                            TEXTURE_DS_BARRELS, TEX_REFL_LIGHTMETAL01, TEX_SPEC_MEDIUM, 0);
+        SetAttachment(SINGLESHOTGUNITEM_ATTACHMENT_BARRELS);
+        AddWeaponAttachment(BARRELS_ATTACHMENT_FLARE, MODEL_FLARE02, TEXTURE_FLARE02, 0, 0, 0);
         break;
 
 
@@ -1385,7 +1385,7 @@ functions:
         pmoModel->RemoveAttachmentModel(BODY_ATTACHMENT_SINGLE_SHOTGUN);
         break;
       case WEAPON_DOUBLESHOTGUN:
-        pmoModel->RemoveAttachmentModel(BODY_ATTACHMENT_DOUBLE_SHOTGUN);
+        pmoModel->RemoveAttachmentModel(BODY_ATTACHMENT_SINGLE_SHOTGUN);
         break;
       case WEAPON_TOMMYGUN:
         pmoModel->RemoveAttachmentModel(BODY_ATTACHMENT_TOMMYGUN);
@@ -1572,7 +1572,7 @@ functions:
           ShowFlare(BODY_ATTACHMENT_SINGLE_SHOTGUN, SINGLESHOTGUNITEM_ATTACHMENT_BARRELS, BARRELS_ATTACHMENT_FLARE);
           break;
         case WEAPON_DOUBLESHOTGUN:
-          ShowFlare(BODY_ATTACHMENT_DOUBLE_SHOTGUN, DOUBLESHOTGUNITEM_ATTACHMENT_BARRELS, DSHOTGUNBARRELS_ATTACHMENT_FLARE);
+          ShowFlare(BODY_ATTACHMENT_SINGLE_SHOTGUN, SINGLESHOTGUNITEM_ATTACHMENT_BARRELS, BARRELS_ATTACHMENT_FLARE);
           break;
         case WEAPON_TOMMYGUN:
           ShowFlare(BODY_ATTACHMENT_TOMMYGUN, TOMMYGUNITEM_ATTACHMENT_BODY, BODY_ATTACHMENT_FLARE);
@@ -1598,7 +1598,7 @@ functions:
           HideFlare(BODY_ATTACHMENT_SINGLE_SHOTGUN, SINGLESHOTGUNITEM_ATTACHMENT_BARRELS, BARRELS_ATTACHMENT_FLARE);
           break;
         case WEAPON_DOUBLESHOTGUN:
-          HideFlare(BODY_ATTACHMENT_DOUBLE_SHOTGUN, DOUBLESHOTGUNITEM_ATTACHMENT_BARRELS, DSHOTGUNBARRELS_ATTACHMENT_FLARE);
+          HideFlare(BODY_ATTACHMENT_SINGLE_SHOTGUN, SINGLESHOTGUNITEM_ATTACHMENT_BARRELS, BARRELS_ATTACHMENT_FLARE);
           break;
         case WEAPON_TOMMYGUN:
           HideFlare(BODY_ATTACHMENT_TOMMYGUN, TOMMYGUNITEM_ATTACHMENT_BODY, BODY_ATTACHMENT_FLARE);

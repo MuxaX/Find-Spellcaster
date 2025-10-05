@@ -1,5 +1,5 @@
 // Animation names
-#define DSHOTGUNBARRELS_ANIM_DEFAULT_ANIMATION 0
+#define DSHOTGUNBARRELS_ANIM_DEFAULT 0
 
 // Color names
 
@@ -9,6 +9,6 @@
 #define DSHOTGUNBARRELS_COLLISION_BOX_PART_NAME 0
 
 // Attaching position names
-#define DSHOTGUNBARRELS_ATTACHMENT_FLARE 0
+#define DSHOTGUNBARRELS_ATTACHMENT_NO NAME 0
 
 // Sound names

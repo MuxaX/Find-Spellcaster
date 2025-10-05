@@ -17,9 +17,9 @@
 #include "Models/Weapons/Colt/ColtMain.h"
 #include "Models/Weapons/SingleShotgun/SingleShotgun.h"
 #include "Models/Weapons/SingleShotgun/Barrels.h"
-#include "Models/Weapons/DoubleShotgun/DoubleShotgun.h"
-#include "Models/Weapons/DoubleShotgun/Dshotgunbarrels.h"
-#include "Models/Weapons/DoubleShotgun/HandWithAmmo.h"
+#include "Models/Weapons/DoubleShotgun/SingleShotgun.h"
+#include "Models/Weapons/DoubleShotgun/Barrels.h"
+//#include "Models/Weapons/DoubleShotgun/HandWithAmmo.h"
 #include "Models/Weapons/TommyGun/TommyGun.h"
 #include "Models/Weapons/TommyGun/Body.h"
 #include "Models/Weapons/MiniGun/MiniGun.h"
@@ -179,10 +179,10 @@ static FLOAT afSingleShotgunPellets[] =
 };
 static FLOAT afDoubleShotgunPellets[] =
 {
-      -0.3f,+0.15f, +0.0f,+0.15f, +0.3f,+0.15f,
-  -0.4f,+0.05f, -0.1f,+0.05f, +0.1f,+0.05f, +0.4f,+0.05f,
-      -0.3f,-0.05f, +0.0f,-0.05f, +0.3f,-0.05f,
-  -0.4f,-0.15f, -0.1f,-0.15f, +0.1f,-0.15f, +0.4f,-0.15f
+      -0.3f,+0.1f,    +0.0f,+0.1f,   +0.3f,+0.1f,
+  -0.4f,-0.1f,  -0.1f,-0.1f,  +0.1f,-0.1f,  +0.4f,-0.1f,
+      -0.3f,-0.05f, 
+  -0.4f,-0.15f 
 };
 
 // sniper discrete zoom values - 4 (1x,2x,4x,6x)
@@ -296,14 +296,14 @@ void CPlayerWeapons_Precache(ULONG ulAvailable)
     pdec->PrecacheModel(MODEL_DS_HANDLE            );
     pdec->PrecacheModel(MODEL_DS_BARRELS           );
     pdec->PrecacheModel(MODEL_DS_AMMO              );
-    pdec->PrecacheModel(MODEL_DS_SWITCH            );
-    pdec->PrecacheModel(MODEL_DS_HANDWITHAMMO      );
+    //pdec->PrecacheModel(MODEL_DS_SWITCH            );
+    //pdec->PrecacheModel(MODEL_DS_HANDWITHAMMO      );
     pdec->PrecacheTexture(TEXTURE_DS_HANDLE        );
     pdec->PrecacheTexture(TEXTURE_DS_BARRELS       );
-    pdec->PrecacheTexture(TEXTURE_DS_AMMO          );
-    pdec->PrecacheTexture(TEXTURE_DS_SWITCH        );
+    //pdec->PrecacheTexture(TEXTURE_DS_AMMO          );
+    //pdec->PrecacheTexture(TEXTURE_DS_SWITCH        );
     pdec->PrecacheSound(SOUND_DOUBLESHOTGUN_FIRE   );
-    pdec->PrecacheSound(SOUND_DOUBLESHOTGUN_RELOAD );
+    //pdec->PrecacheSound(SOUND_DOUBLESHOTGUN_RELOAD );
   }
 
   if ( ulAvailable&(1<<(WEAPON_TOMMYGUN-1)) ) {
@@ -845,66 +845,6 @@ ubBlend  = (INDEX) (INVISIBILITY_ALPHA_LOCAL  + (FLOAT) (254 - INVISIBILITY_ALPH
 #line 1036 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 1037 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1042 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iWeaponData  == WEAPON_DOUBLESHOTGUN )
-#line 1043 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 1045 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CRenderModel  rmMain ;
-#line 1046 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPerspectiveProjection3D  prMirror  = prProjection ;
-#line 1047 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-prMirror  . ViewerPlacementL  () = plView ;
-#line 1048 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-prMirror  . FrontClipDistanceL  () = wpn_fClip  [ iWeaponData  ];
-#line 1049 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-prMirror  . DepthBufferNearL  () = 0.0f;
-#line 1050 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-prMirror  . DepthBufferFarL  () = 0.1f;
-#line 1051 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plWeaponMirror  (FLOAT3D (wpn_fX  [ iWeaponData  ] , wpn_fY  [ iWeaponData  ] , wpn_fZ  [ iWeaponData  ]) , 
-#line 1052 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ANGLE3D (AngleDeg  (wpn_fH  [ iWeaponData  ]) , AngleDeg  (wpn_fP  [ iWeaponData  ]) , 
-#line 1053 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AngleDeg  (wpn_fB  [ iWeaponData  ])));
-#line 1054 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPerspectiveProjection3D  &) prMirror ) . FOVL  () = AngleDeg  (wpn_fFOV  [ iWeaponData  ]);
-#line 1055 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CAnyProjection3D  apr ;
-#line 1056 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-apr  = prMirror ;
-#line 1057 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Stereo_AdjustProjection  (* apr  , iEye  , 0.1f);
-#line 1058 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BeginModelRenderingView  (apr  , pdp );
-#line 1060 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponMovingOffset  (plWeaponMirror  . pl_PositionVector );
-#line 1061 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plWeaponMirror  . RelativeToAbsoluteSmooth  (plView );
-#line 1062 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-rmMain  . SetObjectPlacement  (plWeaponMirror );
-#line 1064 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-rmMain  . rm_colLight  = colLight ;
-#line 1065 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-rmMain  . rm_colAmbient  = colAmbient ;
-#line 1066 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-rmMain  . rm_vLightDirection  = vViewerLightDirection ;
-#line 1067 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-rmMain  . rm_ulFlags  |= RMF_WEAPON ;
-#line 1068 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(tmInvisibility  > tmNow ){
-#line 1069 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-rmMain  . rm_colBlend  = (rmMain  . rm_colBlend  & 0xffffff00) | ubBlend ;
-#line 1070 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1072 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeaponSecond  . SetupModelRendering  (rmMain );
-#line 1073 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeaponSecond  . RenderModel  (rmMain );
-#line 1074 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-EndModelRenderingView  ();
-#line 1075 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 1078 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(iWeaponData  == WEAPON_MINIGUN ){RotateMinigun  ();}
@@ -1581,7 +1521,7 @@ break ;
 #line 1556 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_DOUBLESHOTGUN : 
 #line 1557 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShowFlare  (m_moWeapon  , DOUBLESHOTGUN_ATTACHMENT_BARRELS  , DSHOTGUNBARRELS_ATTACHMENT_FLARE  , 1.75f);
+ShowFlare  (m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_BARRELS  , BARRELS_ATTACHMENT_FLARE  , 1.75f);
 #line 1558 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
 #line 1559 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -1629,7 +1569,7 @@ break ;
 #line 1581 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_DOUBLESHOTGUN : 
 #line 1582 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-HideFlare  (m_moWeapon  , DOUBLESHOTGUN_ATTACHMENT_BARRELS  , DSHOTGUNBARRELS_ATTACHMENT_FLARE );
+HideFlare  (m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_BARRELS  , BARRELS_ATTACHMENT_FLARE );
 #line 1583 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
 #line 1584 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -1751,23 +1691,19 @@ case WEAPON_DOUBLESHOTGUN : {
 #line 1652 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetComponents  (this  , m_moWeapon  , MODEL_DOUBLESHOTGUN  , TEXTURE_HAND  , 0 , 0 , 0);
 #line 1653 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , DOUBLESHOTGUN_ATTACHMENT_BARRELS  , MODEL_DS_BARRELS  , TEXTURE_DS_BARRELS  , TEX_REFL_BWRIPLES01  , TEX_SPEC_MEDIUM  , 0);
+AddAttachmentToModel  (this  , m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_BARRELS  , MODEL_DS_BARRELS  , TEXTURE_DS_BARRELS  , TEX_REFL_BWRIPLES01  , TEX_SPEC_MEDIUM  , 0);
 #line 1654 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , DOUBLESHOTGUN_ATTACHMENT_HANDLE  , MODEL_DS_HANDLE  , TEXTURE_DS_HANDLE  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
-#line 1655 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , DOUBLESHOTGUN_ATTACHMENT_SWITCH  , MODEL_DS_SWITCH  , TEXTURE_DS_SWITCH  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+AddAttachmentToModel  (this  , m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_HANDLE  , MODEL_DS_HANDLE  , TEXTURE_DS_HANDLE  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
 #line 1656 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , DOUBLESHOTGUN_ATTACHMENT_AMMO  , MODEL_DS_AMMO  , TEXTURE_DS_AMMO  , 0 , 0 , 0);
-#line 1657 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetComponents  (this  , m_moWeaponSecond  , MODEL_DS_HANDWITHAMMO  , TEXTURE_HAND  , 0 , 0 , 0);
+AddAttachmentToModel  (this  , m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_SLIDER  , MODEL_DS_AMMO  , TEXTURE_DS_BARRELS  , 0 , 0 , 0);
 #line 1658 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CModelObject & mo  = m_moWeapon  . GetAttachmentModel  (DOUBLESHOTGUN_ATTACHMENT_BARRELS ) -> amo_moModelObject ;
+CModelObject & mo  = m_moWeapon  . GetAttachmentModel  (SINGLESHOTGUN_ATTACHMENT_BARRELS ) -> amo_moModelObject ;
 #line 1659 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , mo  , DSHOTGUNBARRELS_ATTACHMENT_FLARE  , MODEL_FLARE01  , TEXTURE_FLARE01  , 0 , 0 , 0);
+AddAttachmentToModel  (this  , mo  , BARRELS_ATTACHMENT_FLARE  , MODEL_FLARE01  , TEXTURE_FLARE01  , 0 , 0 , 0);
 #line 1660 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeaponSecond  . StretchModel  (FLOAT3D (1 , 1 , 1));
 #line 1661 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (DOUBLESHOTGUN_ANIM_WAIT1  , 0);
+m_moWeapon  . PlayAnim  (SINGLESHOTGUN_ANIM_WAIT1  , 0);
 #line 1662 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;}
 #line 1663 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -3330,7 +3266,7 @@ break ;
 #line 2763 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_DOUBLESHOTGUN : 
 #line 2764 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iAmmoPicked  = Max  (20.0f , m_iMaxShells  * fMaxAmmoRatio );
+iAmmoPicked  = Max  (5.0f , m_iMaxShells  * fMaxAmmoRatio );
 #line 2765 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_iShells  += iAmmoPicked ;
 #line 2766 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -3465,9 +3401,9 @@ case WEAPON_COLT : wit  = WIT_COLT ;break ;
 #line 2864 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_DOUBLECOLT : wit  = WIT_DOUBLECOLT ;break ;
 #line 2865 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : wit  = WIT_SINGLESHOTGUN ;break ;
-#line 2866 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_DOUBLESHOTGUN : wit  = WIT_DOUBLESHOTGUN ;break ;
+#line 2866 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SINGLESHOTGUN : wit  = WIT_SINGLESHOTGUN ;break ;
 #line 2867 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_TOMMYGUN : wit  = WIT_TOMMYGUN ;break ;
 #line 2868 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -3518,9 +3454,9 @@ case WIT_COLT : Ewi  . iWeapon  = WEAPON_COLT ;break ;
 #line 2895 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WIT_DOUBLECOLT : Ewi  . iWeapon  = WEAPON_DOUBLECOLT ;break ;
 #line 2896 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_SINGLESHOTGUN : Ewi  . iWeapon  = WEAPON_SINGLESHOTGUN ;break ;
-#line 2897 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WIT_DOUBLESHOTGUN : Ewi  . iWeapon  = WEAPON_DOUBLESHOTGUN ;break ;
+#line 2897 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WIT_SINGLESHOTGUN : Ewi  . iWeapon  = WEAPON_SINGLESHOTGUN ;break ;
 #line 2898 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WIT_TOMMYGUN : Ewi  . iWeapon  = WEAPON_TOMMYGUN ;break ;
 #line 2899 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -3582,7 +3518,7 @@ break ;
 #line 2945 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WIT_DOUBLESHOTGUN : 
 #line 2946 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Double Barrel Coach Gun") , 0);
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("SPAS-12") , 0);
 #line 2947 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\doubleshotgun.txt");
 #line 2948 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -3598,7 +3534,7 @@ break ;
 #line 2953 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WIT_SNIPER : 
 #line 2954 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("RAPTOR 16mm Sniper") , 0);
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("AW-50") , 0);
 #line 2955 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 fnmMsg  = CTFILENAME  ("DataMP\\Messages\\Weapons\\sniper.txt");
 #line 2956 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -3606,7 +3542,7 @@ break ;
 #line 2957 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WIT_MINIGUN : 
 #line 2958 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("XM214-A Minigun") , 0);
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("M249 Para") , 0);
 #line 2959 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\minigun.txt");
 #line 2960 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -3654,7 +3590,7 @@ break ;
 #line 2987 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WIT_CANNON : 
 #line 2988 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("SBC Cannon") , 0);
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Rail gun") , 0);
 #line 2989 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\cannon.txt");
 #line 2990 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -4027,7 +3963,7 @@ case 1: return WEAPON_CHAINSAW ;
 #line 3226 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case 2: return WEAPON_DOUBLECOLT ;
 #line 3227 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 3: return WEAPON_DOUBLESHOTGUN ;
+case 3: return WEAPON_SINGLESHOTGUN ;
 #line 3228 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case 4: return WEAPON_MINIGUN ;
 #line 3229 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -4260,7 +4196,7 @@ case WEAPON_DOUBLECOLT : return (m_iSMG  + m_iSMGMagazin  > 0);
 #line 3356 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_SINGLESHOTGUN : return (m_iShells  + m_iShellsMagazin  > 0);
 #line 3357 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLESHOTGUN : return (m_iShells  > 1);
+case WEAPON_DOUBLESHOTGUN : return (m_iShells  > 0);
 #line 3358 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_TOMMYGUN : return (m_iBullets  + m_iBulletsMagazin  > 0 || m_iGrenades  > 0);
 #line 3359 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -4323,7 +4259,7 @@ m_moWeapon  . PlayAnim  (SINGLESHOTGUN_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTAR
 #line 3391 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_DOUBLESHOTGUN : 
 #line 3392 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (DOUBLESHOTGUN_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
+m_moWeapon  . PlayAnim  (SINGLESHOTGUN_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
 #line 3393 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_TOMMYGUN : 
 #line 3394 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -4446,11 +4382,9 @@ INDEX iAnim ;
 #line 3476 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 switch(IRnd  () % 3){
 #line 3477 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 0: iAnim  = DOUBLESHOTGUN_ANIM_WAIT2 ;break ;
+case 0: iAnim  = SINGLESHOTGUN_ANIM_WAIT2 ;break ;
 #line 3478 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 1: iAnim  = DOUBLESHOTGUN_ANIM_WAIT3 ;break ;
-#line 3479 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 2: iAnim  = DOUBLESHOTGUN_ANIM_WAIT4 ;break ;
+case 1: iAnim  = SINGLESHOTGUN_ANIM_WAIT3 ;break ;
 #line 3480 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 3481 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -4682,9 +4616,9 @@ return WEAPON_CHAINSAW ;
 #line 3658 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return WEAPON_DOUBLECOLT ;
 #line 3659 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(wt  == WEAPON_SINGLESHOTGUN ){
+}else if(wt  == WEAPON_DOUBLESHOTGUN ){
 #line 3660 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return WEAPON_DOUBLESHOTGUN ;
+return WEAPON_SINGLESHOTGUN ;
 #line 3661 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }else if(wt  == WEAPON_TOMMYGUN ){
 #line 3662 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -5159,7 +5093,7 @@ break ;
 #line 3983 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_DOUBLESHOTGUN : 
 #line 3984 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = DOUBLESHOTGUN_ANIM_DEACTIVATE ;
+m_iAnim  = SINGLESHOTGUN_ANIM_DEACTIVATE ;
 #line 3985 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
 #line 3986 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -5314,7 +5248,7 @@ break ;}
 #line 4103 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_DOUBLESHOTGUN : 
 #line 4104 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = DOUBLESHOTGUN_ANIM_ACTIVATE ;
+m_iAnim  = SINGLESHOTGUN_ANIM_ACTIVATE ;
 #line 4105 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetFlare  (0 , FLARE_REMOVE );
 #line 4106 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -6706,7 +6640,7 @@ if(!(m_iShellsMagazin  > 0)){ Jump(STATE_CURRENT,0x0192007b, FALSE, EInternal())
 #line 4884 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireBullets  (wpn_fFX  [ WEAPON_SINGLESHOTGUN  ] , wpn_fFY  [ WEAPON_SINGLESHOTGUN  ] , 
 #line 4885 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-500.0f , 15.0f , 10 , afSingleShotgunPellets  , 0.1f , 0.03f);
+500.0f , 10.0f , 10 , afSingleShotgunPellets  , 0.1f , 0.03f);
 #line 4887 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShakeBullet  (0.1f , 0.2f , 2.0f , 0.075f);
 #line 4888 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -7018,13 +6952,13 @@ FireDoubleShotgun(const CEntityEvent &__eeInput) {
 #define STATE_CURRENT STATE_CPlayerWeapons_FireDoubleShotgun
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::FireDoubleShotgun expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
 #line 5128 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iShells  > 1)){ Jump(STATE_CURRENT,0x01920094, FALSE, EInternal());return TRUE;}
+if(!(m_iShells  > 0)){ Jump(STATE_CURRENT,0x01920094, FALSE, EInternal());return TRUE;}
 #line 5129 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimation  (BODY_ANIM_SHOTGUN_FIRELONG  , 0);
 #line 5130 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireBullets  (wpn_fFX  [ WEAPON_DOUBLESHOTGUN  ] , wpn_fFY  [ WEAPON_DOUBLESHOTGUN  ] , 
 #line 5131 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-500.0f , 20.0f , 14 , afDoubleShotgunPellets  , 0.25f , 0.03f);
+500.0f , 15.0f , 10 , afDoubleShotgunPellets  , 0.25f , 0.03f);
 #line 5132 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShakeBullet  (0.1f , 0.2f , 1.0f , 0.03f);
 #line 5133 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -7034,15 +6968,13 @@ SpawnRangeSound  (70.0f);
 #line 5135 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Dblshotgun_fire");}
 #line 5136 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-DecAmmo  (m_iShells  , 2);
+DecAmmo  (m_iShells  , 1);
 #line 5137 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetFlare  (0 , FLARE_ADD );
 #line 5138 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlayLightAnim  (LIGHT_ANIM_COLT_SHOTGUN  , 0);
 #line 5139 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (GetSP  () -> sp_bCooperative  ? DOUBLESHOTGUN_ANIM_FIRE  : DOUBLESHOTGUN_ANIM_FIREFAST  , 0);
-#line 5140 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeaponSecond  . PlayAnim  (GetSP  () -> sp_bCooperative  ? HANDWITHAMMO_ANIM_FIRE  : HANDWITHAMMO_ANIM_FIREFAST  , 0);
+m_moWeapon  . PlayAnim  (GetSP  () -> sp_bCooperative  ? SINGLESHOTGUN_ANIM_FIRE1  : SINGLESHOTGUN_ANIM_FIRE1FAST  , 0);
 #line 5142 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
 #line 5143 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -7140,7 +7072,7 @@ pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
 #line 5196 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 5198 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(GetSP  () -> sp_bCooperative  ? 0.25f : 0.15f);
+SetTimerAfter(GetSP  () -> sp_bCooperative  ? 0.9f : 0.9f);
 Jump(STATE_CURRENT, 0x0192008f, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192008f_FireDoubleShotgun_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0192008f
@@ -7149,18 +7081,10 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01920090
 ;
-#line 5199 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iShells  >= 2){
-#line 5200 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5201 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon1  , SOUND_DOUBLESHOTGUN_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5202 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
 #line 5203 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (
 #line 5204 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-(GetSP  () -> sp_bCooperative  ? DOUBLESHOTGUN_ANIM_FIRE  : DOUBLESHOTGUN_ANIM_FIREFAST )) - 
+(GetSP  () -> sp_bCooperative  ? SINGLESHOTGUN_ANIM_FIRE1  : SINGLESHOTGUN_ANIM_FIRE1FAST )) - 
 #line 5205 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 (GetSP  () -> sp_bCooperative  ? 0.8f : 0.15f));
 Jump(STATE_CURRENT, 0x01920091, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920091_FireDoubleShotgun_03(const CEntityEvent &__eeInput) {

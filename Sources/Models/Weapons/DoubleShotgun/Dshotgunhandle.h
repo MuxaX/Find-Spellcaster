@@ -1,5 +1,5 @@
 // Animation names
-#define DSHOTGUNHANDLE_ANIM_DEFAULT_ANIMATION 0
+#define DSHOTGUNHANDLE_ANIM_DEFAULT 0
 
 // Color names
 
@@ -9,5 +9,6 @@
 #define DSHOTGUNHANDLE_COLLISION_BOX_PART_NAME 0
 
 // Attaching position names
+#define DSHOTGUNHANDLE_ATTACHMENT_NO NAME 0
 
 // Sound names

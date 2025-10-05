@@ -203,29 +203,19 @@ CEntityComponent CPlayerWeapons_components[] = {
 #define SOUND_SINGLESHOTGUN_ACTIVATE ((0x00000192<<8)+308)
  CEntityComponent(ECT_SOUND, SOUND_SINGLESHOTGUN_ACTIVATE, "EFNM" "Models\\Weapons\\SingleShotgun\\Sounds\\_activate.wav"),
 #define MODEL_DOUBLESHOTGUN ((0x00000192<<8)+50)
- CEntityComponent(ECT_MODEL, MODEL_DOUBLESHOTGUN, "EFNM" "Models\\Weapons\\DoubleShotgun\\DoubleShotgun.mdl"),
+ CEntityComponent(ECT_MODEL, MODEL_DOUBLESHOTGUN, "EFNM" "Models\\Weapons\\DoubleShotgun\\SingleShotgun.mdl"),
 #define MODEL_DS_HANDLE ((0x00000192<<8)+51)
- CEntityComponent(ECT_MODEL, MODEL_DS_HANDLE, "EFNM" "Models\\Weapons\\DoubleShotgun\\Dshotgunhandle.mdl"),
+ CEntityComponent(ECT_MODEL, MODEL_DS_HANDLE, "EFNM" "Models\\Weapons\\DoubleShotgun\\Handle.mdl"),
 #define MODEL_DS_BARRELS ((0x00000192<<8)+52)
- CEntityComponent(ECT_MODEL, MODEL_DS_BARRELS, "EFNM" "Models\\Weapons\\DoubleShotgun\\Dshotgunbarrels.mdl"),
+ CEntityComponent(ECT_MODEL, MODEL_DS_BARRELS, "EFNM" "Models\\Weapons\\DoubleShotgun\\Barrels.mdl"),
 #define MODEL_DS_AMMO ((0x00000192<<8)+53)
- CEntityComponent(ECT_MODEL, MODEL_DS_AMMO, "EFNM" "Models\\Weapons\\DoubleShotgun\\Ammo.mdl"),
-#define MODEL_DS_SWITCH ((0x00000192<<8)+54)
- CEntityComponent(ECT_MODEL, MODEL_DS_SWITCH, "EFNM" "Models\\Weapons\\DoubleShotgun\\Switch.mdl"),
-#define MODEL_DS_HANDWITHAMMO ((0x00000192<<8)+55)
- CEntityComponent(ECT_MODEL, MODEL_DS_HANDWITHAMMO, "EFNM" "Models\\Weapons\\DoubleShotgun\\HandWithAmmo.mdl"),
+ CEntityComponent(ECT_MODEL, MODEL_DS_AMMO, "EFNM" "Models\\Weapons\\DoubleShotgun\\Slider.mdl"),
 #define TEXTURE_DS_HANDLE ((0x00000192<<8)+56)
  CEntityComponent(ECT_TEXTURE, TEXTURE_DS_HANDLE, "EFNM" "Models\\Weapons\\DoubleShotgun\\Handle.tex"),
 #define TEXTURE_DS_BARRELS ((0x00000192<<8)+57)
  CEntityComponent(ECT_TEXTURE, TEXTURE_DS_BARRELS, "EFNM" "Models\\Weapons\\DoubleShotgun\\Barrels.tex"),
-#define TEXTURE_DS_AMMO ((0x00000192<<8)+58)
- CEntityComponent(ECT_TEXTURE, TEXTURE_DS_AMMO, "EFNM" "Models\\Weapons\\DoubleShotgun\\Ammo.tex"),
-#define TEXTURE_DS_SWITCH ((0x00000192<<8)+59)
- CEntityComponent(ECT_TEXTURE, TEXTURE_DS_SWITCH, "EFNM" "Models\\Weapons\\DoubleShotgun\\Switch.tex"),
 #define SOUND_DOUBLESHOTGUN_FIRE ((0x00000192<<8)+60)
  CEntityComponent(ECT_SOUND, SOUND_DOUBLESHOTGUN_FIRE, "EFNM" "Models\\Weapons\\DoubleShotgun\\Sounds\\Fire.wav"),
-#define SOUND_DOUBLESHOTGUN_RELOAD ((0x00000192<<8)+61)
- CEntityComponent(ECT_SOUND, SOUND_DOUBLESHOTGUN_RELOAD, "EFNM" "Models\\Weapons\\DoubleShotgun\\Sounds\\Reload.wav"),
 #define MODEL_TOMMYGUN ((0x00000192<<8)+70)
  CEntityComponent(ECT_MODEL, MODEL_TOMMYGUN, "EFNM" "Models\\Weapons\\TommyGun\\TommyGun.mdl"),
 #define MODEL_TG_BODY ((0x00000192<<8)+71)
