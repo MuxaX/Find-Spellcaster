@@ -3,7 +3,7 @@
 #include "StdH.h"
 #define TM_APPLY_DAMAGE_QUANTUM 0.25f
 #define TM_APPLY_WHOLE_DAMAGE 7.5f
-#define DAMAGE_AMMOUNT 30.0f
+#define DAMAGE_AMMOUNT 33.0f
 #define MIN_DAMAGE_QUANTUM (DAMAGE_AMMOUNT/TM_APPLY_WHOLE_DAMAGE*TM_APPLY_DAMAGE_QUANTUM)
 #define MAX_DAMAGE_QUANTUM (MIN_DAMAGE_QUANTUM*10.0f)
 #define DEATH_BURN_TIME 4.0f
@@ -149,7 +149,7 @@ functions:
   // render particles
   void RenderParticles(void)
   {
-    FLOAT fTimeFactor=CalculateRatio(_pTimer->CurrentTick(), m_tmFirstStart, m_tmStart+TM_APPLY_WHOLE_DAMAGE, 0.05f, 0.2f);
+    FLOAT fTimeFactor=CalculateRatio(_pTimer->CurrentTick(), m_tmFirstStart, m_tmStart+TM_APPLY_WHOLE_DAMAGE, 0.09f, 0.35f);
     FLOAT fDeathFactor=1.0f;
     if( _pTimer->CurrentTick()>m_tmDeathParticlesStart)
     {

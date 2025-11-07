@@ -59,106 +59,106 @@ public:
   CSoundObject m_soFireR;
   INDEX m_bCountAsKill;
   
-#line 271 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 278 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 virtual CTString GetPlayerKillDescription(const CTString & strPlayerName,const EDeath & eDeath);
   
-#line 277 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 285 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 virtual const CTFileName & GetComputerMessageName(void)const;
    
-#line 283 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 296 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void RenderParticles(void);
    
-#line 298 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 311 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void Precache(void);
    
-#line 338 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 381 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void * GetEntityInfo(void);
    
-#line 379 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 422 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 BOOL FillEntityStatistics(EntityStats * pes);
    
-#line 398 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 441 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
-#line 399 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 442 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection);
    
-#line 441 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 484 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void LeaveStain(BOOL bGrow);
    
-#line 447 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 490 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 INDEX AnimForDamage(FLOAT fDamage);
    
-#line 467 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 510 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void StandingAnimFight(void);
    
-#line 472 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 515 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void StandingAnim(void);
    
-#line 490 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 541 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void WalkingAnim(void);
    
-#line 504 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 563 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void RunningAnim(void);
    
-#line 512 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 574 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void RotatingAnim(void);
    
-#line 520 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 585 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 INDEX AnimForDeath(void);
    
-#line 533 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 598 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void IdleSound(void);
    
-#line 536 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 605 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void SightSound(void);
    
-#line 538 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 608 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void WoundSound(void);
    
-#line 541 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 615 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void DeathSound(void);
    
-#line 545 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 623 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 BOOL CountAsKill(void);
    
-#line 551 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 629 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void SpawnNewElemental(void);
    
-#line 615 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 693 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void ThrowRocks(ProjectileType EptProjectile);
    
-#line 648 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 726 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void BossFirePredictedLavaRock(FLOAT3D vFireingRel);
    
-#line 679 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 757 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void ShakeItBaby(FLOAT tmShaketime,FLOAT fPower);
    
-#line 699 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 777 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void SpawnShockwave(FLOAT fSize);
    
-#line 713 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 791 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void HitGround(void);
    
-#line 786 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 864 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void AddAttachments(void);
    
-#line 826 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 904 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void RemoveAttachments(void);
    
-#line 853 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 931 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void BlowUp(void);
    
-#line 916 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 994 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 void EnemyPostInit(void);
 #define  STATE_CElemental_FallOnFloor 0x01420000
   BOOL 
-#line 938 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1016 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 FallOnFloor(const CEntityEvent &__eeInput);
   BOOL H0x01420001_FallOnFloor_01(const CEntityEvent &__eeInput);
   BOOL H0x01420002_FallOnFloor_02(const CEntityEvent &__eeInput);
 #define  STATE_CElemental_LavamanFire 0x01420003
   BOOL 
-#line 1004 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1082 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 LavamanFire(const CEntityEvent &__eeInput);
   BOOL H0x01420004_LavamanFire_01(const CEntityEvent &__eeInput);
   BOOL H0x01420005_LavamanFire_02(const CEntityEvent &__eeInput);
@@ -181,7 +181,7 @@ LavamanFire(const CEntityEvent &__eeInput);
   BOOL H0x01420016_LavamanFire_19(const CEntityEvent &__eeInput);
 #define  STATE_CElemental_LavamanStones 0x01420017
   BOOL 
-#line 1084 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1162 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 LavamanStones(const CEntityEvent &__eeInput);
   BOOL H0x01420018_LavamanStones_01(const CEntityEvent &__eeInput);
   BOOL H0x01420019_LavamanStones_02(const CEntityEvent &__eeInput);
@@ -191,85 +191,105 @@ LavamanStones(const CEntityEvent &__eeInput);
   BOOL H0x0142001d_LavamanStones_06(const CEntityEvent &__eeInput);
 #define  STATE_CElemental_LavamanHit 0x0142001e
   BOOL 
-#line 1104 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1182 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 LavamanHit(const CEntityEvent &__eeInput);
   BOOL H0x0142001f_LavamanHit_01(const CEntityEvent &__eeInput);
   BOOL H0x01420020_LavamanHit_02(const CEntityEvent &__eeInput);
   BOOL H0x01420021_LavamanHit_03(const CEntityEvent &__eeInput);
   BOOL H0x01420022_LavamanHit_04(const CEntityEvent &__eeInput);
-#define  STATE_CElemental_BeWounded 0x01420023
+#define  STATE_CElemental_IcemanFire 0x01420023
   BOOL 
-#line 1207 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1197 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+IcemanFire(const CEntityEvent &__eeInput);
+  BOOL H0x01420024_IcemanFire_01(const CEntityEvent &__eeInput);
+  BOOL H0x01420025_IcemanFire_02(const CEntityEvent &__eeInput);
+  BOOL H0x01420026_IcemanFire_03(const CEntityEvent &__eeInput);
+  BOOL H0x01420027_IcemanFire_04(const CEntityEvent &__eeInput);
+  BOOL H0x01420028_IcemanFire_05(const CEntityEvent &__eeInput);
+  BOOL H0x01420029_IcemanFire_06(const CEntityEvent &__eeInput);
+#define  STATE_CElemental_IcemanHit 0x0142002a
+  BOOL 
+#line 1216 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+IcemanHit(const CEntityEvent &__eeInput);
+  BOOL H0x0142002b_IcemanHit_01(const CEntityEvent &__eeInput);
+  BOOL H0x0142002c_IcemanHit_02(const CEntityEvent &__eeInput);
+  BOOL H0x0142002d_IcemanHit_03(const CEntityEvent &__eeInput);
+  BOOL H0x0142002e_IcemanHit_04(const CEntityEvent &__eeInput);
+  BOOL H0x0142002f_IcemanHit_05(const CEntityEvent &__eeInput);
+  BOOL H0x01420030_IcemanHit_06(const CEntityEvent &__eeInput);
+#define  STATE_CElemental_BeWounded 0x01420031
+  BOOL 
+#line 1285 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 BeWounded(const CEntityEvent &__eeInput);
-#define  STATE_CElemental_BoxToNormal 0x01420024
+#define  STATE_CElemental_BoxToNormal 0x01420032
   BOOL 
-#line 1220 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1298 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 BoxToNormal(const CEntityEvent &__eeInput);
-  BOOL H0x01420025_BoxToNormal_01(const CEntityEvent &__eeInput);
-  BOOL H0x01420026_BoxToNormal_02(const CEntityEvent &__eeInput);
-#define  STATE_CElemental_PlaneToNormal 0x01420027
+  BOOL H0x01420033_BoxToNormal_01(const CEntityEvent &__eeInput);
+  BOOL H0x01420034_BoxToNormal_02(const CEntityEvent &__eeInput);
+#define  STATE_CElemental_PlaneToNormal 0x01420035
   BOOL 
-#line 1243 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1321 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 PlaneToNormal(const CEntityEvent &__eeInput);
-  BOOL H0x01420028_PlaneToNormal_01(const CEntityEvent &__eeInput);
-  BOOL H0x01420029_PlaneToNormal_02(const CEntityEvent &__eeInput);
-#define  STATE_CElemental_InitializeAttack 0x0142002a
+  BOOL H0x01420036_PlaneToNormal_01(const CEntityEvent &__eeInput);
+  BOOL H0x01420037_PlaneToNormal_02(const CEntityEvent &__eeInput);
+#define  STATE_CElemental_InitializeAttack 0x01420038
   BOOL 
-#line 1264 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1342 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 InitializeAttack(const CEntityEvent &__eeInput);
-  BOOL H0x0142002b_InitializeAttack_01(const CEntityEvent &__eeInput);
-  BOOL H0x0142002c_InitializeAttack_02(const CEntityEvent &__eeInput);
-  BOOL H0x0142002d_InitializeAttack_03(const CEntityEvent &__eeInput);
-  BOOL H0x0142002e_InitializeAttack_04(const CEntityEvent &__eeInput);
-  BOOL H0x0142002f_InitializeAttack_05(const CEntityEvent &__eeInput);
-  BOOL H0x01420030_InitializeAttack_06(const CEntityEvent &__eeInput);
-  BOOL H0x01420031_InitializeAttack_07(const CEntityEvent &__eeInput);
-#define  STATE_CElemental_Fire 0x01420032
+  BOOL H0x01420039_InitializeAttack_01(const CEntityEvent &__eeInput);
+  BOOL H0x0142003a_InitializeAttack_02(const CEntityEvent &__eeInput);
+  BOOL H0x0142003b_InitializeAttack_03(const CEntityEvent &__eeInput);
+  BOOL H0x0142003c_InitializeAttack_04(const CEntityEvent &__eeInput);
+  BOOL H0x0142003d_InitializeAttack_05(const CEntityEvent &__eeInput);
+  BOOL H0x0142003e_InitializeAttack_06(const CEntityEvent &__eeInput);
+  BOOL H0x0142003f_InitializeAttack_07(const CEntityEvent &__eeInput);
+#define  STATE_CElemental_Fire 0x01420040
   BOOL 
-#line 1278 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1356 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Fire(const CEntityEvent &__eeInput);
-#define  STATE_CElemental_Hit 0x01420033
+#define  STATE_CElemental_Hit 0x01420041
   BOOL 
-#line 1290 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1368 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Hit(const CEntityEvent &__eeInput);
-#define  STATE_CElemental_Death 0x01420034
+#define  STATE_CElemental_Death 0x01420042
   BOOL 
-#line 1305 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1383 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Death(const CEntityEvent &__eeInput);
-  BOOL H0x01420035_Death_01(const CEntityEvent &__eeInput);
-  BOOL H0x01420036_Death_02(const CEntityEvent &__eeInput);
-  BOOL H0x01420037_Death_03(const CEntityEvent &__eeInput);
-  BOOL H0x01420038_Death_04(const CEntityEvent &__eeInput);
-  BOOL H0x01420039_Death_05(const CEntityEvent &__eeInput);
-#define  STATE_CElemental_BossAppear 0x0142003a
+  BOOL H0x01420043_Death_01(const CEntityEvent &__eeInput);
+  BOOL H0x01420044_Death_02(const CEntityEvent &__eeInput);
+  BOOL H0x01420045_Death_03(const CEntityEvent &__eeInput);
+  BOOL H0x01420046_Death_04(const CEntityEvent &__eeInput);
+  BOOL H0x01420047_Death_05(const CEntityEvent &__eeInput);
+#define  STATE_CElemental_BossAppear 0x01420048
   BOOL 
-#line 1323 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1401 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 BossAppear(const CEntityEvent &__eeInput);
-  BOOL H0x0142003b_BossAppear_01(const CEntityEvent &__eeInput);
-  BOOL H0x0142003c_BossAppear_02(const CEntityEvent &__eeInput);
-  BOOL H0x0142003d_BossAppear_03(const CEntityEvent &__eeInput);
-  BOOL H0x0142003e_BossAppear_04(const CEntityEvent &__eeInput);
-  BOOL H0x0142003f_BossAppear_05(const CEntityEvent &__eeInput);
-  BOOL H0x01420040_BossAppear_06(const CEntityEvent &__eeInput);
-  BOOL H0x01420041_BossAppear_07(const CEntityEvent &__eeInput);
-  BOOL H0x01420042_BossAppear_08(const CEntityEvent &__eeInput);
-  BOOL H0x01420043_BossAppear_09(const CEntityEvent &__eeInput);
-  BOOL H0x01420044_BossAppear_10(const CEntityEvent &__eeInput);
-  BOOL H0x01420045_BossAppear_11(const CEntityEvent &__eeInput);
-  BOOL H0x01420046_BossAppear_12(const CEntityEvent &__eeInput);
-#define  STATE_CElemental_PreMainLoop 0x01420047
+  BOOL H0x01420049_BossAppear_01(const CEntityEvent &__eeInput);
+  BOOL H0x0142004a_BossAppear_02(const CEntityEvent &__eeInput);
+  BOOL H0x0142004b_BossAppear_03(const CEntityEvent &__eeInput);
+  BOOL H0x0142004c_BossAppear_04(const CEntityEvent &__eeInput);
+  BOOL H0x0142004d_BossAppear_05(const CEntityEvent &__eeInput);
+  BOOL H0x0142004e_BossAppear_06(const CEntityEvent &__eeInput);
+  BOOL H0x0142004f_BossAppear_07(const CEntityEvent &__eeInput);
+  BOOL H0x01420050_BossAppear_08(const CEntityEvent &__eeInput);
+  BOOL H0x01420051_BossAppear_09(const CEntityEvent &__eeInput);
+  BOOL H0x01420052_BossAppear_10(const CEntityEvent &__eeInput);
+  BOOL H0x01420053_BossAppear_11(const CEntityEvent &__eeInput);
+  BOOL H0x01420054_BossAppear_12(const CEntityEvent &__eeInput);
+#define  STATE_CElemental_PreMainLoop 0x01420055
   BOOL 
-#line 1348 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1426 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 PreMainLoop(const CEntityEvent &__eeInput);
-  BOOL H0x01420048_PreMainLoop_01(const CEntityEvent &__eeInput);
-  BOOL H0x01420049_PreMainLoop_02(const CEntityEvent &__eeInput);
-  BOOL H0x0142004a_PreMainLoop_03(const CEntityEvent &__eeInput);
-  BOOL H0x0142004b_PreMainLoop_04(const CEntityEvent &__eeInput);
-  BOOL H0x0142004c_PreMainLoop_05(const CEntityEvent &__eeInput);
-  BOOL H0x0142004d_PreMainLoop_06(const CEntityEvent &__eeInput);
+  BOOL H0x01420056_PreMainLoop_01(const CEntityEvent &__eeInput);
+  BOOL H0x01420057_PreMainLoop_02(const CEntityEvent &__eeInput);
+  BOOL H0x01420058_PreMainLoop_03(const CEntityEvent &__eeInput);
+  BOOL H0x01420059_PreMainLoop_04(const CEntityEvent &__eeInput);
+  BOOL H0x0142005a_PreMainLoop_05(const CEntityEvent &__eeInput);
+  BOOL H0x0142005b_PreMainLoop_06(const CEntityEvent &__eeInput);
 #define  STATE_CElemental_Main 1
   BOOL 
-#line 1373 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1451 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Main(const CEntityEvent &__eeInput);
 };
 #endif // _EntitiesMP_Elemental_INCLUDED

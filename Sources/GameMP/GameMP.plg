@@ -6,15 +6,21 @@
 --------------------Configuration: EntitiesMP - Win32 Release--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP9C41.tmp" with contents
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPD390.bat" with contents
+[
+@echo off
+cd                                                                                                                ..\
+ecc EntitiesMP/Flame.es
+]
+Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSPD390.bat"
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPD391.tmp" with contents
 [
 /nologo /G5 /MD /W3 /GX /Zi /Ox /Ot /Og /Oi /Oy- /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Fr"Release/" /Fp"Release/EntitiesMP.pch" /Yu"StdH.h" /Fo"Release/" /Fd"Release/" /FD /c 
-"V:\Programs\SamSDK\Sources\EntitiesMP\Common\HUD.cpp"
-"V:\Programs\SamSDK\Sources\EntitiesMP\Player.cpp"
-"V:\Programs\SamSDK\Sources\EntitiesMP\PlayerWeapons.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Flame.cpp"
 ]
-Creating command line "cl.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSP9C41.tmp" 
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP9C42.tmp" with contents
+Creating command line "cl.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSPD391.tmp" 
+EntitiesMP/Flame.es
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPD48C.tmp" with contents
 [
 /nologo /subsystem:windows /dll /incremental:no /pdb:"Release/EntitiesMP.pdb" /map:"Release/EntitiesMP.map" /debug /machine:I386 /out:"Release/EntitiesMP.dll" /implib:"Release/EntitiesMP.lib" /pdbtype:sept 
 .\Release\Common.obj
@@ -164,25 +170,17 @@ Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP9C42.tmp" with co
 .\Release\WorldLink.obj
 .\Release\WorldSettingsController.obj
 ]
-Creating command line "link.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSP9C42.tmp"
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP9C43.bat" with contents
+Creating command line "link.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSPD48C.tmp"
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPD48D.bat" with contents
 [
 @echo off
 copy Release\EntitiesMP.dll V:\Programs\SamSDK\Sources\Bin >nul
 copy Release\EntitiesMP.map V:\Programs\SamSDK\Sources\Bin >nul
 copy Release\EntitiesMP.lib V:\Programs\SamSDK\Sources\Bin >nul
 ]
-Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSP9C43.bat"
+Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSPD48D.bat"
 Compiling...
-HUD.cpp
-V:\Programs\SamSDK\Sources\EntitiesMP\Common\HUD.cpp(1354) : warning C4101: 'colBar' : unreferenced local variable
-Player.cpp
-PlayerWeapons.cpp
-V:\PROGRAMS\SAMSDK\SOURCES\Models/Weapons/DoubleShotgun/SingleShotgun.h(20) : warning C4005: 'SINGLESHOTGUN_ATTACHMENT_NOT_LOADED' : macro redefinition
-        V:\PROGRAMS\SAMSDK\SOURCES\Models/Weapons/DoubleShotgun/SingleShotgun.h(19) : see previous definition of 'SINGLESHOTGUN_ATTACHMENT_NOT_LOADED'
-V:\PROGRAMS\SAMSDK\SOURCES\Models/Weapons/DoubleShotgun/SingleShotgun.h(21) : warning C4005: 'SINGLESHOTGUN_ATTACHMENT_NOT_LOADED' : macro redefinition
-        V:\PROGRAMS\SAMSDK\SOURCES\Models/Weapons/DoubleShotgun/SingleShotgun.h(20) : see previous definition of 'SINGLESHOTGUN_ATTACHMENT_NOT_LOADED'
-Generating Code...
+Flame.cpp
 Linking...
    Creating library Release/EntitiesMP.lib and object Release/EntitiesMP.exp
 <h3>Output Window</h3>
@@ -191,30 +189,7 @@ Copying EntitiesMP binaries to V:\Programs\SamSDK\Sources\Bin
 --------------------Configuration: GameMP - Win32 Release--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPA85A.tmp" with contents
-[
-/nologo /G5 /MD /W3 /GX /Zi /Ox /Ot /Og /Oi /Oy- /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /D "GAME_EXPORTS" /Fp"Release/GameMP.pch" /Yu"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
-"V:\Programs\SamSDK\Sources\GameMP\Camera.cpp"
-"V:\Programs\SamSDK\Sources\GameMP\CompMessage.cpp"
-"V:\Programs\SamSDK\Sources\GameMP\CompModels.cpp"
-"V:\Programs\SamSDK\Sources\GameMP\Computer.cpp"
-"V:\Programs\SamSDK\Sources\GameMP\Console.cpp"
-"V:\Programs\SamSDK\Sources\GameMP\Controls.cpp"
-"V:\Programs\SamSDK\Sources\GameMP\Game.cpp"
-"V:\Programs\SamSDK\Sources\GameMP\LCDDrawing.cpp"
-"V:\Programs\SamSDK\Sources\GameMP\LoadingHook.cpp"
-"V:\Programs\SamSDK\Sources\GameMP\Map.cpp"
-"V:\Programs\SamSDK\Sources\GameMP\SessionProperties.cpp"
-"V:\Programs\SamSDK\Sources\GameMP\WEDInterface.cpp"
-]
-Creating command line "cl.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSPA85A.tmp" 
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPA85B.tmp" with contents
-[
-/nologo /G5 /MD /W3 /GX /Zi /Ox /Ot /Og /Oi /Oy- /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /D "GAME_EXPORTS" /Fp"Release/GameMP.pch" /Yc"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
-"V:\Programs\SamSDK\Sources\GameMP\StdAfx.cpp"
-]
-Creating command line "cl.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSPA85B.tmp" 
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPA85C.tmp" with contents
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPDCDB.tmp" with contents
 [
 user32.lib /nologo /subsystem:windows /dll /incremental:no /pdb:"Release/GameMP.pdb" /map:"Release/GameMP.map" /debug /machine:I386 /out:"Release/GameMP.dll" /implib:"Release/GameMP.lib" /pdbtype:sept 
 .\Release\Camera.obj
@@ -232,32 +207,15 @@ user32.lib /nologo /subsystem:windows /dll /incremental:no /pdb:"Release/GameMP.
 .\Release\WEDInterface.obj
 \Programs\SamSDK\Sources\EntitiesMP\Release\EntitiesMP.lib
 ]
-Creating command line "link.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSPA85C.tmp"
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPA85D.bat" with contents
+Creating command line "link.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSPDCDB.tmp"
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSPDCDC.bat" with contents
 [
 @echo off
 copy Release\GameMP.dll V:\Programs\SamSDK\Sources\Bin >nul
 copy Release\GameMP.map V:\Programs\SamSDK\Sources\Bin >nul
 copy Release\GameMP.lib V:\Programs\SamSDK\Sources\Bin >nul
 ]
-Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSPA85D.bat"
-Compiling...
-StdAfx.cpp
-Compiling...
-Camera.cpp
-CompMessage.cpp
-CompModels.cpp
-Computer.cpp
-V:\Programs\SamSDK\Sources\GameMP\Computer.cpp(762) : warning C4101: 'strError' : unreferenced local variable
-Console.cpp
-Controls.cpp
-Game.cpp
-LCDDrawing.cpp
-LoadingHook.cpp
-Map.cpp
-SessionProperties.cpp
-WEDInterface.cpp
-Generating Code...
+Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSPDCDC.bat"
 Linking...
    Creating library Release/GameMP.lib and object Release/GameMP.exp
 <h3>Output Window</h3>
@@ -266,7 +224,7 @@ Copying GameMP binaries to V:\Programs\SamSDK\Sources\Bin
 
 
 <h3>Results</h3>
-GameMP.dll - 0 error(s), 4 warning(s)
+GameMP.dll - 0 error(s), 0 warning(s)
 </pre>
 </body>
 </html>

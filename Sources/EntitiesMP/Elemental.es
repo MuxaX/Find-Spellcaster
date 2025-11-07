@@ -2,11 +2,11 @@
 %{
 #include "StdH.h"
 //#include "Models/Enemies/Elementals/AirMan.h"
-//#include "Models/Enemies/Elementals/IceMan.h"
+#include "Models/Enemies/Elementals/IceMan.h"
 #include "Models/Enemies/Elementals/StoneMan.h"
 //#include "Models/Enemies/Elementals/Twister.h"
 //#include "Models/Enemies/Elementals/WaterMan.h"
-//#include "Models/Enemies/Elementals/Projectile/IcePyramid.h"
+#include "Models/Enemies/Elementals/Projectile/IcePyramid.h"
 #include "Models/Enemies/Elementals/Projectile/LavaStone.h"
 
 #include "Models/Enemies/ElementalLava/ElementalLava.h"
@@ -39,7 +39,7 @@ uses "EntitiesMP/EnemyBase";
 
 enum ElementalType {
   0 ELT_AIR           "obsolete",        // air elemental
-  1 ELT_ICE           "obsolete",        // ice elemental
+  1 ELT_ICE           "Ice",        // ice elemental
   2 ELT_LAVA          "Lava",       // lava elemental
   3 ELT_STONE         "obsolete",      // stone elemental
   4 ELT_WATER         "obsolete",      // water elemental
@@ -172,7 +172,7 @@ name      "Elemental";
 thumbnail "Thumbnails\\Elemental.tbn";
 
 properties:
-  1 enum ElementalType m_EetType          "Type" 'Y' = ELT_STONE,
+  1 enum ElementalType m_EetType          "Type" 'Y' = ELT_LAVA,
   2 enum ElementalCharacter m_EecChar     "Character" 'C' = ELC_SMALL,
   3 enum ElementalState m_EesStartState   "State" 'S' = ELS_NORMAL,
   4 BOOL m_bSpawnWhenHarmed               "Damage spawn" 'N' = TRUE,
@@ -214,12 +214,12 @@ components:
  10 model   MODEL_AIR               "Models\\Enemies\\Elementals\\AirMan.mdl",
  11 model   MODEL_AIR_TWISTER       "Models\\Enemies\\Elementals\\Twister.mdl",
  12 texture TEXTURE_AIR             "Models\\Enemies\\Elementals\\AirMan01.tex",
-
+*/
  // ice
  20 model   MODEL_ICE               "Models\\Enemies\\Elementals\\IceMan.mdl",
  21 model   MODEL_ICE_PICK          "Models\\Enemies\\Elementals\\IcePick.mdl",
  22 texture TEXTURE_ICE             "Models\\Enemies\\Elementals\\IceMan01.tex",
-*/
+
  // lava
  30 model   MODEL_LAVA              "Models\\Enemies\\ElementalLava\\ElementalLava.mdl",
  31 model   MODEL_LAVA_BODY_FLARE   "Models\\Enemies\\ElementalLava\\BodyFlare.mdl",
@@ -243,18 +243,18 @@ components:
 // 80 model   MODEL_ELEM_STONE            "Models\\Enemies\\Elementals\\Projectile\\Stone.mdl",
 // 82 model   MODEL_ELEM_LAVASTONE        "Models\\Enemies\\ElementalLava\\Projectile\\LavaStone.mdl",
 // 83 model   MODEL_ELEM_LAVASTONE_FLARE  "Models\\Enemies\\ElementalLava\\Projectile\\LavaStoneFlare.mdl",
-// 84 model   MODEL_ELEM_ICE              "Models\\Enemies\\Elementals\\Projectile\\IcePyramid.mdl",
-// 85 model   MODEL_ELEM_ICE_FLARE        "Models\\Enemies\\Elementals\\Projectile\\IcePyramidFlare.mdl",
+ 84 model   MODEL_ELEM_ICE              "Models\\Enemies\\Elementals\\Projectile\\IcePyramid.mdl",
+ 85 model   MODEL_ELEM_ICE_FLARE        "Models\\Enemies\\Elementals\\Projectile\\IcePyramidFlare.mdl",
 
 // 90 texture TEXTURE_ELEM_STONE          "Models\\Enemies\\Elementals\\Projectile\\Stone.tex",
 // 92 texture TEXTURE_ELEM_LAVASTONE      "Models\\Enemies\\ElementalLava\\Projectile\\LavaStone.tex",
-// 93 texture TEXTURE_ELEM_ICE            "Models\\Enemies\\Elementals\\Projectile\\IcePyramid.tex",
-// 94 texture TEXTURE_ELEM_FLARE          "Textures\\Effects\\Flares\\03\\Flaire06.tex",
+ 93 texture TEXTURE_ELEM_ICE            "Models\\Enemies\\Elementals\\Projectile\\IcePyramid.tex",
+ 94 texture TEXTURE_ELEM_FLARE          "Textures\\Effects\\Flares\\03\\Flaire06.tex",
 
 // ************** SPECULAR **************
 //210 texture TEX_SPEC_WEAK           "Models\\SpecularTextures\\Weak.tex",
 //211 texture TEX_SPEC_MEDIUM         "Models\\SpecularTextures\\Medium.tex",
-//212 texture TEX_SPEC_STRONG         "Models\\SpecularTextures\\Strong.tex",
+212 texture TEX_SPEC_STRONG         "Models\\SpecularTextures\\Strong.tex",
 
 // ************** SOUNDS **************
 250 sound   SOUND_LAVA_IDLE      "Models\\Enemies\\ElementalLava\\Sounds\\Idle.wav",
@@ -266,6 +266,13 @@ components:
 221 sound   SOUND_LAVA_ANGER     "Models\\Enemies\\ElementalLava\\Sounds\\Anger.wav",
 222 sound   SOUND_LAVA_GROW      "ModelsMP\\Enemies\\ElementalLava\\Sounds\\Grow.wav",
 
+225 sound   SOUND_ICEMAN_IDLE    "Models\\Enemies\\Elementals\\Sounds\\Idle.wav",
+226 sound   SOUND_ICEMAN_WOUND   "Models\\Enemies\\Elementals\\Sounds\\Wound.wav",
+227 sound   SOUND_ICEMAN_FIRE    "Models\\Enemies\\Elementals\\Sounds\\Fire.wav",
+228 sound   SOUND_ICEMAN_DEATH   "Models\\Enemies\\Elementals\\Sounds\\Death.wav",
+229 sound   SOUND_ICEMAN_SIGHT   "Models\\Enemies\\Elementals\\Sounds\\Sight.wav",
+230 sound   SOUND_ICEMAN_KICK    "Models\\Enemies\\Elementals\\Sounds\\Kick.wav",
+
 functions:
   // describe how this enemy killed player
   virtual CTString GetPlayerKillDescription(const CTString &strPlayerName, const EDeath &eDeath)
@@ -274,9 +281,15 @@ functions:
     str.PrintF(TRANS("%s was killed by a Lava Golem"), strPlayerName);
     return str;
   }
+  
   virtual const CTFileName &GetComputerMessageName(void) const {
-    static DECLARE_CTFILENAME(fnm, "Data\\Messages\\Enemies\\ElementalLava.txt");
-    return fnm;
+    static DECLARE_CTFILENAME(fnm,     "Data\\Messages\\Enemies\\ElementalLava.txt");
+    static DECLARE_CTFILENAME(fnmIceman,   "Data\\Messages\\Enemies\\IceMan.txt");
+    switch(m_EetType) {
+    default: ASSERT(FALSE);
+    case ELT_LAVA:  return fnm;
+    case ELT_ICE: return fnmIceman;
+    }
   };
 
   // render burning particles
@@ -291,7 +304,11 @@ functions:
       {
         fDeathFactor=1.0f-Clamp((_pTimer->CurrentTick()-m_fSpiritStartTime)/DEATH_BURN_TIME, 0.0f, 1.0f);
       }
-      Particles_Burning(this, fPower, fTimeFactor*fDeathFactor);
+	  if (m_EetType == ELT_LAVA){
+      Particles_Burning(this, fPower, fTimeFactor*fDeathFactor);}
+	  else {
+		Particles_IceSpikes(this, fPower, fTimeFactor*fDeathFactor);
+	  }
     }
   }
 
@@ -329,6 +346,36 @@ functions:
         PrecacheSound(SOUND_LAVA_ANGER   );
         PrecacheSound(SOUND_LAVA_LAVABURN);
         PrecacheSound(SOUND_LAVA_GROW    );
+        break;
+      }
+	  case ELT_ICE:
+      {
+        if( m_EecChar == ELC_LARGE)
+        {
+          PrecacheClass(CLASS_PROJECTILE, PRT_ICEMAN_LARGE_FIRE);
+        }
+        if( (m_EecChar == ELC_LARGE) || (m_EecChar == ELC_BIG) )
+        {
+          PrecacheClass(CLASS_PROJECTILE, PRT_ICEMAN_LARGE_FIRE);
+        }
+
+        PrecacheClass(CLASS_PROJECTILE, PRT_ICEMAN_FIRE);
+
+        PrecacheModel  (MODEL_ICE             );
+        PrecacheModel  (MODEL_ICE_PICK        );
+        PrecacheTexture(TEXTURE_ELEM_ICE      );
+        //PrecacheTexture(TEXTURE_LAVA_DETAIL   );
+        //PrecacheTexture(TEXTURE_LAVA_FLARE    );
+
+        PrecacheSound(SOUND_ICEMAN_IDLE    );
+        PrecacheSound(SOUND_ICEMAN_WOUND   );
+        PrecacheSound(SOUND_ICEMAN_FIRE    );
+        PrecacheSound(SOUND_ICEMAN_KICK    );
+        PrecacheSound(SOUND_ICEMAN_DEATH   );
+		PrecacheSound(SOUND_ICEMAN_SIGHT   );
+        //PrecacheSound(SOUND_LAVA_ANGER   );
+        //PrecacheSound(SOUND_LAVA_LAVABURN);
+        //PrecacheSound(SOUND_LAVA_GROW    );
         break;
       }
     }
@@ -477,6 +524,14 @@ functions:
         //case ELS_PLANE:
         default: StartModelAnim(ELEMENTALLAVA_ANIM_STANDPLANE, AOF_LOOPING|AOF_NORESTART); break;
       }
+	  }
+	if (m_EetType == ELT_ICE) {
+      switch (m_EesCurrentState) {
+        case ELS_NORMAL: StartModelAnim(ICEMAN_ANIM_STAND, AOF_LOOPING|AOF_NORESTART); break;
+        case ELS_BOX: StartModelAnim(ICEMAN_ANIM_STANDBOX, AOF_LOOPING|AOF_NORESTART); break;
+        //case ELS_PLANE:
+        default: StartModelAnim(ICEMAN_ANIM_STANDPLANE, AOF_LOOPING|AOF_NORESTART); break;
+      }
     } else {
 /*      switch (m_EesCurrentState) {
         case ELS_NORMAL: StartModelAnim(STONEMAN_ANIM_STAND, AOF_LOOPING|AOF_NORESTART); break;
@@ -497,7 +552,15 @@ functions:
       } else {
         StartModelAnim(ELEMENTALLAVA_ANIM_RUNSMALL, AOF_LOOPING|AOF_NORESTART);
       }
-    } else {
+    } else if (m_EetType == ELT_ICE){
+	if (m_EecChar==ELC_LARGE) {
+		StartModelAnim(ICEMAN_ANIM_WALK, AOF_LOOPING|AOF_NORESTART);
+      } else if (m_EecChar==ELC_BIG) {
+        StartModelAnim(ICEMAN_ANIM_WALK, AOF_LOOPING|AOF_NORESTART);
+      } else {
+        StartModelAnim(ICEMAN_ANIM_WALK, AOF_LOOPING|AOF_NORESTART);
+	}
+	}else {
 //      StartModelAnim(STONEMAN_ANIM_WALK, AOF_LOOPING|AOF_NORESTART);
     }
   };
@@ -505,14 +568,20 @@ functions:
   {
     if (m_EetType == ELT_LAVA) {
       WalkingAnim();
-    } else {
+	  }else if (m_EetType == ELT_ICE){
+		StartModelAnim(ICEMAN_ANIM_RUN, AOF_LOOPING|AOF_NORESTART);
+	  }
+     else {
 //      StartModelAnim(STONEMAN_ANIM_RUN, AOF_LOOPING|AOF_NORESTART);
     }
   };
   void RotatingAnim(void) {
     if (m_EetType == ELT_LAVA) {
       WalkingAnim();
-    } else {
+    }else if(m_EetType == ELT_ICE){
+	RunningAnim();
+	}
+	else {
 //      StartModelAnim(STONEMAN_ANIM_WALK, AOF_LOOPING|AOF_NORESTART);
     }
   };
@@ -531,15 +600,28 @@ functions:
 
   // virtual sound functions
   void IdleSound(void) {
+  if (m_EetType == ELT_ICE){
+  PlaySound(m_soSound, SOUND_ICEMAN_IDLE, SOF_3D);}
+  else{
     PlaySound(m_soSound, SOUND_LAVA_IDLE, SOF_3D);
+	}
   };
   void SightSound(void) {
+  PlaySound(m_soSound, SOUND_ICEMAN_SIGHT, SOF_3D);
   };
   void WoundSound(void) {
+  if (m_EetType == ELT_ICE){
+  PlaySound(m_soSound, SOUND_ICEMAN_WOUND, SOF_3D);}
+  else{
     PlaySound(m_soSound, SOUND_LAVA_WOUND, SOF_3D);
+	}
   };
   void DeathSound(void) {
+  if (m_EetType == ELT_ICE){
+  PlaySound(m_soSound, SOUND_ICEMAN_DEATH, SOF_3D);}
+  else{
     PlaySound(m_soSound, SOUND_LAVA_DEATH, SOF_3D);
+	}
   };
 
   BOOL CountAsKill(void)
@@ -791,13 +873,13 @@ functions:
             MODEL_AIR_TWISTER, TEXTURE_AIR, 0, 0, 0);
           GetModelObject()->mo_ColorMask &= ~AIRMAN_PART_BODYDOWN;
         }
-        break;
+        break;*/
       case ELT_ICE:
         if (GetModelObject()->GetAttachmentModel(ICEMAN_ATTACHMENT_ICEPICK)==NULL) {
           AddAttachmentToModel(this, *GetModelObject(), ICEMAN_ATTACHMENT_ICEPICK,
             MODEL_ICE_PICK, TEXTURE_ICE, TEXTURE_ICE, TEX_SPEC_STRONG, 0);
         }
-        break;*/
+        break;
       case ELT_LAVA:
         if (GetModelObject()->GetAttachmentModel(ELEMENTALLAVA_ATTACHMENT_BODY_FLARE)==NULL) {
           AddAttachmentToModel(this, *GetModelObject(), ELEMENTALLAVA_ATTACHMENT_BODY_FLARE, MODEL_LAVA_BODY_FLARE, TEXTURE_LAVA_FLARE, 0, 0, 0);
@@ -828,10 +910,10 @@ functions:
 /*      case ELT_AIR:
         RemoveAttachmentFromModel(*GetModelObject(), AIRMAN_ATTACHMENT_TWISTER);
         GetModelObject()->mo_ColorMask |= AIRMAN_PART_BODYDOWN;
-        break;
+        break;*/
       case ELT_ICE:
         RemoveAttachmentFromModel(*GetModelObject(), ICEMAN_ATTACHMENT_ICEPICK);
-        break;*/
+        break;
       case ELT_LAVA:
         RemoveAttachmentFromModel(*GetModelObject(), ELEMENTALLAVA_ATTACHMENT_BODY_FLARE);
         RemoveAttachmentFromModel(*GetModelObject(), ELEMENTALLAVA_ATTACHMENT_RIGHT_HAND_FLARE);
@@ -869,11 +951,11 @@ functions:
     FLOAT3D vBodySpeed = en_vCurrentTranslationAbsolute-en_vGravityDir*(en_vGravityDir%en_vCurrentTranslationAbsolute);
 
     // spawn debris
-/*
+
     switch (m_EetType) {
       case ELT_ICE: {
         Debris_Begin(EIBT_ICE, DPT_NONE, BET_NONE, fEntitySize, vNormalizedDamage, vBodySpeed, 1.0f, 0.0f);
-        for (iDebris=0; iDebris<iCount; iDebris++) {
+        for (INDEX iDebris=0; iDebris<iCount; iDebris++) {
           CEntityPointer pen;
           pen = Debris_Spawn(this, this, MODEL_ELEM_ICE, TEXTURE_ELEM_ICE, 0, 0, 0, 0, 0.5f,
             FLOAT3D(FRnd()*0.6f+0.2f, FRnd()*0.6f+0.2f, FRnd()*0.6f+0.2f));
@@ -882,7 +964,7 @@ functions:
           pen->GetModelObject()->StretchModel(pen->GetModelObject()->mo_Stretch);
           ModelChangeNotify();
         }}
-        break;
+        break;/*
       case ELT_LAVA: {
         Debris_Begin(EIBT_FIRE, DPT_NONE, BET_NONE, fEntitySize, vNormalizedDamage, vBodySpeed, 1.0f, 0.0f);
         for (iDebris=0; iDebris<iCount; iDebris++) {
@@ -901,9 +983,9 @@ functions:
           Debris_Spawn(this, this, MODEL_ELEM_STONE, TEXTURE_ELEM_STONE, 0, 0, 0, 0, 0.5f,
             FLOAT3D(FRnd()*0.6f+0.2f, FRnd()*0.6f+0.2f, FRnd()*0.6f+0.2f));
         }}
-        break;
+        break;*/
     }
-    */
+    
 
     // hide yourself (must do this after spawning debris)
     SwitchToEditorModel();
@@ -1112,12 +1194,12 @@ procedures:
     return EReturn();
   };
 
-/*
+
   //
   // ICEMAN
   //
   IcemanFire(EVoid) {
-    StartModelAnim(STONEMAN_ANIM_ATTACK05, 0);
+    StartModelAnim(ICEMAN_ANIM_ATTACK05, 0);
     autowait(0.7f);
     // throw rocks
     if (m_EecChar==ELC_LARGE) {
@@ -1127,7 +1209,7 @@ procedures:
     } else {
       ThrowRocks(PRT_ICEMAN_FIRE);
     }
-    PlaySound(m_soSound, SOUND_LAVA_FIRE, SOF_3D);
+    PlaySound(m_soSound, SOUND_ICEMAN_FIRE, SOF_3D);
     autowait(0.9f);
     // stand a while
     StandingAnim();
@@ -1136,17 +1218,17 @@ procedures:
   };
 
   IcemanHit(EVoid) {
-    StartModelAnim(STONEMAN_ANIM_ATTACK01, 0);
+    StartModelAnim(ICEMAN_ANIM_ATTACK01, 0);
     autowait(0.6f);
     HitGround();
-    PlaySound(m_soSound, SOUND_LAVA_KICK, SOF_3D);
+    PlaySound(m_soSound, SOUND_ICEMAN_KICK, SOF_3D);
     autowait(0.5f);
     // stand a while
     StandingAnim();
     autowait(FRnd()/3+_pTimer->TickQuantum);
     return EReturn();
   };
-
+/*
 
   //
   // AIRMAN
@@ -1280,7 +1362,7 @@ procedures:
     switch (m_EetType) {
 //      case ELT_STONE: jump StonemanFire(); break;
       case ELT_LAVA: jump LavamanFire(); break;
-//      case ELT_ICE: jump IcemanFire(); break;
+      case ELT_ICE: jump IcemanFire(); break;
 //      case ELT_AIR: jump AirmanFire(); break;
 //      case ELT_WATER: jump WatermanFire(); break;
     }
@@ -1292,7 +1374,7 @@ procedures:
     switch (m_EetType) {
 //      case ELT_STONE: jump StonemanHit(); break;
       case ELT_LAVA: jump LavamanHit(); break;
-//      case ELT_ICE: jump IcemanHit(); break;
+      case ELT_ICE: jump IcemanHit(); break;
 //      case ELT_AIR: jump AirmanFire(); break;
 //      case ELT_WATER: jump WatermanFire(); break;
     }
@@ -1371,9 +1453,9 @@ procedures:
  *                       M  A  I  N                         *
  ************************************************************/
   Main(EVoid) {
-    if (m_EetType!=ELT_LAVA) {
-      m_EetType=ELT_LAVA;
-    }
+   // if (m_EetType!=ELT_LAVA) {
+   //   m_EetType=ELT_LAVA;
+    //}
     // declare yourself as a model
     InitAsModel();
     // movable
@@ -1401,10 +1483,10 @@ procedures:
     switch (m_EetType) {
 /*      case ELT_AIR: 
         SetComponents(this, *GetModelObject(), MODEL_AIR, TEXTURE_AIR, 0, 0, 0); 
-        break;
+        break;*/
       case ELT_ICE: 
         SetComponents(this, *GetModelObject(), MODEL_ICE, TEXTURE_ICE, TEXTURE_ICE, TEX_SPEC_STRONG, 0); 
-        break;*/
+        break;
       case ELT_LAVA:
         m_fBlowUpAmount = 1E30f;
         SetComponents(this, *GetModelObject(), MODEL_LAVA, TEXTURE_LAVA, 0, 0, TEXTURE_LAVA_DETAIL);

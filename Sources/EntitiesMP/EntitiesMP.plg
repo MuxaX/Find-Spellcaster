@@ -6,21 +6,171 @@
 --------------------Configuration: EntitiesMP - Win32 Release--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP5368.bat" with contents
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP864A.bat" with contents
 [
 @echo off
 cd                                                                                                                ..\
-ecc EntitiesMP/PlayerWeapons.es
+ecc EntitiesMP/Elemental.es
 ]
-Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSP5368.bat"
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP5369.tmp" with contents
+Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSP864A.bat"
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP864B.tmp" with contents
 [
 /nologo /G5 /MD /W3 /GX /Zi /Ox /Ot /Og /Oi /Oy- /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Fr"Release/" /Fp"Release/EntitiesMP.pch" /Yu"StdH.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"V:\Programs\SamSDK\Sources\EntitiesMP\Common\Common.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Common\EmanatingParticles.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Common\HUD.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Common\Particles.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Common\PathFinding.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\AirElemental.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\AltCannonBall.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\AmmoItem.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\AmmoPack.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\AnimationChanger.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\AnimationHub.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\AreaMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\ArmorItem.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\BackgroundViewer.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\BasicEffects.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Beast.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\BigHead.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\BlendController.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\BloodSpray.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Boneman.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Bouncer.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Bullet.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Camera.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\CameraMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\CannonBall.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\CannonRotating.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\CannonStatic.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\ChainsawFreak.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Copier.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Counter.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\CrateBus.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\CrateRider.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\CreditsHolder.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Damager.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Debris.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\DebugEntityStatesDisplay.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Demon.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\DestroyableArchitecture.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Devil.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\DevilMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\DevilProjectile.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\DoorController.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\EffectMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Effector.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Elemental.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\EnemyBase.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\EnemyCounter.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\EnemyDive.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\EnemyFly.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\EnemyMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\EnemyRunInto.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\EnemySpawner.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\EnvironmentBase.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\EnvironmentMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\EnvironmentParticlesHolder.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Eruptor.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\ExotechLarva.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\ExotechLarvaBattery.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\ExotechLarvaCharger.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Eyeman.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Fireworks.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Fish.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Flame.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\FogMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Gizmo.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\GlassBrush.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Global.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\GradientMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\GravityMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\GravityRouter.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Grunt.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\GruntSka.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Guffy.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\HazeMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Headman.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\HealthItem.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\HudPicHolder.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Item.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\KeyItem.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\LarvaOffspring.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Light.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Lightning.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Marker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\MessageHolder.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\MessageItem.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\MeteorShower.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\MirrorMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\ModelDestruction.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\ModelHolder.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\ModelHolder2.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\ModelHolder3.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\MovingBrush.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\MovingBrushMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\MusicChanger.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\MusicHolder.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\NavigationMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\ParticlesHolder.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Pendulum.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\PhotoAlbum.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Player.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\PlayerActionMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\PlayerAnimator.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\PlayerMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\PlayerView.cpp"
 "V:\Programs\SamSDK\Sources\EntitiesMP\PlayerWeapons.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\PlayerWeaponsEffects.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\PowerUpItem.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Projectile.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\PyramidSpaceShip.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\PyramidSpaceShipMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Reminder.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\RollingStone.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Santa.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Scorpman.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\ScrollHolder.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\SeriousBomb.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Ship.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\ShipMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Shooter.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\SoundHolder.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\SpawnerProjectile.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Spinner.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\StormController.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Summoner.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\SummonerMarker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Switch.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\TacticsChanger.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\TacticsHolder.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Teleport.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\TextFXHolder.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\TimeController.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\TouchField.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Trigger.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Twister.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\VoiceHolder.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Walker.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Watcher.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\WatchPlayers.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Water.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\WeaponItem.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Werebull.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\Woman.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\WorldBase.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\WorldLink.cpp"
+"V:\Programs\SamSDK\Sources\EntitiesMP\WorldSettingsController.cpp"
 ]
-Creating command line "cl.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSP5369.tmp" 
-EntitiesMP/PlayerWeapons.es
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP558D.tmp" with contents
+Creating command line "cl.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSP864B.tmp" 
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP864C.tmp" with contents
+[
+/nologo /G5 /MD /W3 /GX /Zi /Ox /Ot /Og /Oi /Oy- /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Fr"Release/" /Fp"Release/EntitiesMP.pch" /Yc"StdH.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"V:\Programs\SamSDK\Sources\EntitiesMP\StdH\StdH.cpp"
+]
+Creating command line "cl.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSP864C.tmp" 
+EntitiesMP/Elemental.es
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP8709.tmp" with contents
 [
 /nologo /subsystem:windows /dll /incremental:no /pdb:"Release/EntitiesMP.pdb" /map:"Release/EntitiesMP.map" /debug /machine:I386 /out:"Release/EntitiesMP.dll" /implib:"Release/EntitiesMP.lib" /pdbtype:sept 
 .\Release\Common.obj
@@ -170,21 +320,183 @@ Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP558D.tmp" with co
 .\Release\WorldLink.obj
 .\Release\WorldSettingsController.obj
 ]
-Creating command line "link.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSP558D.tmp"
-Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP558E.bat" with contents
+Creating command line "link.exe @C:\Users\8FEE~1\AppData\Local\Temp\RSP8709.tmp"
+Creating temporary file "C:\Users\8FEE~1\AppData\Local\Temp\RSP870A.bat" with contents
 [
 @echo off
 copy Release\EntitiesMP.dll V:\Programs\SamSDK\Sources\Bin >nul
 copy Release\EntitiesMP.map V:\Programs\SamSDK\Sources\Bin >nul
 copy Release\EntitiesMP.lib V:\Programs\SamSDK\Sources\Bin >nul
 ]
-Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSP558E.bat"
+Creating command line "C:\Users\8FEE~1\AppData\Local\Temp\RSP870A.bat"
 Compiling...
+StdH.cpp
+Compiling...
+Common.cpp
+EmanatingParticles.cpp
+HUD.cpp
+V:\Programs\SamSDK\Sources\EntitiesMP\Common\HUD.cpp(1354) : warning C4101: 'colBar' : unreferenced local variable
+Particles.cpp
+PathFinding.cpp
+AirElemental.cpp
+AltCannonBall.cpp
+AmmoItem.cpp
+AmmoPack.cpp
+AnimationChanger.cpp
+AnimationHub.cpp
+AreaMarker.cpp
+ArmorItem.cpp
+BackgroundViewer.cpp
+BasicEffects.cpp
+Beast.cpp
+BigHead.cpp
+BlendController.cpp
+BloodSpray.cpp
+Boneman.cpp
+Generating Code...
+Compiling...
+Bouncer.cpp
+Bullet.cpp
+Camera.cpp
+CameraMarker.cpp
+CannonBall.cpp
+CannonRotating.cpp
+CannonStatic.cpp
+ChainsawFreak.cpp
+Copier.cpp
+Counter.cpp
+CrateBus.cpp
+CrateRider.cpp
+CreditsHolder.cpp
+Damager.cpp
+Debris.cpp
+DebugEntityStatesDisplay.cpp
+Demon.cpp
+DestroyableArchitecture.cpp
+Devil.cpp
+DevilMarker.cpp
+Generating Code...
+Compiling...
+DevilProjectile.cpp
+DoorController.cpp
+EffectMarker.cpp
+Effector.cpp
+Elemental.cpp
+EnemyBase.cpp
+EnemyCounter.cpp
+EnemyDive.cpp
+EnemyFly.cpp
+EnemyMarker.cpp
+EnemyRunInto.cpp
+EnemySpawner.cpp
+EnvironmentBase.cpp
+EnvironmentMarker.cpp
+EnvironmentParticlesHolder.cpp
+Eruptor.cpp
+ExotechLarva.cpp
+ExotechLarvaBattery.cpp
+ExotechLarvaCharger.cpp
+Eyeman.cpp
+Generating Code...
+Compiling...
+Fireworks.cpp
+Fish.cpp
+Flame.cpp
+FogMarker.cpp
+Gizmo.cpp
+GlassBrush.cpp
+Global.cpp
+GradientMarker.cpp
+GravityMarker.cpp
+GravityRouter.cpp
+Grunt.cpp
+GruntSka.cpp
+Guffy.cpp
+HazeMarker.cpp
+Headman.cpp
+HealthItem.cpp
+HudPicHolder.cpp
+Item.cpp
+KeyItem.cpp
+LarvaOffspring.cpp
+Generating Code...
+Compiling...
+Light.cpp
+Lightning.cpp
+Marker.cpp
+MessageHolder.cpp
+MessageItem.cpp
+MeteorShower.cpp
+MirrorMarker.cpp
+ModelDestruction.cpp
+ModelHolder.cpp
+ModelHolder2.cpp
+ModelHolder3.cpp
+MovingBrush.cpp
+MovingBrushMarker.cpp
+MusicChanger.cpp
+MusicHolder.cpp
+NavigationMarker.cpp
+ParticlesHolder.cpp
+Pendulum.cpp
+PhotoAlbum.cpp
+Player.cpp
+Generating Code...
+Compiling...
+PlayerActionMarker.cpp
+PlayerAnimator.cpp
+PlayerMarker.cpp
+PlayerView.cpp
 PlayerWeapons.cpp
 V:\PROGRAMS\SAMSDK\SOURCES\Models/Weapons/DoubleShotgun/SingleShotgun.h(20) : warning C4005: 'SINGLESHOTGUN_ATTACHMENT_NOT_LOADED' : macro redefinition
         V:\PROGRAMS\SAMSDK\SOURCES\Models/Weapons/DoubleShotgun/SingleShotgun.h(19) : see previous definition of 'SINGLESHOTGUN_ATTACHMENT_NOT_LOADED'
 V:\PROGRAMS\SAMSDK\SOURCES\Models/Weapons/DoubleShotgun/SingleShotgun.h(21) : warning C4005: 'SINGLESHOTGUN_ATTACHMENT_NOT_LOADED' : macro redefinition
         V:\PROGRAMS\SAMSDK\SOURCES\Models/Weapons/DoubleShotgun/SingleShotgun.h(20) : see previous definition of 'SINGLESHOTGUN_ATTACHMENT_NOT_LOADED'
+PlayerWeaponsEffects.cpp
+PowerUpItem.cpp
+Projectile.cpp
+PyramidSpaceShip.cpp
+PyramidSpaceShipMarker.cpp
+Reminder.cpp
+RollingStone.cpp
+Santa.cpp
+Scorpman.cpp
+ScrollHolder.cpp
+SeriousBomb.cpp
+Ship.cpp
+ShipMarker.cpp
+Shooter.cpp
+SoundHolder.cpp
+Generating Code...
+Compiling...
+SpawnerProjectile.cpp
+Spinner.cpp
+StormController.cpp
+Summoner.cpp
+SummonerMarker.cpp
+Switch.cpp
+TacticsChanger.cpp
+TacticsHolder.cpp
+Teleport.cpp
+TextFXHolder.cpp
+TimeController.cpp
+TouchField.cpp
+Trigger.cpp
+Twister.cpp
+VoiceHolder.cpp
+Walker.cpp
+Watcher.cpp
+WatchPlayers.cpp
+Water.cpp
+WeaponItem.cpp
+Generating Code...
+Compiling...
+Werebull.cpp
+Woman.cpp
+WorldBase.cpp
+WorldLink.cpp
+WorldSettingsController.cpp
+Generating Code...
 Linking...
    Creating library Release/EntitiesMP.lib and object Release/EntitiesMP.exp
 <h3>Output Window</h3>
@@ -193,7 +505,7 @@ Copying EntitiesMP binaries to V:\Programs\SamSDK\Sources\Bin
 
 
 <h3>Results</h3>
-EntitiesMP.dll - 0 error(s), 2 warning(s)
+EntitiesMP.dll - 0 error(s), 3 warning(s)
 </pre>
 </body>
 </html>

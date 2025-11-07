@@ -39,6 +39,7 @@ void DECL_DLL Particles_BloodTrail(CEntity *pen);
 void DECL_DLL Particles_Ghostbuster(const FLOAT3D &vSrc, const FLOAT3D &vDst, INDEX ctRays, FLOAT fSize, FLOAT fPower = 1.0f,
                            FLOAT fKneeDivider = 33.3333333f);
 void DECL_DLL Particles_Burning(CEntity *pen, FLOAT fPower, FLOAT fTimeRatio);
+void DECL_DLL Particles_IceSpikes(CEntity *pen, FLOAT fPower, FLOAT fTimeRatio);
 void DECL_DLL Particles_BrushBurning(CEntity *pen, FLOAT3D vPos[], INDEX ctCount, FLOAT3D vPlane,
                                      FLOAT fPower, FLOAT fTimeRatio);
 void DECL_DLL Particles_FlameThrower(const CPlacement3D &plLeader, const CPlacement3D &plFollower,

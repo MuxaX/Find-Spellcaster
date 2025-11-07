@@ -23,6 +23,7 @@ static CTextureObject _toLavaTrailSmoke;
 static CTextureObject _toFlamethrowerTrail01;
 static CTextureObject _toFlamethrowerTrail02;
 static CTextureObject _toFire;
+static CTextureObject _toIcek;
 static CTextureObject _toBoubble01;
 static CTextureObject _toBoubble02;
 static CTextureObject _toBoubble03;
@@ -185,6 +186,7 @@ void InitParticles(void)
     _toFlamethrowerTrail01.SetData_t(CTFILENAME("Textures\\Effects\\Particles\\FlameThrower01.tex"));
     _toFlamethrowerTrail02.SetData_t(CTFILENAME("TexturesMP\\Effects\\Particles\\FlameThrower02.tex"));
     _toFire.SetData_t(CTFILENAME("TexturesMP\\Effects\\Particles\\Fire.tex"));
+	_toIcek.SetData_t(CTFILENAME("Textures\\Effects\\Particles\\Icek.tex"));
     _toBoubble01.SetData_t(CTFILENAME("Models\\Items\\Particles\\Boubble01.tex"));
     _toBoubble02.SetData_t(CTFILENAME("Models\\Items\\Particles\\Boubble02.tex"));
     _toBoubble03.SetData_t(CTFILENAME("Models\\Items\\Particles\\Boubble03.tex"));
@@ -318,6 +320,7 @@ void CloseParticles(void)
   _toFlamethrowerTrail01.SetData(NULL);
   _toFlamethrowerTrail02.SetData(NULL);
   _toFire.SetData(NULL);
+  _toIcek.SetData(NULL);
   _toBoubble01.SetData(NULL);
   _toBoubble02.SetData(NULL);
   _toBoubble03.SetData(NULL);
@@ -4035,6 +4038,70 @@ void Particles_Burning(CEntity *pen, FLOAT fPower, FLOAT fTimeRatio)
   FLOAT3D vCenter = pen->GetLerpedPlacement().pl_PositionVector;
 
   Particle_PrepareTexture( &_toFire, PBT_ADD);
+
+  // calculate color factor (for fade in/out)
+  FLOAT fFade = fTimeRatio;
+  UBYTE ubColor = UBYTE(CT_OPAQUE*fFade);
+  COLOR col = RGBToColor(ubColor,ubColor,ubColor)|CT_OPAQUE;
+
+  INDEX ctVtx = avVertices.Count();
+  FLOAT fDensityFactor=1.0f-(Clamp(ctVtx, INDEX(500), INDEX(1000))-500.0f)/500.0f;
+
+  // get corp size
+  FLOATaabbox3D box;
+
+  if(pen->en_RenderType == CEntity::RT_SKAMODEL || pen->en_RenderType == CEntity::RT_SKAEDITORMODEL) {
+    pen->GetModelInstance()->GetCurrentColisionBox(box);
+  } else {
+    pen->GetBoundingBox(box);
+  }
+
+  FLOAT fBoxSize=box.Size().Length();
+  FLOAT fBoxHeight=box.Size()(2);
+  FLOAT fSizeRatio=(Clamp(fBoxSize,2.0f,12.0f)-2.0f)/10.0f;
+  FLOAT fSize=0.125f+ClampDn( FLOAT(pow(box.Size()(2),1.0f/4.0f)), 1.0f)*fPower/5.0f;
+  fSize+=(1.0f+fSizeRatio)*(1.0f+fSizeRatio)*0.125f;
+  INDEX iVtxSteep=(2+(2.0f-fSizeRatio-fDensityFactor)*6);
+  if( IsOfClass(pen, "Werebull"))
+  {
+    iVtxSteep=2;
+  }
+  for( INDEX iVtx=0; iVtx<ctVtx; iVtx+=iVtxSteep)
+  {
+    FLOAT3D vPos = avVertices[iVtx];
+    FLOAT fHighSizer=0.125f+((vPos(2)-vCenter(2))/fBoxHeight)*0.875f;
+    vPos+=vY*(fSize*fHighSizer*fFade*2);
+    INDEX iRnd=iVtx%CT_MAX_PARTICLES_TABLE;
+    INDEX iFrame=INDEX((afStarsPositions[iRnd][0]+0.5f)*ctFrames+fNow*16.0f)%(ctFrames);
+
+    INDEX iFrameX=iFrame%iFramesInRaw;
+    INDEX iFrameY=iFrame/iFramesInRaw;
+    Particle_SetTexturePart( 1024/iFramesInRaw, 1024/iFramesInColumn, iFrameX, iFrameY);
+    Particle_RenderSquare( vPos, fSize*fHighSizer*fFade, 0, col, 2.0f);
+  }
+  avVertices.PopAll();
+  Particle_Flush();
+}
+
+void Particles_IceSpikes(CEntity *pen, FLOAT fPower, FLOAT fTimeRatio)
+{
+  INDEX iFramesInRaw=8;
+  INDEX iFramesInColumn=4;
+  INDEX ctFrames=iFramesInRaw*iFramesInColumn;
+  
+  FLOAT fNow = _pTimer->GetLerpedCurrentTick();
+
+  // fill array with absolute vertices of entity's model and its attached models
+  pen->GetModelVerticesAbsolute(avVertices, 0.0f, 0.0f); 
+
+  // get entity position and orientation
+  const FLOATmatrix3D &m = pen->GetRotationMatrix();
+  FLOAT3D vX( m(1,1), m(2,1), m(3,1));
+  FLOAT3D vY( m(1,2), m(2,2), m(3,2));
+  FLOAT3D vZ( m(1,3), m(2,3), m(3,3));
+  FLOAT3D vCenter = pen->GetLerpedPlacement().pl_PositionVector;
+
+  Particle_PrepareTexture( &_toIcek, PBT_BLEND);
 
   // calculate color factor (for fade in/out)
   FLOAT fFade = fTimeRatio;

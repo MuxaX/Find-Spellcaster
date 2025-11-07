@@ -4,7 +4,7 @@
 
 EP_ENUMBEG(ElementalType)
   EP_ENUMVALUE(ELT_AIR, "obsolete"),
-  EP_ENUMVALUE(ELT_ICE, "obsolete"),
+  EP_ENUMVALUE(ELT_ICE, "Ice"),
   EP_ENUMVALUE(ELT_LAVA, "Lava"),
   EP_ENUMVALUE(ELT_STONE, "obsolete"),
   EP_ENUMVALUE(ELT_WATER, "obsolete"),
@@ -67,6 +67,12 @@ CEntityComponent CElemental_components[] = {
  CEntityComponent(ECT_CLASS, CLASS_BLOOD_SPRAY, "EFNM" "Classes\\BloodSpray.ecl"),
 #define CLASS_BASIC_EFFECT ((0x00000142<<8)+5)
  CEntityComponent(ECT_CLASS, CLASS_BASIC_EFFECT, "EFNM" "Classes\\BasicEffect.ecl"),
+#define MODEL_ICE ((0x00000142<<8)+20)
+ CEntityComponent(ECT_MODEL, MODEL_ICE, "EFNM" "Models\\Enemies\\Elementals\\IceMan.mdl"),
+#define MODEL_ICE_PICK ((0x00000142<<8)+21)
+ CEntityComponent(ECT_MODEL, MODEL_ICE_PICK, "EFNM" "Models\\Enemies\\Elementals\\IcePick.mdl"),
+#define TEXTURE_ICE ((0x00000142<<8)+22)
+ CEntityComponent(ECT_TEXTURE, TEXTURE_ICE, "EFNM" "Models\\Enemies\\Elementals\\IceMan01.tex"),
 #define MODEL_LAVA ((0x00000142<<8)+30)
  CEntityComponent(ECT_MODEL, MODEL_LAVA, "EFNM" "Models\\Enemies\\ElementalLava\\ElementalLava.mdl"),
 #define MODEL_LAVA_BODY_FLARE ((0x00000142<<8)+31)
@@ -79,6 +85,16 @@ CEntityComponent CElemental_components[] = {
  CEntityComponent(ECT_TEXTURE, TEXTURE_LAVA_DETAIL, "EFNM" "Models\\Enemies\\ElementalLava\\Detail.tex"),
 #define TEXTURE_LAVA_FLARE ((0x00000142<<8)+35)
  CEntityComponent(ECT_TEXTURE, TEXTURE_LAVA_FLARE, "EFNM" "Models\\Enemies\\ElementalLava\\Flare.tex"),
+#define MODEL_ELEM_ICE ((0x00000142<<8)+84)
+ CEntityComponent(ECT_MODEL, MODEL_ELEM_ICE, "EFNM" "Models\\Enemies\\Elementals\\Projectile\\IcePyramid.mdl"),
+#define MODEL_ELEM_ICE_FLARE ((0x00000142<<8)+85)
+ CEntityComponent(ECT_MODEL, MODEL_ELEM_ICE_FLARE, "EFNM" "Models\\Enemies\\Elementals\\Projectile\\IcePyramidFlare.mdl"),
+#define TEXTURE_ELEM_ICE ((0x00000142<<8)+93)
+ CEntityComponent(ECT_TEXTURE, TEXTURE_ELEM_ICE, "EFNM" "Models\\Enemies\\Elementals\\Projectile\\IcePyramid.tex"),
+#define TEXTURE_ELEM_FLARE ((0x00000142<<8)+94)
+ CEntityComponent(ECT_TEXTURE, TEXTURE_ELEM_FLARE, "EFNM" "Textures\\Effects\\Flares\\03\\Flaire06.tex"),
+#define TEX_SPEC_STRONG ((0x00000142<<8)+212)
+ CEntityComponent(ECT_TEXTURE, TEX_SPEC_STRONG, "EFNM" "Models\\SpecularTextures\\Strong.tex"),
 #define SOUND_LAVA_IDLE ((0x00000142<<8)+250)
  CEntityComponent(ECT_SOUND, SOUND_LAVA_IDLE, "EFNM" "Models\\Enemies\\ElementalLava\\Sounds\\Idle.wav"),
 #define SOUND_LAVA_WOUND ((0x00000142<<8)+252)
@@ -95,17 +111,29 @@ CEntityComponent CElemental_components[] = {
  CEntityComponent(ECT_SOUND, SOUND_LAVA_ANGER, "EFNM" "Models\\Enemies\\ElementalLava\\Sounds\\Anger.wav"),
 #define SOUND_LAVA_GROW ((0x00000142<<8)+222)
  CEntityComponent(ECT_SOUND, SOUND_LAVA_GROW, "EFNM" "ModelsMP\\Enemies\\ElementalLava\\Sounds\\Grow.wav"),
+#define SOUND_ICEMAN_IDLE ((0x00000142<<8)+225)
+ CEntityComponent(ECT_SOUND, SOUND_ICEMAN_IDLE, "EFNM" "Models\\Enemies\\Elementals\\Sounds\\Idle.wav"),
+#define SOUND_ICEMAN_WOUND ((0x00000142<<8)+226)
+ CEntityComponent(ECT_SOUND, SOUND_ICEMAN_WOUND, "EFNM" "Models\\Enemies\\Elementals\\Sounds\\Wound.wav"),
+#define SOUND_ICEMAN_FIRE ((0x00000142<<8)+227)
+ CEntityComponent(ECT_SOUND, SOUND_ICEMAN_FIRE, "EFNM" "Models\\Enemies\\Elementals\\Sounds\\Fire.wav"),
+#define SOUND_ICEMAN_DEATH ((0x00000142<<8)+228)
+ CEntityComponent(ECT_SOUND, SOUND_ICEMAN_DEATH, "EFNM" "Models\\Enemies\\Elementals\\Sounds\\Death.wav"),
+#define SOUND_ICEMAN_SIGHT ((0x00000142<<8)+229)
+ CEntityComponent(ECT_SOUND, SOUND_ICEMAN_SIGHT, "EFNM" "Models\\Enemies\\Elementals\\Sounds\\Sight.wav"),
+#define SOUND_ICEMAN_KICK ((0x00000142<<8)+230)
+ CEntityComponent(ECT_SOUND, SOUND_ICEMAN_KICK, "EFNM" "Models\\Enemies\\Elementals\\Sounds\\Kick.wav"),
 };
 #define CElemental_componentsct ARRAYCOUNT(CElemental_components)
 
 CEventHandlerEntry CElemental_handlers[] = {
  {0x01420000, -1, CEntity::pEventHandler(&CElemental::
-#line 938 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1016 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 FallOnFloor),DEBUGSTRING("CElemental::FallOnFloor")},
  {0x01420001, -1, CEntity::pEventHandler(&CElemental::H0x01420001_FallOnFloor_01), DEBUGSTRING("CElemental::H0x01420001_FallOnFloor_01")},
  {0x01420002, -1, CEntity::pEventHandler(&CElemental::H0x01420002_FallOnFloor_02), DEBUGSTRING("CElemental::H0x01420002_FallOnFloor_02")},
  {0x01420003, -1, CEntity::pEventHandler(&CElemental::
-#line 1004 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1082 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 LavamanFire),DEBUGSTRING("CElemental::LavamanFire")},
  {0x01420004, -1, CEntity::pEventHandler(&CElemental::H0x01420004_LavamanFire_01), DEBUGSTRING("CElemental::H0x01420004_LavamanFire_01")},
  {0x01420005, -1, CEntity::pEventHandler(&CElemental::H0x01420005_LavamanFire_02), DEBUGSTRING("CElemental::H0x01420005_LavamanFire_02")},
@@ -127,7 +155,7 @@ LavamanFire),DEBUGSTRING("CElemental::LavamanFire")},
  {0x01420015, -1, CEntity::pEventHandler(&CElemental::H0x01420015_LavamanFire_18), DEBUGSTRING("CElemental::H0x01420015_LavamanFire_18")},
  {0x01420016, -1, CEntity::pEventHandler(&CElemental::H0x01420016_LavamanFire_19), DEBUGSTRING("CElemental::H0x01420016_LavamanFire_19")},
  {0x01420017, -1, CEntity::pEventHandler(&CElemental::
-#line 1084 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1162 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 LavamanStones),DEBUGSTRING("CElemental::LavamanStones")},
  {0x01420018, -1, CEntity::pEventHandler(&CElemental::H0x01420018_LavamanStones_01), DEBUGSTRING("CElemental::H0x01420018_LavamanStones_01")},
  {0x01420019, -1, CEntity::pEventHandler(&CElemental::H0x01420019_LavamanStones_02), DEBUGSTRING("CElemental::H0x01420019_LavamanStones_02")},
@@ -136,75 +164,93 @@ LavamanStones),DEBUGSTRING("CElemental::LavamanStones")},
  {0x0142001c, -1, CEntity::pEventHandler(&CElemental::H0x0142001c_LavamanStones_05), DEBUGSTRING("CElemental::H0x0142001c_LavamanStones_05")},
  {0x0142001d, -1, CEntity::pEventHandler(&CElemental::H0x0142001d_LavamanStones_06), DEBUGSTRING("CElemental::H0x0142001d_LavamanStones_06")},
  {0x0142001e, -1, CEntity::pEventHandler(&CElemental::
-#line 1104 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1182 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 LavamanHit),DEBUGSTRING("CElemental::LavamanHit")},
  {0x0142001f, -1, CEntity::pEventHandler(&CElemental::H0x0142001f_LavamanHit_01), DEBUGSTRING("CElemental::H0x0142001f_LavamanHit_01")},
  {0x01420020, -1, CEntity::pEventHandler(&CElemental::H0x01420020_LavamanHit_02), DEBUGSTRING("CElemental::H0x01420020_LavamanHit_02")},
  {0x01420021, -1, CEntity::pEventHandler(&CElemental::H0x01420021_LavamanHit_03), DEBUGSTRING("CElemental::H0x01420021_LavamanHit_03")},
  {0x01420022, -1, CEntity::pEventHandler(&CElemental::H0x01420022_LavamanHit_04), DEBUGSTRING("CElemental::H0x01420022_LavamanHit_04")},
- {0x01420023, STATE_CEnemyBase_BeWounded, CEntity::pEventHandler(&CElemental::
-#line 1207 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ {0x01420023, -1, CEntity::pEventHandler(&CElemental::
+#line 1197 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+IcemanFire),DEBUGSTRING("CElemental::IcemanFire")},
+ {0x01420024, -1, CEntity::pEventHandler(&CElemental::H0x01420024_IcemanFire_01), DEBUGSTRING("CElemental::H0x01420024_IcemanFire_01")},
+ {0x01420025, -1, CEntity::pEventHandler(&CElemental::H0x01420025_IcemanFire_02), DEBUGSTRING("CElemental::H0x01420025_IcemanFire_02")},
+ {0x01420026, -1, CEntity::pEventHandler(&CElemental::H0x01420026_IcemanFire_03), DEBUGSTRING("CElemental::H0x01420026_IcemanFire_03")},
+ {0x01420027, -1, CEntity::pEventHandler(&CElemental::H0x01420027_IcemanFire_04), DEBUGSTRING("CElemental::H0x01420027_IcemanFire_04")},
+ {0x01420028, -1, CEntity::pEventHandler(&CElemental::H0x01420028_IcemanFire_05), DEBUGSTRING("CElemental::H0x01420028_IcemanFire_05")},
+ {0x01420029, -1, CEntity::pEventHandler(&CElemental::H0x01420029_IcemanFire_06), DEBUGSTRING("CElemental::H0x01420029_IcemanFire_06")},
+ {0x0142002a, -1, CEntity::pEventHandler(&CElemental::
+#line 1216 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+IcemanHit),DEBUGSTRING("CElemental::IcemanHit")},
+ {0x0142002b, -1, CEntity::pEventHandler(&CElemental::H0x0142002b_IcemanHit_01), DEBUGSTRING("CElemental::H0x0142002b_IcemanHit_01")},
+ {0x0142002c, -1, CEntity::pEventHandler(&CElemental::H0x0142002c_IcemanHit_02), DEBUGSTRING("CElemental::H0x0142002c_IcemanHit_02")},
+ {0x0142002d, -1, CEntity::pEventHandler(&CElemental::H0x0142002d_IcemanHit_03), DEBUGSTRING("CElemental::H0x0142002d_IcemanHit_03")},
+ {0x0142002e, -1, CEntity::pEventHandler(&CElemental::H0x0142002e_IcemanHit_04), DEBUGSTRING("CElemental::H0x0142002e_IcemanHit_04")},
+ {0x0142002f, -1, CEntity::pEventHandler(&CElemental::H0x0142002f_IcemanHit_05), DEBUGSTRING("CElemental::H0x0142002f_IcemanHit_05")},
+ {0x01420030, -1, CEntity::pEventHandler(&CElemental::H0x01420030_IcemanHit_06), DEBUGSTRING("CElemental::H0x01420030_IcemanHit_06")},
+ {0x01420031, STATE_CEnemyBase_BeWounded, CEntity::pEventHandler(&CElemental::
+#line 1285 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 BeWounded),DEBUGSTRING("CElemental::BeWounded")},
- {0x01420024, -1, CEntity::pEventHandler(&CElemental::
-#line 1220 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ {0x01420032, -1, CEntity::pEventHandler(&CElemental::
+#line 1298 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 BoxToNormal),DEBUGSTRING("CElemental::BoxToNormal")},
- {0x01420025, -1, CEntity::pEventHandler(&CElemental::H0x01420025_BoxToNormal_01), DEBUGSTRING("CElemental::H0x01420025_BoxToNormal_01")},
- {0x01420026, -1, CEntity::pEventHandler(&CElemental::H0x01420026_BoxToNormal_02), DEBUGSTRING("CElemental::H0x01420026_BoxToNormal_02")},
- {0x01420027, -1, CEntity::pEventHandler(&CElemental::
-#line 1243 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ {0x01420033, -1, CEntity::pEventHandler(&CElemental::H0x01420033_BoxToNormal_01), DEBUGSTRING("CElemental::H0x01420033_BoxToNormal_01")},
+ {0x01420034, -1, CEntity::pEventHandler(&CElemental::H0x01420034_BoxToNormal_02), DEBUGSTRING("CElemental::H0x01420034_BoxToNormal_02")},
+ {0x01420035, -1, CEntity::pEventHandler(&CElemental::
+#line 1321 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 PlaneToNormal),DEBUGSTRING("CElemental::PlaneToNormal")},
- {0x01420028, -1, CEntity::pEventHandler(&CElemental::H0x01420028_PlaneToNormal_01), DEBUGSTRING("CElemental::H0x01420028_PlaneToNormal_01")},
- {0x01420029, -1, CEntity::pEventHandler(&CElemental::H0x01420029_PlaneToNormal_02), DEBUGSTRING("CElemental::H0x01420029_PlaneToNormal_02")},
- {0x0142002a, STATE_CEnemyBase_InitializeAttack, CEntity::pEventHandler(&CElemental::
-#line 1264 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ {0x01420036, -1, CEntity::pEventHandler(&CElemental::H0x01420036_PlaneToNormal_01), DEBUGSTRING("CElemental::H0x01420036_PlaneToNormal_01")},
+ {0x01420037, -1, CEntity::pEventHandler(&CElemental::H0x01420037_PlaneToNormal_02), DEBUGSTRING("CElemental::H0x01420037_PlaneToNormal_02")},
+ {0x01420038, STATE_CEnemyBase_InitializeAttack, CEntity::pEventHandler(&CElemental::
+#line 1342 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 InitializeAttack),DEBUGSTRING("CElemental::InitializeAttack")},
- {0x0142002b, -1, CEntity::pEventHandler(&CElemental::H0x0142002b_InitializeAttack_01), DEBUGSTRING("CElemental::H0x0142002b_InitializeAttack_01")},
- {0x0142002c, -1, CEntity::pEventHandler(&CElemental::H0x0142002c_InitializeAttack_02), DEBUGSTRING("CElemental::H0x0142002c_InitializeAttack_02")},
- {0x0142002d, -1, CEntity::pEventHandler(&CElemental::H0x0142002d_InitializeAttack_03), DEBUGSTRING("CElemental::H0x0142002d_InitializeAttack_03")},
- {0x0142002e, -1, CEntity::pEventHandler(&CElemental::H0x0142002e_InitializeAttack_04), DEBUGSTRING("CElemental::H0x0142002e_InitializeAttack_04")},
- {0x0142002f, -1, CEntity::pEventHandler(&CElemental::H0x0142002f_InitializeAttack_05), DEBUGSTRING("CElemental::H0x0142002f_InitializeAttack_05")},
- {0x01420030, -1, CEntity::pEventHandler(&CElemental::H0x01420030_InitializeAttack_06), DEBUGSTRING("CElemental::H0x01420030_InitializeAttack_06")},
- {0x01420031, -1, CEntity::pEventHandler(&CElemental::H0x01420031_InitializeAttack_07), DEBUGSTRING("CElemental::H0x01420031_InitializeAttack_07")},
- {0x01420032, STATE_CEnemyBase_Fire, CEntity::pEventHandler(&CElemental::
-#line 1278 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ {0x01420039, -1, CEntity::pEventHandler(&CElemental::H0x01420039_InitializeAttack_01), DEBUGSTRING("CElemental::H0x01420039_InitializeAttack_01")},
+ {0x0142003a, -1, CEntity::pEventHandler(&CElemental::H0x0142003a_InitializeAttack_02), DEBUGSTRING("CElemental::H0x0142003a_InitializeAttack_02")},
+ {0x0142003b, -1, CEntity::pEventHandler(&CElemental::H0x0142003b_InitializeAttack_03), DEBUGSTRING("CElemental::H0x0142003b_InitializeAttack_03")},
+ {0x0142003c, -1, CEntity::pEventHandler(&CElemental::H0x0142003c_InitializeAttack_04), DEBUGSTRING("CElemental::H0x0142003c_InitializeAttack_04")},
+ {0x0142003d, -1, CEntity::pEventHandler(&CElemental::H0x0142003d_InitializeAttack_05), DEBUGSTRING("CElemental::H0x0142003d_InitializeAttack_05")},
+ {0x0142003e, -1, CEntity::pEventHandler(&CElemental::H0x0142003e_InitializeAttack_06), DEBUGSTRING("CElemental::H0x0142003e_InitializeAttack_06")},
+ {0x0142003f, -1, CEntity::pEventHandler(&CElemental::H0x0142003f_InitializeAttack_07), DEBUGSTRING("CElemental::H0x0142003f_InitializeAttack_07")},
+ {0x01420040, STATE_CEnemyBase_Fire, CEntity::pEventHandler(&CElemental::
+#line 1356 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Fire),DEBUGSTRING("CElemental::Fire")},
- {0x01420033, STATE_CEnemyBase_Hit, CEntity::pEventHandler(&CElemental::
-#line 1290 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ {0x01420041, STATE_CEnemyBase_Hit, CEntity::pEventHandler(&CElemental::
+#line 1368 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Hit),DEBUGSTRING("CElemental::Hit")},
- {0x01420034, STATE_CEnemyBase_Death, CEntity::pEventHandler(&CElemental::
-#line 1305 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ {0x01420042, STATE_CEnemyBase_Death, CEntity::pEventHandler(&CElemental::
+#line 1383 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Death),DEBUGSTRING("CElemental::Death")},
- {0x01420035, -1, CEntity::pEventHandler(&CElemental::H0x01420035_Death_01), DEBUGSTRING("CElemental::H0x01420035_Death_01")},
- {0x01420036, -1, CEntity::pEventHandler(&CElemental::H0x01420036_Death_02), DEBUGSTRING("CElemental::H0x01420036_Death_02")},
- {0x01420037, -1, CEntity::pEventHandler(&CElemental::H0x01420037_Death_03), DEBUGSTRING("CElemental::H0x01420037_Death_03")},
- {0x01420038, -1, CEntity::pEventHandler(&CElemental::H0x01420038_Death_04), DEBUGSTRING("CElemental::H0x01420038_Death_04")},
- {0x01420039, -1, CEntity::pEventHandler(&CElemental::H0x01420039_Death_05), DEBUGSTRING("CElemental::H0x01420039_Death_05")},
- {0x0142003a, -1, CEntity::pEventHandler(&CElemental::
-#line 1323 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ {0x01420043, -1, CEntity::pEventHandler(&CElemental::H0x01420043_Death_01), DEBUGSTRING("CElemental::H0x01420043_Death_01")},
+ {0x01420044, -1, CEntity::pEventHandler(&CElemental::H0x01420044_Death_02), DEBUGSTRING("CElemental::H0x01420044_Death_02")},
+ {0x01420045, -1, CEntity::pEventHandler(&CElemental::H0x01420045_Death_03), DEBUGSTRING("CElemental::H0x01420045_Death_03")},
+ {0x01420046, -1, CEntity::pEventHandler(&CElemental::H0x01420046_Death_04), DEBUGSTRING("CElemental::H0x01420046_Death_04")},
+ {0x01420047, -1, CEntity::pEventHandler(&CElemental::H0x01420047_Death_05), DEBUGSTRING("CElemental::H0x01420047_Death_05")},
+ {0x01420048, -1, CEntity::pEventHandler(&CElemental::
+#line 1401 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 BossAppear),DEBUGSTRING("CElemental::BossAppear")},
- {0x0142003b, -1, CEntity::pEventHandler(&CElemental::H0x0142003b_BossAppear_01), DEBUGSTRING("CElemental::H0x0142003b_BossAppear_01")},
- {0x0142003c, -1, CEntity::pEventHandler(&CElemental::H0x0142003c_BossAppear_02), DEBUGSTRING("CElemental::H0x0142003c_BossAppear_02")},
- {0x0142003d, -1, CEntity::pEventHandler(&CElemental::H0x0142003d_BossAppear_03), DEBUGSTRING("CElemental::H0x0142003d_BossAppear_03")},
- {0x0142003e, -1, CEntity::pEventHandler(&CElemental::H0x0142003e_BossAppear_04), DEBUGSTRING("CElemental::H0x0142003e_BossAppear_04")},
- {0x0142003f, -1, CEntity::pEventHandler(&CElemental::H0x0142003f_BossAppear_05), DEBUGSTRING("CElemental::H0x0142003f_BossAppear_05")},
- {0x01420040, -1, CEntity::pEventHandler(&CElemental::H0x01420040_BossAppear_06), DEBUGSTRING("CElemental::H0x01420040_BossAppear_06")},
- {0x01420041, -1, CEntity::pEventHandler(&CElemental::H0x01420041_BossAppear_07), DEBUGSTRING("CElemental::H0x01420041_BossAppear_07")},
- {0x01420042, -1, CEntity::pEventHandler(&CElemental::H0x01420042_BossAppear_08), DEBUGSTRING("CElemental::H0x01420042_BossAppear_08")},
- {0x01420043, -1, CEntity::pEventHandler(&CElemental::H0x01420043_BossAppear_09), DEBUGSTRING("CElemental::H0x01420043_BossAppear_09")},
- {0x01420044, -1, CEntity::pEventHandler(&CElemental::H0x01420044_BossAppear_10), DEBUGSTRING("CElemental::H0x01420044_BossAppear_10")},
- {0x01420045, -1, CEntity::pEventHandler(&CElemental::H0x01420045_BossAppear_11), DEBUGSTRING("CElemental::H0x01420045_BossAppear_11")},
- {0x01420046, -1, CEntity::pEventHandler(&CElemental::H0x01420046_BossAppear_12), DEBUGSTRING("CElemental::H0x01420046_BossAppear_12")},
- {0x01420047, STATE_CEnemyBase_PreMainLoop, CEntity::pEventHandler(&CElemental::
-#line 1348 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ {0x01420049, -1, CEntity::pEventHandler(&CElemental::H0x01420049_BossAppear_01), DEBUGSTRING("CElemental::H0x01420049_BossAppear_01")},
+ {0x0142004a, -1, CEntity::pEventHandler(&CElemental::H0x0142004a_BossAppear_02), DEBUGSTRING("CElemental::H0x0142004a_BossAppear_02")},
+ {0x0142004b, -1, CEntity::pEventHandler(&CElemental::H0x0142004b_BossAppear_03), DEBUGSTRING("CElemental::H0x0142004b_BossAppear_03")},
+ {0x0142004c, -1, CEntity::pEventHandler(&CElemental::H0x0142004c_BossAppear_04), DEBUGSTRING("CElemental::H0x0142004c_BossAppear_04")},
+ {0x0142004d, -1, CEntity::pEventHandler(&CElemental::H0x0142004d_BossAppear_05), DEBUGSTRING("CElemental::H0x0142004d_BossAppear_05")},
+ {0x0142004e, -1, CEntity::pEventHandler(&CElemental::H0x0142004e_BossAppear_06), DEBUGSTRING("CElemental::H0x0142004e_BossAppear_06")},
+ {0x0142004f, -1, CEntity::pEventHandler(&CElemental::H0x0142004f_BossAppear_07), DEBUGSTRING("CElemental::H0x0142004f_BossAppear_07")},
+ {0x01420050, -1, CEntity::pEventHandler(&CElemental::H0x01420050_BossAppear_08), DEBUGSTRING("CElemental::H0x01420050_BossAppear_08")},
+ {0x01420051, -1, CEntity::pEventHandler(&CElemental::H0x01420051_BossAppear_09), DEBUGSTRING("CElemental::H0x01420051_BossAppear_09")},
+ {0x01420052, -1, CEntity::pEventHandler(&CElemental::H0x01420052_BossAppear_10), DEBUGSTRING("CElemental::H0x01420052_BossAppear_10")},
+ {0x01420053, -1, CEntity::pEventHandler(&CElemental::H0x01420053_BossAppear_11), DEBUGSTRING("CElemental::H0x01420053_BossAppear_11")},
+ {0x01420054, -1, CEntity::pEventHandler(&CElemental::H0x01420054_BossAppear_12), DEBUGSTRING("CElemental::H0x01420054_BossAppear_12")},
+ {0x01420055, STATE_CEnemyBase_PreMainLoop, CEntity::pEventHandler(&CElemental::
+#line 1426 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 PreMainLoop),DEBUGSTRING("CElemental::PreMainLoop")},
- {0x01420048, -1, CEntity::pEventHandler(&CElemental::H0x01420048_PreMainLoop_01), DEBUGSTRING("CElemental::H0x01420048_PreMainLoop_01")},
- {0x01420049, -1, CEntity::pEventHandler(&CElemental::H0x01420049_PreMainLoop_02), DEBUGSTRING("CElemental::H0x01420049_PreMainLoop_02")},
- {0x0142004a, -1, CEntity::pEventHandler(&CElemental::H0x0142004a_PreMainLoop_03), DEBUGSTRING("CElemental::H0x0142004a_PreMainLoop_03")},
- {0x0142004b, -1, CEntity::pEventHandler(&CElemental::H0x0142004b_PreMainLoop_04), DEBUGSTRING("CElemental::H0x0142004b_PreMainLoop_04")},
- {0x0142004c, -1, CEntity::pEventHandler(&CElemental::H0x0142004c_PreMainLoop_05), DEBUGSTRING("CElemental::H0x0142004c_PreMainLoop_05")},
- {0x0142004d, -1, CEntity::pEventHandler(&CElemental::H0x0142004d_PreMainLoop_06), DEBUGSTRING("CElemental::H0x0142004d_PreMainLoop_06")},
+ {0x01420056, -1, CEntity::pEventHandler(&CElemental::H0x01420056_PreMainLoop_01), DEBUGSTRING("CElemental::H0x01420056_PreMainLoop_01")},
+ {0x01420057, -1, CEntity::pEventHandler(&CElemental::H0x01420057_PreMainLoop_02), DEBUGSTRING("CElemental::H0x01420057_PreMainLoop_02")},
+ {0x01420058, -1, CEntity::pEventHandler(&CElemental::H0x01420058_PreMainLoop_03), DEBUGSTRING("CElemental::H0x01420058_PreMainLoop_03")},
+ {0x01420059, -1, CEntity::pEventHandler(&CElemental::H0x01420059_PreMainLoop_04), DEBUGSTRING("CElemental::H0x01420059_PreMainLoop_04")},
+ {0x0142005a, -1, CEntity::pEventHandler(&CElemental::H0x0142005a_PreMainLoop_05), DEBUGSTRING("CElemental::H0x0142005a_PreMainLoop_05")},
+ {0x0142005b, -1, CEntity::pEventHandler(&CElemental::H0x0142005b_PreMainLoop_06), DEBUGSTRING("CElemental::H0x0142005b_PreMainLoop_06")},
  {1, -1, CEntity::pEventHandler(&CElemental::
-#line 1373 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1451 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Main),DEBUGSTRING("CElemental::Main")},
 };
 #define CElemental_handlersct ARRAYCOUNT(CElemental_handlers)

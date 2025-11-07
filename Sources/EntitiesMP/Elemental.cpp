@@ -6,11 +6,11 @@
 
 #include "StdH.h"
 //#include "Models/Enemies/Elementals/AirMan.h"
-//#include "Models/Enemies/Elementals/IceMan.h"
+#include "Models/Enemies/Elementals/IceMan.h"
 #include "Models/Enemies/Elementals/StoneMan.h"
 //#include "Models/Enemies/Elementals/Twister.h"
 //#include "Models/Enemies/Elementals/WaterMan.h"
-//#include "Models/Enemies/Elementals/Projectile/IcePyramid.h"
+#include "Models/Enemies/Elementals/Projectile/IcePyramid.h"
 #include "Models/Enemies/Elementals/Projectile/LavaStone.h"
 
 #include "Models/Enemies/ElementalLava/ElementalLava.h"
@@ -145,7 +145,7 @@ static EntityInfo eiWaterElementalLarge = {
 
 
 void CElemental::SetDefaultProperties(void) {
-  m_EetType = ELT_STONE ;
+  m_EetType = ELT_LAVA ;
   m_EecChar = ELC_SMALL ;
   m_EesStartState = ELS_NORMAL ;
   m_bSpawnWhenHarmed = TRUE ;
@@ -177,912 +177,1088 @@ m_soFireR.Stop_internal();
   CEnemyBase::SetDefaultProperties();
 }
   CTString CElemental::GetPlayerKillDescription(const CTString & strPlayerName,const EDeath & eDeath) 
-#line 272 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 279 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 {
-#line 273 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 280 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 CTString str ;
-#line 274 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 281 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 str  . PrintF  (TRANS  ("%s was killed by a Lava Golem") , strPlayerName );
-#line 275 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 282 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 return str ;
-#line 276 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 283 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
   const CTFileName & CElemental::GetComputerMessageName(void)const {
-#line 278 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-static DECLARE_CTFILENAME  (fnm  , "Data\\Messages\\Enemies\\ElementalLava.txt");
-#line 279 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-return fnm ;
-#line 280 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-  
-#line 283 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::RenderParticles(void) 
-#line 284 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 285 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT fTimeFactor  = 1.0f;
 #line 286 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT fPower  = 0.25f;
+static DECLARE_CTFILENAME  (fnm  , "Data\\Messages\\Enemies\\ElementalLava.txt");
 #line 287 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EesCurrentState  == ELS_NORMAL )
+static DECLARE_CTFILENAME  (fnmIceman  , "Data\\Messages\\Enemies\\IceMan.txt");
 #line 288 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
+switch(m_EetType ){
 #line 289 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT fDeathFactor  = 1.0f;
+default  : ASSERT  (FALSE );
 #line 290 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_fSpiritStartTime  != 0.0f)
+case ELT_LAVA : return fnm ;
 #line 291 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
+case ELT_ICE : return fnmIceman ;
 #line 292 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-fDeathFactor  = 1.0f - Clamp  ((_pTimer  -> CurrentTick  () - m_fSpiritStartTime ) / DEATH_BURN_TIME  , 0.0f , 1.0f);
+}
 #line 293 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
-#line 294 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-Particles_Burning  (this  , fPower  , fTimeFactor  * fDeathFactor );
-#line 295 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 296 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
   
+#line 296 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::RenderParticles(void) 
+#line 297 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
 #line 298 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::Precache(void) 
+FLOAT fTimeFactor  = 1.0f;
 #line 299 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
+FLOAT fPower  = 0.25f;
 #line 300 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-CEnemyBase  :: Precache  ();
+if(m_EesCurrentState  == ELS_NORMAL )
+#line 301 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
 #line 302 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-switch(m_EetType )
+FLOAT fDeathFactor  = 1.0f;
 #line 303 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
+if(m_fSpiritStartTime  != 0.0f)
 #line 304 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELT_LAVA : 
+{
 #line 305 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
+fDeathFactor  = 1.0f - Clamp  ((_pTimer  -> CurrentTick  () - m_fSpiritStartTime ) / DEATH_BURN_TIME  , 0.0f , 1.0f);
 #line 306 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EecChar  == ELC_LARGE )
-#line 307 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 308 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrecacheClass  (CLASS_PROJECTILE  , PRT_LAVAMAN_BIG_BOMB );
-#line 309 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
+#line 307 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EetType  == ELT_LAVA ){
+#line 308 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+Particles_Burning  (this  , fPower  , fTimeFactor  * fDeathFactor );}
+#line 309 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+else {
 #line 310 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if((m_EecChar  == ELC_LARGE ) || (m_EecChar  == ELC_BIG ))
+Particles_IceSpikes  (this  , fPower  , fTimeFactor  * fDeathFactor );
 #line 311 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
+}
 #line 312 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrecacheClass  (CLASS_PROJECTILE  , PRT_LAVAMAN_BOMB );
+}
 #line 313 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
+  
 #line 315 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrecacheClass  (CLASS_PROJECTILE  , PRT_LAVAMAN_STONE );
+void CElemental::Precache(void) 
+#line 316 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
 #line 317 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrecacheModel  (MODEL_LAVA );
-#line 318 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrecacheModel  (MODEL_LAVA_BODY_FLARE );
+CEnemyBase  :: Precache  ();
 #line 319 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrecacheModel  (MODEL_LAVA_HAND_FLARE );
+switch(m_EetType )
 #line 320 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrecacheTexture  (TEXTURE_LAVA );
+{
 #line 321 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrecacheTexture  (TEXTURE_LAVA_DETAIL );
-#line 322 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrecacheTexture  (TEXTURE_LAVA_FLARE );
-#line 324 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrecacheSound  (SOUND_LAVA_IDLE );
-#line 325 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrecacheSound  (SOUND_LAVA_WOUND );
-#line 326 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrecacheSound  (SOUND_LAVA_FIRE );
-#line 327 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrecacheSound  (SOUND_LAVA_KICK );
-#line 328 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrecacheSound  (SOUND_LAVA_DEATH );
-#line 329 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrecacheSound  (SOUND_LAVA_ANGER );
-#line 330 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrecacheSound  (SOUND_LAVA_LAVABURN );
-#line 331 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrecacheSound  (SOUND_LAVA_GROW );
-#line 332 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-break ;
-#line 333 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 334 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 335 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-  
-#line 338 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void * CElemental::GetEntityInfo(void) {
-#line 339 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-switch(m_EetType ){
-#line 340 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELT_AIR : 
-#line 341 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-switch(m_EecChar ){
-#line 342 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_LARGE : return & eiAirElementalLarge ;
-#line 343 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_BIG : return & eiAirElementalBig ;
-#line 344 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-default  :{return & eiAirElementalSmall ;}
-#line 345 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 346 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-break ;
-#line 347 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELT_ICE : 
-#line 348 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-switch(m_EecChar ){
-#line 349 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_LARGE : return & eiIceElementalLarge ;
-#line 350 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_BIG : return & eiIceElementalBig ;
-#line 351 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-default  :{return & eiIceElementalSmall ;}
-#line 352 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 353 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-break ;
-#line 354 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 case ELT_LAVA : 
+#line 322 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 323 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EecChar  == ELC_LARGE )
+#line 324 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 325 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrecacheClass  (CLASS_PROJECTILE  , PRT_LAVAMAN_BIG_BOMB );
+#line 326 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 327 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if((m_EecChar  == ELC_LARGE ) || (m_EecChar  == ELC_BIG ))
+#line 328 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 329 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrecacheClass  (CLASS_PROJECTILE  , PRT_LAVAMAN_BOMB );
+#line 330 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 332 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrecacheClass  (CLASS_PROJECTILE  , PRT_LAVAMAN_STONE );
+#line 334 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrecacheModel  (MODEL_LAVA );
+#line 335 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrecacheModel  (MODEL_LAVA_BODY_FLARE );
+#line 336 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrecacheModel  (MODEL_LAVA_HAND_FLARE );
+#line 337 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrecacheTexture  (TEXTURE_LAVA );
+#line 338 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrecacheTexture  (TEXTURE_LAVA_DETAIL );
+#line 339 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrecacheTexture  (TEXTURE_LAVA_FLARE );
+#line 341 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrecacheSound  (SOUND_LAVA_IDLE );
+#line 342 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrecacheSound  (SOUND_LAVA_WOUND );
+#line 343 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrecacheSound  (SOUND_LAVA_FIRE );
+#line 344 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrecacheSound  (SOUND_LAVA_KICK );
+#line 345 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrecacheSound  (SOUND_LAVA_DEATH );
+#line 346 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrecacheSound  (SOUND_LAVA_ANGER );
+#line 347 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrecacheSound  (SOUND_LAVA_LAVABURN );
+#line 348 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrecacheSound  (SOUND_LAVA_GROW );
+#line 349 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+break ;
+#line 350 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 351 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELT_ICE : 
+#line 352 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 353 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EecChar  == ELC_LARGE )
+#line 354 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
 #line 355 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-switch(m_EecChar ){
+PrecacheClass  (CLASS_PROJECTILE  , PRT_ICEMAN_LARGE_FIRE );
 #line 356 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_LARGE : return & eiLavaElementalLarge ;
+}
 #line 357 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_BIG : return & eiLavaElementalBig ;
+if((m_EecChar  == ELC_LARGE ) || (m_EecChar  == ELC_BIG ))
 #line 358 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-default  :{return & eiLavaElementalSmall ;}
+{
 #line 359 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
+PrecacheClass  (CLASS_PROJECTILE  , PRT_ICEMAN_LARGE_FIRE );
 #line 360 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-break ;
-#line 361 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELT_STONE : 
+}
 #line 362 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-switch(m_EecChar ){
-#line 363 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_LARGE : return & eiStoneElementalLarge ;
+PrecacheClass  (CLASS_PROJECTILE  , PRT_ICEMAN_FIRE );
 #line 364 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_BIG : return & eiStoneElementalBig ;
+PrecacheModel  (MODEL_ICE );
 #line 365 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-default  :{return & eiStoneElementalSmall ;}
+PrecacheModel  (MODEL_ICE_PICK );
 #line 366 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 367 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-break ;
-#line 369 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-default  :{
+PrecacheTexture  (TEXTURE_ELEM_ICE );
 #line 370 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-switch(m_EecChar ){
+PrecacheSound  (SOUND_ICEMAN_IDLE );
 #line 371 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_LARGE : return & eiWaterElementalLarge ;
+PrecacheSound  (SOUND_ICEMAN_WOUND );
 #line 372 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_BIG : return & eiWaterElementalBig ;
+PrecacheSound  (SOUND_ICEMAN_FIRE );
 #line 373 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-default  :{return & eiWaterElementalSmall ;}
+PrecacheSound  (SOUND_ICEMAN_KICK );
 #line 374 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}}
+PrecacheSound  (SOUND_ICEMAN_DEATH );
 #line 375 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 376 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-  
+PrecacheSound  (SOUND_ICEMAN_SIGHT );
 #line 379 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-BOOL CElemental::FillEntityStatistics(EntityStats * pes) 
+break ;
 #line 380 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
+}
 #line 381 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-CEnemyBase  :: FillEntityStatistics  (pes );
+}
 #line 382 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-switch(m_EetType ){
-#line 383 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELT_WATER : {pes  -> es_strName  += " Water";}break ;
-#line 384 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELT_AIR : {pes  -> es_strName  += " Air";}break ;
-#line 385 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELT_STONE : {pes  -> es_strName  += " Stone";}break ;
-#line 386 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELT_LAVA : {pes  -> es_strName  += " Lava";}break ;
-#line 387 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELT_ICE : {pes  -> es_strName  += " Ice";}break ;
-#line 388 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 389 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-switch(m_EecChar ){
-#line 390 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_LARGE : pes  -> es_strName  += " Large";break ;
-#line 391 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_BIG : pes  -> es_strName  += " Big";break ;
-#line 392 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_SMALL : pes  -> es_strName  += " Small";break ;
-#line 393 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 394 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-return TRUE ;
-#line 395 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
   
+#line 385 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void * CElemental::GetEntityInfo(void) {
+#line 386 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+switch(m_EetType ){
+#line 387 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELT_AIR : 
+#line 388 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+switch(m_EecChar ){
+#line 389 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELC_LARGE : return & eiAirElementalLarge ;
+#line 390 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELC_BIG : return & eiAirElementalBig ;
+#line 391 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+default  :{return & eiAirElementalSmall ;}
+#line 392 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 393 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+break ;
+#line 394 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELT_ICE : 
+#line 395 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+switch(m_EecChar ){
+#line 396 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELC_LARGE : return & eiIceElementalLarge ;
+#line 397 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELC_BIG : return & eiIceElementalBig ;
 #line 398 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
+default  :{return & eiIceElementalSmall ;}
 #line 399 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection) 
+}
 #line 400 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
+break ;
+#line 401 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELT_LAVA : 
 #line 402 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(IsOfClass  (penInflictor  , "Elemental")){
+switch(m_EecChar ){
 #line 403 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-return ;
+case ELC_LARGE : return & eiLavaElementalLarge ;
 #line 404 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELC_BIG : return & eiLavaElementalBig ;
+#line 405 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+default  :{return & eiLavaElementalSmall ;}
+#line 406 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
 #line 407 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EecChar  == ELC_LARGE  && dmtType  == DMT_TELEPORT )
+break ;
 #line 408 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
+case ELT_STONE : 
 #line 409 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-return ;
+switch(m_EecChar ){
 #line 410 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
+case ELC_LARGE : return & eiStoneElementalLarge ;
+#line 411 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELC_BIG : return & eiStoneElementalBig ;
+#line 412 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+default  :{return & eiStoneElementalSmall ;}
 #line 413 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EecChar  == ELC_BIG  && dmtType  == DMT_BULLET  && fDamageAmmount  > 100.0f)
+}
 #line 414 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 415 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-fDamageAmmount  /= 2.5f;
+break ;
 #line 416 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
+default  :{
+#line 417 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+switch(m_EecChar ){
+#line 418 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELC_LARGE : return & eiWaterElementalLarge ;
 #line 419 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-INDEX ctShouldSpawn  = Clamp  (INDEX ((m_fMaxHealth  - GetHealth  ()) / m_fSpawnDamage ) , INDEX (0) , INDEX (10));
+case ELC_BIG : return & eiWaterElementalBig ;
 #line 420 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-CTString strChar  = ElementalCharacter_enum  . NameForValue  (INDEX (m_EecChar ));
-#line 424 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_bSpawnEnabled  && m_bSpawnWhenHarmed  && (m_EecChar  == ELC_LARGE  || m_EecChar  == ELC_BIG ))
-#line 425 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
+default  :{return & eiWaterElementalSmall ;}
+#line 421 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}}
+#line 422 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 423 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+  
 #line 426 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-INDEX ctShouldSpawn  = Clamp  (INDEX ((m_fMaxHealth  - GetHealth  ()) / m_fSpawnDamage ) , INDEX (0) , INDEX (10));
+BOOL CElemental::FillEntityStatistics(EntityStats * pes) 
 #line 427 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_ctSpawned  < ctShouldSpawn )
+{
 #line 428 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
+CEnemyBase  :: FillEntityStatistics  (pes );
 #line 429 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SendEvent  (EForceWound  ());
+switch(m_EetType ){
 #line 430 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
+case ELT_WATER : {pes  -> es_strName  += " Water";}break ;
 #line 431 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
+case ELT_AIR : {pes  -> es_strName  += " Air";}break ;
+#line 432 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELT_STONE : {pes  -> es_strName  += " Stone";}break ;
+#line 433 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELT_LAVA : {pes  -> es_strName  += " Lava";}break ;
 #line 434 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EesCurrentState  != ELS_NORMAL ){
+case ELT_ICE : {pes  -> es_strName  += " Ice";}break ;
 #line 435 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-return ;
+}
 #line 436 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
+switch(m_EecChar ){
+#line 437 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELC_LARGE : pes  -> es_strName  += " Large";break ;
 #line 438 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-CEnemyBase  :: ReceiveDamage  (penInflictor  , dmtType  , fDamageAmmount  , vHitPoint  , vDirection );
+case ELC_BIG : pes  -> es_strName  += " Big";break ;
 #line 439 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELC_SMALL : pes  -> es_strName  += " Small";break ;
+#line 440 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
-  
 #line 441 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::LeaveStain(BOOL bGrow) 
+return TRUE ;
 #line 442 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 443 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-return ;
-#line 444 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
   
+#line 445 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
+#line 446 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection) 
 #line 447 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-INDEX CElemental::AnimForDamage(FLOAT fDamage) {
-#line 448 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-INDEX iAnim ;
-#line 450 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EetType  == ELT_LAVA ){
-#line 451 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-switch(IRnd  () % 3){
-#line 452 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case 0: iAnim  = ELEMENTALLAVA_ANIM_WOUND01 ;break ;
-#line 453 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case 1: iAnim  = ELEMENTALLAVA_ANIM_WOUND02 ;break ;
-#line 454 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-default  : iAnim  = ELEMENTALLAVA_ANIM_WOUND03 ;break ;
-#line 455 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 456 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}else {
-#line 462 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 463 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-StartModelAnim  (iAnim  , 0);
-#line 464 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-return iAnim ;
-#line 465 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-  
-#line 467 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::StandingAnimFight(void) {
-#line 468 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-StartModelAnim  (ELEMENTALLAVA_ANIM_STANDFIGHT  , AOF_LOOPING  | AOF_NORESTART );
-#line 469 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-  
-#line 472 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::StandingAnim(void) {
-#line 473 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EetType  == ELT_LAVA ){
-#line 474 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-switch(m_EesCurrentState ){
-#line 475 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELS_NORMAL : StartModelAnim  (ELEMENTALLAVA_ANIM_WALKBIG  , AOF_LOOPING  | AOF_NORESTART );break ;
-#line 476 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELS_BOX : StartModelAnim  (ELEMENTALLAVA_ANIM_MELTFLY  , AOF_LOOPING  | AOF_NORESTART );break ;
-#line 478 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-default  : StartModelAnim  (ELEMENTALLAVA_ANIM_STANDPLANE  , AOF_LOOPING  | AOF_NORESTART );break ;
-#line 479 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 480 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}else {
-#line 487 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 488 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-  
-#line 490 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::WalkingAnim(void) 
-#line 491 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 {
-#line 492 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EetType  == ELT_LAVA ){
-#line 493 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EecChar  == ELC_LARGE ){
-#line 494 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-StartModelAnim  (ELEMENTALLAVA_ANIM_WALKBIG  , AOF_LOOPING  | AOF_NORESTART );
-#line 495 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}else if(m_EecChar  == ELC_BIG ){
-#line 496 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-StartModelAnim  (ELEMENTALLAVA_ANIM_RUNMEDIUM  , AOF_LOOPING  | AOF_NORESTART );
-#line 497 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}else {
-#line 498 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-StartModelAnim  (ELEMENTALLAVA_ANIM_RUNSMALL  , AOF_LOOPING  | AOF_NORESTART );
-#line 499 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 449 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(IsOfClass  (penInflictor  , "Elemental")){
+#line 450 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+return ;
+#line 451 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
+#line 454 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EecChar  == ELC_LARGE  && dmtType  == DMT_TELEPORT )
+#line 455 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 456 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+return ;
+#line 457 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 460 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EecChar  == ELC_BIG  && dmtType  == DMT_BULLET  && fDamageAmmount  > 100.0f)
+#line 461 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 462 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+fDamageAmmount  /= 2.5f;
+#line 463 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 466 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+INDEX ctShouldSpawn  = Clamp  (INDEX ((m_fMaxHealth  - GetHealth  ()) / m_fSpawnDamage ) , INDEX (0) , INDEX (10));
+#line 467 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+CTString strChar  = ElementalCharacter_enum  . NameForValue  (INDEX (m_EecChar ));
+#line 471 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_bSpawnEnabled  && m_bSpawnWhenHarmed  && (m_EecChar  == ELC_LARGE  || m_EecChar  == ELC_BIG ))
+#line 472 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 473 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+INDEX ctShouldSpawn  = Clamp  (INDEX ((m_fMaxHealth  - GetHealth  ()) / m_fSpawnDamage ) , INDEX (0) , INDEX (10));
+#line 474 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_ctSpawned  < ctShouldSpawn )
+#line 475 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 476 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SendEvent  (EForceWound  ());
+#line 477 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 478 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 481 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EesCurrentState  != ELS_NORMAL ){
+#line 482 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+return ;
+#line 483 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 485 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+CEnemyBase  :: ReceiveDamage  (penInflictor  , dmtType  , fDamageAmmount  , vHitPoint  , vDirection );
+#line 486 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+  
+#line 488 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::LeaveStain(BOOL bGrow) 
+#line 489 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 490 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+return ;
+#line 491 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+  
+#line 494 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+INDEX CElemental::AnimForDamage(FLOAT fDamage) {
+#line 495 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+INDEX iAnim ;
+#line 497 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EetType  == ELT_LAVA ){
+#line 498 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+switch(IRnd  () % 3){
+#line 499 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case 0: iAnim  = ELEMENTALLAVA_ANIM_WOUND01 ;break ;
 #line 500 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}else {
+case 1: iAnim  = ELEMENTALLAVA_ANIM_WOUND02 ;break ;
+#line 501 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+default  : iAnim  = ELEMENTALLAVA_ANIM_WOUND03 ;break ;
 #line 502 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
 #line 503 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-  
-#line 504 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::RunningAnim(void) 
-#line 505 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 506 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EetType  == ELT_LAVA ){
-#line 507 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-WalkingAnim  ();
-#line 508 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }else {
+#line 509 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
 #line 510 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
+StartModelAnim  (iAnim  , 0);
 #line 511 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-  
+return iAnim ;
 #line 512 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::RotatingAnim(void) {
-#line 513 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EetType  == ELT_LAVA ){
-#line 514 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-WalkingAnim  ();
-#line 515 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}else {
-#line 517 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 518 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
   
+#line 514 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::StandingAnimFight(void) {
+#line 515 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+StartModelAnim  (ELEMENTALLAVA_ANIM_STANDFIGHT  , AOF_LOOPING  | AOF_NORESTART );
+#line 516 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+  
+#line 519 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::StandingAnim(void) {
 #line 520 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-INDEX CElemental::AnimForDeath(void) 
-#line 521 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 522 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-INDEX iAnim ;
-#line 523 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 if(m_EetType  == ELT_LAVA ){
-#line 524 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-iAnim  = ELEMENTALLAVA_ANIM_DEATH03 ;
+#line 521 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+switch(m_EesCurrentState ){
+#line 522 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELS_NORMAL : StartModelAnim  (ELEMENTALLAVA_ANIM_WALKBIG  , AOF_LOOPING  | AOF_NORESTART );break ;
+#line 523 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELS_BOX : StartModelAnim  (ELEMENTALLAVA_ANIM_MELTFLY  , AOF_LOOPING  | AOF_NORESTART );break ;
 #line 525 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}else {
+default  : StartModelAnim  (ELEMENTALLAVA_ANIM_STANDPLANE  , AOF_LOOPING  | AOF_NORESTART );break ;
+#line 526 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
 #line 527 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
 #line 528 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-StartModelAnim  (iAnim  , 0);
+if(m_EetType  == ELT_ICE ){
 #line 529 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-return iAnim ;
+switch(m_EesCurrentState ){
 #line 530 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-  
+case ELS_NORMAL : StartModelAnim  (ICEMAN_ANIM_STAND  , AOF_LOOPING  | AOF_NORESTART );break ;
+#line 531 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELS_BOX : StartModelAnim  (ICEMAN_ANIM_STANDBOX  , AOF_LOOPING  | AOF_NORESTART );break ;
 #line 533 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::IdleSound(void) {
+default  : StartModelAnim  (ICEMAN_ANIM_STANDPLANE  , AOF_LOOPING  | AOF_NORESTART );break ;
 #line 534 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PlaySound  (m_soSound  , SOUND_LAVA_IDLE  , SOF_3D );
+}
 #line 535 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-  
-#line 536 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::SightSound(void) {
-#line 537 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-  
-#line 538 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::WoundSound(void) {
-#line 539 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PlaySound  (m_soSound  , SOUND_LAVA_WOUND  , SOF_3D );
-#line 540 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-  
-#line 541 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::DeathSound(void) {
+}else {
 #line 542 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PlaySound  (m_soSound  , SOUND_LAVA_DEATH  , SOF_3D );
+}
 #line 543 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
   
 #line 545 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-BOOL CElemental::CountAsKill(void) 
+void CElemental::WalkingAnim(void) 
 #line 546 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 {
 #line 547 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-return m_bCountAsKill ;
+if(m_EetType  == ELT_LAVA ){
 #line 548 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-  
+if(m_EecChar  == ELC_LARGE ){
+#line 549 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+StartModelAnim  (ELEMENTALLAVA_ANIM_WALKBIG  , AOF_LOOPING  | AOF_NORESTART );
+#line 550 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}else if(m_EecChar  == ELC_BIG ){
 #line 551 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::SpawnNewElemental(void) 
+StartModelAnim  (ELEMENTALLAVA_ANIM_RUNMEDIUM  , AOF_LOOPING  | AOF_NORESTART );
 #line 552 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
+}else {
 #line 553 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-INDEX ctShouldSpawn  = Clamp  (INDEX ((m_fMaxHealth  - GetHealth  ()) / m_fSpawnDamage ) , INDEX (0) , INDEX (10));
-#line 555 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_bSpawnOnBlowUp  && (m_EecChar  == ELC_LARGE  || m_EecChar  == ELC_BIG ) && (GetHealth  () <= 0.0f))
-#line 556 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 557 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ctShouldSpawn  += 2;
-#line 558 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+StartModelAnim  (ELEMENTALLAVA_ANIM_RUNSMALL  , AOF_LOOPING  | AOF_NORESTART );
+#line 554 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
+#line 555 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}else if(m_EetType  == ELT_ICE ){
+#line 556 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EecChar  == ELC_LARGE ){
+#line 557 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+StartModelAnim  (ICEMAN_ANIM_WALK  , AOF_LOOPING  | AOF_NORESTART );
+#line 558 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}else if(m_EecChar  == ELC_BIG ){
+#line 559 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+StartModelAnim  (ICEMAN_ANIM_WALK  , AOF_LOOPING  | AOF_NORESTART );
 #line 560 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ASSERT  (m_ctSpawned  <= ctShouldSpawn );
+}else {
 #line 561 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_ctSpawned  >= ctShouldSpawn )
+StartModelAnim  (ICEMAN_ANIM_WALK  , AOF_LOOPING  | AOF_NORESTART );
 #line 562 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
+}
 #line 563 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-return ;
-#line 564 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}else {
+#line 565 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
 #line 566 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-CPlacement3D pl ;
-#line 568 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EecChar  == ELC_LARGE ){
-#line 569 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-pl  = CPlacement3D (LAVAMAN_SPAWN_LARGE  , ANGLE3D (- 90.0f + FRnd  () * 180.0f , 30 + FRnd  () * 30 , 0));
-#line 570 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}else {
-#line 571 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-pl  = CPlacement3D (LAVAMAN_SPAWN_BIG  , ANGLE3D (- 90.0f + FRnd  () * 180.0f , 40 + FRnd  () * 20 , 0));
-#line 572 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
+  
+#line 567 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::RunningAnim(void) 
+#line 568 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 569 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EetType  == ELT_LAVA ){
+#line 570 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+WalkingAnim  ();
+#line 571 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}else if(m_EetType  == ELT_ICE ){
+#line 572 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+StartModelAnim  (ICEMAN_ANIM_RUN  , AOF_LOOPING  | AOF_NORESTART );
 #line 573 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-pl  . RelativeToAbsolute  (GetPlacement  ());
+}
+#line 574 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+else {
 #line 576 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-CEntityPointer pen  = GetWorld  () -> CreateEntity  (pl  , GetClass  ());
+}
 #line 577 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-((CElemental  &) * pen ) . m_EetType  = m_EetType ;
+}
+  
+#line 578 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::RotatingAnim(void) {
 #line 579 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EecChar  == ELC_LARGE ){
+if(m_EetType  == ELT_LAVA ){
 #line 580 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-((CElemental  &) * pen ) . m_EecChar  = ELC_BIG ;
+WalkingAnim  ();
 #line 581 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}else {
+}else if(m_EetType  == ELT_ICE ){
 #line 582 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-((CElemental  &) * pen ) . m_EecChar  = ELC_SMALL ;
+RunningAnim  ();
 #line 583 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
-#line 585 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-((CElemental  &) * pen ) . m_EesStartState  = ELS_BOX ;
+#line 584 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+else {
 #line 586 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-((CElemental  &) * pen ) . m_fDensity  = m_fDensity ;
+}
 #line 587 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-((CElemental  &) * pen ) . m_colColor  = m_colColor ;
-#line 588 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-((CElemental  &) * pen ) . m_penEnemy  = m_penEnemy ;
+}
+  
 #line 589 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-((CElemental  &) * pen ) . m_ttTarget  = m_ttTarget ;
+INDEX CElemental::AnimForDeath(void) 
 #line 590 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-((CElemental  &) * pen ) . m_bSpawned  = TRUE ;
+{
 #line 591 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-pen  -> Initialize  (EVoid  ());
+INDEX iAnim ;
+#line 592 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EetType  == ELT_LAVA ){
 #line 593 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EecChar  == ELC_LARGE ){
+iAnim  = ELEMENTALLAVA_ANIM_DEATH03 ;
 #line 594 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-((CElemental  &) * pen ) . LaunchAsFreeProjectile  (FLOAT3D (0 , 0 , - 40.0f) , this );
-#line 595 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }else {
 #line 596 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-((CElemental  &) * pen ) . LaunchAsFreeProjectile  (FLOAT3D (0 , 0 , - 20.0f) , this );
-#line 597 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
+#line 597 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+StartModelAnim  (iAnim  , 0);
 #line 598 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-((CElemental  &) * pen ) . SetDesiredRotation  (ANGLE3D (0 , 0 , FRnd  () * 360 - 180));
-#line 601 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-CEntity  * penSpray  = CreateEntity  (pl  , CLASS_BLOOD_SPRAY );
-#line 602 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-penSpray  -> SetParent  (pen );
-#line 603 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ESpawnSpray  eSpawnSpray ;
-#line 604 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-eSpawnSpray  . fDamagePower  = 4.0f;
-#line 605 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-eSpawnSpray  . fSizeMultiplier  = 0.5f;
-#line 606 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-eSpawnSpray  . sptType  = SPT_LAVA_STONES ;
-#line 607 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-eSpawnSpray  . vDirection  = FLOAT3D (0 , - 0.5f , 0);
-#line 608 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-eSpawnSpray  . colBurnColor  = C_WHITE  | CT_OPAQUE ;
-#line 609 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-eSpawnSpray  . penOwner  = pen ;
-#line 610 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-penSpray  -> Initialize  (eSpawnSpray );
-#line 611 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_ctSpawned  ++;
-#line 612 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+return iAnim ;
+#line 599 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
   
+#line 602 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::IdleSound(void) {
+#line 603 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EetType  == ELT_ICE ){
+#line 604 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PlaySound  (m_soSound  , SOUND_ICEMAN_IDLE  , SOF_3D );}
+#line 605 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+else {
+#line 606 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PlaySound  (m_soSound  , SOUND_LAVA_IDLE  , SOF_3D );
+#line 607 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 608 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+  
+#line 609 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::SightSound(void) {
+#line 610 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PlaySound  (m_soSound  , SOUND_ICEMAN_SIGHT  , SOF_3D );
+#line 611 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+  
+#line 612 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::WoundSound(void) {
+#line 613 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EetType  == ELT_ICE ){
+#line 614 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PlaySound  (m_soSound  , SOUND_ICEMAN_WOUND  , SOF_3D );}
 #line 615 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::ThrowRocks(ProjectileType EptProjectile) {
+else {
+#line 616 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PlaySound  (m_soSound  , SOUND_LAVA_WOUND  , SOF_3D );
 #line 617 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT3D vPos ;
+}
 #line 618 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ANGLE3D aAngle ;
+}
+  
+#line 619 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::DeathSound(void) {
 #line 620 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-switch(m_EecChar ){
+if(m_EetType  == ELT_ICE ){
 #line 621 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_LARGE : {
+PlaySound  (m_soSound  , SOUND_ICEMAN_DEATH  , SOF_3D );}
 #line 622 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-vPos  = FIRE_ROCKS_LARGE ;
+else {
 #line 623 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ShootProjectile  (EptProjectile  , vPos  , ANGLE3D (0 , 0 , 0));
+PlaySound  (m_soSound  , SOUND_LAVA_DEATH  , SOF_3D );
 #line 624 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-aAngle  = ANGLE3D (FRnd  () * 5.0f + 5.0f , FRnd  () * 3.0f - 2.0f , 0);
+}
 #line 625 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ShootProjectile  (EptProjectile  , vPos  , aAngle );
-#line 626 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-aAngle  = ANGLE3D (FRnd  () * - 5.0f - 5.0f , FRnd  () * 3.0f - 2.0f , 0);
+}
+  
 #line 627 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ShootProjectile  (EptProjectile  , vPos  , aAngle );
+BOOL CElemental::CountAsKill(void) 
 #line 628 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-break ;}
+{
 #line 629 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_BIG : {
+return m_bCountAsKill ;
 #line 630 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-vPos  = FIRE_ROCKS_BIG ;
-#line 631 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ShootProjectile  (EptProjectile  , vPos  , ANGLE3D (0 , 0 , 0));
-#line 632 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-aAngle  = ANGLE3D (FRnd  () * 4.0f + 4.0f , FRnd  () * 3.0f - 2.0f , 0);
+}
+  
 #line 633 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ShootProjectile  (EptProjectile  , vPos  , aAngle );
+void CElemental::SpawnNewElemental(void) 
 #line 634 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-aAngle  = ANGLE3D (FRnd  () * - 4.0f - 4.0f , FRnd  () * 3.0f - 2.0f , 0);
+{
 #line 635 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ShootProjectile  (EptProjectile  , vPos  , aAngle );
-#line 636 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-break ;}
+INDEX ctShouldSpawn  = Clamp  (INDEX ((m_fMaxHealth  - GetHealth  ()) / m_fSpawnDamage ) , INDEX (0) , INDEX (10));
 #line 637 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-default  :{
+if(m_bSpawnOnBlowUp  && (m_EecChar  == ELC_LARGE  || m_EecChar  == ELC_BIG ) && (GetHealth  () <= 0.0f))
 #line 638 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-vPos  = FIRE_ROCKS ;
+{
 #line 639 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ShootProjectile  (EptProjectile  , vPos  , ANGLE3D (0 , 0 , 0));
+ctShouldSpawn  += 2;
 #line 640 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-aAngle  = ANGLE3D (FRnd  () * 3.0f + 3.0f , FRnd  () * 3.0f - 2.0f , 0);
-#line 641 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ShootProjectile  (EptProjectile  , vPos  , aAngle );
+}
 #line 642 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-aAngle  = ANGLE3D (FRnd  () * - 3.0f - 3.0f , FRnd  () * 3.0f - 2.0f , 0);
+ASSERT  (m_ctSpawned  <= ctShouldSpawn );
 #line 643 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ShootProjectile  (EptProjectile  , vPos  , aAngle );
+if(m_ctSpawned  >= ctShouldSpawn )
 #line 644 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
+{
 #line 645 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
+return ;
 #line 646 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
-  
 #line 648 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::BossFirePredictedLavaRock(FLOAT3D vFireingRel) 
-#line 649 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 650 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT3D vShooting  = GetPlacement  () . pl_PositionVector  + vFireingRel  * GetRotationMatrix  ();
-#line 651 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT3D vTarget  = m_penEnemy  -> GetPlacement  () . pl_PositionVector ;
-#line 652 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT3D vSpeedDest  = ((CMovableEntity  &) * m_penEnemy ) . en_vCurrentTranslationAbsolute ;
-#line 653 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT fLaunchSpeed ;
-#line 654 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT fRelativeHdg ;
-#line 656 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT fDistanceFactor  = ClampUp  ((vShooting  - vTarget ) . Length  () / 150.0f , 1.0f) - 0.75f;
-#line 657 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT fPitch  = fDistanceFactor  * 45.0f;
-#line 660 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-EntityInfo  * peiTarget  = (EntityInfo  *) (m_penEnemy  -> GetEntityInfo  ());
-#line 661 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-CalculateAngularLaunchParams  (vShooting  , peiTarget  -> vTargetCenter  [ 1 ] - 6.0f / 3.0f , vTarget  , 
-#line 662 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-vSpeedDest  , fPitch  , fLaunchSpeed  , fRelativeHdg );
-#line 665 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT3D vShootTarget ;
-#line 666 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-GetEntityInfoPosition  (m_penEnemy  , peiTarget  -> vTargetCenter  , vShootTarget );
-#line 668 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 CPlacement3D pl ;
-#line 669 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PrepareFreeFlyingProjectile  (pl  , vShootTarget  , vFireingRel  , ANGLE3D (fRelativeHdg  , fPitch  , 0));
-#line 670 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-CEntityPointer penProjectile  = CreateEntity  (pl  , CLASS_PROJECTILE );
-#line 671 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ELaunchProjectile  eLaunch ;
-#line 672 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-eLaunch  . penLauncher  = this ;
-#line 673 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-eLaunch  . prtType  = PRT_LAVAMAN_BIG_BOMB ;
-#line 674 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-eLaunch  . fSpeed  = fLaunchSpeed ;
-#line 675 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-penProjectile  -> Initialize  (eLaunch );
-#line 676 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-  
-#line 679 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::ShakeItBaby(FLOAT tmShaketime,FLOAT fPower) 
-#line 680 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 681 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-CWorldSettingsController  * pwsc  = GetWSC  (this );
-#line 682 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(pwsc  != NULL ){
-#line 683 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-pwsc  -> m_tmShakeStarted  = tmShaketime ;
-#line 684 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-pwsc  -> m_vShakePos  = GetPlacement  () . pl_PositionVector ;
-#line 685 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-pwsc  -> m_fShakeFalloff  = 450.0f;
-#line 686 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-pwsc  -> m_fShakeFade  = 3.0f;
-#line 688 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-pwsc  -> m_fShakeIntensityZ  = 0;
-#line 689 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-pwsc  -> m_tmShakeFrequencyZ  = 5.0f;
-#line 690 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-pwsc  -> m_fShakeIntensityY  = 0.1f * fPower ;
-#line 691 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-pwsc  -> m_tmShakeFrequencyY  = 5.0f;
-#line 692 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-pwsc  -> m_fShakeIntensityB  = 2.5f * fPower ;
-#line 693 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-pwsc  -> m_tmShakeFrequencyB  = 7.2f;
-#line 695 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-pwsc  -> m_bShakeFadeIn  = FALSE ;
-#line 696 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 697 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-  
-#line 699 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::SpawnShockwave(FLOAT fSize) 
-#line 700 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 701 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-CPlacement3D pl  = GetPlacement  ();
-#line 702 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-pl  . pl_PositionVector  (2) += 0.1f;
-#line 703 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-CEntityPointer penShockwave  = CreateEntity  (pl  , CLASS_BASIC_EFFECT );
-#line 705 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ESpawnEffect  eSpawnEffect ;
-#line 706 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-eSpawnEffect  . colMuliplier  = C_WHITE  | CT_OPAQUE ;
-#line 707 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-eSpawnEffect  . betType  = BET_CANNONSHOCKWAVE ;
-#line 708 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-eSpawnEffect  . vStretch  = FLOAT3D (fSize  , fSize  , fSize );
-#line 709 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-penShockwave  -> Initialize  (eSpawnEffect );
-#line 710 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-  
-#line 713 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::HitGround(void) {
-#line 714 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT3D vSource ;
-#line 715 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_penEnemy  != NULL )
-#line 716 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 717 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-vSource  = GetPlacement  () . pl_PositionVector  + 
-#line 718 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT3D (m_penEnemy  -> en_mRotation  (1 , 2) , m_penEnemy  -> en_mRotation  (2 , 2) , m_penEnemy  -> en_mRotation  (3 , 2));
-#line 719 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 720 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-else 
-#line 721 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 722 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-vSource  = GetPlacement  () . pl_PositionVector ;
-#line 723 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 726 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 650 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 if(m_EecChar  == ELC_LARGE ){
-#line 727 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-InflictRangeDamage  (this  , DMT_IMPACT  , 150.0f , vSource  , 7.5f , m_fCloseDistance );
-#line 728 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ShakeItBaby  (_pTimer  -> CurrentTick  () , 5.0f);
-#line 729 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SpawnShockwave  (10.0f);
-#line 730 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}else if(m_EecChar  == ELC_BIG ){
-#line 731 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-InflictRangeDamage  (this  , DMT_IMPACT  , 75.0f , vSource  , 5.0f , m_fCloseDistance );
-#line 732 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ShakeItBaby  (_pTimer  -> CurrentTick  () , 2.0f);
-#line 733 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SpawnShockwave  (3.0f);
-#line 734 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 651 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pl  = CPlacement3D (LAVAMAN_SPAWN_LARGE  , ANGLE3D (- 90.0f + FRnd  () * 180.0f , 30 + FRnd  () * 30 , 0));
+#line 652 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }else {
-#line 735 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-InflictRangeDamage  (this  , DMT_IMPACT  , 25.0f , vSource  , 2.5f , m_fCloseDistance );
-#line 736 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SpawnShockwave  (1.0f);
-#line 737 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 653 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pl  = CPlacement3D (LAVAMAN_SPAWN_BIG  , ANGLE3D (- 90.0f + FRnd  () * 180.0f , 40 + FRnd  () * 20 , 0));
+#line 654 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
-#line 738 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 655 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pl  . RelativeToAbsolute  (GetPlacement  ());
+#line 658 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+CEntityPointer pen  = GetWorld  () -> CreateEntity  (pl  , GetClass  ());
+#line 659 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+((CElemental  &) * pen ) . m_EetType  = m_EetType ;
+#line 661 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EecChar  == ELC_LARGE ){
+#line 662 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+((CElemental  &) * pen ) . m_EecChar  = ELC_BIG ;
+#line 663 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}else {
+#line 664 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+((CElemental  &) * pen ) . m_EecChar  = ELC_SMALL ;
+#line 665 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 667 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+((CElemental  &) * pen ) . m_EesStartState  = ELS_BOX ;
+#line 668 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+((CElemental  &) * pen ) . m_fDensity  = m_fDensity ;
+#line 669 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+((CElemental  &) * pen ) . m_colColor  = m_colColor ;
+#line 670 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+((CElemental  &) * pen ) . m_penEnemy  = m_penEnemy ;
+#line 671 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+((CElemental  &) * pen ) . m_ttTarget  = m_ttTarget ;
+#line 672 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+((CElemental  &) * pen ) . m_bSpawned  = TRUE ;
+#line 673 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pen  -> Initialize  (EVoid  ());
+#line 675 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EecChar  == ELC_LARGE ){
+#line 676 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+((CElemental  &) * pen ) . LaunchAsFreeProjectile  (FLOAT3D (0 , 0 , - 40.0f) , this );
+#line 677 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}else {
+#line 678 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+((CElemental  &) * pen ) . LaunchAsFreeProjectile  (FLOAT3D (0 , 0 , - 20.0f) , this );
+#line 679 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 680 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+((CElemental  &) * pen ) . SetDesiredRotation  (ANGLE3D (0 , 0 , FRnd  () * 360 - 180));
+#line 683 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+CEntity  * penSpray  = CreateEntity  (pl  , CLASS_BLOOD_SPRAY );
+#line 684 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+penSpray  -> SetParent  (pen );
+#line 685 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ESpawnSpray  eSpawnSpray ;
+#line 686 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+eSpawnSpray  . fDamagePower  = 4.0f;
+#line 687 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+eSpawnSpray  . fSizeMultiplier  = 0.5f;
+#line 688 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+eSpawnSpray  . sptType  = SPT_LAVA_STONES ;
+#line 689 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+eSpawnSpray  . vDirection  = FLOAT3D (0 , - 0.5f , 0);
+#line 690 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+eSpawnSpray  . colBurnColor  = C_WHITE  | CT_OPAQUE ;
+#line 691 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+eSpawnSpray  . penOwner  = pen ;
+#line 692 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+penSpray  -> Initialize  (eSpawnSpray );
+#line 693 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_ctSpawned  ++;
+#line 694 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
   
-#line 786 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::AddAttachments(void) {
-#line 787 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-switch(m_EetType ){
-#line 801 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELT_LAVA : 
-#line 802 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(GetModelObject  () -> GetAttachmentModel  (ELEMENTALLAVA_ATTACHMENT_BODY_FLARE ) == NULL ){
-#line 803 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-AddAttachmentToModel  (this  , * GetModelObject  () , ELEMENTALLAVA_ATTACHMENT_BODY_FLARE  , MODEL_LAVA_BODY_FLARE  , TEXTURE_LAVA_FLARE  , 0 , 0 , 0);
-#line 804 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-AddAttachmentToModel  (this  , * GetModelObject  () , ELEMENTALLAVA_ATTACHMENT_RIGHT_HAND_FLARE  , MODEL_LAVA_HAND_FLARE  , TEXTURE_LAVA_FLARE  , 0 , 0 , 0);
-#line 805 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-AddAttachmentToModel  (this  , * GetModelObject  () , ELEMENTALLAVA_ATTACHMENT_LEFT_HAND_FLARE  , MODEL_LAVA_HAND_FLARE  , TEXTURE_LAVA_FLARE  , 0 , 0 , 0);
-#line 806 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 697 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::ThrowRocks(ProjectileType EptProjectile) {
+#line 699 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+FLOAT3D vPos ;
+#line 700 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ANGLE3D aAngle ;
+#line 702 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+switch(m_EecChar ){
+#line 703 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELC_LARGE : {
+#line 704 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+vPos  = FIRE_ROCKS_LARGE ;
+#line 705 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ShootProjectile  (EptProjectile  , vPos  , ANGLE3D (0 , 0 , 0));
+#line 706 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+aAngle  = ANGLE3D (FRnd  () * 5.0f + 5.0f , FRnd  () * 3.0f - 2.0f , 0);
+#line 707 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ShootProjectile  (EptProjectile  , vPos  , aAngle );
+#line 708 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+aAngle  = ANGLE3D (FRnd  () * - 5.0f - 5.0f , FRnd  () * 3.0f - 2.0f , 0);
+#line 709 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ShootProjectile  (EptProjectile  , vPos  , aAngle );
+#line 710 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+break ;}
+#line 711 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELC_BIG : {
+#line 712 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+vPos  = FIRE_ROCKS_BIG ;
+#line 713 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ShootProjectile  (EptProjectile  , vPos  , ANGLE3D (0 , 0 , 0));
+#line 714 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+aAngle  = ANGLE3D (FRnd  () * 4.0f + 4.0f , FRnd  () * 3.0f - 2.0f , 0);
+#line 715 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ShootProjectile  (EptProjectile  , vPos  , aAngle );
+#line 716 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+aAngle  = ANGLE3D (FRnd  () * - 4.0f - 4.0f , FRnd  () * 3.0f - 2.0f , 0);
+#line 717 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ShootProjectile  (EptProjectile  , vPos  , aAngle );
+#line 718 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+break ;}
+#line 719 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+default  :{
+#line 720 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+vPos  = FIRE_ROCKS ;
+#line 721 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ShootProjectile  (EptProjectile  , vPos  , ANGLE3D (0 , 0 , 0));
+#line 722 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+aAngle  = ANGLE3D (FRnd  () * 3.0f + 3.0f , FRnd  () * 3.0f - 2.0f , 0);
+#line 723 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ShootProjectile  (EptProjectile  , vPos  , aAngle );
+#line 724 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+aAngle  = ANGLE3D (FRnd  () * - 3.0f - 3.0f , FRnd  () * 3.0f - 2.0f , 0);
+#line 725 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ShootProjectile  (EptProjectile  , vPos  , aAngle );
+#line 726 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
-#line 807 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-break ;
+#line 727 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 728 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+  
+#line 730 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::BossFirePredictedLavaRock(FLOAT3D vFireingRel) 
+#line 731 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 732 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+FLOAT3D vShooting  = GetPlacement  () . pl_PositionVector  + vFireingRel  * GetRotationMatrix  ();
+#line 733 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+FLOAT3D vTarget  = m_penEnemy  -> GetPlacement  () . pl_PositionVector ;
+#line 734 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+FLOAT3D vSpeedDest  = ((CMovableEntity  &) * m_penEnemy ) . en_vCurrentTranslationAbsolute ;
+#line 735 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+FLOAT fLaunchSpeed ;
+#line 736 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+FLOAT fRelativeHdg ;
+#line 738 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+FLOAT fDistanceFactor  = ClampUp  ((vShooting  - vTarget ) . Length  () / 150.0f , 1.0f) - 0.75f;
+#line 739 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+FLOAT fPitch  = fDistanceFactor  * 45.0f;
+#line 742 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+EntityInfo  * peiTarget  = (EntityInfo  *) (m_penEnemy  -> GetEntityInfo  ());
+#line 743 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+CalculateAngularLaunchParams  (vShooting  , peiTarget  -> vTargetCenter  [ 1 ] - 6.0f / 3.0f , vTarget  , 
+#line 744 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+vSpeedDest  , fPitch  , fLaunchSpeed  , fRelativeHdg );
+#line 747 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+FLOAT3D vShootTarget ;
+#line 748 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+GetEntityInfoPosition  (m_penEnemy  , peiTarget  -> vTargetCenter  , vShootTarget );
+#line 750 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+CPlacement3D pl ;
+#line 751 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PrepareFreeFlyingProjectile  (pl  , vShootTarget  , vFireingRel  , ANGLE3D (fRelativeHdg  , fPitch  , 0));
+#line 752 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+CEntityPointer penProjectile  = CreateEntity  (pl  , CLASS_PROJECTILE );
+#line 753 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ELaunchProjectile  eLaunch ;
+#line 754 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+eLaunch  . penLauncher  = this ;
+#line 755 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+eLaunch  . prtType  = PRT_LAVAMAN_BIG_BOMB ;
+#line 756 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+eLaunch  . fSpeed  = fLaunchSpeed ;
+#line 757 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+penProjectile  -> Initialize  (eLaunch );
+#line 758 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+  
+#line 761 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::ShakeItBaby(FLOAT tmShaketime,FLOAT fPower) 
+#line 762 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 763 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+CWorldSettingsController  * pwsc  = GetWSC  (this );
+#line 764 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(pwsc  != NULL ){
+#line 765 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pwsc  -> m_tmShakeStarted  = tmShaketime ;
+#line 766 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pwsc  -> m_vShakePos  = GetPlacement  () . pl_PositionVector ;
+#line 767 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pwsc  -> m_fShakeFalloff  = 450.0f;
+#line 768 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pwsc  -> m_fShakeFade  = 3.0f;
+#line 770 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pwsc  -> m_fShakeIntensityZ  = 0;
+#line 771 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pwsc  -> m_tmShakeFrequencyZ  = 5.0f;
+#line 772 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pwsc  -> m_fShakeIntensityY  = 0.1f * fPower ;
+#line 773 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pwsc  -> m_tmShakeFrequencyY  = 5.0f;
+#line 774 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pwsc  -> m_fShakeIntensityB  = 2.5f * fPower ;
+#line 775 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pwsc  -> m_tmShakeFrequencyB  = 7.2f;
+#line 777 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pwsc  -> m_bShakeFadeIn  = FALSE ;
+#line 778 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 779 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+  
+#line 781 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::SpawnShockwave(FLOAT fSize) 
+#line 782 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 783 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+CPlacement3D pl  = GetPlacement  ();
+#line 784 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pl  . pl_PositionVector  (2) += 0.1f;
+#line 785 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+CEntityPointer penShockwave  = CreateEntity  (pl  , CLASS_BASIC_EFFECT );
+#line 787 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ESpawnEffect  eSpawnEffect ;
+#line 788 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+eSpawnEffect  . colMuliplier  = C_WHITE  | CT_OPAQUE ;
+#line 789 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+eSpawnEffect  . betType  = BET_CANNONSHOCKWAVE ;
+#line 790 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+eSpawnEffect  . vStretch  = FLOAT3D (fSize  , fSize  , fSize );
+#line 791 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+penShockwave  -> Initialize  (eSpawnEffect );
+#line 792 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+  
+#line 795 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::HitGround(void) {
+#line 796 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+FLOAT3D vSource ;
+#line 797 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_penEnemy  != NULL )
+#line 798 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 799 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+vSource  = GetPlacement  () . pl_PositionVector  + 
+#line 800 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+FLOAT3D (m_penEnemy  -> en_mRotation  (1 , 2) , m_penEnemy  -> en_mRotation  (2 , 2) , m_penEnemy  -> en_mRotation  (3 , 2));
+#line 801 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 802 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+else 
+#line 803 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 804 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+vSource  = GetPlacement  () . pl_PositionVector ;
+#line 805 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 808 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EecChar  == ELC_LARGE ){
+#line 809 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+InflictRangeDamage  (this  , DMT_IMPACT  , 150.0f , vSource  , 7.5f , m_fCloseDistance );
+#line 810 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ShakeItBaby  (_pTimer  -> CurrentTick  () , 5.0f);
+#line 811 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SpawnShockwave  (10.0f);
+#line 812 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}else if(m_EecChar  == ELC_BIG ){
+#line 813 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+InflictRangeDamage  (this  , DMT_IMPACT  , 75.0f , vSource  , 5.0f , m_fCloseDistance );
+#line 814 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ShakeItBaby  (_pTimer  -> CurrentTick  () , 2.0f);
+#line 815 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SpawnShockwave  (3.0f);
+#line 816 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}else {
+#line 817 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+InflictRangeDamage  (this  , DMT_IMPACT  , 25.0f , vSource  , 2.5f , m_fCloseDistance );
+#line 818 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SpawnShockwave  (1.0f);
+#line 819 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
 #line 820 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
-#line 821 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-GetModelObject  () -> StretchModel  (GetModelObject  () -> mo_Stretch );
-#line 822 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ModelChangeNotify  ();
-#line 823 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
   
-#line 826 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::RemoveAttachments(void) {
-#line 827 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-switch(m_EetType ){
-#line 835 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELT_LAVA : 
-#line 836 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-RemoveAttachmentFromModel  (* GetModelObject  () , ELEMENTALLAVA_ATTACHMENT_BODY_FLARE );
-#line 837 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-RemoveAttachmentFromModel  (* GetModelObject  () , ELEMENTALLAVA_ATTACHMENT_RIGHT_HAND_FLARE );
-#line 838 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-RemoveAttachmentFromModel  (* GetModelObject  () , ELEMENTALLAVA_ATTACHMENT_LEFT_HAND_FLARE );
-#line 839 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-break ;
-#line 846 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 847 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-  
-#line 853 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::BlowUp(void) {
-#line 855 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOATaabbox3D box ;
-#line 856 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-GetBoundingBox  (box );
-#line 857 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT fEntitySize  = box  . Size  () . MaxNorm  () / 2;
-#line 859 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-INDEX iCount  = 1;
-#line 860 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-switch(m_EecChar ){
-#line 861 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_SMALL : iCount  = 3;break ;
-#line 862 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_BIG : iCount  = 5;break ;
-#line 863 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELC_LARGE : iCount  = 7;break ;
-#line 864 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 866 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT3D vNormalizedDamage  = m_vDamage  - m_vDamage  * (m_fBlowUpAmount  / m_vDamage  . Length  ());
-#line 867 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-vNormalizedDamage  /= Sqrt  (vNormalizedDamage  . Length  ());
 #line 868 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-vNormalizedDamage  *= 1.75f;
+void CElemental::AddAttachments(void) {
 #line 869 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-FLOAT3D vBodySpeed  = en_vCurrentTranslationAbsolute  - en_vGravityDir  * (en_vGravityDir  % en_vCurrentTranslationAbsolute );
-#line 909 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SwitchToEditorModel  ();
-#line 910 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SetPhysicsFlags  (EPF_MODEL_IMMATERIAL );
-#line 911 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SetCollisionFlags  (ECF_IMMATERIAL );
-#line 912 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+switch(m_EetType ){
+#line 877 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELT_ICE : 
+#line 878 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(GetModelObject  () -> GetAttachmentModel  (ICEMAN_ATTACHMENT_ICEPICK ) == NULL ){
+#line 879 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+AddAttachmentToModel  (this  , * GetModelObject  () , ICEMAN_ATTACHMENT_ICEPICK  , 
+#line 880 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+MODEL_ICE_PICK  , TEXTURE_ICE  , TEXTURE_ICE  , TEX_SPEC_STRONG  , 0);
+#line 881 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 882 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+break ;
+#line 883 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELT_LAVA : 
+#line 884 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(GetModelObject  () -> GetAttachmentModel  (ELEMENTALLAVA_ATTACHMENT_BODY_FLARE ) == NULL ){
+#line 885 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+AddAttachmentToModel  (this  , * GetModelObject  () , ELEMENTALLAVA_ATTACHMENT_BODY_FLARE  , MODEL_LAVA_BODY_FLARE  , TEXTURE_LAVA_FLARE  , 0 , 0 , 0);
+#line 886 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+AddAttachmentToModel  (this  , * GetModelObject  () , ELEMENTALLAVA_ATTACHMENT_RIGHT_HAND_FLARE  , MODEL_LAVA_HAND_FLARE  , TEXTURE_LAVA_FLARE  , 0 , 0 , 0);
+#line 887 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+AddAttachmentToModel  (this  , * GetModelObject  () , ELEMENTALLAVA_ATTACHMENT_LEFT_HAND_FLARE  , MODEL_LAVA_HAND_FLARE  , TEXTURE_LAVA_FLARE  , 0 , 0 , 0);
+#line 888 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 889 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+break ;
+#line 902 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 903 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+GetModelObject  () -> StretchModel  (GetModelObject  () -> mo_Stretch );
+#line 904 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ModelChangeNotify  ();
+#line 905 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
   
+#line 908 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::RemoveAttachments(void) {
+#line 909 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+switch(m_EetType ){
+#line 914 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELT_ICE : 
+#line 915 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+RemoveAttachmentFromModel  (* GetModelObject  () , ICEMAN_ATTACHMENT_ICEPICK );
 #line 916 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-void CElemental::EnemyPostInit(void) 
+break ;
 #line 917 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
+case ELT_LAVA : 
 #line 918 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EecChar  == ELC_LARGE  && m_EetType  == ELT_LAVA )
+RemoveAttachmentFromModel  (* GetModelObject  () , ELEMENTALLAVA_ATTACHMENT_BODY_FLARE );
 #line 919 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
+RemoveAttachmentFromModel  (* GetModelObject  () , ELEMENTALLAVA_ATTACHMENT_RIGHT_HAND_FLARE );
 #line 920 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_soBackground  . Set3DParameters  (400.0f , 0.0f , 1.0f , 1.0f);
+RemoveAttachmentFromModel  (* GetModelObject  () , ELEMENTALLAVA_ATTACHMENT_LEFT_HAND_FLARE );
 #line 921 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_soSound  . Set3DParameters  (400.0f , 50.0f , 1.0f , 1.0f);
-#line 922 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_soFireL  . Set3DParameters  (400.0f , 50.0f , 1.0f , 1.0f);
-#line 923 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_soFireR  . Set3DParameters  (400.0f , 50.0f , 1.0f , 1.0f);
-#line 924 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 925 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-else if(m_EecChar  == ELC_BIG  && m_EetType  == ELT_LAVA )
-#line 926 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 927 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_soBackground  . Set3DParameters  (150.0f , 15.0f , 0.5f , 1.0f);
+break ;
 #line 928 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_soSound  . Set3DParameters  (200.0f , 0.0f , 1.0f , 1.0f);
-#line 929 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_soFireL  . Set3DParameters  (200.0f , 0.0f , 1.0f , 1.0f);
-#line 930 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_soFireR  . Set3DParameters  (200.0f , 0.0f , 1.0f , 1.0f);
-#line 931 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
-#line 932 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 929 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+  
+#line 935 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::BlowUp(void) {
+#line 937 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+FLOATaabbox3D box ;
+#line 938 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+GetBoundingBox  (box );
+#line 939 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+FLOAT fEntitySize  = box  . Size  () . MaxNorm  () / 2;
+#line 941 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+INDEX iCount  = 1;
+#line 942 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+switch(m_EecChar ){
+#line 943 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELC_SMALL : iCount  = 3;break ;
+#line 944 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELC_BIG : iCount  = 5;break ;
+#line 945 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELC_LARGE : iCount  = 7;break ;
+#line 946 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 948 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+FLOAT3D vNormalizedDamage  = m_vDamage  - m_vDamage  * (m_fBlowUpAmount  / m_vDamage  . Length  ());
+#line 949 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+vNormalizedDamage  /= Sqrt  (vNormalizedDamage  . Length  ());
+#line 950 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+vNormalizedDamage  *= 1.75f;
+#line 951 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+FLOAT3D vBodySpeed  = en_vCurrentTranslationAbsolute  - en_vGravityDir  * (en_vGravityDir  % en_vCurrentTranslationAbsolute );
+#line 955 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+switch(m_EetType ){
+#line 956 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELT_ICE : {
+#line 957 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+Debris_Begin  (EIBT_ICE  , DPT_NONE  , BET_NONE  , fEntitySize  , vNormalizedDamage  , vBodySpeed  , 1.0f , 0.0f);
+#line 958 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+for(INDEX iDebris  = 0;iDebris  < iCount ;iDebris  ++){
+#line 959 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+CEntityPointer pen ;
+#line 960 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pen  = Debris_Spawn  (this  , this  , MODEL_ELEM_ICE  , TEXTURE_ELEM_ICE  , 0 , 0 , 0 , 0 , 0.5f , 
+#line 961 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+FLOAT3D (FRnd  () * 0.6f + 0.2f , FRnd  () * 0.6f + 0.2f , FRnd  () * 0.6f + 0.2f));
+#line 962 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+AddAttachmentToModel  (this  , * (pen  -> GetModelObject  ()) , ICEPYRAMID_ATTACHMENT_FLARE  , 
+#line 963 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+MODEL_ELEM_ICE_FLARE  , TEXTURE_ELEM_FLARE  , 0 , 0 , 0);
+#line 964 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+pen  -> GetModelObject  () -> StretchModel  (pen  -> GetModelObject  () -> mo_Stretch );
+#line 965 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ModelChangeNotify  ();
+#line 966 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}}
+#line 967 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+break ;
+#line 987 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 991 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SwitchToEditorModel  ();
+#line 992 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetPhysicsFlags  (EPF_MODEL_IMMATERIAL );
+#line 993 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetCollisionFlags  (ECF_IMMATERIAL );
+#line 994 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+  
+#line 998 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+void CElemental::EnemyPostInit(void) 
+#line 999 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 1000 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EecChar  == ELC_LARGE  && m_EetType  == ELT_LAVA )
+#line 1001 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 1002 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_soBackground  . Set3DParameters  (400.0f , 0.0f , 1.0f , 1.0f);
+#line 1003 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_soSound  . Set3DParameters  (400.0f , 50.0f , 1.0f , 1.0f);
+#line 1004 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_soFireL  . Set3DParameters  (400.0f , 50.0f , 1.0f , 1.0f);
+#line 1005 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_soFireR  . Set3DParameters  (400.0f , 50.0f , 1.0f , 1.0f);
+#line 1006 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 1007 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+else if(m_EecChar  == ELC_BIG  && m_EetType  == ELT_LAVA )
+#line 1008 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 1009 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_soBackground  . Set3DParameters  (150.0f , 15.0f , 0.5f , 1.0f);
+#line 1010 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_soSound  . Set3DParameters  (200.0f , 0.0f , 1.0f , 1.0f);
+#line 1011 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_soFireL  . Set3DParameters  (200.0f , 0.0f , 1.0f , 1.0f);
+#line 1012 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_soFireR  . Set3DParameters  (200.0f , 0.0f , 1.0f , 1.0f);
+#line 1013 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 1014 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
 BOOL CElemental::
-#line 938 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1020 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 FallOnFloor(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CElemental_FallOnFloor
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CElemental::FallOnFloor expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 940 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1022 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetPhysicsFlags  (EPF_MODEL_WALKING );
-#line 942 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1024 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(10.0f);
 Jump(STATE_CURRENT, 0x01420001, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420001_FallOnFloor_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -1091,46 +1267,46 @@ switch(__eeInput.ee_slEvent){case(EVENTCODE_ETimer):{const ETimer&e= (ETimer&)__
 UnsetTimer();Jump(STATE_CURRENT,0x01420002, FALSE, EInternal());return TRUE;}ASSERT(FALSE);break;case(EVENTCODE_EBegin):{const EBegin&e= (EBegin&)__eeInput;
 return TRUE;}ASSERT(FALSE);break;case(EVENTCODE_ETouch):{const ETouch&et= (ETouch&)__eeInput;
 
-#line 947 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1029 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 if(et  . penOther  -> GetRenderType  () & RT_BRUSH ){
-#line 949 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1031 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 StopMoving  ();
-#line 950 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1032 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 UnsetTimer();Jump(STATE_CURRENT,0x01420002, FALSE, EInternal());return TRUE;
-#line 951 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1033 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
-#line 952 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1034 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 return TRUE;
-#line 953 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1035 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }ASSERT(FALSE);break;default:{return TRUE;}ASSERT(FALSE);break;
-#line 955 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1037 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }return TRUE;}BOOL CElemental::H0x01420002_FallOnFloor_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01420002
 
-#line 956 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1038 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 StartModelAnim  (ELEMENTALLAVA_ANIM_MELTUP  , 0);
-#line 957 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1039 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 957 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1039 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CElemental::
-#line 1004 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1086 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 LavamanFire(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CElemental_LavamanFire
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CElemental::LavamanFire expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 1006 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1088 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 m_bSpawnEnabled  = TRUE ;
-#line 1008 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1090 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 if(!(m_EecChar  == ELC_LARGE )){ Jump(STATE_CURRENT,0x01420012, FALSE, EInternal());return TRUE;}
-#line 1010 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1092 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 CModelObject & mo  = * GetModelObject  ();
-#line 1011 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1093 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 FLOAT tmWait  = mo  . GetAnimLength  (mo  . ao_iCurrentAnim ) - mo  . GetPassedTime  ();
-#line 1012 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1094 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 StartModelAnim  (ELEMENTALLAVA_ANIM_ATTACKBOSS  , AOF_SMOOTHCHANGE );
-#line 1013 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1095 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(tmWait  + 0.95f);
 Jump(STATE_CURRENT, 0x01420004, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420004_LavamanFire_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -1140,11 +1316,11 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01420005
 ;
-#line 1014 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1096 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 BossFirePredictedLavaRock  (LAVAMAN_FIRE_LARGE_RIGHT );
-#line 1015 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1097 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 PlaySound  (m_soFireR  , SOUND_LAVA_FIRE  , SOF_3D );
-#line 1016 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1098 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(2.0150f - 0.95f);
 Jump(STATE_CURRENT, 0x01420006, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420006_LavamanFire_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -1154,13 +1330,13 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01420007
 ;
-#line 1017 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1099 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 BossFirePredictedLavaRock  (LAVAMAN_FIRE_LARGE_LEFT );
-#line 1018 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1100 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 PlaySound  (m_soFireL  , SOUND_LAVA_FIRE  , SOF_3D );
-#line 1019 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1101 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 StartModelAnim  (ELEMENTALLAVA_ANIM_WALKBIG  , AOF_SMOOTHCHANGE );
-#line 1020 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1102 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 STATE_CMovableModelEntity_WaitUntilScheduledAnimStarts, FALSE;
 Jump(STATE_CURRENT, 0x01420008, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420008_LavamanFire_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -1170,25 +1346,25 @@ switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_C
 #define STATE_CURRENT 0x01420009
 const EReturn&__e= (EReturn&)__eeInput;
 ;
-#line 1021 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1103 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 MaybeSwitchToAnotherPlayer  ();
-#line 1023 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1105 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 m_fShootTime  = _pTimer  -> CurrentTick  () + m_fAttackFireTime  * (1.0f + FRnd  () / 5.0f);
-#line 1024 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1106 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 1024 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1106 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 return TRUE;Jump(STATE_CURRENT,0x01420011, FALSE, EInternal());return TRUE;}BOOL CElemental::H0x01420012_LavamanFire_15(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01420012
 if(!(m_EecChar  == ELC_BIG )){ Jump(STATE_CURRENT,0x01420010, FALSE, EInternal());return TRUE;}
-#line 1028 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1110 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 CModelObject & mo  = * GetModelObject  ();
-#line 1029 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1111 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 FLOAT tmWait  = mo  . GetAnimLength  (mo  . ao_iCurrentAnim ) - mo  . GetPassedTime  ();
-#line 1030 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1112 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 StartModelAnim  (ELEMENTALLAVA_ANIM_ATTACKLEFTHAND  , AOF_SMOOTHCHANGE );
-#line 1031 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1113 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(tmWait  + 0.90f);
 Jump(STATE_CURRENT, 0x0142000a, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142000a_LavamanFire_07(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -1198,57 +1374,57 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0142000b
 ;
-#line 1032 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1114 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 FLOAT3D vShooting  = GetPlacement  () . pl_PositionVector ;
-#line 1033 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1115 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 FLOAT3D vTarget  = m_penEnemy  -> GetPlacement  () . pl_PositionVector ;
-#line 1034 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1116 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 FLOAT3D vSpeedDest  = ((CMovableEntity  &) * m_penEnemy ) . en_vCurrentTranslationAbsolute ;
-#line 1035 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1117 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 FLOAT fLaunchSpeed ;
-#line 1036 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1118 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 FLOAT fRelativeHdg ;
-#line 1038 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1120 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 FLOAT fPitch  = 20.0f;
-#line 1041 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1123 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 EntityInfo  * peiTarget  = (EntityInfo  *) (m_penEnemy  -> GetEntityInfo  ());
-#line 1042 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1124 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 CalculateAngularLaunchParams  (vShooting  , LAVAMAN_FIRE_BIG  (2) - peiTarget  -> vTargetCenter  [ 1 ] - 1.5f / 3.0f , vTarget  , 
-#line 1043 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1125 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 vSpeedDest  , fPitch  , fLaunchSpeed  , fRelativeHdg );
-#line 1046 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1128 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 FLOAT3D vShootTarget ;
-#line 1047 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1129 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 GetEntityInfoPosition  (m_penEnemy  , peiTarget  -> vTargetCenter  , vShootTarget );
-#line 1049 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1131 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 CPlacement3D pl ;
-#line 1050 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1132 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 PrepareFreeFlyingProjectile  (pl  , vShootTarget  , LAVAMAN_FIRE_BIG  , ANGLE3D (fRelativeHdg  , fPitch  , 0));
-#line 1051 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1133 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 CEntityPointer penProjectile  = CreateEntity  (pl  , CLASS_PROJECTILE );
-#line 1052 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1134 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 ELaunchProjectile  eLaunch ;
-#line 1053 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1135 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 eLaunch  . penLauncher  = this ;
-#line 1054 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1136 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 eLaunch  . prtType  = PRT_LAVAMAN_BOMB ;
-#line 1055 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1137 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 eLaunch  . fSpeed  = fLaunchSpeed ;
-#line 1056 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1138 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 penProjectile  -> Initialize  (eLaunch );
-#line 1057 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1139 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 PlaySound  (m_soSound  , SOUND_LAVA_FIRE  , SOF_3D );Jump(STATE_CURRENT,0x0142000f, FALSE, EInternal());return TRUE;}BOOL CElemental::H0x01420010_LavamanFire_13(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01420010
 if(!(TRUE )){ Jump(STATE_CURRENT,0x0142000e, FALSE, EInternal());return TRUE;}
-#line 1061 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1143 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 CModelObject & mo  = * GetModelObject  ();
-#line 1062 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1144 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 FLOAT tmWait  = mo  . GetAnimLength  (mo  . ao_iCurrentAnim ) - mo  . GetPassedTime  ();
-#line 1063 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1145 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 StartModelAnim  (ELEMENTALLAVA_ANIM_ATTACKLEFTHAND  , AOF_SMOOTHCHANGE );
-#line 1064 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1146 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(tmWait  + 0.8f);
 Jump(STATE_CURRENT, 0x0142000c, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142000c_LavamanFire_09(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -1258,9 +1434,9 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0142000d
 ;
-#line 1065 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1147 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 ShootProjectile  (PRT_LAVAMAN_STONE  , LAVAMAN_FIRE_SMALL  , ANGLE3D (0 , 0 , 0));
-#line 1066 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1148 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 PlaySound  (m_soSound  , SOUND_LAVA_FIRE  , SOF_3D );Jump(STATE_CURRENT,0x0142000e, FALSE, EInternal());return TRUE;}BOOL CElemental::H0x0142000e_LavamanFire_11(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
@@ -1276,7 +1452,7 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01420011
 
-#line 1069 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1151 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(GetModelObject  () -> GetAnimLength  (ELEMENTALLAVA_ANIM_ATTACKLEFTHAND ) - 0.9f);
 Jump(STATE_CURRENT, 0x01420013, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420013_LavamanFire_16(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -1286,9 +1462,9 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01420014
 ;
-#line 1071 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1153 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 StandingAnim  ();
-#line 1072 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1154 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(_pTimer  -> TickQuantum );
 Jump(STATE_CURRENT, 0x01420015, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420015_LavamanFire_18(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -1298,26 +1474,26 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01420016
 ;
-#line 1074 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1156 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 if(m_EecChar  != ELC_SMALL ){
-#line 1075 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1157 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 MaybeSwitchToAnotherPlayer  ();
-#line 1076 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1158 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
-#line 1079 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1161 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 m_fShootTime  = _pTimer  -> CurrentTick  () + m_fAttackFireTime  * (1.0f + FRnd  () / 5.0f);
-#line 1081 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1163 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 1081 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1163 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CElemental::
-#line 1084 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1166 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 LavamanStones(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CElemental_LavamanStones
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CElemental::LavamanStones expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 1086 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1168 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 StartModelAnim  (ELEMENTALLAVA_ANIM_ATTACKLEFTHAND  , 0);
-#line 1087 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1169 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(0.7f);
 Jump(STATE_CURRENT, 0x01420018, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420018_LavamanStones_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -1327,23 +1503,23 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01420019
 ;
-#line 1089 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1171 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 if(m_EecChar  == ELC_LARGE ){
-#line 1090 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1172 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 ThrowRocks  (PRT_LAVAMAN_STONE );
-#line 1091 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1173 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }else if(m_EecChar  == ELC_BIG ){
-#line 1092 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1174 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 ThrowRocks  (PRT_LAVAMAN_STONE );
-#line 1093 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1175 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }else {
-#line 1094 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1176 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 ThrowRocks  (PRT_LAVAMAN_STONE );
-#line 1095 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1177 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
-#line 1096 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1178 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 PlaySound  (m_soSound  , SOUND_LAVA_FIRE  , SOF_3D );
-#line 1097 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1179 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(0.9f);
 Jump(STATE_CURRENT, 0x0142001a, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142001a_LavamanStones_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -1353,9 +1529,9 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0142001b
 ;
-#line 1099 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1181 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 StandingAnim  ();
-#line 1100 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1182 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(FRnd  () / 3 + _pTimer  -> TickQuantum );
 Jump(STATE_CURRENT, 0x0142001c, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142001c_LavamanStones_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -1365,18 +1541,18 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0142001d
 ;
-#line 1101 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1183 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 1101 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1183 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CElemental::
-#line 1104 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1186 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 LavamanHit(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CElemental_LavamanHit
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CElemental::LavamanHit expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 1106 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1188 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 StartModelAnim  (ELEMENTALLAVA_ANIM_ATTACKTWOHANDS  , 0);
-#line 1107 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1189 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(0.6f);
 Jump(STATE_CURRENT, 0x0142001f, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142001f_LavamanHit_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -1386,13 +1562,13 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01420020
 ;
-#line 1108 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1190 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 HitGround  ();
-#line 1109 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1191 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 PlaySound  (m_soFireL  , SOUND_LAVA_KICK  , SOF_3D );
-#line 1110 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1192 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 StartModelAnim  (ELEMENTALLAVA_ANIM_WALKBIG  , AOF_SMOOTHCHANGE );
-#line 1111 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1193 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 STATE_CMovableModelEntity_WaitUntilScheduledAnimStarts, FALSE;
 Jump(STATE_CURRENT, 0x01420021, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420021_LavamanHit_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -1402,612 +1578,722 @@ switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_C
 #define STATE_CURRENT 0x01420022
 const EReturn&__e= (EReturn&)__eeInput;
 ;
-#line 1112 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1194 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 1112 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1194 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CElemental::
-#line 1207 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-BeWounded(const CEntityEvent &__eeInput) {
+#line 1201 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+IcemanFire(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT STATE_CElemental_BeWounded
-  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EDamage, "CElemental::BeWounded expects 'EDamage' as input!");  const EDamage &eDamage = (const EDamage &)__eeInput;
-#line 1209 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_bSpawnEnabled )
-#line 1210 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 1211 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SpawnNewElemental  ();
-#line 1212 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 1213 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-Jump(STATE_CURRENT, STATE_CEnemyBase_BeWounded, FALSE, eDamage );return TRUE; ASSERT(FALSE); return TRUE;};BOOL CElemental::
-#line 1220 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-BoxToNormal(const CEntityEvent &__eeInput) {
+#define STATE_CURRENT STATE_CElemental_IcemanFire
+  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CElemental::IcemanFire expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
+#line 1202 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+StartModelAnim  (ICEMAN_ANIM_ATTACK05  , 0);
+#line 1203 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetTimerAfter(0.7f);
+Jump(STATE_CURRENT, 0x01420024, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420024_IcemanFire_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT STATE_CElemental_BoxToNormal
-  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CElemental::BoxToNormal expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 1221 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_EesCurrentState  = ELS_NORMAL ;
-#line 1222 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SetPhysicsFlags  (EPF_MODEL_WALKING );
-#line 1223 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ChangeCollisionBoxIndexWhenPossible  (STONEMAN_COLLISION_BOX_NORMAL );
-#line 1224 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PlaySound  (m_soFireL  , SOUND_LAVA_GROW  , SOF_3D );
-#line 1225 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-StartModelAnim  (STONEMAN_ANIM_MORPHBOXUP  , 0);
-#line 1226 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-AddAttachments  ();
-#line 1227 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SetTimerAfter(GetModelObject  () -> GetAnimLength  (STONEMAN_ANIM_MORPHBOXUP ));
-Jump(STATE_CURRENT, 0x01420025, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420025_BoxToNormal_01(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01420025
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01420026, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420026_BoxToNormal_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01420024
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01420025, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420025_IcemanFire_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01420026
+#define STATE_CURRENT 0x01420025
 ;
-#line 1228 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-Return(STATE_CURRENT,EReturn  ());
-#line 1228 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-return TRUE; ASSERT(FALSE); return TRUE;};BOOL CElemental::
-#line 1243 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PlaneToNormal(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT STATE_CElemental_PlaneToNormal
-  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CElemental::PlaneToNormal expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 1244 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_EesCurrentState  = ELS_NORMAL ;
-#line 1245 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SwitchToModel  ();
-#line 1246 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SetPhysicsFlags  (EPF_MODEL_WALKING );
-#line 1247 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ChangeCollisionBoxIndexWhenPossible  (ELEMENTALLAVA_COLLISION_BOX_NORMAL );
-#line 1248 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-PlaySound  (m_soFireL  , SOUND_LAVA_GROW  , SOF_3D );
-#line 1249 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-INDEX iAnim ;
-#line 1250 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EetType  == ELT_LAVA ){
-#line 1251 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-iAnim  = ELEMENTALLAVA_ANIM_MELTUP ;
-#line 1252 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1205 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EecChar  == ELC_LARGE ){
+#line 1206 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ThrowRocks  (PRT_ICEMAN_LARGE_FIRE );
+#line 1207 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}else if(m_EecChar  == ELC_BIG ){
+#line 1208 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ThrowRocks  (PRT_ICEMAN_BIG_FIRE );
+#line 1209 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }else {
-#line 1254 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1210 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ThrowRocks  (PRT_ICEMAN_FIRE );
+#line 1211 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
-#line 1255 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-StartModelAnim  (iAnim  , 0);
-#line 1256 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-AddAttachments  ();
-#line 1257 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SetTimerAfter(GetModelObject  () -> GetAnimLength  (iAnim ));
-Jump(STATE_CURRENT, 0x01420028, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420028_PlaneToNormal_01(const CEntityEvent &__eeInput) {
+#line 1212 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PlaySound  (m_soSound  , SOUND_ICEMAN_FIRE  , SOF_3D );
+#line 1213 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetTimerAfter(0.9f);
+Jump(STATE_CURRENT, 0x01420026, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420026_IcemanFire_03(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01420026
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01420027, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420027_IcemanFire_04(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01420027
+;
+#line 1215 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+StandingAnim  ();
+#line 1216 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetTimerAfter(FRnd  () / 3 + _pTimer  -> TickQuantum );
+Jump(STATE_CURRENT, 0x01420028, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420028_IcemanFire_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01420028
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01420029, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420029_PlaneToNormal_02(const CEntityEvent &__eeInput){
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01420029, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420029_IcemanFire_06(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01420029
 ;
-#line 1258 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1217 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 1258 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1217 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CElemental::
-#line 1264 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1220 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+IcemanHit(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT STATE_CElemental_IcemanHit
+  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CElemental::IcemanHit expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
+#line 1221 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+StartModelAnim  (ICEMAN_ANIM_ATTACK01  , 0);
+#line 1222 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetTimerAfter(0.6f);
+Jump(STATE_CURRENT, 0x0142002b, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142002b_IcemanHit_01(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0142002b
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0142002c, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x0142002c_IcemanHit_02(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0142002c
+;
+#line 1223 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+HitGround  ();
+#line 1224 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PlaySound  (m_soSound  , SOUND_ICEMAN_KICK  , SOF_3D );
+#line 1225 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetTimerAfter(0.5f);
+Jump(STATE_CURRENT, 0x0142002d, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142002d_IcemanHit_03(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0142002d
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0142002e, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x0142002e_IcemanHit_04(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0142002e
+;
+#line 1227 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+StandingAnim  ();
+#line 1228 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetTimerAfter(FRnd  () / 3 + _pTimer  -> TickQuantum );
+Jump(STATE_CURRENT, 0x0142002f, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142002f_IcemanHit_05(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0142002f
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01420030, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420030_IcemanHit_06(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01420030
+;
+#line 1229 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+Return(STATE_CURRENT,EReturn  ());
+#line 1229 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+return TRUE; ASSERT(FALSE); return TRUE;};BOOL CElemental::
+#line 1289 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+BeWounded(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT STATE_CElemental_BeWounded
+  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EDamage, "CElemental::BeWounded expects 'EDamage' as input!");  const EDamage &eDamage = (const EDamage &)__eeInput;
+#line 1291 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_bSpawnEnabled )
+#line 1292 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 1293 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SpawnNewElemental  ();
+#line 1294 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 1295 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+Jump(STATE_CURRENT, STATE_CEnemyBase_BeWounded, FALSE, eDamage );return TRUE; ASSERT(FALSE); return TRUE;};BOOL CElemental::
+#line 1302 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+BoxToNormal(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT STATE_CElemental_BoxToNormal
+  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CElemental::BoxToNormal expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
+#line 1303 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_EesCurrentState  = ELS_NORMAL ;
+#line 1304 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetPhysicsFlags  (EPF_MODEL_WALKING );
+#line 1305 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ChangeCollisionBoxIndexWhenPossible  (STONEMAN_COLLISION_BOX_NORMAL );
+#line 1306 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PlaySound  (m_soFireL  , SOUND_LAVA_GROW  , SOF_3D );
+#line 1307 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+StartModelAnim  (STONEMAN_ANIM_MORPHBOXUP  , 0);
+#line 1308 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+AddAttachments  ();
+#line 1309 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetTimerAfter(GetModelObject  () -> GetAnimLength  (STONEMAN_ANIM_MORPHBOXUP ));
+Jump(STATE_CURRENT, 0x01420033, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420033_BoxToNormal_01(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01420033
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01420034, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420034_BoxToNormal_02(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01420034
+;
+#line 1310 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+Return(STATE_CURRENT,EReturn  ());
+#line 1310 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+return TRUE; ASSERT(FALSE); return TRUE;};BOOL CElemental::
+#line 1325 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PlaneToNormal(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT STATE_CElemental_PlaneToNormal
+  ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CElemental::PlaneToNormal expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
+#line 1326 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_EesCurrentState  = ELS_NORMAL ;
+#line 1327 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SwitchToModel  ();
+#line 1328 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetPhysicsFlags  (EPF_MODEL_WALKING );
+#line 1329 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ChangeCollisionBoxIndexWhenPossible  (ELEMENTALLAVA_COLLISION_BOX_NORMAL );
+#line 1330 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+PlaySound  (m_soFireL  , SOUND_LAVA_GROW  , SOF_3D );
+#line 1331 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+INDEX iAnim ;
+#line 1332 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EetType  == ELT_LAVA ){
+#line 1333 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+iAnim  = ELEMENTALLAVA_ANIM_MELTUP ;
+#line 1334 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}else {
+#line 1336 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 1337 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+StartModelAnim  (iAnim  , 0);
+#line 1338 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+AddAttachments  ();
+#line 1339 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetTimerAfter(GetModelObject  () -> GetAnimLength  (iAnim ));
+Jump(STATE_CURRENT, 0x01420036, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420036_PlaneToNormal_01(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01420036
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01420037, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420037_PlaneToNormal_02(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01420037
+;
+#line 1340 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+Return(STATE_CURRENT,EReturn  ());
+#line 1340 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+return TRUE; ASSERT(FALSE); return TRUE;};BOOL CElemental::
+#line 1346 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 InitializeAttack(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CElemental_InitializeAttack
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CElemental::InitializeAttack expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 1266 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(!(m_EesCurrentState  == ELS_BOX )){ Jump(STATE_CURRENT,0x01420031, FALSE, EInternal());return TRUE;}
-#line 1268 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1348 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(!(m_EesCurrentState  == ELS_BOX )){ Jump(STATE_CURRENT,0x0142003f, FALSE, EInternal());return TRUE;}
+#line 1350 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 STATE_CElemental_BoxToNormal, TRUE;
-Jump(STATE_CURRENT, 0x0142002b, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142002b_InitializeAttack_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01420039, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420039_InitializeAttack_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0142002b
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CElemental_BoxToNormal, TRUE, EVoid());return TRUE;case EVENTCODE_EReturn: Jump(STATE_CURRENT,0x0142002c, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CElemental::H0x0142002c_InitializeAttack_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01420039
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CElemental_BoxToNormal, TRUE, EVoid());return TRUE;case EVENTCODE_EReturn: Jump(STATE_CURRENT,0x0142003a, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CElemental::H0x0142003a_InitializeAttack_02(const CEntityEvent &__eeInput){
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0142002c
+#define STATE_CURRENT 0x0142003a
 const EReturn&__e= (EReturn&)__eeInput;
-;Jump(STATE_CURRENT,0x01420030, FALSE, EInternal());return TRUE;}BOOL CElemental::H0x01420031_InitializeAttack_07(const CEntityEvent &__eeInput){
+;Jump(STATE_CURRENT,0x0142003e, FALSE, EInternal());return TRUE;}BOOL CElemental::H0x0142003f_InitializeAttack_07(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01420031
-if(!(m_EesCurrentState  == ELS_PLANE )){ Jump(STATE_CURRENT,0x0142002f, FALSE, EInternal());return TRUE;}
-#line 1273 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#define STATE_CURRENT 0x0142003f
+if(!(m_EesCurrentState  == ELS_PLANE )){ Jump(STATE_CURRENT,0x0142003d, FALSE, EInternal());return TRUE;}
+#line 1355 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 STATE_CElemental_PlaneToNormal, TRUE;
-Jump(STATE_CURRENT, 0x0142002d, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142002d_InitializeAttack_03(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x0142003b, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142003b_InitializeAttack_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0142002d
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CElemental_PlaneToNormal, TRUE, EVoid());return TRUE;case EVENTCODE_EReturn: Jump(STATE_CURRENT,0x0142002e, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CElemental::H0x0142002e_InitializeAttack_04(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x0142003b
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CElemental_PlaneToNormal, TRUE, EVoid());return TRUE;case EVENTCODE_EReturn: Jump(STATE_CURRENT,0x0142003c, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CElemental::H0x0142003c_InitializeAttack_04(const CEntityEvent &__eeInput){
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0142002e
+#define STATE_CURRENT 0x0142003c
 const EReturn&__e= (EReturn&)__eeInput;
-;Jump(STATE_CURRENT,0x0142002f, FALSE, EInternal());return TRUE;}BOOL CElemental::H0x0142002f_InitializeAttack_05(const CEntityEvent &__eeInput){
+;Jump(STATE_CURRENT,0x0142003d, FALSE, EInternal());return TRUE;}BOOL CElemental::H0x0142003d_InitializeAttack_05(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0142002f
-Jump(STATE_CURRENT,0x01420030, FALSE, EInternal());return TRUE;}
-BOOL CElemental::H0x01420030_InitializeAttack_06(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x0142003d
+Jump(STATE_CURRENT,0x0142003e, FALSE, EInternal());return TRUE;}
+BOOL CElemental::H0x0142003e_InitializeAttack_06(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01420030
+#define STATE_CURRENT 0x0142003e
 
-#line 1275 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1357 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Jump(STATE_CURRENT, STATE_CEnemyBase_InitializeAttack, FALSE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CElemental::
-#line 1278 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1360 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Fire(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CElemental_Fire
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CElemental::Fire expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 1280 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1362 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 switch(m_EetType ){
-#line 1282 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1364 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 case ELT_LAVA : Jump(STATE_CURRENT, STATE_CElemental_LavamanFire, TRUE, EVoid());return TRUE;break ;
-#line 1286 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1365 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELT_ICE : Jump(STATE_CURRENT, STATE_CElemental_IcemanFire, TRUE, EVoid());return TRUE;break ;
+#line 1368 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
-#line 1287 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1369 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 1287 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1369 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CElemental::
-#line 1290 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1372 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Hit(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CElemental_Hit
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CElemental::Hit expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 1292 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1374 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 switch(m_EetType ){
-#line 1294 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1376 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 case ELT_LAVA : Jump(STATE_CURRENT, STATE_CElemental_LavamanHit, TRUE, EVoid());return TRUE;break ;
-#line 1298 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1377 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELT_ICE : Jump(STATE_CURRENT, STATE_CElemental_IcemanHit, TRUE, EVoid());return TRUE;break ;
+#line 1380 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
-#line 1299 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1381 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 1299 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1381 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CElemental::
-#line 1305 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1387 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Death(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CElemental_Death
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CElemental::Death expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 1307 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1389 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 if(m_bSpawnOnBlowUp  && (m_EecChar  == ELC_LARGE  || m_EecChar  == ELC_BIG )){
-#line 1308 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1390 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SpawnNewElemental  ();
-#line 1309 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1391 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SpawnNewElemental  ();
-#line 1310 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1392 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
-#line 1312 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(!(m_EetType  == ELT_AIR )){ Jump(STATE_CURRENT,0x01420037, FALSE, EInternal());return TRUE;}
-#line 1313 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1394 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(!(m_EetType  == ELT_AIR )){ Jump(STATE_CURRENT,0x01420045, FALSE, EInternal());return TRUE;}
+#line 1395 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 m_fFadeStartTime  = _pTimer  -> CurrentTick  ();
-#line 1314 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1396 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 m_bFadeOut  = TRUE ;
-#line 1315 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1397 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 m_fFadeTime  = 2.0f;
-#line 1316 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1398 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(m_fFadeTime );
-Jump(STATE_CURRENT, 0x01420035, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420035_Death_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01420043, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420043_Death_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01420035
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01420036, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420036_Death_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01420043
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01420044, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420044_Death_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01420036
-;Jump(STATE_CURRENT,0x01420037, FALSE, EInternal());return TRUE;}BOOL CElemental::H0x01420037_Death_03(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01420044
+;Jump(STATE_CURRENT,0x01420045, FALSE, EInternal());return TRUE;}BOOL CElemental::H0x01420045_Death_03(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01420037
+#define STATE_CURRENT 0x01420045
 
-#line 1318 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1400 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 STATE_CEnemyBase_Death, FALSE;
-Jump(STATE_CURRENT, 0x01420038, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420038_Death_04(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01420046, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420046_Death_04(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01420038
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CEnemyBase_Death, FALSE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x01420039, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420039_Death_05(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01420046
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CEnemyBase_Death, FALSE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x01420047, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420047_Death_05(const CEntityEvent &__eeInput){
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01420039
+#define STATE_CURRENT 0x01420047
 const EEnd&__e= (EEnd&)__eeInput;
 ;
-#line 1319 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1401 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 GetModelObject  () -> mo_toBump  . SetData  (NULL );
-#line 1320 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1402 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 1320 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1402 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CElemental::
-#line 1323 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1405 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 BossAppear(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CElemental_BossAppear
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CElemental::BossAppear expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 1325 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1407 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(2.0f);
-Jump(STATE_CURRENT, 0x0142003b, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142003b_BossAppear_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01420049, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420049_BossAppear_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0142003b
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0142003c, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x0142003c_BossAppear_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01420049
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0142004a, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x0142004a_BossAppear_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0142003c
+#define STATE_CURRENT 0x0142004a
 ;
-#line 1326 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1408 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 m_fFadeStartTime  = _pTimer  -> CurrentTick  ();
-#line 1327 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1409 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 GetModelObject  () -> PlayAnim  (ELEMENTALLAVA_ANIM_ANGER  , 0);
-#line 1328 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1410 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 PlaySound  (m_soSound  , SOUND_LAVA_ANGER  , SOF_3D );
-#line 1329 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1411 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(GetModelObject  () -> GetAnimLength  (ELEMENTALLAVA_ANIM_ANGER ) - _pTimer  -> TickQuantum );
-Jump(STATE_CURRENT, 0x0142003d, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142003d_BossAppear_03(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x0142004b, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142004b_BossAppear_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0142003d
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0142003e, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x0142003e_BossAppear_04(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x0142004b
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0142004c, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x0142004c_BossAppear_04(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0142003e
+#define STATE_CURRENT 0x0142004c
 ;
-#line 1331 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1413 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 StartModelAnim  (ELEMENTALLAVA_ANIM_ATTACKTWOHANDS  , AOF_SMOOTHCHANGE );
-#line 1332 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1414 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(0.7f);
-Jump(STATE_CURRENT, 0x0142003f, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142003f_BossAppear_05(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x0142004d, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142004d_BossAppear_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0142003f
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01420040, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420040_BossAppear_06(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x0142004d
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0142004e, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x0142004e_BossAppear_06(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01420040
+#define STATE_CURRENT 0x0142004e
 ;
-#line 1333 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1415 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 HitGround  ();
-#line 1334 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1416 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 PlaySound  (m_soFireL  , SOUND_LAVA_KICK  , SOF_3D );
-#line 1335 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1417 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(GetModelObject  () -> GetAnimLength  (ELEMENTALLAVA_ANIM_ATTACKTWOHANDS ) - 0.7f - _pTimer  -> TickQuantum );
-Jump(STATE_CURRENT, 0x01420041, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420041_BossAppear_07(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x0142004f, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142004f_BossAppear_07(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01420041
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01420042, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420042_BossAppear_08(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x0142004f
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01420050, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420050_BossAppear_08(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01420042
+#define STATE_CURRENT 0x01420050
 ;
-#line 1337 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1419 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 StartModelAnim  (ELEMENTALLAVA_ANIM_ATTACKTWOHANDS  , 0);
-#line 1338 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1420 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(0.6f);
-Jump(STATE_CURRENT, 0x01420043, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420043_BossAppear_09(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01420051, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420051_BossAppear_09(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01420043
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01420044, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420044_BossAppear_10(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01420051
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01420052, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420052_BossAppear_10(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01420044
+#define STATE_CURRENT 0x01420052
 ;
-#line 1339 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1421 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 HitGround  ();
-#line 1340 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1422 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 PlaySound  (m_soFireR  , SOUND_LAVA_KICK  , SOF_3D );
-#line 1341 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1423 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetTimerAfter(GetModelObject  () -> GetAnimLength  (ELEMENTALLAVA_ANIM_ATTACKTWOHANDS ) - 0.6f - _pTimer  -> TickQuantum );
-Jump(STATE_CURRENT, 0x01420045, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420045_BossAppear_11(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01420053, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420053_BossAppear_11(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01420045
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01420046, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420046_BossAppear_12(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01420053
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01420054, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420054_BossAppear_12(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01420046
+#define STATE_CURRENT 0x01420054
 ;
-#line 1344 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1426 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 1344 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1426 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CElemental::
-#line 1348 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1430 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 PreMainLoop(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CElemental_PreMainLoop
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CElemental::PreMainLoop expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 1351 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(!(m_bSpawned )){ Jump(STATE_CURRENT,0x0142004a, FALSE, EInternal());return TRUE;}
-#line 1352 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1433 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(!(m_bSpawned )){ Jump(STATE_CURRENT,0x01420058, FALSE, EInternal());return TRUE;}
+#line 1434 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 m_bSpawned  = FALSE ;
-#line 1353 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1435 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 m_bCountAsKill  = FALSE ;
-#line 1355 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1437 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 STATE_CElemental_FallOnFloor, TRUE;
-Jump(STATE_CURRENT, 0x01420048, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420048_PreMainLoop_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01420056, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420056_PreMainLoop_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01420048
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CElemental_FallOnFloor, TRUE, EVoid());return TRUE;case EVENTCODE_EReturn: Jump(STATE_CURRENT,0x01420049, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420049_PreMainLoop_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01420056
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CElemental_FallOnFloor, TRUE, EVoid());return TRUE;case EVENTCODE_EReturn: Jump(STATE_CURRENT,0x01420057, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CElemental::H0x01420057_PreMainLoop_02(const CEntityEvent &__eeInput){
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01420049
+#define STATE_CURRENT 0x01420057
 const EReturn&__e= (EReturn&)__eeInput;
-;Jump(STATE_CURRENT,0x0142004a, FALSE, EInternal());return TRUE;}BOOL CElemental::H0x0142004a_PreMainLoop_03(const CEntityEvent &__eeInput){
+;Jump(STATE_CURRENT,0x01420058, FALSE, EInternal());return TRUE;}BOOL CElemental::H0x01420058_PreMainLoop_03(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0142004a
+#define STATE_CURRENT 0x01420058
 
-#line 1358 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1440 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 if(m_EecChar  == ELC_LARGE  || m_EecChar  == ELC_BIG  && m_EetType  == ELT_LAVA )
-#line 1359 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1441 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 {
-#line 1360 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1442 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 PlaySound  (m_soBackground  , SOUND_LAVA_LAVABURN  , SOF_3D  | SOF_LOOP );
-#line 1361 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1443 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
-#line 1363 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(!(m_EecChar  == ELC_LARGE )){ Jump(STATE_CURRENT,0x0142004d, FALSE, EInternal());return TRUE;}
-#line 1365 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1445 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(!(m_EecChar  == ELC_LARGE )){ Jump(STATE_CURRENT,0x0142005b, FALSE, EInternal());return TRUE;}
+#line 1447 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 STATE_CElemental_BossAppear, TRUE;
-Jump(STATE_CURRENT, 0x0142004b, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x0142004b_PreMainLoop_04(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01420059, FALSE, EBegin());return TRUE;}BOOL CElemental::H0x01420059_PreMainLoop_04(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0142004b
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CElemental_BossAppear, TRUE, EVoid());return TRUE;case EVENTCODE_EReturn: Jump(STATE_CURRENT,0x0142004c, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CElemental::H0x0142004c_PreMainLoop_05(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01420059
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CElemental_BossAppear, TRUE, EVoid());return TRUE;case EVENTCODE_EReturn: Jump(STATE_CURRENT,0x0142005a, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CElemental::H0x0142005a_PreMainLoop_05(const CEntityEvent &__eeInput){
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0142004c
+#define STATE_CURRENT 0x0142005a
 const EReturn&__e= (EReturn&)__eeInput;
-;Jump(STATE_CURRENT,0x0142004d, FALSE, EInternal());return TRUE;}BOOL CElemental::H0x0142004d_PreMainLoop_06(const CEntityEvent &__eeInput){
+;Jump(STATE_CURRENT,0x0142005b, FALSE, EInternal());return TRUE;}BOOL CElemental::H0x0142005b_PreMainLoop_06(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0142004d
+#define STATE_CURRENT 0x0142005b
 
-#line 1367 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1449 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Return(STATE_CURRENT,EReturn  ());
-#line 1367 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1449 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CElemental::
-#line 1373 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1455 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Main(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CElemental_Main
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CElemental::Main expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 1374 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EetType  != ELT_LAVA ){
-#line 1375 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_EetType  = ELT_LAVA ;
-#line 1376 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 1378 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-InitAsModel  ();
-#line 1380 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_bMovable ){
-#line 1381 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SetPhysicsFlags  (EPF_MODEL_WALKING );
-#line 1383 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}else {
-#line 1384 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SetPhysicsFlags  (EPF_MODEL_IMMATERIAL  | EPF_MOVABLE );
-#line 1385 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 1387 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EetType  == ELT_AIR ){
-#line 1388 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SetCollisionFlags  (ECF_AIR );
-#line 1390 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}else {
-#line 1391 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SetCollisionFlags  (ECF_MODEL );
-#line 1392 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 1393 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SetFlags  (GetFlags  () | ENF_ALIVE );
-#line 1394 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-en_fDensity  = m_fDensity ;
-#line 1395 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fSpawnDamage  = 1e6f;
-#line 1396 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fDamageWounded  = 1e6f;
-#line 1397 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_bSpawnEnabled  = FALSE ;
-#line 1398 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_bBoss  = FALSE ;
-#line 1401 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-switch(m_EetType ){
-#line 1408 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELT_LAVA : 
-#line 1409 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fBlowUpAmount  = 1E30f;
-#line 1410 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SetComponents  (this  , * GetModelObject  () , MODEL_LAVA  , TEXTURE_LAVA  , 0 , 0 , TEXTURE_LAVA_DETAIL );
-#line 1411 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-break ;
-#line 1418 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 1419 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-ModelChangeNotify  ();
-#line 1422 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EecChar  == ELC_LARGE )
-#line 1423 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 1425 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_sptType  = SPT_SMALL_LAVA_STONES ;
-#line 1426 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_bBoss  = TRUE ;
-#line 1427 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SetHealth  (10000.0f);
-#line 1428 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fMaxHealth  = 10000.0f;
-#line 1430 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fSpawnDamage  = 2000.0f;
-#line 1432 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fWalkSpeed  = FRnd  () / 2 + 1.0f;
-#line 1433 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_aWalkRotateSpeed  = AngleDeg  (FRnd  () * 10.0f + 25.0f);
-#line 1434 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fAttackRunSpeed  = FRnd  () + 2.0f;
-#line 1435 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_aAttackRotateSpeed  = AngleDeg  (FRnd  () * 50 + 245.0f);
-#line 1436 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fCloseRunSpeed  = FRnd  () + 2.0f;
-#line 1437 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_aCloseRotateSpeed  = AngleDeg  (FRnd  () * 50 + 245.0f);
-#line 1439 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fAttackDistance  = 300.0f;
-#line 1440 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fCloseDistance  = 60.0f;
-#line 1441 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fStopDistance  = 30.0f;
-#line 1442 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fAttackFireTime  = 0.5f;
-#line 1443 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fCloseFireTime  = 1.0f;
-#line 1444 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fIgnoreRange  = 600.0f;
-#line 1445 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_iScore  = 50000;
-#line 1446 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 1447 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-else if(m_EecChar  == ELC_BIG )
-#line 1448 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 1449 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_sptType  = SPT_LAVA_STONES ;
-#line 1450 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SetHealth  (800.0f);
-#line 1451 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fMaxHealth  = 800.0f;
-#line 1453 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fSpawnDamage  = 500.0f;
-#line 1455 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fWalkSpeed  = FRnd  () + 1.5f;
-#line 1456 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_aWalkRotateSpeed  = AngleDeg  (FRnd  () * 10.0f + 25.0f);
-#line 1457 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fAttackRunSpeed  = FRnd  () * 1.0f + 6.0f;
-#line 1458 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_aAttackRotateSpeed  = AngleDeg  (FRnd  () * 50 + 300.0f);
-#line 1459 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fCloseRunSpeed  = FRnd  () * 2.0f + 2.0f;
 #line 1460 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_aCloseRotateSpeed  = AngleDeg  (FRnd  () * 50 + 300.0f);
+InitAsModel  ();
 #line 1462 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fAttackDistance  = 150.0f;
+if(m_bMovable ){
 #line 1463 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fCloseDistance  = 20.0f;
-#line 1464 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fStopDistance  = 5.0f;
-#line 1465 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fAttackFireTime  = 0.5f;
-#line 1466 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fCloseFireTime  = 1.0f;
-#line 1467 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fIgnoreRange  = 400.0f;
-#line 1469 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_iScore  = 2500;
-#line 1470 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 1471 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-else 
-#line 1472 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 1473 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_sptType  = SPT_LAVA_STONES ;
-#line 1474 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SetHealth  (100.0f);
-#line 1475 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fMaxHealth  = 100.0f;
-#line 1477 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fWalkSpeed  = FRnd  () + 1.5f;
-#line 1478 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_aWalkRotateSpeed  = AngleDeg  (FRnd  () * 10.0f + 25.0f);
-#line 1479 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fAttackRunSpeed  = FRnd  () * 2.0f + 6.0f;
-#line 1480 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_aAttackRotateSpeed  = AngleDeg  (FRnd  () * 50 + 500.0f);
-#line 1481 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fCloseRunSpeed  = FRnd  () * 3.0f + 4.0f;
-#line 1482 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_aCloseRotateSpeed  = AngleDeg  (FRnd  () * 50 + 500.0f);
-#line 1484 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fAttackDistance  = 100.0f;
-#line 1485 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fCloseDistance  = 10.0f;
-#line 1486 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fStopDistance  = 5.0f;
-#line 1487 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fAttackFireTime  = 1.5f;
-#line 1488 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fCloseFireTime  = 1.0f;
-#line 1489 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_fIgnoreRange  = 200.0f;
-#line 1491 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_iScore  = 500;
-#line 1492 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 1495 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(! m_bMovable )
-#line 1496 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 1497 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_EesStartState  = ELS_NORMAL ;
-#line 1498 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_bSpawnWhenHarmed  = FALSE ;
-#line 1499 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_bSpawnOnBlowUp  = FALSE ;
-#line 1501 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_iFireCount  <= 0)
-#line 1502 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-{
-#line 1503 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-WarningMessage  ("Entity: %s - Fire count must be greater than zero" , GetName  ());
-#line 1504 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_iFireCount  = 1;
-#line 1505 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 1506 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 1509 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-m_EesCurrentState  = m_EesStartState ;
-#line 1510 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-RemoveAttachments  ();
-#line 1511 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-switch(m_EesCurrentState ){
-#line 1512 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELS_NORMAL : 
-#line 1513 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetPhysicsFlags  (EPF_MODEL_WALKING );
-#line 1514 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-AddAttachments  ();
-#line 1515 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-break ;
-#line 1516 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELS_BOX : 
-#line 1517 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SetPhysicsFlags  (EPF_BOX_PLANE_ELEMENTAL );
-#line 1518 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-break ;
-#line 1519 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-case ELS_PLANE : 
-#line 1520 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1465 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}else {
+#line 1466 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 SetPhysicsFlags  (EPF_MODEL_IMMATERIAL  | EPF_MOVABLE );
-#line 1521 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-SwitchToEditorModel  ();
-#line 1522 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1467 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 1469 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EetType  == ELT_AIR ){
+#line 1470 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetCollisionFlags  (ECF_AIR );
+#line 1472 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}else {
+#line 1473 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetCollisionFlags  (ECF_MODEL );
+#line 1474 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 1475 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetFlags  (GetFlags  () | ENF_ALIVE );
+#line 1476 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+en_fDensity  = m_fDensity ;
+#line 1477 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fSpawnDamage  = 1e6f;
+#line 1478 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fDamageWounded  = 1e6f;
+#line 1479 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_bSpawnEnabled  = FALSE ;
+#line 1480 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_bBoss  = FALSE ;
+#line 1483 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+switch(m_EetType ){
+#line 1487 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELT_ICE : 
+#line 1488 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetComponents  (this  , * GetModelObject  () , MODEL_ICE  , TEXTURE_ICE  , TEXTURE_ICE  , TEX_SPEC_STRONG  , 0);
+#line 1489 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 break ;
-#line 1523 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1490 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELT_LAVA : 
+#line 1491 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fBlowUpAmount  = 1E30f;
+#line 1492 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetComponents  (this  , * GetModelObject  () , MODEL_LAVA  , TEXTURE_LAVA  , 0 , 0 , TEXTURE_LAVA_DETAIL );
+#line 1493 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+break ;
+#line 1500 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 }
-#line 1524 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-StandingAnim  ();
-#line 1527 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-if(m_EecChar  == ELC_SMALL ){
-#line 1528 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-GetModelObject  () -> StretchModel  (FLOAT3D (LAVAMAN_SMALL_STRETCH  , LAVAMAN_SMALL_STRETCH  , LAVAMAN_SMALL_STRETCH ));
-#line 1529 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 1530 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-else if(m_EecChar  == ELC_LARGE ){
-#line 1531 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-GetModelObject  () -> StretchModel  (FLOAT3D (LAVAMAN_LARGE_STRETCH  , LAVAMAN_LARGE_STRETCH  , LAVAMAN_LARGE_STRETCH ));
-#line 1532 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}else if(m_EecChar  == ELC_BIG ){
-#line 1533 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-GetModelObject  () -> StretchModel  (FLOAT3D (LAVAMAN_BIG_STRETCH  , LAVAMAN_BIG_STRETCH  , LAVAMAN_BIG_STRETCH ));
-#line 1534 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
-}
-#line 1535 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+#line 1501 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 ModelChangeNotify  ();
+#line 1504 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EecChar  == ELC_LARGE )
+#line 1505 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 1507 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_sptType  = SPT_SMALL_LAVA_STONES ;
+#line 1508 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_bBoss  = TRUE ;
+#line 1509 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetHealth  (10000.0f);
+#line 1510 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fMaxHealth  = 10000.0f;
+#line 1512 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fSpawnDamage  = 2000.0f;
+#line 1514 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fWalkSpeed  = FRnd  () / 2 + 1.0f;
+#line 1515 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_aWalkRotateSpeed  = AngleDeg  (FRnd  () * 10.0f + 25.0f);
+#line 1516 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fAttackRunSpeed  = FRnd  () + 2.0f;
+#line 1517 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_aAttackRotateSpeed  = AngleDeg  (FRnd  () * 50 + 245.0f);
+#line 1518 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fCloseRunSpeed  = FRnd  () + 2.0f;
+#line 1519 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_aCloseRotateSpeed  = AngleDeg  (FRnd  () * 50 + 245.0f);
+#line 1521 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fAttackDistance  = 300.0f;
+#line 1522 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fCloseDistance  = 60.0f;
+#line 1523 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fStopDistance  = 30.0f;
+#line 1524 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fAttackFireTime  = 0.5f;
+#line 1525 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fCloseFireTime  = 1.0f;
+#line 1526 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fIgnoreRange  = 600.0f;
+#line 1527 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_iScore  = 50000;
+#line 1528 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 1529 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+else if(m_EecChar  == ELC_BIG )
+#line 1530 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 1531 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_sptType  = SPT_LAVA_STONES ;
+#line 1532 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetHealth  (800.0f);
+#line 1533 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fMaxHealth  = 800.0f;
+#line 1535 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fSpawnDamage  = 500.0f;
+#line 1537 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fWalkSpeed  = FRnd  () + 1.5f;
 #line 1538 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_aWalkRotateSpeed  = AngleDeg  (FRnd  () * 10.0f + 25.0f);
+#line 1539 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fAttackRunSpeed  = FRnd  () * 1.0f + 6.0f;
+#line 1540 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_aAttackRotateSpeed  = AngleDeg  (FRnd  () * 50 + 300.0f);
+#line 1541 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fCloseRunSpeed  = FRnd  () * 2.0f + 2.0f;
+#line 1542 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_aCloseRotateSpeed  = AngleDeg  (FRnd  () * 50 + 300.0f);
+#line 1544 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fAttackDistance  = 150.0f;
+#line 1545 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fCloseDistance  = 20.0f;
+#line 1546 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fStopDistance  = 5.0f;
+#line 1547 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fAttackFireTime  = 0.5f;
+#line 1548 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fCloseFireTime  = 1.0f;
+#line 1549 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fIgnoreRange  = 400.0f;
+#line 1551 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_iScore  = 2500;
+#line 1552 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 1553 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+else 
+#line 1554 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 1555 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_sptType  = SPT_LAVA_STONES ;
+#line 1556 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetHealth  (100.0f);
+#line 1557 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fMaxHealth  = 100.0f;
+#line 1559 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fWalkSpeed  = FRnd  () + 1.5f;
+#line 1560 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_aWalkRotateSpeed  = AngleDeg  (FRnd  () * 10.0f + 25.0f);
+#line 1561 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fAttackRunSpeed  = FRnd  () * 2.0f + 6.0f;
+#line 1562 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_aAttackRotateSpeed  = AngleDeg  (FRnd  () * 50 + 500.0f);
+#line 1563 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fCloseRunSpeed  = FRnd  () * 3.0f + 4.0f;
+#line 1564 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_aCloseRotateSpeed  = AngleDeg  (FRnd  () * 50 + 500.0f);
+#line 1566 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fAttackDistance  = 100.0f;
+#line 1567 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fCloseDistance  = 10.0f;
+#line 1568 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fStopDistance  = 5.0f;
+#line 1569 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fAttackFireTime  = 1.5f;
+#line 1570 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fCloseFireTime  = 1.0f;
+#line 1571 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_fIgnoreRange  = 200.0f;
+#line 1573 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_iScore  = 500;
+#line 1574 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 1577 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(! m_bMovable )
+#line 1578 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 1579 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_EesStartState  = ELS_NORMAL ;
+#line 1580 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_bSpawnWhenHarmed  = FALSE ;
+#line 1581 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_bSpawnOnBlowUp  = FALSE ;
+#line 1583 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_iFireCount  <= 0)
+#line 1584 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+{
+#line 1585 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+WarningMessage  ("Entity: %s - Fire count must be greater than zero" , GetName  ());
+#line 1586 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_iFireCount  = 1;
+#line 1587 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 1588 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 1591 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+m_EesCurrentState  = m_EesStartState ;
+#line 1592 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+RemoveAttachments  ();
+#line 1593 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+switch(m_EesCurrentState ){
+#line 1594 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELS_NORMAL : 
+#line 1595 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetPhysicsFlags  (EPF_MODEL_WALKING );
+#line 1596 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+AddAttachments  ();
+#line 1597 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+break ;
+#line 1598 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELS_BOX : 
+#line 1599 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetPhysicsFlags  (EPF_BOX_PLANE_ELEMENTAL );
+#line 1600 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+break ;
+#line 1601 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+case ELS_PLANE : 
+#line 1602 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SetPhysicsFlags  (EPF_MODEL_IMMATERIAL  | EPF_MOVABLE );
+#line 1603 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+SwitchToEditorModel  ();
+#line 1604 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+break ;
+#line 1605 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 1606 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+StandingAnim  ();
+#line 1609 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+if(m_EecChar  == ELC_SMALL ){
+#line 1610 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+GetModelObject  () -> StretchModel  (FLOAT3D (LAVAMAN_SMALL_STRETCH  , LAVAMAN_SMALL_STRETCH  , LAVAMAN_SMALL_STRETCH ));
+#line 1611 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 1612 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+else if(m_EecChar  == ELC_LARGE ){
+#line 1613 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+GetModelObject  () -> StretchModel  (FLOAT3D (LAVAMAN_LARGE_STRETCH  , LAVAMAN_LARGE_STRETCH  , LAVAMAN_LARGE_STRETCH ));
+#line 1614 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}else if(m_EecChar  == ELC_BIG ){
+#line 1615 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+GetModelObject  () -> StretchModel  (FLOAT3D (LAVAMAN_BIG_STRETCH  , LAVAMAN_BIG_STRETCH  , LAVAMAN_BIG_STRETCH ));
+#line 1616 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+}
+#line 1617 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
+ModelChangeNotify  ();
+#line 1620 "V:/Programs/SamSDK/Sources/EntitiesMP/Elemental.es"
 Jump(STATE_CURRENT, STATE_CEnemyBase_MainLoop, FALSE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};

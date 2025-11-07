@@ -104,7 +104,7 @@ functions:
   }
 
   // render particles
-  void RenderParticles(void)
+  /*void RenderParticles(void)
   {
     // no particles when not existing or in DM modes
     if( GetRenderType()!=CEntity::RT_MODEL || GetSP()->sp_gmGameMode>CSessionProperties::GM_COOPERATIVE
@@ -128,7 +128,7 @@ functions:
         Particles_Atomic(this, 2.0f*0.75f, 2.0f*0.95f, PT_STAR05, 12);
         break;
     }
-  }
+  }*/
 
   // set health properties depending on health type
   void SetProperties(void)
@@ -154,7 +154,7 @@ functions:
         StretchItem( FLOAT3D(1.0f*0.75f, 1.0f*0.75f, 1.0f*0.75));
         break;                                                               
       case PUIT_DAMAGE:
-        StartModelAnim( ITEMHOLDER_ANIM_SMALLOSCILATION, AOF_LOOPING|AOF_NORESTART);
+        StartModelAnim( ITEMHOLDER_ANIM_DEFAULT_ANIMATION, AOF_LOOPING|AOF_NORESTART);
         ForceCollisionBoxIndexChange( ITEMHOLDER_COLLISION_BOX_BIG);
         m_fRespawnTime = (m_fCustomRespawnTime>0) ? m_fCustomRespawnTime : 40.0f; 
         m_strDescription.PrintF("SeriousDamage");
@@ -163,7 +163,7 @@ functions:
         StretchItem( FLOAT3D(1.0f*0.75f, 1.0f*0.75f, 1.0f*0.75));
         break;
       case PUIT_SPEED:
-        StartModelAnim( ITEMHOLDER_ANIM_SMALLOSCILATION, AOF_LOOPING|AOF_NORESTART);
+        StartModelAnim( ITEMHOLDER_ANIM_DEFAULT_ANIMATION, AOF_LOOPING|AOF_NORESTART);
         ForceCollisionBoxIndexChange( ITEMHOLDER_COLLISION_BOX_BIG);
         m_fRespawnTime = (m_fCustomRespawnTime>0) ? m_fCustomRespawnTime : 40.0f; 
         m_strDescription.PrintF("SeriousSpeed");
@@ -172,7 +172,7 @@ functions:
         StretchItem( FLOAT3D(1.0f*0.75f, 1.0f*0.75f, 1.0f*0.75));
         break;
       case PUIT_BOMB:
-        StartModelAnim( ITEMHOLDER_ANIM_SMALLOSCILATION, AOF_LOOPING|AOF_NORESTART);
+        StartModelAnim( ITEMHOLDER_ANIM_DEFAULT_ANIMATION, AOF_LOOPING|AOF_NORESTART);
         ForceCollisionBoxIndexChange( ITEMHOLDER_COLLISION_BOX_BIG);
         m_fRespawnTime = (m_fCustomRespawnTime>0) ? m_fCustomRespawnTime : 40.0f; 
         m_strDescription.PrintF("Serious Bomb!");
