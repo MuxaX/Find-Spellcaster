@@ -7894,7 +7894,7 @@ if(!(m_iBullets  > 0)){ Jump(STATE_CURRENT,0x019200ca, FALSE, EInternal());retur
 #line 5637 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireMachineBullet  (wpn_fFX  [ WEAPON_MINIGUN  ] , wpn_fFY  [ WEAPON_MINIGUN  ] , 
 #line 5638 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-750.0f , 10.0f , (GetSP  () -> sp_bCooperative ) ? 0.01f : 0.03f , 
+750.0f , 14.0f , (GetSP  () -> sp_bCooperative ) ? 0.01f : 0.03f , 
 #line 5639 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ((GetSP  () -> sp_bCooperative ) ? 0.5f : 0.0f));
 #line 5640 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"

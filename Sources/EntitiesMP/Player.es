@@ -1210,6 +1210,9 @@ properties:
  196 FLOAT m_fBulletShakeFreqMod = 1.0f,
  197 FLOAT m_fBulletShakeDX = 0.0f,
  198 FLOAT m_fBulletShakeDY = 0.0f,
+ //199 INDEX m_iSeriousDamageCount = 0,      // ammount of serious bombs player owns
+ //200 INDEX m_iLastSeriousDamageCount = 0,  // ammount of serious bombs player had before firing
+ //201 FLOAT m_tmSeriousDamageFired = -10.0f,  // when the bomb was last fired
 
 {
   ShellLaunchData ShellLaunchData_array;  // array of data describing flying empty shells
@@ -3610,6 +3613,11 @@ functions:
 	    m_iSeriousBombCount++;
 	    //m_tmSeriousDamage   = tmNow + m_tmSeriousDamageMax;
         ItemPicked(TRANS("^cFF0000Serious Damage!"), 0);
+		if (GetSP()->sp_bCooperative) {
+          EComputerMessage eMsg;
+          eMsg.fnmMessage = CTFILENAME("DataMP\\Messages\\Weapons\\seriousbomb.txt");
+          this->SendEvent(eMsg);
+        }
         return TRUE;
       case PUIT_SPEED   :  //m_tmSeriousSpeed    = tmNow + m_tmSeriousSpeedMax;
         ItemPicked(TRANS("^cFF9400Serious Speed"), 0);
@@ -4747,7 +4755,8 @@ functions:
       if (m_iSeriousBombCount>0 && m_tmSeriousBombFired+4.0f<_pTimer->CurrentTick()) {
 	    const FLOAT tmNow = _pTimer->CurrentTick();
         m_iLastSeriousBombCount = m_iSeriousBombCount;
-		Glare(1.0f, 2.8f, 0.3f, 0.3f);
+		Glare(0.1f, 1.8f, 0.3f, 0.3f);
+		//autowait(2.0f);
         m_iSeriousBombCount--;
         m_tmSeriousBombFired = _pTimer->CurrentTick();
 		

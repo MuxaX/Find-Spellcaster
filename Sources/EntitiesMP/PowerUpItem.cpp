@@ -74,6 +74,49 @@ return TRUE ;
 #line 104 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
 }
   
+#line 107 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+void CPowerUpItem::RenderParticles(void) 
+#line 108 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+{
+#line 110 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+if(GetRenderType  () != CEntity  :: RT_MODEL  || GetSP  () -> sp_gmGameMode  > CSessionProperties  :: GM_COOPERATIVE  
+#line 111 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+|| ! ShowItemParticles  ()){
+#line 112 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+return ;
+#line 113 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+}
+#line 114 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+switch(m_puitType ){
+#line 115 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+case PUIT_INVISIB : 
+#line 116 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+Particles_Atomic  (this  , 2.0f * 0.75f , 1.00f * 0.75f , PT_STAR08  , 320);
+#line 117 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+break ;
+#line 118 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+case PUIT_INVULNER : 
+#line 119 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+Particles_Atomic  (this  , 2.0f * 0.75f , 1.00f * 0.75f , PT_STAR05  , 36);
+#line 120 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+break ;
+#line 121 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+case PUIT_DAMAGE : 
+#line 122 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+Particles_Atomic  (this  , 1.0f * 0.75f , 0.75f * 0.75f , PT_STAR08  , 36);
+#line 123 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+break ;
+#line 124 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+case PUIT_SPEED : 
+#line 125 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+Particles_Stardust  (this  , 1.0f * 0.75f , 0.75f * 0.75f , PT_STAR08  , 128);
+#line 126 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+break ;
+#line 130 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+}
+#line 131 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+}
+  
 #line 134 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
 void CPowerUpItem::SetProperties(void) 
 #line 135 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
@@ -185,7 +228,7 @@ ItemCollected(const CEntityEvent &__eeInput) {
 #line 191 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
 ASSERT  (epass  . penOther  != NULL );
 #line 194 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
-if(m_puitType  == PUIT_BOMB ){
+if(m_puitType  == PUIT_DAMAGE ){
 #line 195 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
 if(IsOfClass  (epass  . penOther  , "Player")){
 #line 196 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"

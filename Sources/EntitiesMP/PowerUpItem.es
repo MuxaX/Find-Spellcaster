@@ -65,7 +65,7 @@ components:
 // ************** SOUNDS **************
 //301 sound   SOUND_INVISIB  "SoundsMP\\Items\\Invisibility.wav",
 //302 sound   SOUND_INVULNER "SoundsMP\\Items\\Invulnerability.wav",
-//303 sound   SOUND_DAMAGE   "SoundsMP\\Items\\SeriousDamage.wav",
+//303 sound   SOUND_DAMAGE   "SoundsMP\\Items\\SeriousBomb.wav",
 //304 sound   SOUND_SPEED    "SoundsMP\\Items\\SeriousSpeed.wav",
 301 sound   SOUND_PICKUP   "SoundsMP\\Items\\PowerUp.wav",
 305 sound   SOUND_BOMB     "SoundsMP\\Items\\SeriousBomb.wav",
@@ -104,7 +104,7 @@ functions:
   }
 
   // render particles
-  /*void RenderParticles(void)
+  void RenderParticles(void)
   {
     // no particles when not existing or in DM modes
     if( GetRenderType()!=CEntity::RT_MODEL || GetSP()->sp_gmGameMode>CSessionProperties::GM_COOPERATIVE
@@ -113,22 +113,22 @@ functions:
     }
     switch( m_puitType) {
       case PUIT_INVISIB:
-        Particles_Stardust( this, 2.0f*0.75f, 1.00f*0.75f, PT_STAR08, 320);
+        Particles_Atomic( this, 2.0f*0.75f, 1.00f*0.75f, PT_STAR08, 320);
         break;
       case PUIT_INVULNER:
-        Particles_Stardust( this, 2.0f*0.75f, 1.00f*0.75f, PT_STAR08, 192);
+        Particles_Atomic( this, 2.0f*0.75f, 1.00f*0.75f, PT_STAR05, 36);
         break;
       case PUIT_DAMAGE:
-        Particles_Stardust( this, 1.0f*0.75f, 0.75f*0.75f, PT_STAR08, 128);
+        Particles_Atomic( this, 1.0f*0.75f, 0.75f*0.75f, PT_STAR08, 36);
         break;
       case PUIT_SPEED:
         Particles_Stardust( this, 1.0f*0.75f, 0.75f*0.75f, PT_STAR08, 128);
         break;
-      case PUIT_BOMB:
+      /*case PUIT_BOMB:
         Particles_Atomic(this, 2.0f*0.75f, 2.0f*0.95f, PT_STAR05, 12);
-        break;
+        break;*/
     }
-  }*/
+  }
 
   // set health properties depending on health type
   void SetProperties(void)
@@ -191,7 +191,7 @@ procedures:
     ASSERT( epass.penOther!=NULL);
  
     // don't pick up more bombs then you can carry
-    if (m_puitType == PUIT_BOMB) {
+    if (m_puitType == PUIT_DAMAGE) {
       if (IsOfClass(epass.penOther, "Player")) {
         if (((CPlayer &)*epass.penOther).m_iSeriousBombCount>=3) {
           return;

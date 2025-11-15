@@ -35,6 +35,9 @@ void Precache(void);
 #line 88 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
 BOOL FillEntityStatistics(EntityStats * pes);
    
+#line 107 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
+void RenderParticles(void);
+   
 #line 134 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
 void SetProperties(void);
 #define  STATE_CPowerUpItem_ItemCollected 0x03280001

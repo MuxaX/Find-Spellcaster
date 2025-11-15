@@ -1387,7 +1387,7 @@ _pDP->FlushRenderingQueue();
       colBombBar = LerpColor(colBombBar, C_RED, fFactor);
     }
     HUD_DrawBorder( fCol,         fRow, fOneUnitS, fOneUnitS, colBombBorder);
-    HUD_DrawIcon(   fCol,         fRow, _toASeriousBomb, colBombIcon, fNormValue, FALSE);
+    HUD_DrawIcon(   fCol/3,         fRow, _toASeriousBomb, colBombIcon, fNormValue, FALSE);
     //HUD_DrawBar(    fCol+fBarPos, fRow, fOneUnitS/5, fOneUnitS-2, BO_DOWN, colBombBar, fNormValue, _toASeriousBomb);
     // make space for serious bomb
     fCol -= fAdvUnitS;

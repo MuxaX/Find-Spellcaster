@@ -18,6 +18,8 @@
 #define LAVAMAN_BIG_STRETCH (4.0f*1.25f)
 #define LAVAMAN_LARGE_STRETCH (16.0f*2.5f)
 
+#define ICEMAN_LARGE_STRETCH (8.0f*1.75f)
+
 #define LAVAMAN_BOSS_FIRE_RIGHT FLOAT3D(1.01069f, 0.989616f, -1.39743f)
 #define LAVAMAN_BOSS_FIRE_LEFT FLOAT3D(-0.39656f, 1.08619f, -1.34373f)
 #define LAVAMAN_FIRE_LEFT FLOAT3D(-0.432948f, 1.51133f, -0.476662f)
@@ -201,6 +203,7 @@ properties:
  34 CSoundObject m_soFireL,
  35 CSoundObject m_soFireR,
  36 INDEX m_bCountAsKill = TRUE,
+ 37 BOOL bFistHit = FALSE,
  
 components:
   0 class   CLASS_BASE         "Classes\\EnemyBase.ecl",
@@ -591,7 +594,14 @@ functions:
     INDEX iAnim;
     if (m_EetType == ELT_LAVA) {
       iAnim = ELEMENTALLAVA_ANIM_DEATH03;
-    } else {
+    }
+	else if(m_EetType == ELT_ICE) {
+	      //INDEX iAnim;
+			switch (IRnd()%3) {
+			  case 0: iAnim = ICEMAN_ANIM_DEATH01; break;
+			  case 1: iAnim = ICEMAN_ANIM_DEATH02; break;
+			}
+	}else {
 //      iAnim = STONEMAN_ANIM_DEATH03;
     }
     StartModelAnim(iAnim, 0);
@@ -1198,10 +1208,11 @@ procedures:
   //
   // ICEMAN
   //
-  IcemanFire(EVoid) {
+ IcemanFire(EVoid) {
     StartModelAnim(ICEMAN_ANIM_ATTACK05, 0);
-    autowait(0.7f);
-    // throw rocks
+    autowait(0.4f); // faster startup
+    
+    // throw ice projectiles
     if (m_EecChar==ELC_LARGE) {
       ThrowRocks(PRT_ICEMAN_LARGE_FIRE);
     } else if (m_EecChar==ELC_BIG) {
@@ -1209,23 +1220,101 @@ procedures:
     } else {
       ThrowRocks(PRT_ICEMAN_FIRE);
     }
+    
     PlaySound(m_soSound, SOUND_ICEMAN_FIRE, SOF_3D);
-    autowait(0.9f);
-    // stand a while
+    autowait(0.5f); // shorter recovery
+    
     StandingAnim();
-    autowait(FRnd()/3+_pTimer->TickQuantum);
+    autowait(FRnd()/2 + _pTimer->TickQuantum);
     return EReturn();
   };
-
-  IcemanHit(EVoid) {
+  
+    // close range ice attack - similar to skeleton bones attack
+  IcemanCloseAttack(EVoid) {
+  
+    // close ice attack
     StartModelAnim(ICEMAN_ANIM_ATTACK01, 0);
-    autowait(0.6f);
-    HitGround();
+    //DeactivateRunningSound();
+
+    // right hand attack
+    autowait(0.35f);
+    
+    // check if enemy is in range for melee hit
+    if (CalcDist(m_penEnemy) < 30.0f) { 
+        bFistHit = TRUE; 
+    }
+    
     PlaySound(m_soSound, SOUND_ICEMAN_KICK, SOF_3D);
-    autowait(0.5f);
-    // stand a while
+    autowait(0.10f);
+    
+    // second hit check
+    if (CalcDist(m_penEnemy) < 30.0f) { 
+        bFistHit = TRUE; 
+    }
+    
+    // if hit successful
+    if (bFistHit) {
+        FLOAT3D vDirection = m_penEnemy->GetPlacement().pl_PositionVector - GetPlacement().pl_PositionVector;
+        vDirection.Normalize();
+        
+        // inflict damage - ice melee damage
+        InflictDirectDamage(m_penEnemy, this, DMT_CLOSERANGE, 30.0f, FLOAT3D(0, 0, 0), vDirection);
+        
+        // push target back with freezing effect
+        FLOAT3D vSpeed = vDirection * 18.0f; // push away from iceman
+        vSpeed(2) = 4.0f; // slight upward push
+        KickEntity(m_penEnemy, vSpeed);
+		ShakeItBaby(_pTimer->CurrentTick(), 2.0f);
+    }
+
+    autowait(1.0f);
     StandingAnim();
-    autowait(FRnd()/3+_pTimer->TickQuantum);
+    autowait(FRnd()/2 + _pTimer->TickQuantum);
+    return EReturn();
+  };
+  
+  // Move to player for close attack
+IcemanMoveToPlayer(EVoid) {
+    // Start running animation
+    StartModelAnim(ICEMAN_ANIM_RUN, AOF_LOOPING);
+    
+    // Calculate direction to player
+    FLOAT3D vPlayerPos = m_penEnemy->GetPlacement().pl_PositionVector;
+    FLOAT3D vMyPos = GetPlacement().pl_PositionVector;
+    FLOAT3D vDirection = vPlayerPos - vMyPos;
+    vDirection.Normalize();
+    
+    // Face the player
+    FLOAT fDesiredYaw = ATan2(-vDirection(1), vDirection(3));
+    SetDesiredRotation(ANGLE3D(0, fDesiredYaw, 0));
+    
+    // Move forward toward player
+    en_vCurrentTranslationAbsolute = FLOAT3D(0, 0, 8.0f);
+    
+    // Move for a short time
+    autowait(0.3f);
+	ShakeItBaby(_pTimer->CurrentTick(), 0.5f);
+    
+    // Stop movement
+    en_vCurrentTranslationAbsolute = FLOAT3D(0, 0, 0);
+    StandingAnim();
+    
+    return EReturn();
+};
+
+IcemanHit(EVoid) {
+    BOOL bAtShootingDistance = (Abs(CalcDist(m_penEnemy) - 50.0f) < 5.0f) || 
+                              (Abs(CalcDist(m_penEnemy) - 75.0f) < 5.0f) || 
+                              (Abs(CalcDist(m_penEnemy) - 100.0f) < 5.0f);
+    // 70% chance for close attack, 30% for ranged when in close distance
+	if(bAtShootingDistance){
+		jump IcemanFire();
+		}
+    else if (CalcDist(m_penEnemy) < 45.0f /*&& FRnd() < 0.7f*/) {
+        jump IcemanCloseAttack(); 
+    }	else{
+        jump IcemanMoveToPlayer();
+    }
     return EReturn();
   };
 /*
@@ -1507,7 +1596,11 @@ procedures:
       m_sptType = SPT_SMALL_LAVA_STONES;
       m_bBoss = TRUE;
       SetHealth(10000.0f);
-      m_fMaxHealth = 10000.0f;
+	  m_fMaxHealth = 10000.0f;
+	  if (m_EetType == ELT_ICE){
+		SetHealth(7500.0f);
+		m_fMaxHealth = 7500.0f;
+	  }
       // after loosing this ammount of damage we will spawn new elemental
       m_fSpawnDamage = 2000.0f;
       // setup moving speed
@@ -1525,6 +1618,22 @@ procedures:
       m_fCloseFireTime = 1.0f;
       m_fIgnoreRange = 600.0f;
       m_iScore = 50000;
+	  if (m_EetType == ELT_ICE){
+		m_fWalkSpeed = 9.0f;
+		m_aWalkRotateSpeed = AngleDeg(FRnd()*10.0f + 25.0f);
+		m_fAttackRunSpeed = 16.0f;
+		m_aAttackRotateSpeed = AngleDeg(FRnd()*50 + 300.0f);
+		m_fCloseRunSpeed = 11.0f;
+		m_aCloseRotateSpeed = AngleDeg(FRnd()*50 + 300.0f);
+		      // setup attack distances
+		m_fAttackDistance = 40.0f;
+		m_fCloseDistance = 30.0f;
+		m_fStopDistance = 10.0f;
+		m_fAttackFireTime = 1.0f;
+		m_fCloseFireTime = 1.5f;
+		m_fIgnoreRange = 600.0f;
+		m_iScore = 30000;
+	  }
     }
     else if (m_EecChar==ELC_BIG)
     {
@@ -1611,6 +1720,9 @@ procedures:
     }
     else if (m_EecChar==ELC_LARGE) {
       GetModelObject()->StretchModel(FLOAT3D(LAVAMAN_LARGE_STRETCH, LAVAMAN_LARGE_STRETCH, LAVAMAN_LARGE_STRETCH));
+	  if (m_EetType == ELT_ICE){
+			GetModelObject()->StretchModel(FLOAT3D(ICEMAN_LARGE_STRETCH, ICEMAN_LARGE_STRETCH, ICEMAN_LARGE_STRETCH));
+			}
     } else if (m_EecChar==ELC_BIG) {
       GetModelObject()->StretchModel(FLOAT3D(LAVAMAN_BIG_STRETCH, LAVAMAN_BIG_STRETCH, LAVAMAN_BIG_STRETCH));
     }

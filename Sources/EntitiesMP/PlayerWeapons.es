@@ -5635,7 +5635,7 @@ procedures:
     // fire one bullet
     if (m_iBullets>0) {
       FireMachineBullet(wpn_fFX[WEAPON_MINIGUN], wpn_fFY[WEAPON_MINIGUN],
-          750.0f, 10.0f, (GetSP()->sp_bCooperative) ? 0.01f : 0.03f,
+          750.0f, 14.0f, (GetSP()->sp_bCooperative) ? 0.01f : 0.03f,
           ( (GetSP()->sp_bCooperative) ? 0.5f : 0.0f));
 		  ShakeBullet(0.1f, 0.3f, 1.1f, 0.025f);
       SpawnRangeSound(50.0f);

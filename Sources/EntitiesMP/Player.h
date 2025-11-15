@@ -211,390 +211,390 @@ PlayerStats m_psGameStats;
 PlayerStats m_psGameTotal;
 CModelObject m_moRender;
    
-#line 1345 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1364 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 INDEX GenderSound(INDEX iSound);
    
-#line 1350 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1369 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void AddBouble(FLOAT3D vPos,FLOAT3D vSpeedRelative);
    
-#line 1364 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1383 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void ClearShellLaunchData(void);
    
-#line 1374 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1393 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void AddBulletSpray(FLOAT3D vPos,EffectParticlesType eptType,FLOAT3D vStretch);
    
-#line 1387 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1406 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void ClearBulletSprayLaunchData(void);
    
-#line 1396 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1415 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void AddGoreSpray(FLOAT3D vPos,FLOAT3D v3rdPos,SprayParticlesType sptType,FLOAT3D vSpilDirection,
-#line 1397 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1416 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 FLOATaabbox3D boxHitted,FLOAT fDamagePower,COLOR colParticles);
    
-#line 1414 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1433 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void ClearGoreSprayLaunchData(void);
     CPlayer(void);
    
-#line 1438 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1457 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 class CPlayerWeapons * GetPlayerWeapons(void);
    
-#line 1443 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1462 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 class CPlayerAnimator * GetPlayerAnimator(void);
    
-#line 1449 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1468 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CPlayerSettings * GetSettings(void);
    void Copy(CEntity & enOther,ULONG ulFlags);
    
-#line 1485 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1504 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void UpdateLatency(FLOAT tmLatencyNow);
    
-#line 1512 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1531 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void ValidateCharacter(void);
    
-#line 1522 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1541 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void ParseGender(CTString & strName);
    
-#line 1533 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1552 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void CheckHighScore(void);
    
-#line 1556 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1575 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CTString GetPredictName(void)const;
    
-#line 1569 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1588 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void Write_t(CTStream * ostr);
    
-#line 1585 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1604 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void Read_t(CTStream * istr);
    
-#line 1624 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1643 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CLightSource * GetLightSource(void);
    
-#line 1634 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1653 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void SetPredictionTime(TIME tmAdvance);
    
-#line 1640 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1659 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 TIME GetPredictionTime(void);
    
-#line 1646 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1665 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 FLOAT GetPredictionRange(void);
    
-#line 1652 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1671 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void AddDependentsToPrediction(void);
    
-#line 1661 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1680 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 TIME GetStatsInGameTimeLevel(void);
    
-#line 1669 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1688 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 TIME GetStatsInGameTimeGame(void);
    
-#line 1678 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1697 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 FLOAT GetStatsRealWorldTime(void);
    
-#line 1689 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1708 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CTString GetStatsRealWorldStarted(void);
    void GetStats(CTString & strStats,const CompStatType csType,INDEX ctCharsPerRow);
    
-#line 1729 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1748 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void GetShortStats(CTString & strStats);
    
-#line 1737 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1756 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void GetDetailStatsDM(CTString & strStats);
    
-#line 1812 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1831 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void GetDetailStatsCoop(CTString & strStats);
    
-#line 1890 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1909 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void GetDetailStatsSP(CTString & strStats,INDEX iCoopType);
    
-#line 1978 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 1997 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void GetGameSpyPlayerInfo(INDEX iPlayer,CTString & strOut);
    
-#line 1995 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2014 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 BOOL HasMessage(const CTFileName & fnmMessage);
    
-#line 2009 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2028 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void ReceiveComputerMessage(const CTFileName & fnmMessage,ULONG ulFlags);
    
-#line 2031 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2050 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void SayVoiceMessage(const CTFileName & fnmMessage);
    
-#line 2041 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2060 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void CheatAllMessagesDir(const CTString & strDir,ULONG ulFlags);
    
-#line 2056 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2075 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void CheatAllMessages(void);
    
-#line 2071 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2090 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void ItemPicked(const CTString & strName,FLOAT fAmmount);
    
-#line 2093 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2112 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void SetupLightSource(void);
    
-#line 2110 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2129 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void PlayLightAnim(INDEX iAnim,ULONG ulFlags);
    
-#line 2117 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2136 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 BOOL AdjustShadingParameters(FLOAT3D & vLightDirection,COLOR & colLight,COLOR & colAmbient);
    
-#line 2145 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2164 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CModelObject * GetModelForRendering(void);
    
-#line 2215 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2234 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 class CPlayerActionMarker * GetActionMarker(void);
    
-#line 2220 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2239 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void FindMusicHolder(void);
    
-#line 2228 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2247 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void UpdateLevelStats(void);
    
-#line 2251 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2270 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 BOOL IsFuss(void);
    
-#line 2262 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2281 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void SetDefaultMouthPitch(void);
    
-#line 2266 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2285 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void SetRandomMouthPitch(FLOAT fMin,FLOAT fMax);
    
-#line 2270 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2289 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void SetSpeakMouthPitch(void);
    
-#line 2276 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2295 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void ApplyShaking(CPlacement3D & plViewer);
    
-#line 2338 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2357 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 COLOR GetWorldGlaring(void);
    
-#line 2351 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2370 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void RenderScroll(CDrawPort * pdp);
    
-#line 2361 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2380 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void RenderCredits(CDrawPort * pdp);
    
-#line 2371 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2390 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void RenderTextFX(CDrawPort * pdp);
    
-#line 2381 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2400 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void RenderHudPicFX(CDrawPort * pdp);
    
-#line 2391 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2410 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void Glare(FLOAT fStart,FLOAT fEnd,FLOAT fFinR,FLOAT fFoutR);
    
-#line 2409 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2429 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void SetupView(CDrawPort * pdp,CAnyProjection3D & apr,CEntity * & penViewer,
-#line 2410 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2430 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CPlacement3D & plViewer,COLOR & colBlend,BOOL bCamera);
    
-#line 2483 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2503 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void ListenFromEntity(CEntity * penListener,const CPlacement3D & plSound);
    
-#line 2514 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2534 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void RenderDummyView(CDrawPort * pdp);
    
-#line 2535 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2555 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void RenderPlayerView(CDrawPort * pdp,BOOL bShowExtras);
    
-#line 2729 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2773 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void RenderCameraView(CDrawPort * pdp,BOOL bListen);
    
-#line 2810 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2854 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void RenderGameView(CDrawPort * pdp,void * pvUserData);
    
-#line 2886 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2930 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void PreMoving(void);
    
-#line 2898 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2942 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void DoMoving(void);
    
-#line 2912 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 2956 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void PostMoving(void);
    
-#line 2963 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3007 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void SetUnconnected(void);
    
-#line 2983 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3027 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void SetConnected(void);
    
-#line 2995 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3039 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 BOOL IsConnected(void)const;
    
-#line 3001 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3045 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void ChecksumForSync(ULONG & ulCRC,INDEX iExtensiveSyncCheck);
    
-#line 3014 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3058 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void DumpSync_t(CTStream & strm,INDEX iExtensiveSyncCheck);
   
-#line 3029 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3073 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 virtual void LeaveStain(BOOL bGrow);
    
-#line 3065 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3109 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void DamageImpact(enum DamageType dmtType,
-#line 3066 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3110 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection);
    
-#line 3208 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3252 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void ReceiveDamage(CEntity * penInflictor,enum DamageType dmtType,
-#line 3209 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3253 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 FLOAT fDamageAmmount,const FLOAT3D & vHitPoint,const FLOAT3D & vDirection);
    
-#line 3370 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3414 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 BOOL ShouldBlowUp(void);
    
-#line 3385 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3429 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void BlowUp(void);
    
-#line 3439 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3483 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void * GetEntityInfo(void);
    
-#line 3457 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3501 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 BOOL ReceiveItem(const CEntityEvent & ee);
    
-#line 3597 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3641 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void ChangePlayerView();
    
-#line 3628 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3672 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void ComputerPressed(void);
    
-#line 3645 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3689 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void UsePressed(BOOL bOrComputer);
    
-#line 3722 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3767 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void SetGameEnd(void);
    
-#line 3736 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3781 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void CheckGameEnd(void);
    
-#line 3761 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3806 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void PreapplyAction(const CPlayerAction & paAction);
    
-#line 3766 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3811 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void ApplyAction(const CPlayerAction & paOriginal,FLOAT tmLatency);
    
-#line 3932 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3977 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void Disconnect(void);
    
-#line 3943 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 3988 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void CharacterChanged(const CPlayerCharacter & pcNew);
    
-#line 3999 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4044 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void AliveActions(const CPlayerAction & pa);
    
-#line 4033 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4078 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void AutoActions(const CPlayerAction & pa);
    
-#line 4119 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4164 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void GetLerpedWeaponPosition(FLOAT3D vRel,CPlacement3D & pl);
    
-#line 4128 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4173 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void SpawnBubbles(INDEX ctBubbles);
    
-#line 4143 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4188 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void PlayPowerUpSound(void);
    
-#line 4148 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4193 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void ActiveActions(const CPlayerAction & paAction);
    
-#line 4568 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4617 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void RoundViewAngle(ANGLE & aViewAngle,ANGLE aRound);
    
-#line 4578 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4627 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void DeathActions(const CPlayerAction & paAction);
    
-#line 4643 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4692 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void ButtonsActions(CPlayerAction & paAction);
    
-#line 4766 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4816 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void ApplySniperZoom(BOOL bZoomIn);
    
-#line 4790 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4840 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 BOOL CheatsEnabled(void);
    
-#line 4796 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4846 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void Cheats(void);
    
-#line 4859 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4909 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void GetLerpedAbsoluteViewPlacement(CPlacement3D & plView);
    
-#line 4934 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 4984 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CEntity * GetViewEntity(void);
    
-#line 4962 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5012 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void RenderChainsawParticles(BOOL bThird);
    
-#line 4998 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5048 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void RenderHUD(CPerspectiveProjection3D & prProjection,CDrawPort * pdp,
-#line 4999 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5049 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 FLOAT3D vViewerLightDirection,COLOR colViewerLight,COLOR colViewerAmbient,
-#line 5000 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5050 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 BOOL bRenderWeapon,INDEX iEye);
    
-#line 5107 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5157 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 CEntity * GetDeathmatchStartMarker(void);
    
-#line 5176 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5226 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void InitializePlayer();
    
-#line 5212 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5262 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 FLOAT3D GetTeleportingOffset(void);
    
-#line 5230 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5280 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void RemapLevelNames(INDEX & iLevel);
    
-#line 5279 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5329 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void TeleportPlayer(enum WorldLinkType EwltType);
    
-#line 5524 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5574 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void RecordEndOfLevelData(void);
    
-#line 5557 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5607 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void SpawnTeleport(void);
    
-#line 5579 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5629 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void RenderParticles(void);
    
-#line 5626 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5676 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void TeleportToAutoMarker(CPlayerActionMarker * ppam);
    
-#line 5656 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5706 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 void CheckDeathForRespawnInPlace(EDeath eDeath);
 #define  STATE_CPlayer_Wounded 0x01910005
   BOOL 
-#line 5677 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5727 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Wounded(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_WorldChange 0x01910006
   BOOL 
-#line 5685 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5735 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 WorldChange(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_WorldChangeDead 0x01910007
   BOOL 
-#line 5716 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5766 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 WorldChangeDead(const CEntityEvent &__eeInput);
   BOOL H0x01910008_WorldChangeDead_01(const CEntityEvent &__eeInput);
   BOOL H0x01910009_WorldChangeDead_02(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_Death 0x0191000a
   BOOL 
-#line 5747 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5797 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Death(const CEntityEvent &__eeInput);
   BOOL H0x0191000b_Death_01(const CEntityEvent &__eeInput);
   BOOL H0x0191000c_Death_02(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_TheEnd 0x0191000d
   BOOL 
-#line 6007 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6057 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 TheEnd(const CEntityEvent &__eeInput);
   BOOL H0x0191000e_TheEnd_01(const CEntityEvent &__eeInput);
   BOOL H0x0191000f_TheEnd_02(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_FirstInit 0x01910010
   BOOL 
-#line 6054 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6104 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 FirstInit(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_Rebirth 0x01910011
   BOOL 
-#line 6085 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6135 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Rebirth(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_AutoGoToMarker 0x01910012
   BOOL 
-#line 6127 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6177 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoGoToMarker(const CEntityEvent &__eeInput);
   BOOL H0x01910013_AutoGoToMarker_01(const CEntityEvent &__eeInput);
   BOOL H0x01910014_AutoGoToMarker_02(const CEntityEvent &__eeInput);
@@ -602,7 +602,7 @@ AutoGoToMarker(const CEntityEvent &__eeInput);
   BOOL H0x01910016_AutoGoToMarker_04(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_AutoGoToMarkerAndStop 0x01910017
   BOOL 
-#line 6159 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6209 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoGoToMarkerAndStop(const CEntityEvent &__eeInput);
   BOOL H0x01910018_AutoGoToMarkerAndStop_01(const CEntityEvent &__eeInput);
   BOOL H0x01910019_AutoGoToMarkerAndStop_02(const CEntityEvent &__eeInput);
@@ -610,7 +610,7 @@ AutoGoToMarkerAndStop(const CEntityEvent &__eeInput);
   BOOL H0x0191001b_AutoGoToMarkerAndStop_04(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_AutoUseItem 0x0191001c
   BOOL 
-#line 6199 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6249 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoUseItem(const CEntityEvent &__eeInput);
   BOOL H0x0191001d_AutoUseItem_01(const CEntityEvent &__eeInput);
   BOOL H0x0191001e_AutoUseItem_02(const CEntityEvent &__eeInput);
@@ -620,7 +620,7 @@ AutoUseItem(const CEntityEvent &__eeInput);
   BOOL H0x01910022_AutoUseItem_06(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_AutoPickItem 0x01910023
   BOOL 
-#line 6244 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6294 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoPickItem(const CEntityEvent &__eeInput);
   BOOL H0x01910024_AutoPickItem_01(const CEntityEvent &__eeInput);
   BOOL H0x01910025_AutoPickItem_02(const CEntityEvent &__eeInput);
@@ -628,19 +628,19 @@ AutoPickItem(const CEntityEvent &__eeInput);
   BOOL H0x01910027_AutoPickItem_04(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_AutoFallDown 0x01910028
   BOOL 
-#line 6279 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6329 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoFallDown(const CEntityEvent &__eeInput);
   BOOL H0x01910029_AutoFallDown_01(const CEntityEvent &__eeInput);
   BOOL H0x0191002a_AutoFallDown_02(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_AutoFallToAbys 0x0191002b
   BOOL 
-#line 6291 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6341 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoFallToAbys(const CEntityEvent &__eeInput);
   BOOL H0x0191002c_AutoFallToAbys_01(const CEntityEvent &__eeInput);
   BOOL H0x0191002d_AutoFallToAbys_02(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_AutoLookAround 0x0191002e
   BOOL 
-#line 6304 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6354 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoLookAround(const CEntityEvent &__eeInput);
   BOOL H0x0191002f_AutoLookAround_01(const CEntityEvent &__eeInput);
   BOOL H0x01910030_AutoLookAround_02(const CEntityEvent &__eeInput);
@@ -648,11 +648,11 @@ AutoLookAround(const CEntityEvent &__eeInput);
   BOOL H0x01910032_AutoLookAround_04(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_AutoTeleport 0x01910033
   BOOL 
-#line 6328 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6378 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoTeleport(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_AutoAppear 0x01910034
   BOOL 
-#line 6337 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6387 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoAppear(const CEntityEvent &__eeInput);
   BOOL H0x01910035_AutoAppear_01(const CEntityEvent &__eeInput);
   BOOL H0x01910036_AutoAppear_02(const CEntityEvent &__eeInput);
@@ -664,13 +664,13 @@ AutoAppear(const CEntityEvent &__eeInput);
   BOOL H0x0191003c_AutoAppear_08(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_TravellingInBeam 0x0191003d
   BOOL 
-#line 6389 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6439 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 TravellingInBeam(const CEntityEvent &__eeInput);
   BOOL H0x0191003e_TravellingInBeam_01(const CEntityEvent &__eeInput);
   BOOL H0x0191003f_TravellingInBeam_02(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_LogoFireMinigun 0x01910040
   BOOL 
-#line 6409 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6459 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 LogoFireMinigun(const CEntityEvent &__eeInput);
   BOOL H0x01910041_LogoFireMinigun_01(const CEntityEvent &__eeInput);
   BOOL H0x01910042_LogoFireMinigun_02(const CEntityEvent &__eeInput);
@@ -682,7 +682,7 @@ LogoFireMinigun(const CEntityEvent &__eeInput);
   BOOL H0x01910048_LogoFireMinigun_08(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_AutoStoreWeapon 0x01910049
   BOOL 
-#line 6470 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6520 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoStoreWeapon(const CEntityEvent &__eeInput);
   BOOL H0x0191004a_AutoStoreWeapon_01(const CEntityEvent &__eeInput);
   BOOL H0x0191004b_AutoStoreWeapon_02(const CEntityEvent &__eeInput);
@@ -690,7 +690,7 @@ AutoStoreWeapon(const CEntityEvent &__eeInput);
   BOOL H0x0191004d_AutoStoreWeapon_04(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_DoAutoActions 0x0191004e
   BOOL 
-#line 6504 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6554 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 DoAutoActions(const CEntityEvent &__eeInput);
   BOOL H0x0191004f_DoAutoActions_01(const CEntityEvent &__eeInput);
   BOOL H0x01910050_DoAutoActions_02(const CEntityEvent &__eeInput);
@@ -779,7 +779,7 @@ DoAutoActions(const CEntityEvent &__eeInput);
   BOOL H0x019100a3_DoAutoActions_85(const CEntityEvent &__eeInput);
 #define  STATE_CPlayer_Main 1
   BOOL 
-#line 6715 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6765 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Main(const CEntityEvent &__eeInput);
   BOOL H0x019100a4_Main_01(const CEntityEvent &__eeInput);
   BOOL H0x019100a5_Main_02(const CEntityEvent &__eeInput);
