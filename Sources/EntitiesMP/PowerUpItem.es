@@ -39,7 +39,7 @@ components:
 
 // ********* INVULNERABILITY *********
  10 model   MODEL_INVULNER  "ModelsMP\\Items\\PowerUps\\Invulnerability\\Invulnerability.mdl",
-// 11 texture TEXTURE_INVULNER  "ModelsMP\\Items\\PowerUps\\Invulnerability\\Invulnerability.tex",
+ 11 texture TEXTURE_INVULNER  "ModelsMP\\Items\\PowerUps\\Invulnerability\\Invulnerability.tex",
 
 // ********* SERIOUS DAMAGE *********
  20 model   MODEL_DAMAGE    "ModelsMP\\Items\\PowerUps\\SeriousDamage\\SeriousDamage.mdl",
@@ -57,7 +57,7 @@ components:
  50 texture TEXTURE_SPECULAR_STRONG  "ModelsMP\\SpecularTextures\\Strong.tex",
  51 texture TEXTURE_SPECULAR_MEDIUM  "ModelsMP\\SpecularTextures\\Medium.tex",
  52 texture TEXTURE_REFLECTION_METAL "ModelsMP\\ReflectionTextures\\LightMetal01.tex",
- 53 texture TEXTURE_REFLECTION_GOLD  "ModelsMP\\ReflectionTextures\\Gold01.tex",
+ //53 texture TEXTURE_REFLECTION_GOLD  "ModelsMP\\Items\\PowerUps\\Invulnerability\\Invulnerability.tex",
  54 texture TEXTURE_REFLECTION_PUPLE "ModelsMP\\ReflectionTextures\\Purple01.tex",
  55 texture TEXTURE_FLARE "Models\\Items\\Flares\\Flare.tex",
  56 model   MODEL_FLARE   "Models\\Items\\Flares\\Flare.mdl",
@@ -149,9 +149,9 @@ functions:
         ForceCollisionBoxIndexChange( ITEMHOLDER_COLLISION_BOX_BIG);
         m_fRespawnTime = (m_fCustomRespawnTime>0) ? m_fCustomRespawnTime : 60.0f; 
         m_strDescription.PrintF("Invulnerability");
-        AddItem(  MODEL_INVULNER, TEXTURE_REFLECTION_GOLD, TEXTURE_REFLECTION_METAL, TEXTURE_SPECULAR_MEDIUM, 0);  // set appearance
+        AddItem(  MODEL_INVULNER, TEXTURE_INVULNER, 0/*TEXTURE_REFLECTION_METAL*/, 0/*TEXTURE_SPECULAR_MEDIUM*/, 0);  // set appearance
         AddFlare( MODEL_FLARE, TEXTURE_FLARE, FLOAT3D(0,0.2f,0), FLOAT3D(1,1,0.3f) );  // add flare
-        StretchItem( FLOAT3D(1.0f*0.75f, 1.0f*0.75f, 1.0f*0.75));
+        StretchItem( FLOAT3D(2.0f*1.5f, 2.0f*1.5f, 2.0f*1.5f));
         break;                                                               
       case PUIT_DAMAGE:
         StartModelAnim( ITEMHOLDER_ANIM_DEFAULT_ANIMATION, AOF_LOOPING|AOF_NORESTART);

@@ -154,11 +154,11 @@ m_fRespawnTime  = (m_fCustomRespawnTime  > 0) ? m_fCustomRespawnTime  : 60.0f;
 #line 151 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
 m_strDescription  . PrintF  ("Invulnerability");
 #line 152 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
-AddItem  (MODEL_INVULNER  , TEXTURE_REFLECTION_GOLD  , TEXTURE_REFLECTION_METAL  , TEXTURE_SPECULAR_MEDIUM  , 0);
+AddItem  (MODEL_INVULNER  , TEXTURE_INVULNER  , 0 , 0 , 0);
 #line 153 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
 AddFlare  (MODEL_FLARE  , TEXTURE_FLARE  , FLOAT3D (0 , 0.2f , 0) , FLOAT3D (1 , 1 , 0.3f));
 #line 154 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
-StretchItem  (FLOAT3D (1.0f * 0.75f , 1.0f * 0.75f , 1.0f * 0.75));
+StretchItem  (FLOAT3D (2.0f * 1.5f , 2.0f * 1.5f , 2.0f * 1.5f));
 #line 155 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"
 break ;
 #line 156 "V:/Programs/SamSDK/Sources/EntitiesMP/PowerUpItem.es"

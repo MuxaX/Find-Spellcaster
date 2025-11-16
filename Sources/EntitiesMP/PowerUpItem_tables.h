@@ -24,6 +24,8 @@ CEntityComponent CPowerUpItem_components[] = {
  CEntityComponent(ECT_MODEL, MODEL_INVISIB, "EFNM" "ModelsMP\\Items\\PowerUps\\Invisibility\\Invisibility.mdl"),
 #define MODEL_INVULNER ((0x00000328<<8)+10)
  CEntityComponent(ECT_MODEL, MODEL_INVULNER, "EFNM" "ModelsMP\\Items\\PowerUps\\Invulnerability\\Invulnerability.mdl"),
+#define TEXTURE_INVULNER ((0x00000328<<8)+11)
+ CEntityComponent(ECT_TEXTURE, TEXTURE_INVULNER, "EFNM" "ModelsMP\\Items\\PowerUps\\Invulnerability\\Invulnerability.tex"),
 #define MODEL_DAMAGE ((0x00000328<<8)+20)
  CEntityComponent(ECT_MODEL, MODEL_DAMAGE, "EFNM" "ModelsMP\\Items\\PowerUps\\SeriousDamage\\SeriousDamage.mdl"),
 #define TEXTURE_DAMAGE ((0x00000328<<8)+21)
@@ -42,8 +44,6 @@ CEntityComponent CPowerUpItem_components[] = {
  CEntityComponent(ECT_TEXTURE, TEXTURE_SPECULAR_MEDIUM, "EFNM" "ModelsMP\\SpecularTextures\\Medium.tex"),
 #define TEXTURE_REFLECTION_METAL ((0x00000328<<8)+52)
  CEntityComponent(ECT_TEXTURE, TEXTURE_REFLECTION_METAL, "EFNM" "ModelsMP\\ReflectionTextures\\LightMetal01.tex"),
-#define TEXTURE_REFLECTION_GOLD ((0x00000328<<8)+53)
- CEntityComponent(ECT_TEXTURE, TEXTURE_REFLECTION_GOLD, "EFNM" "ModelsMP\\ReflectionTextures\\Gold01.tex"),
 #define TEXTURE_REFLECTION_PUPLE ((0x00000328<<8)+54)
  CEntityComponent(ECT_TEXTURE, TEXTURE_REFLECTION_PUPLE, "EFNM" "ModelsMP\\ReflectionTextures\\Purple01.tex"),
 #define TEXTURE_FLARE ((0x00000328<<8)+55)

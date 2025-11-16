@@ -38,11 +38,11 @@ CEntityComponent CKeyItem_components[] = {
 #define TEXTURE_BOOKOFWISDOM ((0x00000325<<8)+2)
  CEntityComponent(ECT_TEXTURE, TEXTURE_BOOKOFWISDOM, "EFNM" "ModelsMP\\Items\\Keys\\BookOfWisdom\\Book.tex"),
 #define MODEL_CROSSWOODEN ((0x00000325<<8)+5)
- CEntityComponent(ECT_MODEL, MODEL_CROSSWOODEN, "EFNM" "ModelsMP\\Items\\Keys\\Cross\\Cross.mdl"),
+ CEntityComponent(ECT_MODEL, MODEL_CROSSWOODEN, "EFNM" "ModelsMP\\Items\\Keys\\Cross\\WoodCross.mdl"),
 #define TEXTURE_CROSSWOODEN ((0x00000325<<8)+6)
  CEntityComponent(ECT_TEXTURE, TEXTURE_CROSSWOODEN, "EFNM" "ModelsMP\\Items\\Keys\\Cross\\CrossWooden.tex"),
 #define MODEL_CROSSMETAL ((0x00000325<<8)+7)
- CEntityComponent(ECT_MODEL, MODEL_CROSSMETAL, "EFNM" "ModelsMP\\Items\\Keys\\Cross\\Cross.mdl"),
+ CEntityComponent(ECT_MODEL, MODEL_CROSSMETAL, "EFNM" "ModelsMP\\Items\\Keys\\Cross\\SilverCross.mdl"),
 #define TEXTURE_CROSSMETAL ((0x00000325<<8)+8)
  CEntityComponent(ECT_TEXTURE, TEXTURE_CROSSMETAL, "EFNM" "ModelsMP\\Items\\Keys\\Cross\\CrossMetal.tex"),
 #define MODEL_CROSSGOLD ((0x00000325<<8)+10)

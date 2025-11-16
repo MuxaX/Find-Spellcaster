@@ -73,6 +73,7 @@ static COLOR _colHUDText;
 static TIME  _tmNow = -1.0f;
 static TIME  _tmLast = -1.0f;
 static CFontData _fdNumbersFont;
+static TIME _tmLastPowerUpSound = 0;
 
 // array for pointers of all players
 extern CPlayer *_apenPlayers[NET_MAXGAMEPLAYERS] = {0};
@@ -1387,7 +1388,7 @@ _pDP->FlushRenderingQueue();
       colBombBar = LerpColor(colBombBar, C_RED, fFactor);
     }
     HUD_DrawBorder( fCol,         fRow, fOneUnitS, fOneUnitS, colBombBorder);
-    HUD_DrawIcon(   fCol/3,         fRow, _toASeriousBomb, colBombIcon, fNormValue, FALSE);
+    HUD_DrawIcon(   fCol/4,         fRow, _toASeriousBomb, colBombIcon, fNormValue, FALSE);
     //HUD_DrawBar(    fCol+fBarPos, fRow, fOneUnitS/5, fOneUnitS-2, BO_DOWN, colBombBar, fNormValue, _toASeriousBomb);
     // make space for serious bomb
     fCol -= fAdvUnitS;
@@ -1429,16 +1430,19 @@ _pDP->FlushRenderingQueue();
     if( tmDelta<=0) continue;
     fNormValue = tmDelta / ptmPowerupsMax[i];
     // draw icon and a little bar
-    HUD_DrawBorder( fCol,         fRow, fOneUnitS, fOneUnitS, colBorder);
-    HUD_DrawIcon(   fCol,         fRow, _atoPowerups[i], C_WHITE /*_colHUD*/, fNormValue, TRUE);
+    //HUD_DrawBorder( fCol,         fRow, fOneUnitS, fOneUnitS, colBorder);
+    //HUD_DrawIcon(   fCol,         fRow, _atoPowerups[i], C_WHITE /*_colHUD*/, fNormValue, TRUE);
     //HUD_DrawBar(    fCol+fBarPos, fRow, fOneUnitS/5, fOneUnitS-2, BO_DOWN, NONE, fNormValue, _tohealthBar1);
     // play sound if icon is flashing
     if(fNormValue<=(_cttHUD.ctt_fLowMedium/2)) {
       // activate blinking only if value is <= half the low edge
-      INDEX iLastTime = (INDEX)(_tmLast*4);
-      INDEX iCurrentTime = (INDEX)(_tmNow*4);
+      INDEX iLastTime = (INDEX)(_tmLast*2);
+      INDEX iCurrentTime = (INDEX)(_tmNow*2);
       if(iCurrentTime&1 & !(iLastTime&1)) {
+		  //if(_tmNow - _tmLastPowerUpSound >= 1.0f) {
         ((CPlayer *)penPlayerCurrent)->PlayPowerUpSound();
+		_tmLastPowerUpSound = _tmNow;
+		  //}
       }
     }
     // advance to next position
