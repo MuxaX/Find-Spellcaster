@@ -143,6 +143,9 @@ CEntityProperty CPlayer_properties[] = {
  CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x00000191<<8)+196, offsetof(CPlayer, m_fBulletShakeFreqMod), "", 0, 0, 0),
  CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x00000191<<8)+197, offsetof(CPlayer, m_fBulletShakeDX), "", 0, 0, 0),
  CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x00000191<<8)+198, offsetof(CPlayer, m_fBulletShakeDY), "", 0, 0, 0),
+ CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x00000191<<8)+199, offsetof(CPlayer, m_fRecoilX), "", 0, 0, 0),
+ CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x00000191<<8)+200, offsetof(CPlayer, m_fRecoilY), "", 0, 0, 0),
+ CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x00000191<<8)+201, offsetof(CPlayer, m_tmLastRecoilTick), "", 0, 0, 0),
  CEntityProperty(CEntityProperty::EPT_ENTITYPTR, NULL, (0x00000191<<8)+255, offsetof(CPlayer, m_penPrediction), "", 0, 0, 0),
 };
 #define CPlayer_propertiesct ARRAYCOUNT(CPlayer_properties)
@@ -335,48 +338,48 @@ CEntityComponent CPlayer_components[] = {
 
 CEventHandlerEntry CPlayer_handlers[] = {
  {0x01910005, -1, CEntity::pEventHandler(&CPlayer::
-#line 5727 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5781 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Wounded),DEBUGSTRING("CPlayer::Wounded")},
  {0x01910006, -1, CEntity::pEventHandler(&CPlayer::
-#line 5735 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5789 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 WorldChange),DEBUGSTRING("CPlayer::WorldChange")},
  {0x01910007, -1, CEntity::pEventHandler(&CPlayer::
-#line 5766 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5820 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 WorldChangeDead),DEBUGSTRING("CPlayer::WorldChangeDead")},
  {0x01910008, -1, CEntity::pEventHandler(&CPlayer::H0x01910008_WorldChangeDead_01), DEBUGSTRING("CPlayer::H0x01910008_WorldChangeDead_01")},
  {0x01910009, -1, CEntity::pEventHandler(&CPlayer::H0x01910009_WorldChangeDead_02), DEBUGSTRING("CPlayer::H0x01910009_WorldChangeDead_02")},
  {0x0191000a, -1, CEntity::pEventHandler(&CPlayer::
-#line 5797 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 5851 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Death),DEBUGSTRING("CPlayer::Death")},
  {0x0191000b, -1, CEntity::pEventHandler(&CPlayer::H0x0191000b_Death_01), DEBUGSTRING("CPlayer::H0x0191000b_Death_01")},
  {0x0191000c, -1, CEntity::pEventHandler(&CPlayer::H0x0191000c_Death_02), DEBUGSTRING("CPlayer::H0x0191000c_Death_02")},
  {0x0191000d, -1, CEntity::pEventHandler(&CPlayer::
-#line 6057 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6111 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 TheEnd),DEBUGSTRING("CPlayer::TheEnd")},
  {0x0191000e, -1, CEntity::pEventHandler(&CPlayer::H0x0191000e_TheEnd_01), DEBUGSTRING("CPlayer::H0x0191000e_TheEnd_01")},
  {0x0191000f, -1, CEntity::pEventHandler(&CPlayer::H0x0191000f_TheEnd_02), DEBUGSTRING("CPlayer::H0x0191000f_TheEnd_02")},
  {0x01910010, -1, CEntity::pEventHandler(&CPlayer::
-#line 6104 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6158 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 FirstInit),DEBUGSTRING("CPlayer::FirstInit")},
  {0x01910011, -1, CEntity::pEventHandler(&CPlayer::
-#line 6135 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6189 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Rebirth),DEBUGSTRING("CPlayer::Rebirth")},
  {0x01910012, -1, CEntity::pEventHandler(&CPlayer::
-#line 6177 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6231 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoGoToMarker),DEBUGSTRING("CPlayer::AutoGoToMarker")},
  {0x01910013, -1, CEntity::pEventHandler(&CPlayer::H0x01910013_AutoGoToMarker_01), DEBUGSTRING("CPlayer::H0x01910013_AutoGoToMarker_01")},
  {0x01910014, -1, CEntity::pEventHandler(&CPlayer::H0x01910014_AutoGoToMarker_02), DEBUGSTRING("CPlayer::H0x01910014_AutoGoToMarker_02")},
  {0x01910015, -1, CEntity::pEventHandler(&CPlayer::H0x01910015_AutoGoToMarker_03), DEBUGSTRING("CPlayer::H0x01910015_AutoGoToMarker_03")},
  {0x01910016, -1, CEntity::pEventHandler(&CPlayer::H0x01910016_AutoGoToMarker_04), DEBUGSTRING("CPlayer::H0x01910016_AutoGoToMarker_04")},
  {0x01910017, -1, CEntity::pEventHandler(&CPlayer::
-#line 6209 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6263 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoGoToMarkerAndStop),DEBUGSTRING("CPlayer::AutoGoToMarkerAndStop")},
  {0x01910018, -1, CEntity::pEventHandler(&CPlayer::H0x01910018_AutoGoToMarkerAndStop_01), DEBUGSTRING("CPlayer::H0x01910018_AutoGoToMarkerAndStop_01")},
  {0x01910019, -1, CEntity::pEventHandler(&CPlayer::H0x01910019_AutoGoToMarkerAndStop_02), DEBUGSTRING("CPlayer::H0x01910019_AutoGoToMarkerAndStop_02")},
  {0x0191001a, -1, CEntity::pEventHandler(&CPlayer::H0x0191001a_AutoGoToMarkerAndStop_03), DEBUGSTRING("CPlayer::H0x0191001a_AutoGoToMarkerAndStop_03")},
  {0x0191001b, -1, CEntity::pEventHandler(&CPlayer::H0x0191001b_AutoGoToMarkerAndStop_04), DEBUGSTRING("CPlayer::H0x0191001b_AutoGoToMarkerAndStop_04")},
  {0x0191001c, -1, CEntity::pEventHandler(&CPlayer::
-#line 6249 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6303 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoUseItem),DEBUGSTRING("CPlayer::AutoUseItem")},
  {0x0191001d, -1, CEntity::pEventHandler(&CPlayer::H0x0191001d_AutoUseItem_01), DEBUGSTRING("CPlayer::H0x0191001d_AutoUseItem_01")},
  {0x0191001e, -1, CEntity::pEventHandler(&CPlayer::H0x0191001e_AutoUseItem_02), DEBUGSTRING("CPlayer::H0x0191001e_AutoUseItem_02")},
@@ -385,34 +388,34 @@ AutoUseItem),DEBUGSTRING("CPlayer::AutoUseItem")},
  {0x01910021, -1, CEntity::pEventHandler(&CPlayer::H0x01910021_AutoUseItem_05), DEBUGSTRING("CPlayer::H0x01910021_AutoUseItem_05")},
  {0x01910022, -1, CEntity::pEventHandler(&CPlayer::H0x01910022_AutoUseItem_06), DEBUGSTRING("CPlayer::H0x01910022_AutoUseItem_06")},
  {0x01910023, -1, CEntity::pEventHandler(&CPlayer::
-#line 6294 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6348 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoPickItem),DEBUGSTRING("CPlayer::AutoPickItem")},
  {0x01910024, -1, CEntity::pEventHandler(&CPlayer::H0x01910024_AutoPickItem_01), DEBUGSTRING("CPlayer::H0x01910024_AutoPickItem_01")},
  {0x01910025, -1, CEntity::pEventHandler(&CPlayer::H0x01910025_AutoPickItem_02), DEBUGSTRING("CPlayer::H0x01910025_AutoPickItem_02")},
  {0x01910026, -1, CEntity::pEventHandler(&CPlayer::H0x01910026_AutoPickItem_03), DEBUGSTRING("CPlayer::H0x01910026_AutoPickItem_03")},
  {0x01910027, -1, CEntity::pEventHandler(&CPlayer::H0x01910027_AutoPickItem_04), DEBUGSTRING("CPlayer::H0x01910027_AutoPickItem_04")},
  {0x01910028, -1, CEntity::pEventHandler(&CPlayer::
-#line 6329 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6383 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoFallDown),DEBUGSTRING("CPlayer::AutoFallDown")},
  {0x01910029, -1, CEntity::pEventHandler(&CPlayer::H0x01910029_AutoFallDown_01), DEBUGSTRING("CPlayer::H0x01910029_AutoFallDown_01")},
  {0x0191002a, -1, CEntity::pEventHandler(&CPlayer::H0x0191002a_AutoFallDown_02), DEBUGSTRING("CPlayer::H0x0191002a_AutoFallDown_02")},
  {0x0191002b, -1, CEntity::pEventHandler(&CPlayer::
-#line 6341 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6395 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoFallToAbys),DEBUGSTRING("CPlayer::AutoFallToAbys")},
  {0x0191002c, -1, CEntity::pEventHandler(&CPlayer::H0x0191002c_AutoFallToAbys_01), DEBUGSTRING("CPlayer::H0x0191002c_AutoFallToAbys_01")},
  {0x0191002d, -1, CEntity::pEventHandler(&CPlayer::H0x0191002d_AutoFallToAbys_02), DEBUGSTRING("CPlayer::H0x0191002d_AutoFallToAbys_02")},
  {0x0191002e, -1, CEntity::pEventHandler(&CPlayer::
-#line 6354 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6408 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoLookAround),DEBUGSTRING("CPlayer::AutoLookAround")},
  {0x0191002f, -1, CEntity::pEventHandler(&CPlayer::H0x0191002f_AutoLookAround_01), DEBUGSTRING("CPlayer::H0x0191002f_AutoLookAround_01")},
  {0x01910030, -1, CEntity::pEventHandler(&CPlayer::H0x01910030_AutoLookAround_02), DEBUGSTRING("CPlayer::H0x01910030_AutoLookAround_02")},
  {0x01910031, -1, CEntity::pEventHandler(&CPlayer::H0x01910031_AutoLookAround_03), DEBUGSTRING("CPlayer::H0x01910031_AutoLookAround_03")},
  {0x01910032, -1, CEntity::pEventHandler(&CPlayer::H0x01910032_AutoLookAround_04), DEBUGSTRING("CPlayer::H0x01910032_AutoLookAround_04")},
  {0x01910033, -1, CEntity::pEventHandler(&CPlayer::
-#line 6378 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6432 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoTeleport),DEBUGSTRING("CPlayer::AutoTeleport")},
  {0x01910034, -1, CEntity::pEventHandler(&CPlayer::
-#line 6387 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6441 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoAppear),DEBUGSTRING("CPlayer::AutoAppear")},
  {0x01910035, -1, CEntity::pEventHandler(&CPlayer::H0x01910035_AutoAppear_01), DEBUGSTRING("CPlayer::H0x01910035_AutoAppear_01")},
  {0x01910036, -1, CEntity::pEventHandler(&CPlayer::H0x01910036_AutoAppear_02), DEBUGSTRING("CPlayer::H0x01910036_AutoAppear_02")},
@@ -423,12 +426,12 @@ AutoAppear),DEBUGSTRING("CPlayer::AutoAppear")},
  {0x0191003b, -1, CEntity::pEventHandler(&CPlayer::H0x0191003b_AutoAppear_07), DEBUGSTRING("CPlayer::H0x0191003b_AutoAppear_07")},
  {0x0191003c, -1, CEntity::pEventHandler(&CPlayer::H0x0191003c_AutoAppear_08), DEBUGSTRING("CPlayer::H0x0191003c_AutoAppear_08")},
  {0x0191003d, -1, CEntity::pEventHandler(&CPlayer::
-#line 6439 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6493 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 TravellingInBeam),DEBUGSTRING("CPlayer::TravellingInBeam")},
  {0x0191003e, -1, CEntity::pEventHandler(&CPlayer::H0x0191003e_TravellingInBeam_01), DEBUGSTRING("CPlayer::H0x0191003e_TravellingInBeam_01")},
  {0x0191003f, -1, CEntity::pEventHandler(&CPlayer::H0x0191003f_TravellingInBeam_02), DEBUGSTRING("CPlayer::H0x0191003f_TravellingInBeam_02")},
  {0x01910040, -1, CEntity::pEventHandler(&CPlayer::
-#line 6459 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6513 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 LogoFireMinigun),DEBUGSTRING("CPlayer::LogoFireMinigun")},
  {0x01910041, -1, CEntity::pEventHandler(&CPlayer::H0x01910041_LogoFireMinigun_01), DEBUGSTRING("CPlayer::H0x01910041_LogoFireMinigun_01")},
  {0x01910042, -1, CEntity::pEventHandler(&CPlayer::H0x01910042_LogoFireMinigun_02), DEBUGSTRING("CPlayer::H0x01910042_LogoFireMinigun_02")},
@@ -439,14 +442,14 @@ LogoFireMinigun),DEBUGSTRING("CPlayer::LogoFireMinigun")},
  {0x01910047, -1, CEntity::pEventHandler(&CPlayer::H0x01910047_LogoFireMinigun_07), DEBUGSTRING("CPlayer::H0x01910047_LogoFireMinigun_07")},
  {0x01910048, -1, CEntity::pEventHandler(&CPlayer::H0x01910048_LogoFireMinigun_08), DEBUGSTRING("CPlayer::H0x01910048_LogoFireMinigun_08")},
  {0x01910049, -1, CEntity::pEventHandler(&CPlayer::
-#line 6520 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6574 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 AutoStoreWeapon),DEBUGSTRING("CPlayer::AutoStoreWeapon")},
  {0x0191004a, -1, CEntity::pEventHandler(&CPlayer::H0x0191004a_AutoStoreWeapon_01), DEBUGSTRING("CPlayer::H0x0191004a_AutoStoreWeapon_01")},
  {0x0191004b, -1, CEntity::pEventHandler(&CPlayer::H0x0191004b_AutoStoreWeapon_02), DEBUGSTRING("CPlayer::H0x0191004b_AutoStoreWeapon_02")},
  {0x0191004c, -1, CEntity::pEventHandler(&CPlayer::H0x0191004c_AutoStoreWeapon_03), DEBUGSTRING("CPlayer::H0x0191004c_AutoStoreWeapon_03")},
  {0x0191004d, -1, CEntity::pEventHandler(&CPlayer::H0x0191004d_AutoStoreWeapon_04), DEBUGSTRING("CPlayer::H0x0191004d_AutoStoreWeapon_04")},
  {0x0191004e, -1, CEntity::pEventHandler(&CPlayer::
-#line 6554 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6608 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 DoAutoActions),DEBUGSTRING("CPlayer::DoAutoActions")},
  {0x0191004f, -1, CEntity::pEventHandler(&CPlayer::H0x0191004f_DoAutoActions_01), DEBUGSTRING("CPlayer::H0x0191004f_DoAutoActions_01")},
  {0x01910050, -1, CEntity::pEventHandler(&CPlayer::H0x01910050_DoAutoActions_02), DEBUGSTRING("CPlayer::H0x01910050_DoAutoActions_02")},
@@ -534,7 +537,7 @@ DoAutoActions),DEBUGSTRING("CPlayer::DoAutoActions")},
  {0x019100a2, -1, CEntity::pEventHandler(&CPlayer::H0x019100a2_DoAutoActions_84), DEBUGSTRING("CPlayer::H0x019100a2_DoAutoActions_84")},
  {0x019100a3, -1, CEntity::pEventHandler(&CPlayer::H0x019100a3_DoAutoActions_85), DEBUGSTRING("CPlayer::H0x019100a3_DoAutoActions_85")},
  {1, -1, CEntity::pEventHandler(&CPlayer::
-#line 6765 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
+#line 6819 "V:/Programs/SamSDK/Sources/EntitiesMP/Player.es"
 Main),DEBUGSTRING("CPlayer::Main")},
  {0x019100a4, -1, CEntity::pEventHandler(&CPlayer::H0x019100a4_Main_01), DEBUGSTRING("CPlayer::H0x019100a4_Main_01")},
  {0x019100a5, -1, CEntity::pEventHandler(&CPlayer::H0x019100a5_Main_02), DEBUGSTRING("CPlayer::H0x019100a5_Main_02")},

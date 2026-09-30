@@ -193,282 +193,289 @@ virtual void SetPredictionPair(CEntity *penPair) { m_penPrediction = penPair; };
   FLOAT m_tmFlamerStart;
   FLOAT m_tmFlamerStop;
   FLOAT m_tmLastChainsawSpray;
+  BOOL m_bTommyGunNeedsInit;
+  BOOL m_bSingleShotgunNeedsInit;
+  BOOL m_bColtNeedsInit;
+  BOOL m_bDoubleColtNeedsInit;
   CEntityPointer m_penPrediction;
 CEntity * penBullet;
 CPlacement3D plBullet;
 FLOAT3D vBulletDestination;
    
-#line 900 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 913 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void AddDependentsToPrediction(void);
    
-#line 907 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 920 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void Precache(void);
    
-#line 911 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 924 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer * GetPlayer(void);
    
-#line 916 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 929 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayerAnimator * GetAnimator(void);
    
-#line 922 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 935 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CModelObject * GetChainSawTeeth(void);
    
-#line 940 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 953 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void DoRecoil(void);
    
-#line 947 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 960 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BOOL HoldingFire(void);
    
-#line 952 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 965 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BOOL HoldingAltFire(void);
    
-#line 958 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 971 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void RenderWeaponModel(CPerspectiveProjection3D & prProjection,CDrawPort * pdp,
-#line 959 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 972 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vViewerLightDirection,COLOR colViewerLight,COLOR colViewerAmbient,
-#line 960 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 973 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BOOL bRender,INDEX iEye);
    
-#line 1132 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1138 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void WeaponMovingOffset(FLOAT3D & plPos);
    
-#line 1171 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1177 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void CheckTargetPrediction(CEntity * penTarget);
    
-#line 1231 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1237 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void UpdateTargetingInfo(void);
    
-#line 1352 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1358 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void RenderCrosshair(CProjection3D & prProjection,CDrawPort * pdp,CPlacement3D & plViewSource);
    
-#line 1484 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1490 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void ShowFlare(CModelObject & moWeapon,INDEX iAttachObject,INDEX iAttachFlare,FLOAT fSize);
    
-#line 1494 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1500 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void HideFlare(CModelObject & moWeapon,INDEX iAttachObject,INDEX iAttachFlare);
    
-#line 1500 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1506 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void SetFlare(INDEX iFlare,INDEX iAction);
    
-#line 1520 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1526 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void ControlFlareAttachment(void);
    
-#line 1600 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1606 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void PlayLightAnim(INDEX iAnim,ULONG ulFlags);
    
-#line 1609 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1615 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void SetCurrentWeaponModel(void);
    
-#line 1767 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1774 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void RotateMinigun(void);
    
-#line 1781 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1788 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void CalcWeaponPosition3rdPersonView(FLOAT3D vPos,CPlacement3D & plPos,BOOL bResetZ);
    
-#line 1813 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1820 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void CalcWeaponPosition(FLOAT3D vPos,CPlacement3D & plPos,BOOL bResetZ);
    
-#line 1849 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1856 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void CalcLerpedWeaponPosition(FLOAT3D vPos,CPlacement3D & plPos,BOOL bResetZ);
    
-#line 1884 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1891 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void CalcWeaponPositionImprecise(FLOAT3D vPos,CPlacement3D & plPos,BOOL bResetZ,FLOAT fImprecissionAngle);
    
-#line 1920 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1927 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void Setup3DSoundParameters(void);
    
-#line 1937 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1944 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BOOL CutWithKnife(FLOAT fX,FLOAT fY,FLOAT fRange,FLOAT fWide,FLOAT fThickness,FLOAT fDamage);
    
-#line 2042 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2049 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BOOL CutWithChainsaw(FLOAT fX,FLOAT fY,FLOAT fRange,FLOAT fWide,FLOAT fThickness,FLOAT fDamage);
    
-#line 2177 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2184 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BOOL ShakeBullet(FLOAT STRX,FLOAT STRY,FLOAT FM,FLOAT END);
    
-#line 2189 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2196 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void ApplyWeaponKick(FLOAT fKickX,FLOAT fKickY);
+   
+#line 2202 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void PrepareSniperBullet(FLOAT fX,FLOAT fY,FLOAT fDamage,FLOAT fImprecission);
    
-#line 2203 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2216 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void PrepareBullet(FLOAT fX,FLOAT fY,FLOAT fDamage);
    
-#line 2218 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2231 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void FireSniperBullet(FLOAT fX,FLOAT fY,FLOAT fRange,FLOAT fDamage,FLOAT fImprecission);
    
-#line 2248 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2261 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void FireOneBullet(FLOAT fX,FLOAT fY,FLOAT fRange,FLOAT fDamage);
    
-#line 2258 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2271 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void FireBullets(FLOAT fX,FLOAT fY,FLOAT fRange,FLOAT fDamage,INDEX iBullets,
-#line 2259 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2272 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT * afPositions,FLOAT fStretch,FLOAT fJitter);
    
-#line 2276 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2289 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void FireMachineBullet(FLOAT fX,FLOAT fY,FLOAT fRange,FLOAT fDamage,
-#line 2277 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2290 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT fJitter,FLOAT fBulletSize);
    
-#line 2289 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2302 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void FireGrenade(INDEX iPower);
    
-#line 2306 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2319 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void AltFireGrenade(INDEX iPower);
    
-#line 2323 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2336 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void FireRocket(void);
    
-#line 2363 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2376 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void GetFlamerSourcePlacement(CPlacement3D & plSource,CPlacement3D & plInFrontOfPipe);
    
-#line 2374 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2387 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void FireFlame(void);
    
-#line 2398 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2411 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void FireLaserRay(void);
    
-#line 2458 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2471 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void FireCannonBall(INDEX iPower);
    
-#line 2484 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2497 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void FireAltCannonRay();
    
-#line 2502 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2515 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void SpawnRangeSound(FLOAT fRange);
    
-#line 2515 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2528 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void ClearWeapons(void);
    
-#line 2536 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2549 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void ResetWeaponMovingOffset(void);
    
-#line 2543 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2556 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void InitializeWeapons(INDEX iGiveWeapons,INDEX iTakeWeapons,INDEX iTakeAmmo,FLOAT fMaxAmmoRatio);
    
-#line 2613 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2626 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX GetAmmo(void);
    
-#line 2635 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2648 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX GetMaxAmmo(void);
    
-#line 2657 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2670 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX GetMagazinAmmo(void);
    
-#line 2678 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2691 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void CheatOpen(void);
    
-#line 2686 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2699 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void CheatGiveAll(void);
    
-#line 2707 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2720 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void AddManaToPlayer(INDEX iMana);
    
-#line 2719 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2732 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void ClampAllAmmo(void);
    
-#line 2735 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2748 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void AddDefaultAmmoForWeapon(INDEX iWeapon,FLOAT fMaxAmmoRatio);
    
-#line 2849 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2863 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void DropWeapon(void);
    
-#line 2886 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2899 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BOOL ReceiveWeapon(const CEntityEvent & ee);
    
-#line 3026 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3042 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BOOL ReceiveAmmo(const CEntityEvent & ee);
    
-#line 3149 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3165 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BOOL ReceivePackAmmo(const CEntityEvent & ee);
    
-#line 3218 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3234 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 WeaponType GetStrongerWeapon(INDEX iWeapon);
    
-#line 3233 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3249 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX GetSelectedWeapon(WeaponType EwtSelectedWeapon);
    
-#line 3248 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3264 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 WeaponType GetAltWeapon(WeaponType EwtWeapon);
    
-#line 3269 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3285 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BOOL WeaponSelectOk(WeaponType wtToTry);
    
-#line 3290 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3306 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void SelectNewWeapon();
    
-#line 3346 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3362 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BOOL HasAmmo(WeaponType EwtWeapon);
    
-#line 3369 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3385 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void PlayDefaultAnim(void);
    
-#line 3427 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3443 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT KnifeBoring(void);
    
-#line 3438 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3454 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT ColtBoring(void);
    
-#line 3449 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3465 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT DoubleColtBoring(void);
    
-#line 3457 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3473 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT SingleShotgunBoring(void);
    
-#line 3468 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3484 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT DoubleShotgunBoring(void);
    
-#line 3480 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3496 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT TommyGunBoring(void);
    
-#line 3491 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3507 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT SniperBoring(void);
    
-#line 3499 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3515 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT MiniGunBoring(void);
    
-#line 3511 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3527 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT RocketLauncherBoring(void);
    
-#line 3517 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3533 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT GrenadeLauncherBoring(void);
    
-#line 3556 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3572 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT FlamerBoring(void);
    
-#line 3569 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3585 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT ChainsawBoring(void);
    
-#line 3581 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3597 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT LaserBoring(void);
    
-#line 3603 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3619 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT CannonBoring(void);
    
-#line 3616 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3632 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 WeaponType FindRemapedPos(WeaponType wt);
    
-#line 3629 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3645 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 WeaponType PrimaryToSecondary(WeaponType wt);
    
-#line 3648 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3664 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 WeaponType SecondaryToPrimary(WeaponType wt);
    
-#line 3695 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3711 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 WeaponType FindWeaponInDirection(INDEX iDir);
    
-#line 3719 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3735 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void SelectWeaponChange(INDEX iSelect);
    
-#line 3777 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3793 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 void MinigunSmoke();
    
-#line 3822 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3838 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BOOL SniperZoomDiscrete(INDEX iDirection,BOOL & bZoomChanged);
    
-#line 3855 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3871 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BOOL AGZoomDiscrete(INDEX iDirection,BOOL & bZoomChanged);
 #define  STATE_CPlayerWeapons_ChangeWeapon 0x01920009
   BOOL 
-#line 3893 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3909 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ChangeWeapon(const CEntityEvent &__eeInput);
   BOOL H0x0192000a_ChangeWeapon_01(const CEntityEvent &__eeInput);
   BOOL H0x0192000b_ChangeWeapon_02(const CEntityEvent &__eeInput);
@@ -481,19 +488,19 @@ ChangeWeapon(const CEntityEvent &__eeInput);
   BOOL H0x01920012_ChangeWeapon_09(const CEntityEvent &__eeInput);
 #define  STATE_CPlayerWeapons_PutDown 0x01920013
   BOOL 
-#line 3956 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3972 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PutDown(const CEntityEvent &__eeInput);
   BOOL H0x01920014_PutDown_01(const CEntityEvent &__eeInput);
   BOOL H0x01920015_PutDown_02(const CEntityEvent &__eeInput);
 #define  STATE_CPlayerWeapons_BringUp 0x01920016
   BOOL 
-#line 4068 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4084 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BringUp(const CEntityEvent &__eeInput);
   BOOL H0x01920017_BringUp_01(const CEntityEvent &__eeInput);
   BOOL H0x01920018_BringUp_02(const CEntityEvent &__eeInput);
 #define  STATE_CPlayerWeapons_Fire 0x01920019
   BOOL 
-#line 4200 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4234 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Fire(const CEntityEvent &__eeInput);
   BOOL H0x0192001a_Fire_01(const CEntityEvent &__eeInput);
   BOOL H0x0192001b_Fire_02(const CEntityEvent &__eeInput);
@@ -516,386 +523,334 @@ Fire(const CEntityEvent &__eeInput);
   BOOL H0x0192002c_Fire_19(const CEntityEvent &__eeInput);
   BOOL H0x0192002d_Fire_20(const CEntityEvent &__eeInput);
   BOOL H0x0192002e_Fire_21(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_AltFire 0x0192002f
+  BOOL H0x0192002f_Fire_22(const CEntityEvent &__eeInput);
+  BOOL H0x01920030_Fire_23(const CEntityEvent &__eeInput);
+  BOOL H0x01920031_Fire_24(const CEntityEvent &__eeInput);
+  BOOL H0x01920032_Fire_25(const CEntityEvent &__eeInput);
+  BOOL H0x01920033_Fire_26(const CEntityEvent &__eeInput);
+  BOOL H0x01920034_Fire_27(const CEntityEvent &__eeInput);
+  BOOL H0x01920035_Fire_28(const CEntityEvent &__eeInput);
+  BOOL H0x01920036_Fire_29(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_AltFire 0x01920037
   BOOL 
-#line 4288 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4328 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 AltFire(const CEntityEvent &__eeInput);
-  BOOL H0x01920030_AltFire_01(const CEntityEvent &__eeInput);
-  BOOL H0x01920031_AltFire_02(const CEntityEvent &__eeInput);
-  BOOL H0x01920032_AltFire_03(const CEntityEvent &__eeInput);
-  BOOL H0x01920033_AltFire_04(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_SwingKnife 0x01920034
+  BOOL H0x01920038_AltFire_01(const CEntityEvent &__eeInput);
+  BOOL H0x01920039_AltFire_02(const CEntityEvent &__eeInput);
+  BOOL H0x0192003a_AltFire_03(const CEntityEvent &__eeInput);
+  BOOL H0x0192003b_AltFire_04(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_SwingKnife 0x0192003c
   BOOL 
-#line 4353 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4393 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SwingKnife(const CEntityEvent &__eeInput);
-  BOOL H0x01920035_SwingKnife_01(const CEntityEvent &__eeInput);
-  BOOL H0x01920036_SwingKnife_02(const CEntityEvent &__eeInput);
-  BOOL H0x01920037_SwingKnife_03(const CEntityEvent &__eeInput);
-  BOOL H0x01920038_SwingKnife_04(const CEntityEvent &__eeInput);
-  BOOL H0x01920039_SwingKnife_05(const CEntityEvent &__eeInput);
-  BOOL H0x0192003a_SwingKnife_06(const CEntityEvent &__eeInput);
-  BOOL H0x0192003b_SwingKnife_07(const CEntityEvent &__eeInput);
-  BOOL H0x0192003c_SwingKnife_08(const CEntityEvent &__eeInput);
-  BOOL H0x0192003d_SwingKnife_09(const CEntityEvent &__eeInput);
-  BOOL H0x0192003e_SwingKnife_10(const CEntityEvent &__eeInput);
-  BOOL H0x0192003f_SwingKnife_11(const CEntityEvent &__eeInput);
-  BOOL H0x01920040_SwingKnife_12(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_ColtStart 0x01920041
+  BOOL H0x0192003d_SwingKnife_01(const CEntityEvent &__eeInput);
+  BOOL H0x0192003e_SwingKnife_02(const CEntityEvent &__eeInput);
+  BOOL H0x0192003f_SwingKnife_03(const CEntityEvent &__eeInput);
+  BOOL H0x01920040_SwingKnife_04(const CEntityEvent &__eeInput);
+  BOOL H0x01920041_SwingKnife_05(const CEntityEvent &__eeInput);
+  BOOL H0x01920042_SwingKnife_06(const CEntityEvent &__eeInput);
+  BOOL H0x01920043_SwingKnife_07(const CEntityEvent &__eeInput);
+  BOOL H0x01920044_SwingKnife_08(const CEntityEvent &__eeInput);
+  BOOL H0x01920045_SwingKnife_09(const CEntityEvent &__eeInput);
+  BOOL H0x01920046_SwingKnife_10(const CEntityEvent &__eeInput);
+  BOOL H0x01920047_SwingKnife_11(const CEntityEvent &__eeInput);
+  BOOL H0x01920048_SwingKnife_12(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_ColtStart 0x01920049
   BOOL 
-#line 4405 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4445 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ColtStart(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_ColtStop 0x01920042
+#define  STATE_CPlayerWeapons_ColtStop 0x0192004a
   BOOL 
-#line 4420 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4478 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ColtStop(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_FireColt 0x01920043
+#define  STATE_CPlayerWeapons_FireColt 0x0192004b
   BOOL 
-#line 4441 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4499 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireColt(const CEntityEvent &__eeInput);
-  BOOL H0x01920044_FireColt_01(const CEntityEvent &__eeInput);
-  BOOL H0x01920045_FireColt_02(const CEntityEvent &__eeInput);
-  BOOL H0x01920046_FireColt_03(const CEntityEvent &__eeInput);
-  BOOL H0x01920047_FireColt_04(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_ReloadColt 0x01920048
+  BOOL H0x0192004c_FireColt_01(const CEntityEvent &__eeInput);
+  BOOL H0x0192004d_FireColt_02(const CEntityEvent &__eeInput);
+  BOOL H0x0192004e_FireColt_03(const CEntityEvent &__eeInput);
+  BOOL H0x0192004f_FireColt_04(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_ReloadColt 0x01920050
   BOOL 
-#line 4563 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4622 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ReloadColt(const CEntityEvent &__eeInput);
-  BOOL H0x01920049_ReloadColt_01(const CEntityEvent &__eeInput);
-  BOOL H0x0192004a_ReloadColt_02(const CEntityEvent &__eeInput);
-  BOOL H0x0192004b_ReloadColt_03(const CEntityEvent &__eeInput);
-  BOOL H0x0192004c_ReloadColt_04(const CEntityEvent &__eeInput);
-  BOOL H0x0192004d_ReloadColt_05(const CEntityEvent &__eeInput);
-  BOOL H0x0192004e_ReloadColt_06(const CEntityEvent &__eeInput);
-  BOOL H0x0192004f_ReloadColt_07(const CEntityEvent &__eeInput);
-  BOOL H0x01920050_ReloadColt_08(const CEntityEvent &__eeInput);
-  BOOL H0x01920051_ReloadColt_09(const CEntityEvent &__eeInput);
-  BOOL H0x01920052_ReloadColt_10(const CEntityEvent &__eeInput);
-  BOOL H0x01920053_ReloadColt_11(const CEntityEvent &__eeInput);
-  BOOL H0x01920054_ReloadColt_12(const CEntityEvent &__eeInput);
-  BOOL H0x01920055_ReloadColt_13(const CEntityEvent &__eeInput);
-  BOOL H0x01920056_ReloadColt_14(const CEntityEvent &__eeInput);
-  BOOL H0x01920057_ReloadColt_15(const CEntityEvent &__eeInput);
-  BOOL H0x01920058_ReloadColt_16(const CEntityEvent &__eeInput);
-  BOOL H0x01920059_ReloadColt_17(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_DoubleColtStart 0x0192005a
+  BOOL H0x01920051_ReloadColt_01(const CEntityEvent &__eeInput);
+  BOOL H0x01920052_ReloadColt_02(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_DoubleColtStart 0x01920053
   BOOL 
-#line 4640 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4647 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DoubleColtStart(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_DoubleColtStop 0x0192005b
+#define  STATE_CPlayerWeapons_DoubleColtStop 0x01920054
   BOOL 
-#line 4655 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4675 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DoubleColtStop(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_FireDoubleColt 0x0192005c
+#define  STATE_CPlayerWeapons_FireDoubleColt 0x01920055
   BOOL 
-#line 4686 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4706 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireDoubleColt(const CEntityEvent &__eeInput);
-  BOOL H0x0192005d_FireDoubleColt_01(const CEntityEvent &__eeInput);
-  BOOL H0x0192005e_FireDoubleColt_02(const CEntityEvent &__eeInput);
-  BOOL H0x0192005f_FireDoubleColt_03(const CEntityEvent &__eeInput);
-  BOOL H0x01920060_FireDoubleColt_04(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_ReloadDoubleColt 0x01920061
+  BOOL H0x01920056_FireDoubleColt_01(const CEntityEvent &__eeInput);
+  BOOL H0x01920057_FireDoubleColt_02(const CEntityEvent &__eeInput);
+  BOOL H0x01920058_FireDoubleColt_03(const CEntityEvent &__eeInput);
+  BOOL H0x01920059_FireDoubleColt_04(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_ReloadDoubleColt 0x0192005a
   BOOL 
-#line 4754 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4775 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ReloadDoubleColt(const CEntityEvent &__eeInput);
-  BOOL H0x01920062_ReloadDoubleColt_01(const CEntityEvent &__eeInput);
-  BOOL H0x01920063_ReloadDoubleColt_02(const CEntityEvent &__eeInput);
-  BOOL H0x01920064_ReloadDoubleColt_03(const CEntityEvent &__eeInput);
-  BOOL H0x01920065_ReloadDoubleColt_04(const CEntityEvent &__eeInput);
-  BOOL H0x01920066_ReloadDoubleColt_05(const CEntityEvent &__eeInput);
-  BOOL H0x01920067_ReloadDoubleColt_06(const CEntityEvent &__eeInput);
-  BOOL H0x01920068_ReloadDoubleColt_07(const CEntityEvent &__eeInput);
-  BOOL H0x01920069_ReloadDoubleColt_08(const CEntityEvent &__eeInput);
-  BOOL H0x0192006a_ReloadDoubleColt_09(const CEntityEvent &__eeInput);
-  BOOL H0x0192006b_ReloadDoubleColt_10(const CEntityEvent &__eeInput);
-  BOOL H0x0192006c_ReloadDoubleColt_11(const CEntityEvent &__eeInput);
-  BOOL H0x0192006d_ReloadDoubleColt_12(const CEntityEvent &__eeInput);
-  BOOL H0x0192006e_ReloadDoubleColt_13(const CEntityEvent &__eeInput);
-  BOOL H0x0192006f_ReloadDoubleColt_14(const CEntityEvent &__eeInput);
-  BOOL H0x01920070_ReloadDoubleColt_15(const CEntityEvent &__eeInput);
-  BOOL H0x01920071_ReloadDoubleColt_16(const CEntityEvent &__eeInput);
-  BOOL H0x01920072_ReloadDoubleColt_17(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_StartSingleShotgun 0x01920073
+  BOOL H0x0192005b_ReloadDoubleColt_01(const CEntityEvent &__eeInput);
+  BOOL H0x0192005c_ReloadDoubleColt_02(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_StartSingleShotgun 0x0192005d
   BOOL 
-#line 4812 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4797 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 StartSingleShotgun(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_SingleShotgunStop 0x01920074
+#define  STATE_CPlayerWeapons_SingleShotgunStop 0x0192005e
   BOOL 
-#line 4828 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4831 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SingleShotgunStop(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_FireSingleShotgun 0x01920075
+#define  STATE_CPlayerWeapons_FireSingleShotgun 0x0192005f
   BOOL 
-#line 4857 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4860 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireSingleShotgun(const CEntityEvent &__eeInput);
-  BOOL H0x01920076_FireSingleShotgun_01(const CEntityEvent &__eeInput);
-  BOOL H0x01920077_FireSingleShotgun_02(const CEntityEvent &__eeInput);
-  BOOL H0x01920078_FireSingleShotgun_03(const CEntityEvent &__eeInput);
-  BOOL H0x01920079_FireSingleShotgun_04(const CEntityEvent &__eeInput);
-  BOOL H0x0192007a_FireSingleShotgun_05(const CEntityEvent &__eeInput);
-  BOOL H0x0192007b_FireSingleShotgun_06(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_ReloadSingleShotgun 0x0192007c
+  BOOL H0x01920060_FireSingleShotgun_01(const CEntityEvent &__eeInput);
+  BOOL H0x01920061_FireSingleShotgun_02(const CEntityEvent &__eeInput);
+  BOOL H0x01920062_FireSingleShotgun_03(const CEntityEvent &__eeInput);
+  BOOL H0x01920063_FireSingleShotgun_04(const CEntityEvent &__eeInput);
+  BOOL H0x01920064_FireSingleShotgun_05(const CEntityEvent &__eeInput);
+  BOOL H0x01920065_FireSingleShotgun_06(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_ReloadSingleShotgun 0x01920066
   BOOL 
-#line 4942 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4946 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ReloadSingleShotgun(const CEntityEvent &__eeInput);
-  BOOL H0x0192007d_ReloadSingleShotgun_01(const CEntityEvent &__eeInput);
-  BOOL H0x0192007e_ReloadSingleShotgun_02(const CEntityEvent &__eeInput);
-  BOOL H0x0192007f_ReloadSingleShotgun_03(const CEntityEvent &__eeInput);
-  BOOL H0x01920080_ReloadSingleShotgun_04(const CEntityEvent &__eeInput);
-  BOOL H0x01920081_ReloadSingleShotgun_05(const CEntityEvent &__eeInput);
-  BOOL H0x01920082_ReloadSingleShotgun_06(const CEntityEvent &__eeInput);
-  BOOL H0x01920083_ReloadSingleShotgun_07(const CEntityEvent &__eeInput);
-  BOOL H0x01920084_ReloadSingleShotgun_08(const CEntityEvent &__eeInput);
-  BOOL H0x01920085_ReloadSingleShotgun_09(const CEntityEvent &__eeInput);
-  BOOL H0x01920086_ReloadSingleShotgun_10(const CEntityEvent &__eeInput);
-  BOOL H0x01920087_ReloadSingleShotgun_11(const CEntityEvent &__eeInput);
-  BOOL H0x01920088_ReloadSingleShotgun_12(const CEntityEvent &__eeInput);
-  BOOL H0x01920089_ReloadSingleShotgun_13(const CEntityEvent &__eeInput);
-  BOOL H0x0192008a_ReloadSingleShotgun_14(const CEntityEvent &__eeInput);
-  BOOL H0x0192008b_ReloadSingleShotgun_15(const CEntityEvent &__eeInput);
-  BOOL H0x0192008c_ReloadSingleShotgun_16(const CEntityEvent &__eeInput);
-  BOOL H0x0192008d_ReloadSingleShotgun_17(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_FireDoubleShotgun 0x0192008e
+  BOOL H0x01920067_ReloadSingleShotgun_01(const CEntityEvent &__eeInput);
+  BOOL H0x01920068_ReloadSingleShotgun_02(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_FireDoubleShotgun 0x01920069
   BOOL 
-#line 5103 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5065 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireDoubleShotgun(const CEntityEvent &__eeInput);
-  BOOL H0x0192008f_FireDoubleShotgun_01(const CEntityEvent &__eeInput);
-  BOOL H0x01920090_FireDoubleShotgun_02(const CEntityEvent &__eeInput);
-  BOOL H0x01920091_FireDoubleShotgun_03(const CEntityEvent &__eeInput);
-  BOOL H0x01920092_FireDoubleShotgun_04(const CEntityEvent &__eeInput);
-  BOOL H0x01920093_FireDoubleShotgun_05(const CEntityEvent &__eeInput);
-  BOOL H0x01920094_FireDoubleShotgun_06(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_TommyGunStart 0x01920095
+  BOOL H0x0192006a_FireDoubleShotgun_01(const CEntityEvent &__eeInput);
+  BOOL H0x0192006b_FireDoubleShotgun_02(const CEntityEvent &__eeInput);
+  BOOL H0x0192006c_FireDoubleShotgun_03(const CEntityEvent &__eeInput);
+  BOOL H0x0192006d_FireDoubleShotgun_04(const CEntityEvent &__eeInput);
+  BOOL H0x0192006e_FireDoubleShotgun_05(const CEntityEvent &__eeInput);
+  BOOL H0x0192006f_FireDoubleShotgun_06(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_TommyGunStart 0x01920070
   BOOL 
-#line 5193 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5156 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 TommyGunStart(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_TommyGunStop 0x01920096
+#define  STATE_CPlayerWeapons_TommyGunStop 0x01920071
   BOOL 
-#line 5209 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5188 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 TommyGunStop(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_FireTommyGun 0x01920097
+#define  STATE_CPlayerWeapons_FireTommyGun 0x01920072
   BOOL 
-#line 5240 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5219 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireTommyGun(const CEntityEvent &__eeInput);
-  BOOL H0x01920098_FireTommyGun_01(const CEntityEvent &__eeInput);
-  BOOL H0x01920099_FireTommyGun_02(const CEntityEvent &__eeInput);
-  BOOL H0x0192009a_FireTommyGun_03(const CEntityEvent &__eeInput);
-  BOOL H0x0192009b_FireTommyGun_04(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_AltFireTommyGun 0x0192009c
+  BOOL H0x01920073_FireTommyGun_01(const CEntityEvent &__eeInput);
+  BOOL H0x01920074_FireTommyGun_02(const CEntityEvent &__eeInput);
+  BOOL H0x01920075_FireTommyGun_03(const CEntityEvent &__eeInput);
+  BOOL H0x01920076_FireTommyGun_04(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_AltFireTommyGun 0x01920077
   BOOL 
-#line 5324 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5304 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 AltFireTommyGun(const CEntityEvent &__eeInput);
-  BOOL H0x0192009d_AltFireTommyGun_01(const CEntityEvent &__eeInput);
-  BOOL H0x0192009e_AltFireTommyGun_02(const CEntityEvent &__eeInput);
-  BOOL H0x0192009f_AltFireTommyGun_03(const CEntityEvent &__eeInput);
-  BOOL H0x019200a0_AltFireTommyGun_04(const CEntityEvent &__eeInput);
-  BOOL H0x019200a1_AltFireTommyGun_05(const CEntityEvent &__eeInput);
-  BOOL H0x019200a2_AltFireTommyGun_06(const CEntityEvent &__eeInput);
-  BOOL H0x019200a3_AltFireTommyGun_07(const CEntityEvent &__eeInput);
-  BOOL H0x019200a4_AltFireTommyGun_08(const CEntityEvent &__eeInput);
-  BOOL H0x019200a5_AltFireTommyGun_09(const CEntityEvent &__eeInput);
-  BOOL H0x019200a6_AltFireTommyGun_10(const CEntityEvent &__eeInput);
-  BOOL H0x019200a7_AltFireTommyGun_11(const CEntityEvent &__eeInput);
-  BOOL H0x019200a8_AltFireTommyGun_12(const CEntityEvent &__eeInput);
-  BOOL H0x019200a9_AltFireTommyGun_13(const CEntityEvent &__eeInput);
-  BOOL H0x019200aa_AltFireTommyGun_14(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_ReloadTommyGun 0x019200ab
+  BOOL H0x01920078_AltFireTommyGun_01(const CEntityEvent &__eeInput);
+  BOOL H0x01920079_AltFireTommyGun_02(const CEntityEvent &__eeInput);
+  BOOL H0x0192007a_AltFireTommyGun_03(const CEntityEvent &__eeInput);
+  BOOL H0x0192007b_AltFireTommyGun_04(const CEntityEvent &__eeInput);
+  BOOL H0x0192007c_AltFireTommyGun_05(const CEntityEvent &__eeInput);
+  BOOL H0x0192007d_AltFireTommyGun_06(const CEntityEvent &__eeInput);
+  BOOL H0x0192007e_AltFireTommyGun_07(const CEntityEvent &__eeInput);
+  BOOL H0x0192007f_AltFireTommyGun_08(const CEntityEvent &__eeInput);
+  BOOL H0x01920080_AltFireTommyGun_09(const CEntityEvent &__eeInput);
+  BOOL H0x01920081_AltFireTommyGun_10(const CEntityEvent &__eeInput);
+  BOOL H0x01920082_AltFireTommyGun_11(const CEntityEvent &__eeInput);
+  BOOL H0x01920083_AltFireTommyGun_12(const CEntityEvent &__eeInput);
+  BOOL H0x01920084_AltFireTommyGun_13(const CEntityEvent &__eeInput);
+  BOOL H0x01920085_AltFireTommyGun_14(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_ReloadTommyGun 0x01920086
   BOOL 
-#line 5387 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5367 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ReloadTommyGun(const CEntityEvent &__eeInput);
-  BOOL H0x019200ac_ReloadTommyGun_01(const CEntityEvent &__eeInput);
-  BOOL H0x019200ad_ReloadTommyGun_02(const CEntityEvent &__eeInput);
-  BOOL H0x019200ae_ReloadTommyGun_03(const CEntityEvent &__eeInput);
-  BOOL H0x019200af_ReloadTommyGun_04(const CEntityEvent &__eeInput);
-  BOOL H0x019200b0_ReloadTommyGun_05(const CEntityEvent &__eeInput);
-  BOOL H0x019200b1_ReloadTommyGun_06(const CEntityEvent &__eeInput);
-  BOOL H0x019200b2_ReloadTommyGun_07(const CEntityEvent &__eeInput);
-  BOOL H0x019200b3_ReloadTommyGun_08(const CEntityEvent &__eeInput);
-  BOOL H0x019200b4_ReloadTommyGun_09(const CEntityEvent &__eeInput);
-  BOOL H0x019200b5_ReloadTommyGun_10(const CEntityEvent &__eeInput);
-  BOOL H0x019200b6_ReloadTommyGun_11(const CEntityEvent &__eeInput);
-  BOOL H0x019200b7_ReloadTommyGun_12(const CEntityEvent &__eeInput);
-  BOOL H0x019200b8_ReloadTommyGun_13(const CEntityEvent &__eeInput);
-  BOOL H0x019200b9_ReloadTommyGun_14(const CEntityEvent &__eeInput);
-  BOOL H0x019200ba_ReloadTommyGun_15(const CEntityEvent &__eeInput);
-  BOOL H0x019200bb_ReloadTommyGun_16(const CEntityEvent &__eeInput);
-  BOOL H0x019200bc_ReloadTommyGun_17(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_FireSniper 0x019200bd
+  BOOL H0x01920087_ReloadTommyGun_01(const CEntityEvent &__eeInput);
+  BOOL H0x01920088_ReloadTommyGun_02(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_FireSniper 0x01920089
   BOOL 
-#line 5481 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5419 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireSniper(const CEntityEvent &__eeInput);
-  BOOL H0x019200be_FireSniper_01(const CEntityEvent &__eeInput);
-  BOOL H0x019200bf_FireSniper_02(const CEntityEvent &__eeInput);
-  BOOL H0x019200c0_FireSniper_03(const CEntityEvent &__eeInput);
-  BOOL H0x019200c1_FireSniper_04(const CEntityEvent &__eeInput);
-  BOOL H0x019200c2_FireSniper_05(const CEntityEvent &__eeInput);
-  BOOL H0x019200c3_FireSniper_06(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_MiniGunSpinUp 0x019200c4
+  BOOL H0x0192008a_FireSniper_01(const CEntityEvent &__eeInput);
+  BOOL H0x0192008b_FireSniper_02(const CEntityEvent &__eeInput);
+  BOOL H0x0192008c_FireSniper_03(const CEntityEvent &__eeInput);
+  BOOL H0x0192008d_FireSniper_04(const CEntityEvent &__eeInput);
+  BOOL H0x0192008e_FireSniper_05(const CEntityEvent &__eeInput);
+  BOOL H0x0192008f_FireSniper_06(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_MiniGunSpinUp 0x01920090
   BOOL 
-#line 5569 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5508 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MiniGunSpinUp(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_MiniGunSpinDown 0x019200c5
+#define  STATE_CPlayerWeapons_MiniGunSpinDown 0x01920091
   BOOL 
-#line 5580 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5519 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MiniGunSpinDown(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_MiniGunFire 0x019200c6
+#define  STATE_CPlayerWeapons_MiniGunFire 0x01920092
   BOOL 
-#line 5611 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5550 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MiniGunFire(const CEntityEvent &__eeInput);
-  BOOL H0x019200c7_MiniGunFire_01(const CEntityEvent &__eeInput);
-  BOOL H0x019200c8_MiniGunFire_02(const CEntityEvent &__eeInput);
-  BOOL H0x019200c9_MiniGunFire_03(const CEntityEvent &__eeInput);
-  BOOL H0x019200ca_MiniGunFire_04(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_FireRocketLauncher 0x019200cb
+  BOOL H0x01920093_MiniGunFire_01(const CEntityEvent &__eeInput);
+  BOOL H0x01920094_MiniGunFire_02(const CEntityEvent &__eeInput);
+  BOOL H0x01920095_MiniGunFire_03(const CEntityEvent &__eeInput);
+  BOOL H0x01920096_MiniGunFire_04(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_FireRocketLauncher 0x01920097
   BOOL 
-#line 5674 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5614 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireRocketLauncher(const CEntityEvent &__eeInput);
-  BOOL H0x019200cc_FireRocketLauncher_01(const CEntityEvent &__eeInput);
-  BOOL H0x019200cd_FireRocketLauncher_02(const CEntityEvent &__eeInput);
-  BOOL H0x019200ce_FireRocketLauncher_03(const CEntityEvent &__eeInput);
-  BOOL H0x019200cf_FireRocketLauncher_04(const CEntityEvent &__eeInput);
-  BOOL H0x019200d0_FireRocketLauncher_05(const CEntityEvent &__eeInput);
-  BOOL H0x019200d1_FireRocketLauncher_06(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_FireGrenadeLauncher 0x019200d2
+  BOOL H0x01920098_FireRocketLauncher_01(const CEntityEvent &__eeInput);
+  BOOL H0x01920099_FireRocketLauncher_02(const CEntityEvent &__eeInput);
+  BOOL H0x0192009a_FireRocketLauncher_03(const CEntityEvent &__eeInput);
+  BOOL H0x0192009b_FireRocketLauncher_04(const CEntityEvent &__eeInput);
+  BOOL H0x0192009c_FireRocketLauncher_05(const CEntityEvent &__eeInput);
+  BOOL H0x0192009d_FireRocketLauncher_06(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_FireGrenadeLauncher 0x0192009e
   BOOL 
-#line 5716 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5656 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireGrenadeLauncher(const CEntityEvent &__eeInput);
-  BOOL H0x019200d3_FireGrenadeLauncher_01(const CEntityEvent &__eeInput);
-  BOOL H0x019200d4_FireGrenadeLauncher_02(const CEntityEvent &__eeInput);
-  BOOL H0x019200d5_FireGrenadeLauncher_03(const CEntityEvent &__eeInput);
-  BOOL H0x019200d6_FireGrenadeLauncher_04(const CEntityEvent &__eeInput);
-  BOOL H0x019200d7_FireGrenadeLauncher_05(const CEntityEvent &__eeInput);
-  BOOL H0x019200d8_FireGrenadeLauncher_06(const CEntityEvent &__eeInput);
-  BOOL H0x019200d9_FireGrenadeLauncher_07(const CEntityEvent &__eeInput);
-  BOOL H0x019200da_FireGrenadeLauncher_08(const CEntityEvent &__eeInput);
-  BOOL H0x019200db_FireGrenadeLauncher_09(const CEntityEvent &__eeInput);
-  BOOL H0x019200dc_FireGrenadeLauncher_10(const CEntityEvent &__eeInput);
-  BOOL H0x019200dd_FireGrenadeLauncher_11(const CEntityEvent &__eeInput);
-  BOOL H0x019200de_FireGrenadeLauncher_12(const CEntityEvent &__eeInput);
-  BOOL H0x019200df_FireGrenadeLauncher_13(const CEntityEvent &__eeInput);
-  BOOL H0x019200e0_FireGrenadeLauncher_14(const CEntityEvent &__eeInput);
-  BOOL H0x019200e1_FireGrenadeLauncher_15(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_FlamerStart 0x019200e2
+  BOOL H0x0192009f_FireGrenadeLauncher_01(const CEntityEvent &__eeInput);
+  BOOL H0x019200a0_FireGrenadeLauncher_02(const CEntityEvent &__eeInput);
+  BOOL H0x019200a1_FireGrenadeLauncher_03(const CEntityEvent &__eeInput);
+  BOOL H0x019200a2_FireGrenadeLauncher_04(const CEntityEvent &__eeInput);
+  BOOL H0x019200a3_FireGrenadeLauncher_05(const CEntityEvent &__eeInput);
+  BOOL H0x019200a4_FireGrenadeLauncher_06(const CEntityEvent &__eeInput);
+  BOOL H0x019200a5_FireGrenadeLauncher_07(const CEntityEvent &__eeInput);
+  BOOL H0x019200a6_FireGrenadeLauncher_08(const CEntityEvent &__eeInput);
+  BOOL H0x019200a7_FireGrenadeLauncher_09(const CEntityEvent &__eeInput);
+  BOOL H0x019200a8_FireGrenadeLauncher_10(const CEntityEvent &__eeInput);
+  BOOL H0x019200a9_FireGrenadeLauncher_11(const CEntityEvent &__eeInput);
+  BOOL H0x019200aa_FireGrenadeLauncher_12(const CEntityEvent &__eeInput);
+  BOOL H0x019200ab_FireGrenadeLauncher_13(const CEntityEvent &__eeInput);
+  BOOL H0x019200ac_FireGrenadeLauncher_14(const CEntityEvent &__eeInput);
+  BOOL H0x019200ad_FireGrenadeLauncher_15(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_FlamerStart 0x019200ae
   BOOL 
-#line 5861 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5801 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FlamerStart(const CEntityEvent &__eeInput);
-  BOOL H0x019200e3_FlamerStart_01(const CEntityEvent &__eeInput);
-  BOOL H0x019200e4_FlamerStart_02(const CEntityEvent &__eeInput);
-  BOOL H0x019200e5_FlamerStart_03(const CEntityEvent &__eeInput);
-  BOOL H0x019200e6_FlamerStart_04(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_FlamerFire 0x019200e7
+  BOOL H0x019200af_FlamerStart_01(const CEntityEvent &__eeInput);
+  BOOL H0x019200b0_FlamerStart_02(const CEntityEvent &__eeInput);
+  BOOL H0x019200b1_FlamerStart_03(const CEntityEvent &__eeInput);
+  BOOL H0x019200b2_FlamerStart_04(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_FlamerFire 0x019200b3
   BOOL 
-#line 5881 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5821 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FlamerFire(const CEntityEvent &__eeInput);
-  BOOL H0x019200e8_FlamerFire_01(const CEntityEvent &__eeInput);
-  BOOL H0x019200e9_FlamerFire_02(const CEntityEvent &__eeInput);
-  BOOL H0x019200ea_FlamerFire_03(const CEntityEvent &__eeInput);
-  BOOL H0x019200eb_FlamerFire_04(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_FlamerStop 0x019200ec
+  BOOL H0x019200b4_FlamerFire_01(const CEntityEvent &__eeInput);
+  BOOL H0x019200b5_FlamerFire_02(const CEntityEvent &__eeInput);
+  BOOL H0x019200b6_FlamerFire_03(const CEntityEvent &__eeInput);
+  BOOL H0x019200b7_FlamerFire_04(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_FlamerStop 0x019200b8
   BOOL 
-#line 5898 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5838 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FlamerStop(const CEntityEvent &__eeInput);
-  BOOL H0x019200ed_FlamerStop_01(const CEntityEvent &__eeInput);
-  BOOL H0x019200ee_FlamerStop_02(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_ChainsawFire 0x019200ef
+  BOOL H0x019200b9_FlamerStop_01(const CEntityEvent &__eeInput);
+  BOOL H0x019200ba_FlamerStop_02(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_ChainsawFire 0x019200bb
   BOOL 
-#line 5923 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5863 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ChainsawFire(const CEntityEvent &__eeInput);
-  BOOL H0x019200f0_ChainsawFire_01(const CEntityEvent &__eeInput);
-  BOOL H0x019200f1_ChainsawFire_02(const CEntityEvent &__eeInput);
-  BOOL H0x019200f2_ChainsawFire_03(const CEntityEvent &__eeInput);
-  BOOL H0x019200f3_ChainsawFire_04(const CEntityEvent &__eeInput);
-  BOOL H0x019200f4_ChainsawFire_05(const CEntityEvent &__eeInput);
-  BOOL H0x019200f5_ChainsawFire_06(const CEntityEvent &__eeInput);
-  BOOL H0x019200f6_ChainsawFire_07(const CEntityEvent &__eeInput);
-  BOOL H0x019200f7_ChainsawFire_08(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_ChainsawBringUp 0x019200f8
+  BOOL H0x019200bc_ChainsawFire_01(const CEntityEvent &__eeInput);
+  BOOL H0x019200bd_ChainsawFire_02(const CEntityEvent &__eeInput);
+  BOOL H0x019200be_ChainsawFire_03(const CEntityEvent &__eeInput);
+  BOOL H0x019200bf_ChainsawFire_04(const CEntityEvent &__eeInput);
+  BOOL H0x019200c0_ChainsawFire_05(const CEntityEvent &__eeInput);
+  BOOL H0x019200c1_ChainsawFire_06(const CEntityEvent &__eeInput);
+  BOOL H0x019200c2_ChainsawFire_07(const CEntityEvent &__eeInput);
+  BOOL H0x019200c3_ChainsawFire_08(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_ChainsawBringUp 0x019200c4
   BOOL 
-#line 5999 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5939 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ChainsawBringUp(const CEntityEvent &__eeInput);
-  BOOL H0x019200f9_ChainsawBringUp_01(const CEntityEvent &__eeInput);
-  BOOL H0x019200fa_ChainsawBringUp_02(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_FireLaser 0x019200fb
+  BOOL H0x019200c5_ChainsawBringUp_01(const CEntityEvent &__eeInput);
+  BOOL H0x019200c6_ChainsawBringUp_02(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_FireLaser 0x019200c7
   BOOL 
-#line 6008 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5948 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireLaser(const CEntityEvent &__eeInput);
-  BOOL H0x019200fc_FireLaser_01(const CEntityEvent &__eeInput);
-  BOOL H0x019200fd_FireLaser_02(const CEntityEvent &__eeInput);
-  BOOL H0x019200fe_FireLaser_03(const CEntityEvent &__eeInput);
-  BOOL H0x019200ff_FireLaser_04(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_CannonFireStart 0x01920100
+  BOOL H0x019200c8_FireLaser_01(const CEntityEvent &__eeInput);
+  BOOL H0x019200c9_FireLaser_02(const CEntityEvent &__eeInput);
+  BOOL H0x019200ca_FireLaser_03(const CEntityEvent &__eeInput);
+  BOOL H0x019200cb_FireLaser_04(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_CannonFireStart 0x019200cc
   BOOL 
-#line 6099 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6039 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CannonFireStart(const CEntityEvent &__eeInput);
-  BOOL H0x01920101_CannonFireStart_01(const CEntityEvent &__eeInput);
-  BOOL H0x01920102_CannonFireStart_02(const CEntityEvent &__eeInput);
-  BOOL H0x01920103_CannonFireStart_03(const CEntityEvent &__eeInput);
-  BOOL H0x01920104_CannonFireStart_04(const CEntityEvent &__eeInput);
-  BOOL H0x01920105_CannonFireStart_05(const CEntityEvent &__eeInput);
-  BOOL H0x01920106_CannonFireStart_06(const CEntityEvent &__eeInput);
-  BOOL H0x01920107_CannonFireStart_07(const CEntityEvent &__eeInput);
-  BOOL H0x01920108_CannonFireStart_08(const CEntityEvent &__eeInput);
-  BOOL H0x01920109_CannonFireStart_09(const CEntityEvent &__eeInput);
-  BOOL H0x0192010a_CannonFireStart_10(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_AltCannonFire 0x0192010b
+  BOOL H0x019200cd_CannonFireStart_01(const CEntityEvent &__eeInput);
+  BOOL H0x019200ce_CannonFireStart_02(const CEntityEvent &__eeInput);
+  BOOL H0x019200cf_CannonFireStart_03(const CEntityEvent &__eeInput);
+  BOOL H0x019200d0_CannonFireStart_04(const CEntityEvent &__eeInput);
+  BOOL H0x019200d1_CannonFireStart_05(const CEntityEvent &__eeInput);
+  BOOL H0x019200d2_CannonFireStart_06(const CEntityEvent &__eeInput);
+  BOOL H0x019200d3_CannonFireStart_07(const CEntityEvent &__eeInput);
+  BOOL H0x019200d4_CannonFireStart_08(const CEntityEvent &__eeInput);
+  BOOL H0x019200d5_CannonFireStart_09(const CEntityEvent &__eeInput);
+  BOOL H0x019200d6_CannonFireStart_10(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_AltCannonFire 0x019200d7
   BOOL 
-#line 6203 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6143 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 AltCannonFire(const CEntityEvent &__eeInput);
-  BOOL H0x0192010c_AltCannonFire_01(const CEntityEvent &__eeInput);
-  BOOL H0x0192010d_AltCannonFire_02(const CEntityEvent &__eeInput);
-  BOOL H0x0192010e_AltCannonFire_03(const CEntityEvent &__eeInput);
-  BOOL H0x0192010f_AltCannonFire_04(const CEntityEvent &__eeInput);
-  BOOL H0x01920110_AltCannonFire_05(const CEntityEvent &__eeInput);
-  BOOL H0x01920111_AltCannonFire_06(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_Reload 0x01920112
+  BOOL H0x019200d8_AltCannonFire_01(const CEntityEvent &__eeInput);
+  BOOL H0x019200d9_AltCannonFire_02(const CEntityEvent &__eeInput);
+  BOOL H0x019200da_AltCannonFire_03(const CEntityEvent &__eeInput);
+  BOOL H0x019200db_AltCannonFire_04(const CEntityEvent &__eeInput);
+  BOOL H0x019200dc_AltCannonFire_05(const CEntityEvent &__eeInput);
+  BOOL H0x019200dd_AltCannonFire_06(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_Reload 0x019200de
   BOOL 
-#line 6237 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6177 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Reload(const CEntityEvent &__eeInput);
-  BOOL H0x01920113_Reload_01(const CEntityEvent &__eeInput);
-  BOOL H0x01920114_Reload_02(const CEntityEvent &__eeInput);
-  BOOL H0x01920115_Reload_03(const CEntityEvent &__eeInput);
-  BOOL H0x01920116_Reload_04(const CEntityEvent &__eeInput);
-  BOOL H0x01920117_Reload_05(const CEntityEvent &__eeInput);
-  BOOL H0x01920118_Reload_06(const CEntityEvent &__eeInput);
-  BOOL H0x01920119_Reload_07(const CEntityEvent &__eeInput);
-  BOOL H0x0192011a_Reload_08(const CEntityEvent &__eeInput);
-  BOOL H0x0192011b_Reload_09(const CEntityEvent &__eeInput);
-  BOOL H0x0192011c_Reload_10(const CEntityEvent &__eeInput);
-  BOOL H0x0192011d_Reload_11(const CEntityEvent &__eeInput);
-  BOOL H0x0192011e_Reload_12(const CEntityEvent &__eeInput);
-  BOOL H0x0192011f_Reload_13(const CEntityEvent &__eeInput);
-  BOOL H0x01920120_Reload_14(const CEntityEvent &__eeInput);
-  BOOL H0x01920121_Reload_15(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_ChangeKnifeStand 0x01920122
+  BOOL H0x019200df_Reload_01(const CEntityEvent &__eeInput);
+  BOOL H0x019200e0_Reload_02(const CEntityEvent &__eeInput);
+  BOOL H0x019200e1_Reload_03(const CEntityEvent &__eeInput);
+  BOOL H0x019200e2_Reload_04(const CEntityEvent &__eeInput);
+  BOOL H0x019200e3_Reload_05(const CEntityEvent &__eeInput);
+  BOOL H0x019200e4_Reload_06(const CEntityEvent &__eeInput);
+  BOOL H0x019200e5_Reload_07(const CEntityEvent &__eeInput);
+  BOOL H0x019200e6_Reload_08(const CEntityEvent &__eeInput);
+  BOOL H0x019200e7_Reload_09(const CEntityEvent &__eeInput);
+  BOOL H0x019200e8_Reload_10(const CEntityEvent &__eeInput);
+  BOOL H0x019200e9_Reload_11(const CEntityEvent &__eeInput);
+  BOOL H0x019200ea_Reload_12(const CEntityEvent &__eeInput);
+  BOOL H0x019200eb_Reload_13(const CEntityEvent &__eeInput);
+  BOOL H0x019200ec_Reload_14(const CEntityEvent &__eeInput);
+  BOOL H0x019200ed_Reload_15(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_ChangeKnifeStand 0x019200ee
   BOOL 
-#line 6260 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6200 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ChangeKnifeStand(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_ChangeToIronCannon 0x01920123
+#define  STATE_CPlayerWeapons_ChangeToIronCannon 0x019200ef
   BOOL 
-#line 6276 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6216 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ChangeToIronCannon(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_BoringWeaponAnimation 0x01920124
+#define  STATE_CPlayerWeapons_BoringWeaponAnimation 0x019200f0
   BOOL 
-#line 6315 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6255 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BoringWeaponAnimation(const CEntityEvent &__eeInput);
-  BOOL H0x01920125_BoringWeaponAnimation_01(const CEntityEvent &__eeInput);
-  BOOL H0x01920126_BoringWeaponAnimation_02(const CEntityEvent &__eeInput);
-  BOOL H0x01920127_BoringWeaponAnimation_03(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_Idle 0x01920128
+  BOOL H0x019200f1_BoringWeaponAnimation_01(const CEntityEvent &__eeInput);
+  BOOL H0x019200f2_BoringWeaponAnimation_02(const CEntityEvent &__eeInput);
+  BOOL H0x019200f3_BoringWeaponAnimation_03(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_Idle 0x019200f4
   BOOL 
-#line 6345 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6285 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Idle(const CEntityEvent &__eeInput);
-  BOOL H0x01920129_Idle_01(const CEntityEvent &__eeInput);
-  BOOL H0x0192012a_Idle_02(const CEntityEvent &__eeInput);
-#define  STATE_CPlayerWeapons_Stopped 0x0192012b
+  BOOL H0x019200f5_Idle_01(const CEntityEvent &__eeInput);
+  BOOL H0x019200f6_Idle_02(const CEntityEvent &__eeInput);
+#define  STATE_CPlayerWeapons_Stopped 0x019200f7
   BOOL 
-#line 6400 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6340 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Stopped(const CEntityEvent &__eeInput);
-  BOOL H0x0192012c_Stopped_01(const CEntityEvent &__eeInput);
-  BOOL H0x0192012d_Stopped_02(const CEntityEvent &__eeInput);
+  BOOL H0x019200f8_Stopped_01(const CEntityEvent &__eeInput);
+  BOOL H0x019200f9_Stopped_02(const CEntityEvent &__eeInput);
 #define  STATE_CPlayerWeapons_Main 1
   BOOL 
-#line 6428 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6368 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Main(const CEntityEvent &__eeInput);
-  BOOL H0x0192012e_Main_01(const CEntityEvent &__eeInput);
-  BOOL H0x0192012f_Main_02(const CEntityEvent &__eeInput);
+  BOOL H0x019200fa_Main_01(const CEntityEvent &__eeInput);
+  BOOL H0x019200fb_Main_02(const CEntityEvent &__eeInput);
 };
 #endif // _EntitiesMP_PlayerWeapons_INCLUDED

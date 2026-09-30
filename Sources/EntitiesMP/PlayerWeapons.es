@@ -678,6 +678,11 @@ properties:
 271 FLOAT m_tmFlamerStop=1e9,
 272 FLOAT m_tmLastChainsawSpray = 0.0f,
 
+273 BOOL m_bTommyGunNeedsInit = TRUE,
+274 BOOL m_bSingleShotgunNeedsInit = TRUE,
+275 BOOL m_bColtNeedsInit = TRUE,
+276 BOOL m_bDoubleColtNeedsInit = TRUE,
+
 {
   CEntity *penBullet;
   CPlacement3D plBullet;
@@ -2186,6 +2191,12 @@ functions:
 	return FALSE;
 
   };
+  
+    // Вызывается при каждом выстреле
+  void ApplyWeaponKick(FLOAT fKickX, FLOAT fKickY) {
+    // Просто передаем импульс игроку. Никаких таймеров!
+    ((CPlayer&)*m_penPlayer).AddWeaponRecoil(fKickX, fKickY);
+  }
 
   // prepare Bullet
   void PrepareSniperBullet(FLOAT fX, FLOAT fY, FLOAT fDamage, FLOAT fImprecission) {
@@ -4256,7 +4267,11 @@ procedures:
       autocall TommyGunStart() EEnd;
     } else if (m_iCurrentWeapon==WEAPON_DOUBLECOLT) {
 	  autocall DoubleColtStart() EEnd;
-	  }
+	} else if (m_iCurrentWeapon==WEAPON_SINGLESHOTGUN) {
+	  autocall StartSingleShotgun() EEnd;
+	} else if (m_iCurrentWeapon==WEAPON_COLT) {
+	  autocall ColtStart() EEnd;
+	}
 
     // clear last lerped bullet position
     m_iLastBulletPosition = FLOAT3D(32000.0f, 32000.0f, 32000.0f);
@@ -4307,6 +4322,8 @@ procedures:
       default: { jump Idle(); }
     }
   };
+  
+  
 
   AltFire(){
     CPlayer &pl = (CPlayer&)*m_penPlayer;
@@ -4425,20 +4442,34 @@ procedures:
   };
 
   // ***************** FIRE COLT *****************
-  ColtStart(){
-  if(m_iPistolMagazin == 0)
-  {
-  jump ReloadColt();
-  }
+  ColtStart() {
+    if (m_bColtNeedsInit) {
+        if (m_iPistolMagazin < 7 && m_iPistol > 0) {
+            INDEX iNeeded = 7 - m_iPistolMagazin;
+            INDEX iToAdd = (m_iPistol >= iNeeded) ? iNeeded : m_iPistol;
+            
+            m_iPistolMagazin += iToAdd;
+            m_iPistol -= iToAdd;
+        }
+        m_bColtNeedsInit = FALSE;
+    }
+
+    if (m_iPistolMagazin == 0) {
+        jump ReloadColt();
+    }
+
     m_iPistolOnFireStart = m_iPistolMagazin;
     CPlayer &pl = (CPlayer&)*m_penPlayer;
-	PlaySound(pl.m_soWeapon0, SOUND_SILENCE, SOF_3D|SOF_VOLUMETRIC);
-	pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 0.5f, 1.0f);
+    
+    PlaySound(pl.m_soWeapon0, SOUND_SILENCE, SOF_3D|SOF_VOLUMETRIC);
+    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 0.5f, 1.0f);
     PlaySound(pl.m_soWeapon0, SOUND_COLT_FIRE, SOF_3D|SOF_VOLUMETRIC);
-	PlayLightAnim(LIGHT_ANIM_COLT_SHOTGUN, AOF_LOOPING);
-	GetAnimator()->FireAnimation(BODY_ANIM_COLT_FIRERIGHT, 0);
-	return EEnd();
-  };
+    
+    PlayLightAnim(LIGHT_ANIM_COLT_SHOTGUN, 0);
+    GetAnimator()->FireAnimation(BODY_ANIM_COLT_FIRERIGHT, 0);
+    
+    return EEnd();
+  }
 
   ColtStop(){
   CPlayer &pl = (CPlayer&)*m_penPlayer;
@@ -4462,79 +4493,71 @@ procedures:
   };
 
   FireColt() {
-  // fire bullet
-  if (m_iPistolMagazin>0){
-     FireOneBullet(wpn_fFX[WEAPON_COLT], wpn_fFY[WEAPON_COLT], 500.0f,
-         ((GetSP()->sp_bCooperative) ? 25.0f : 25.0f));
-	 //CutWithChainsaw(5, 10, 500.0f, 500.0f, 500.0f, 0.0f);
-	 ShakeBullet(0.2f, 0.2f, 1.0f, 0.055f);
-	 SpawnRangeSound(40.0f);
-	 if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("Colt_fire");}
-	 DecAmmo(m_iPistolMagazin, 1);
-	 SetFlare(0, FLARE_ADD);
-	 // random colt fire
-     INDEX iAnim;
-     switch (IRnd()%3) {
-       case 0: iAnim = COLT_ANIM_FIRE1; break;
-       case 1: iAnim = COLT_ANIM_FIRE2; break;
-	   case 2: iAnim = COLT_ANIM_FIRE3; break;
-     }
-     m_moWeapon.PlayAnim(iAnim, AOF_LOOPING|AOF_NORESTART);
-     //autowait(m_moWeapon.GetAnimLength(iAnim)-0.05f);
-     //m_moWeapon.PlayAnim(COLT_ANIM_WAIT1, AOF_LOOPING|AOF_NORESTART);
+    if (m_iPistolMagazin > 0) {
+       FireOneBullet(wpn_fFX[WEAPON_COLT], wpn_fFY[WEAPON_COLT], 500.0f,
+           ((GetSP()->sp_bCooperative) ? 25.0f : 25.0f));
+       
+       ApplyWeaponKick(0.05f, 1.5f);
+       SpawnRangeSound(40.0f);
+       if(_pNetwork->IsPlayerLocal(m_penPlayer)) { IFeel_PlayEffect("Colt_fire"); }
+       DecAmmo(m_iPistolMagazin, 1);
+       SetFlare(0, FLARE_ADD);
+       
+       INDEX iAnim;
+       switch (IRnd()%3) {
+         case 0: iAnim = COLT_ANIM_FIRE1; break;
+         case 1: iAnim = COLT_ANIM_FIRE2; break;
+         case 2: iAnim = COLT_ANIM_FIRE3; break;
+       }
+       
+       m_moWeapon.PlayAnim(iAnim, 0);
 
-	 // sound
-     CPlayer &pl = (CPlayer&)*m_penPlayer;
-     PlaySound(pl.m_soWeapon0, SOUND_COLT_FIRE, SOF_3D|SOF_VOLUMETRIC);
+       CPlayer &pl = (CPlayer&)*m_penPlayer;
+       PlaySound(pl.m_soWeapon0, SOUND_COLT_FIRE, SOF_3D|SOF_VOLUMETRIC);
 
-	 CPlacement3D plShell;
-	 CalcWeaponPosition(FLOAT3D(afTommygunShellPos[0], afTommygunShellPos[1], afTommygunShellPos[2]), plShell, FALSE);
-	 FLOATmatrix3D mRot;
-	 MakeRotationMatrixFast(mRot, plShell.pl_OrientationAngle);
+       CPlacement3D plShell;
+       CalcWeaponPosition(FLOAT3D(afTommygunShellPos[0], afTommygunShellPos[1], afTommygunShellPos[2]), plShell, FALSE);
+       FLOATmatrix3D mRot;
+       MakeRotationMatrixFast(mRot, plShell.pl_OrientationAngle);
 
-	 if( hud_bShowWeapon)
-      {
-        // empty bullet shell
-        CPlayer &pl = *GetPlayer();
-        ShellLaunchData &sld = pl.m_asldData[pl.m_iFirstEmptySLD];
-        sld.sld_vPos = plShell.pl_PositionVector;
-        FLOAT3D vSpeedRelative = FLOAT3D(FRnd()+2.0f, FRnd()+5.0f, -FRnd()-2.0f);
-        const FLOATmatrix3D &m = pl.GetRotationMatrix();
-        FLOAT3D vUp( m(1,2), m(2,2), m(3,2));
-        sld.sld_vUp = vUp;
-        sld.sld_vSpeed = vSpeedRelative*mRot;
-        sld.sld_tmLaunch = _pTimer->CurrentTick();
-        sld.sld_estType = ESL_BULLET;
-        pl.m_iFirstEmptySLD = (pl.m_iFirstEmptySLD+1) % MAX_FLYING_SHELLS;
+       if( hud_bShowWeapon) {
+         CPlayer &plInner = *GetPlayer(); // Переименовал, чтобы не конфликтовало с внешним pl
+         ShellLaunchData &sld = plInner.m_asldData[plInner.m_iFirstEmptySLD];
+         sld.sld_vPos = plShell.pl_PositionVector;
+         FLOAT3D vSpeedRelative = FLOAT3D(FRnd()+2.0f, FRnd()+5.0f, -FRnd()-2.0f);
+         const FLOATmatrix3D &m = plInner.GetRotationMatrix();
+         FLOAT3D vUp( m(1,2), m(2,2), m(3,2));
+         sld.sld_vUp = vUp;
+         sld.sld_vSpeed = vSpeedRelative*mRot;
+         sld.sld_tmLaunch = _pTimer->CurrentTick();
+         sld.sld_estType = ESL_BULLET;
+         plInner.m_iFirstEmptySLD = (plInner.m_iFirstEmptySLD+1) % MAX_FLYING_SHELLS;
 
-        // bubble
-        if( pl.m_pstState==PST_DIVE)
-        {
-          ShellLaunchData &sldBubble = pl.m_asldData[pl.m_iFirstEmptySLD];
-          //CalcWeaponPosition(FLOAT3D(afTommygunShellPos[0], afTommygunShellPos[1], afTommygunShellPos[2]), plShell, FALSE);
-          //MakeRotationMatrixFast(mRot, plShell.pl_OrientationAngle);
-          sldBubble.sld_vPos = plShell.pl_PositionVector;
-          sldBubble.sld_vUp = vUp;
-          sldBubble.sld_tmLaunch = _pTimer->CurrentTick();
-          sldBubble.sld_estType = ESL_BUBBLE;
-          vSpeedRelative = FLOAT3D(0.3f, 0.0f, 0.0f);
-          sldBubble.sld_vSpeed = vSpeedRelative*mRot;
-          pl.m_iFirstEmptySLD = (pl.m_iFirstEmptySLD+1) % MAX_FLYING_SHELLS;
-        }
-      }
-	  autowait(m_moWeapon.GetAnimLength(iAnim)-0.05f);
-	  // no ammo -> change weapon
-	  if (m_iPistol<=0 && m_iPistolMagazin<=0) { SelectNewWeapon(); }
-  }else{
-      ASSERTALWAYS("Desert eagle - Auto weapon change not working.");
-      m_bFireWeapon = m_bHasAmmo = FALSE;
-  }
-  // no more bullets in TommyGun -> reload
-      if (m_iPistolMagazin == 0) {
+         if( plInner.m_pstState == PST_DIVE) {
+           ShellLaunchData &sldBubble = plInner.m_asldData[plInner.m_iFirstEmptySLD];
+           sldBubble.sld_vPos = plShell.pl_PositionVector;
+           sldBubble.sld_vUp = vUp;
+           sldBubble.sld_tmLaunch = _pTimer->CurrentTick();
+           sldBubble.sld_estType = ESL_BUBBLE;
+           vSpeedRelative = FLOAT3D(0.3f, 0.0f, 0.0f);
+           sldBubble.sld_vSpeed = vSpeedRelative*mRot;
+           plInner.m_iFirstEmptySLD = (plInner.m_iFirstEmptySLD+1) % MAX_FLYING_SHELLS;
+         }
+       }
+       
+       autowait(m_moWeapon.GetAnimLength(iAnim) - 0.05f);
+       
+       if (m_iPistol <= 0 && m_iPistolMagazin <= 0) { SelectNewWeapon(); }
+    } else {
+       ASSERTALWAYS("Desert eagle - Auto weapon change not working.");
+       m_bFireWeapon = m_bHasAmmo = FALSE;
+    }
+
+    if (m_iPistolMagazin == 0) {
       jump ReloadColt();
     }
-	return EEnd();
-  };
+    return EEnd();
+  }
     /*GetAnimator()->FireAnimation(BODY_ANIM_COLT_FIRERIGHT, 0);*/
 
     /*FireOneBullet(wpn_fFX[WEAPON_COLT], wpn_fFY[WEAPON_COLT], 500.0f,
@@ -4584,96 +4607,57 @@ procedures:
 
   // reload colt
   ReloadColt() {
-  /*  if (m_iColtBullets>=7) {
-      return EEnd();
-    }*/
-    // sound
-  /*CPlayer &pl = (CPlayer&)*m_penPlayer;
-    PlaySound(pl.m_soWeapon1, SOUND_COLT_RELOAD, SOF_3D|SOF_VOLUMETRIC);
-
-    m_moWeapon.PlayAnim(COLT_ANIM_RELOAD, 0);
-    if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("Colt_reload");}
-    autowait(m_moWeapon.GetAnimLength(COLT_ANIM_RELOAD));
-    m_iColtBullets = 7;*/
-
-
-	if (m_iPistolMagazin>=7) {
+    if (m_iPistolMagazin >= 7 || m_iPistol <= 0) {
       return EEnd();
     }
 
-   if(m_iPistolMagazin < 7 && m_iPistolMagazin != 0 && m_iPistol >= 7){
-	m_iPistol -= (7 - m_iPistolMagazin);
-    m_iPistolMagazin = 7;
-    //sound
-	CPlayer &pl = (CPlayer&)*m_penPlayer;
-    PlaySound(pl.m_soWeapon1, SOUND_COLT_RELOAD, SOF_3D|SOF_VOLUMETRIC);
+    INDEX iNeeded = 7 - m_iPistolMagazin;
+    INDEX iToAdd = (m_iPistol >= iNeeded) ? iNeeded : m_iPistol;
 
-    m_moWeapon.PlayAnim(COLT_ANIM_RELOAD, 0);
-    if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("Colt_reload");}
-    autowait(m_moWeapon.GetAnimLength(COLT_ANIM_RELOAD));
-	}
-    else if(m_iPistol >= 7) {
-    m_iPistolMagazin = 7;
-    m_iPistol -= 7;
-    // sound
+    m_iPistolMagazin += iToAdd;
+    m_iPistol -= iToAdd;
+
     CPlayer &pl = (CPlayer&)*m_penPlayer;
-    PlaySound(pl.m_soWeapon1, SOUND_COLT_RELOAD, SOF_3D|SOF_VOLUMETRIC);
+    
+    PlayLightAnim(LIGHT_ANIM_NONE, 0);
+    
+    PlaySound(pl.m_soWeapon2, SOUND_COLT_RELOAD, SOF_3D|SOF_VOLUMETRIC);
 
     m_moWeapon.PlayAnim(COLT_ANIM_RELOAD, 0);
-    if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("Colt_reload");}
+    if(_pNetwork->IsPlayerLocal(m_penPlayer)) { IFeel_PlayEffect("Colt_reload"); }
+    
     autowait(m_moWeapon.GetAnimLength(COLT_ANIM_RELOAD));
-    }
-	else if(m_iPistolMagazin < 7 && m_iPistolMagazin != 0 && m_iPistol < 7 && m_iPistol !=0){
-	if ((m_iPistol - (7 - m_iPistol)) <= 0){
-	m_iPistolMagazin += m_iPistol;
-	m_iPistol = 0;
-	} else{
-	m_iPistol -= (7 - m_iPistolMagazin);
-    m_iPistolMagazin = 7;
-	}
-	//sound
-	CPlayer &pl = (CPlayer&)*m_penPlayer;
-    PlaySound(pl.m_soWeapon1, SOUND_COLT_RELOAD, SOF_3D|SOF_VOLUMETRIC);
-
-    m_moWeapon.PlayAnim(COLT_ANIM_RELOAD, 0);
-    if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("Colt_reload");}
-    autowait(m_moWeapon.GetAnimLength(COLT_ANIM_RELOAD));
-	} else if(m_iPistol < 7, m_iPistol != 0) {
-    m_iPistolMagazin = m_iPistol;
-    m_iPistol = 0;
-    // sound
-    CPlayer &pl = (CPlayer&)*m_penPlayer;
-    PlaySound(pl.m_soWeapon1, SOUND_COLT_RELOAD, SOF_3D|SOF_VOLUMETRIC);
-
-    m_moWeapon.PlayAnim(COLT_ANIM_RELOAD, 0);
-    if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("Colt_reload");}
-    autowait(m_moWeapon.GetAnimLength(COLT_ANIM_RELOAD));
-    }
-	/*else if(m_iPistol<=0) {
-    m_iPistolMagazin = 0;
-    m_iPistol = 0;
-    SelectNewWeapon();
-
-    }*/
-    autowait(0.1f);
     return EEnd();
-  };
+  }
 
   // ***************** FIRE DOUBLE COLT *****************
-   DoubleColtStart() {
-  if(m_iSMGMagazin == 0)
-  {
-  jump ReloadDoubleColt();
-  }
+  DoubleColtStart() {
+    // === 1. ПЕРВИЧНАЯ ИНИЦИАЛИЗАЦИЯ (Срабатывает ТОЛЬКО ОДИН РАЗ) ===
+    if (m_bDoubleColtNeedsInit) {
+        if (m_iSMGMagazin < 50 && m_iSMG > 0) {
+            INDEX iNeeded = 50 - m_iSMGMagazin;
+            INDEX iToAdd = (m_iSMG >= iNeeded) ? iNeeded : m_iSMG;
+            
+            m_iSMGMagazin += iToAdd;
+            m_iSMG -= iToAdd;
+        }
+        m_bDoubleColtNeedsInit = FALSE;
+    }
+
+    // === 2. ПРОВЕРКА НА ПУСТОЙ МАГАЗИН ===
+    if (m_iSMGMagazin == 0) {
+        jump ReloadDoubleColt();
+    }
+
     m_iSMGOnFireStart = m_iSMGMagazin;
     CPlayer &pl = (CPlayer&)*m_penPlayer;
-    //PlaySound(pl.m_soWeapon0, SOUND_SILENCE, SOF_3D|SOF_VOLUMETRIC);      // stop possible sounds
-    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 0.5f, 1.0f);      // fire
-    //PlaySound(pl.m_soWeapon0, SOUND_TOMMYGUN_FIRE, SOF_3D|SOF_VOLUMETRIC);
+    
+    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 0.5f, 1.0f);
     PlayLightAnim(LIGHT_ANIM_TOMMYGUN, AOF_LOOPING);
     GetAnimator()->FireAnimation(BODY_ANIM_SHOTGUN_FIRESHORT, AOF_LOOPING);
+    
     return EEnd();
-  };
+  }
 
   DoubleColtStop() {
     // smoke
@@ -4711,7 +4695,8 @@ procedures:
   if (m_iSMGMagazin>0){
      FireOneBullet(wpn_fFX[WEAPON_DOUBLECOLT], wpn_fFY[WEAPON_DOUBLECOLT], 500.0f,
          ((GetSP()->sp_bCooperative) ? 10.0f : 10.0f));
-	 ShakeBullet(0.2f, 0.2f, 1.0f, 0.055f);
+	 //ShakeBullet(0.2f, 0.2f, 1.0f, 0.055f);
+	 ApplyWeaponKick(0.05f, 0.5f);
 	 SpawnRangeSound(40.0f);
 	 if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("DoubleColt_fire");}
 	 DecAmmo(m_iSMGMagazin, 1);
@@ -4775,78 +4760,60 @@ procedures:
 
   // reload double colt
   ReloadDoubleColt() {
-    if (m_iSMGMagazin>=50) {
+    if (m_iSMGMagazin >= 50 || m_iSMG <= 0) {
       return EEnd();
     }
 
-   if(m_iSMGMagazin < 50 && m_iSMGMagazin != 0 && m_iSMG >= 50){
-	m_iSMG -= (50 - m_iSMGMagazin);
-    m_iSMGMagazin = 50;
-    //sound
-	CPlayer &pl = (CPlayer&)*m_penPlayer;
-    PlaySound(pl.m_soWeapon1, SOUND_P90_RELOAD, SOF_3D|SOF_VOLUMETRIC);
+    INDEX iNeeded = 50 - m_iSMGMagazin;
+    INDEX iToAdd = (m_iSMG >= iNeeded) ? iNeeded : m_iSMG;
 
-    m_moWeapon.PlayAnim(P90_ANIM_P90_ANIM_RELOAD, 0);
-    if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("DoubleColt_reload");}
-    autowait(m_moWeapon.GetAnimLength(P90_ANIM_P90_ANIM_RELOAD));
-	}
-    else if(m_iSMG >= 50) {
-    m_iSMGMagazin = 50;
-    m_iSMG -= 50;
-    // sound
+    m_iSMGMagazin += iToAdd;
+    m_iSMG -= iToAdd;
+
     CPlayer &pl = (CPlayer&)*m_penPlayer;
     PlaySound(pl.m_soWeapon1, SOUND_P90_RELOAD, SOF_3D|SOF_VOLUMETRIC);
 
     m_moWeapon.PlayAnim(P90_ANIM_P90_ANIM_RELOAD, 0);
-    if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("DoubleColt_reload");}
+    if(_pNetwork->IsPlayerLocal(m_penPlayer)) { IFeel_PlayEffect("DoubleColt_reload"); }
+    
     autowait(m_moWeapon.GetAnimLength(P90_ANIM_P90_ANIM_RELOAD));
-    }
-	else if(m_iSMGMagazin < 50 && m_iSMGMagazin != 0 && m_iSMG < 50 && m_iSMG !=0){
-	if ((m_iSMG - (50 - m_iSMGMagazin)) <= 0){
-	m_iSMGMagazin += m_iSMG;
-	m_iSMG = 0;
-	} else{
-	m_iSMG -= (50 - m_iSMGMagazin);
-    m_iSMGMagazin = 50;
-	}
-	//sound
-	CPlayer &pl = (CPlayer&)*m_penPlayer;
-    PlaySound(pl.m_soWeapon1, SOUND_P90_RELOAD, SOF_3D|SOF_VOLUMETRIC);
-
-    m_moWeapon.PlayAnim(P90_ANIM_P90_ANIM_RELOAD, 0);
-    if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("DoubleColt_reload");}
-    autowait(m_moWeapon.GetAnimLength(P90_ANIM_P90_ANIM_RELOAD));
-	} else if(m_iSMG < 50, m_iSMG != 0) {
-    m_iSMGMagazin = m_iSMG;
-    m_iSMG = 0;
-    // sound
-    CPlayer &pl = (CPlayer&)*m_penPlayer;
-    PlaySound(pl.m_soWeapon1, SOUND_P90_RELOAD, SOF_3D|SOF_VOLUMETRIC);
-
-    m_moWeapon.PlayAnim(P90_ANIM_P90_ANIM_RELOAD, 0);
-    if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("DoubleColt_reload");}
-    autowait(m_moWeapon.GetAnimLength(P90_ANIM_P90_ANIM_RELOAD));
-    }
-    autowait(0.1f);
     return EEnd();
-	};
+  }
 
   // ***************** FIRE SINGLESHOTGUN *****************
   StartSingleShotgun() {
-    // fire one shell
-    if (m_iShellsMagazin == 0)
-	{
-	jump ReloadSingleShotgun();
-	}
-	  m_iShellsOnFireStart = m_iShellsMagazin;
-	  CPlayer &pl = (CPlayer&)*m_penPlayer;
-	PlaySound(pl.m_soWeapon0, SOUND_SILENCE, SOF_3D|SOF_VOLUMETRIC);
-	pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 0.5f, 1.0f);
-    PlaySound(pl.m_soWeapon0, SOUND_SINGLESHOTGUN_FIRE, SOF_3D|SOF_VOLUMETRIC);;
-	PlayLightAnim(LIGHT_ANIM_COLT_SHOTGUN, 0);
-	GetAnimator()->FireAnimation(BODY_ANIM_SHOTGUN_FIRELONG, 0);;
-	return EEnd();
-  };
+    // === 1. ПЕРВИЧНАЯ ИНИЦИАЛИЗАЦИЯ (Срабатывает ТОЛЬКО ОДИН РАЗ) ===
+    if (m_bSingleShotgunNeedsInit) {
+        // Если магазин не полон (20) и есть патроны в запасе, переносим их мгновенно
+        if (m_iShellsMagazin < 20 && m_iShells > 0) {
+            INDEX iNeeded = 20 - m_iShellsMagazin;
+            INDEX iToAdd = (m_iShells >= iNeeded) ? iNeeded : m_iShells;
+            
+            m_iShellsMagazin += iToAdd;
+            m_iShells -= iToAdd;
+        }
+        // Выключаем флаг, чтобы при медленной стрельбе эта "тихая" зарядка больше не срабатывала
+        m_bSingleShotgunNeedsInit = FALSE;
+    }
+
+    // === 2. ПРОВЕРКА НА ПУСТОЙ МАГАЗИН ===
+    // Если после инициализации магазин всё ещё пуст (значит, и в запасе 0), 
+    // отправляем игрока на честную перезарядку с анимацией
+    if (m_iShellsMagazin == 0) {
+        jump ReloadSingleShotgun();
+    }
+
+    m_iShellsOnFireStart = m_iShellsMagazin;
+    CPlayer &pl = (CPlayer&)*m_penPlayer;
+    
+    PlaySound(pl.m_soWeapon0, SOUND_SILENCE, SOF_3D|SOF_VOLUMETRIC);
+    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 0.5f, 1.0f);
+    PlaySound(pl.m_soWeapon0, SOUND_SINGLESHOTGUN_FIRE, SOF_3D|SOF_VOLUMETRIC);
+    PlayLightAnim(LIGHT_ANIM_COLT_SHOTGUN, 0);
+    GetAnimator()->FireAnimation(BODY_ANIM_SHOTGUN_FIRELONG, 0);
+    
+    return EEnd();
+  }
 
   SingleShotgunStop(){
   CPlayer &pl = (CPlayer&)*m_penPlayer;
@@ -4884,7 +4851,8 @@ procedures:
 	  FireBullets(wpn_fFX[WEAPON_SINGLESHOTGUN], wpn_fFY[WEAPON_SINGLESHOTGUN],
         500.0f, 10.0f, 10, afSingleShotgunPellets, 0.1f, 0.03f);
 
-	  ShakeBullet(0.1f, 0.2f, 2.0f, 0.075f);
+	  //ShakeBullet(0.1f, 0.2f, 2.0f, 0.075f);
+	  ApplyWeaponKick(0.1f, 3.0f);
       DoRecoil();
       SpawnRangeSound(60.0f);
       if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("Snglshotgun_fire");}
@@ -4918,7 +4886,7 @@ procedures:
         }
       }
 
-      autowait(GetSP()->sp_bCooperative ? 0.5f : 0.375);
+      autowait(GetSP()->sp_bCooperative ? 0.3f : 0.375);
       /* drop shell */
 
       /* add one empty bullet shell */
@@ -4963,67 +4931,25 @@ procedures:
   };
 
   ReloadSingleShotgun() {
-  if (m_iShellsMagazin>=20) {
+    if (m_iShellsMagazin >= 20 || m_iShells <= 0) {
       return EEnd();
     }
 
-   if(m_iShellsMagazin < 20 && m_iShellsMagazin != 0 && m_iShells >= 20){
-	m_iShells -= (20 - m_iShellsMagazin);
-    m_iShellsMagazin = 20;
-    //sound
-	CPlayer &pl = (CPlayer&)*m_penPlayer;
-    PlaySound(pl.m_soWeapon1, SOUND_SINGLESHOTGUN_RELOAD, SOF_3D|SOF_VOLUMETRIC);
+    INDEX iNeeded = 20 - m_iShellsMagazin;
+    INDEX iToAdd = (m_iShells >= iNeeded) ? iNeeded : m_iShells;
 
-    m_moWeapon.PlayAnim(SINGLESHOTGUN_ANIM_RELOAD, 0);
-    if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("Pancor_reload");}
-    autowait(m_moWeapon.GetAnimLength(SINGLESHOTGUN_ANIM_RELOAD));
-	}
-    else if(m_iShells >= 20) {
-    m_iShellsMagazin = 20;
-    m_iShells -= 20;
-    // sound
+    m_iShellsMagazin += iToAdd;
+    m_iShells -= iToAdd;
+
     CPlayer &pl = (CPlayer&)*m_penPlayer;
     PlaySound(pl.m_soWeapon1, SOUND_SINGLESHOTGUN_RELOAD, SOF_3D|SOF_VOLUMETRIC);
 
     m_moWeapon.PlayAnim(SINGLESHOTGUN_ANIM_RELOAD, 0);
-    if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("Pancor_reload");}
+    if(_pNetwork->IsPlayerLocal(m_penPlayer)) { IFeel_PlayEffect("Pancor_reload"); }
+    
     autowait(m_moWeapon.GetAnimLength(SINGLESHOTGUN_ANIM_RELOAD));
-    }
-	else if(m_iShellsMagazin < 20 && m_iShellsMagazin != 0 && m_iShells < 20 && m_iShells !=0){
-	if ((m_iShells - (20 - m_iShellsMagazin)) <= 0){
-	m_iShellsMagazin += m_iShells;
-	m_iShells = 0;
-	} else{
-	m_iShells -= (20 - m_iShellsMagazin);
-    m_iShellsMagazin = 20;
-	}
-	//sound
-	CPlayer &pl = (CPlayer&)*m_penPlayer;
-    PlaySound(pl.m_soWeapon1, SOUND_SINGLESHOTGUN_RELOAD, SOF_3D|SOF_VOLUMETRIC);
-
-    m_moWeapon.PlayAnim(SINGLESHOTGUN_ANIM_RELOAD, 0);
-    if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("Pancor_reload");}
-    autowait(m_moWeapon.GetAnimLength(SINGLESHOTGUN_ANIM_RELOAD));
-	} else if(m_iShells < 20 && m_iShells != 0) {
-    m_iShellsMagazin = m_iShells;
-    m_iShells = 0;
-    // sound
-    CPlayer &pl = (CPlayer&)*m_penPlayer;
-    PlaySound(pl.m_soWeapon1, SOUND_SINGLESHOTGUN_RELOAD, SOF_3D|SOF_VOLUMETRIC);
-
-    m_moWeapon.PlayAnim(SINGLESHOTGUN_ANIM_RELOAD, 0);
-    if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("Pancor_reload");}
-    autowait(m_moWeapon.GetAnimLength(SINGLESHOTGUN_ANIM_RELOAD));
-    }
-	/*else if(m_iShells<=0) {
-    m_iShellsMagazin = 0;
-    m_iShells = 0;
-    SelectNewWeapon();
-
-    }*/
-    autowait(0.1f);
     return EEnd();
-  };
+  }
 
 
 
@@ -5129,7 +5055,8 @@ procedures:
       GetAnimator()->FireAnimation(BODY_ANIM_SHOTGUN_FIRELONG, 0);
       FireBullets(wpn_fFX[WEAPON_DOUBLESHOTGUN], wpn_fFY[WEAPON_DOUBLESHOTGUN],
         500.0f, 15.0f, 10, afDoubleShotgunPellets, 0.25f, 0.03f);
-	  ShakeBullet(0.1f, 0.2f, 1.0f, 0.03f);
+	  //ShakeBullet(0.1f, 0.2f, 1.0f, 0.03f);
+	  ApplyWeaponKick(0.1f, 3.5f);
       DoRecoil();
       SpawnRangeSound(70.0f);
       if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("Dblshotgun_fire");}
@@ -5214,20 +5141,36 @@ procedures:
 
   // ***************** FIRE TOMMYGUN *****************
   TommyGunStart() {
-  if(m_iBulletsMagazin == 0)
-  {
-  jump ReloadTommyGun();
-  }
-    //m_iBulletsMagazin = 50;
+    // === 1. ПЕРВИЧНАЯ ИНИЦИАЛИЗАЦИЯ (Срабатывает ТОЛЬКО ОДИН РАЗ) ===
+    if (m_bTommyGunNeedsInit) {
+        if (m_iBulletsMagazin < 50 && m_iBullets > 0) {
+            INDEX iNeeded = 50 - m_iBulletsMagazin;
+            INDEX iToAdd = (m_iBullets >= iNeeded) ? iNeeded : m_iBullets;
+            
+            m_iBulletsMagazin += iToAdd;
+            m_iBullets -= iToAdd;
+        }
+        // Выключаем флаг, чтобы при следующем нажатии (медленной стрельбе) 
+        // эта тихая зарядка больше не срабатывала
+        m_bTommyGunNeedsInit = FALSE;
+    }
+
+    // === 2. ПРОВЕРКА НА ПУСТОЙ МАГАЗИН ===
+    // Если после инициализации магазин всё ещё пуст (значит, в запасе тоже 0), 
+    // честно вызываем анимацию перезарядки
+    if (m_iBulletsMagazin == 0) {
+        jump ReloadTommyGun();
+    }
+
     m_iBulletsOnFireStart = m_iBulletsMagazin;
     CPlayer &pl = (CPlayer&)*m_penPlayer;
-    //PlaySound(pl.m_soWeapon0, SOUND_SILENCE, SOF_3D|SOF_VOLUMETRIC);      // stop possible sounds
-    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 0.5f, 1.0f);      // fire
-    //PlaySound(pl.m_soWeapon0, SOUND_TOMMYGUN_FIRE, SOF_3D|SOF_VOLUMETRIC);
+    
+    pl.m_soWeapon0.Set3DParameters(50.0f, 5.0f, 0.5f, 1.0f);
     PlayLightAnim(LIGHT_ANIM_TOMMYGUN, AOF_LOOPING);
     GetAnimator()->FireAnimation(BODY_ANIM_SHOTGUN_FIRESHORT, AOF_LOOPING);
+    
     return EEnd();
-  };
+  }
 
   TommyGunStop() {
     // smoke
@@ -5270,7 +5213,8 @@ procedures:
 		else{
             FireSniperBullet(wpn_fFX[WEAPON_TOMMYGUN], wpn_fFY[WEAPON_TOMMYGUN], 500.0f,
                             (GetSP()->sp_bCooperative) ? 10.0f : 20.0f, 3.0f);
-			ShakeBullet(0.1f, 0.3f, 1.1f, 0.025f);
+			//ShakeBullet(0.1f, 0.3f, 1.1f, 0.025f);
+			ApplyWeaponKick(0.1f, 1.0f);
 			PlayLightAnim(LIGHT_ANIM_COLT_SHOTGUN, 0);
 		}
       SpawnRangeSound(50.0f);
@@ -5319,7 +5263,7 @@ procedures:
         }
       }
 	  //autowait(m_moWeapon.GetAnimLength(TOMMYGUN_ANIM_FIRE));
-	  autowait(0.1f);
+	  autowait(m_moWeapon.GetAnimLength(TOMMYGUN_ANIM_FIRE) * 0.85f);
       // no ammo -> change weapon
 	  if ((m_iBullets<=0 && m_iBulletsMagazin<=0) && m_iGrenades<=0) { SelectNewWeapon(); }
     } else {
@@ -5376,7 +5320,7 @@ procedures:
       DecAmmo(m_iGrenades, 1);
       // sound
       CPlayer &pl = (CPlayer&)*m_penPlayer;
-      PlaySound(pl.m_soWeapon0, SOUND_GRENADELAUNCHER_FIRE, SOF_3D|SOF_VOLUMETRIC);
+      PlaySound(pl.m_soWeapon1, SOUND_GRENADELAUNCHER_FIRE, SOF_3D|SOF_VOLUMETRIC);
       GetAnimator()->FireAnimation(BODY_ANIM_MINIGUN_FIRELONG, 0);
 
 	  // release spring
@@ -5408,67 +5352,25 @@ procedures:
 
   // reload TommyGun
   ReloadTommyGun() {
-    if (m_iBulletsMagazin>=50) {
+    if (m_iBulletsMagazin >= 50 || m_iBullets <= 0) {
       return EEnd();
     }
 
-   if(m_iBulletsMagazin < 50 && m_iBulletsMagazin != 0 && m_iBullets >= 50){
-	m_iBullets -= (50 - m_iBulletsMagazin);
-    m_iBulletsMagazin = 50;
-    //sound
-	CPlayer &pl = (CPlayer&)*m_penPlayer;
-    PlaySound(pl.m_soWeapon1, SOUND_TOMMYGUN_RELOAD, SOF_3D|SOF_VOLUMETRIC);
+    INDEX iNeeded = 50 - m_iBulletsMagazin;
+    INDEX iToAdd = (m_iBullets >= iNeeded) ? iNeeded : m_iBullets;
 
-    m_moWeapon.PlayAnim(TOMMYGUN_ANIM_RELOAD, 0);
-    if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("TommyGun_reload");}
-    autowait(m_moWeapon.GetAnimLength(TOMMYGUN_ANIM_RELOAD));
-	}
-    else if(m_iBullets >= 50) {
-    m_iBulletsMagazin = 50;
-    m_iBullets -= 50;
-    // sound
+    m_iBulletsMagazin += iToAdd;
+    m_iBullets -= iToAdd;
+
     CPlayer &pl = (CPlayer&)*m_penPlayer;
     PlaySound(pl.m_soWeapon1, SOUND_TOMMYGUN_RELOAD, SOF_3D|SOF_VOLUMETRIC);
 
     m_moWeapon.PlayAnim(TOMMYGUN_ANIM_RELOAD, 0);
-    if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("TommyGun_reload");}
+    if(_pNetwork->IsPlayerLocal(m_penPlayer)) { IFeel_PlayEffect("TommyGun_reload"); }
+    
     autowait(m_moWeapon.GetAnimLength(TOMMYGUN_ANIM_RELOAD));
-    }
-	else if(m_iBulletsMagazin < 50 && m_iBulletsMagazin != 0 && m_iBullets < 50 && m_iBullets !=0){
-	if ((m_iBullets - (50 - m_iBulletsMagazin)) <= 0){
-	m_iBulletsMagazin += m_iBullets;
-	m_iBullets = 0;
-	} else{
-	m_iBullets -= (50 - m_iBulletsMagazin);
-    m_iBulletsMagazin = 50;
-	}
-	//sound
-	CPlayer &pl = (CPlayer&)*m_penPlayer;
-    PlaySound(pl.m_soWeapon1, SOUND_TOMMYGUN_RELOAD, SOF_3D|SOF_VOLUMETRIC);
-
-    m_moWeapon.PlayAnim(TOMMYGUN_ANIM_RELOAD, 0);
-    if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("TommyGun_reload");}
-    autowait(m_moWeapon.GetAnimLength(TOMMYGUN_ANIM_RELOAD));
-	} else if(m_iBullets < 50, m_iBullets != 0) {
-    m_iBulletsMagazin = m_iBullets;
-    m_iBullets = 0;
-    // sound
-    CPlayer &pl = (CPlayer&)*m_penPlayer;
-    PlaySound(pl.m_soWeapon1, SOUND_TOMMYGUN_RELOAD, SOF_3D|SOF_VOLUMETRIC);
-
-    m_moWeapon.PlayAnim(TOMMYGUN_ANIM_RELOAD, 0);
-    if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("TommyGun_reload");}
-    autowait(m_moWeapon.GetAnimLength(TOMMYGUN_ANIM_RELOAD));
-    }
-	/*else if(m_iBullets<=0) {
-    m_iBulletsMagazin = 0;
-    m_iBullets = 0;
-    SelectNewWeapon();
-
-    }*/
-    autowait(0.1f);
     return EEnd();
-  };
+  }
 
   /*ReloadTommyGunBullets(){
   if (m_iBulletsMagazin>=50){
@@ -5511,7 +5413,8 @@ procedures:
       else {
         FireSniperBullet(wpn_fFX[WEAPON_SNIPER], wpn_fFY[WEAPON_SNIPER], 1000.0f,
                          (GetSP()->sp_bCooperative) ? 75.0f : 30.0f, 5.0f);
-						 ShakeBullet(0.1f, 0.2f, 1.0f, 0.03f);
+						 //ShakeBullet(0.1f, 0.2f, 1.0f, 0.03f);
+						 ApplyWeaponKick(0.1f, 3.5f);
       }
       m_tmLastSniperFire = _pTimer->CurrentTick();
 
@@ -5637,7 +5540,8 @@ procedures:
       FireMachineBullet(wpn_fFX[WEAPON_MINIGUN], wpn_fFY[WEAPON_MINIGUN],
           750.0f, 14.0f, (GetSP()->sp_bCooperative) ? 0.01f : 0.03f,
           ( (GetSP()->sp_bCooperative) ? 0.5f : 0.0f));
-		  ShakeBullet(0.1f, 0.3f, 1.1f, 0.025f);
+		  //ShakeBullet(0.1f, 0.3f, 1.1f, 0.025f);
+		  ApplyWeaponKick(0.1f, 1.3f);
       SpawnRangeSound(50.0f);
       if(_pNetwork->IsPlayerLocal(m_penPlayer)) {IFeel_PlayEffect("Tommygun_fire");}
       DecAmmo(m_iBullets, 1);
@@ -6160,7 +6064,7 @@ procedures:
     }
 
     // fire one ball
-    if ( ((m_iIronBalls>0) && (m_iCurrentWeapon == WEAPON_IRONCANNON)) )
+    if ( ((m_iIronBalls<3) && (m_iCurrentWeapon == WEAPON_IRONCANNON)) )
     {
       INDEX iPower = INDEX((_pTimer->CurrentTick()-TM_START)/_pTimer->TickQuantum);
       GetAnimator()->FireAnimation(BODY_ANIM_MINIGUN_FIRELONG, 0);

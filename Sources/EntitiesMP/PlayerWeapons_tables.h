@@ -111,6 +111,10 @@ CEntityProperty CPlayerWeapons_properties[] = {
  CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x00000192<<8)+270, offsetof(CPlayerWeapons, m_tmFlamerStart), "", 0, 0, 0),
  CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x00000192<<8)+271, offsetof(CPlayerWeapons, m_tmFlamerStop), "", 0, 0, 0),
  CEntityProperty(CEntityProperty::EPT_FLOAT, NULL, (0x00000192<<8)+272, offsetof(CPlayerWeapons, m_tmLastChainsawSpray), "", 0, 0, 0),
+ CEntityProperty(CEntityProperty::EPT_BOOL, NULL, (0x00000192<<8)+273, offsetof(CPlayerWeapons, m_bTommyGunNeedsInit), "", 0, 0, 0),
+ CEntityProperty(CEntityProperty::EPT_BOOL, NULL, (0x00000192<<8)+274, offsetof(CPlayerWeapons, m_bSingleShotgunNeedsInit), "", 0, 0, 0),
+ CEntityProperty(CEntityProperty::EPT_BOOL, NULL, (0x00000192<<8)+275, offsetof(CPlayerWeapons, m_bColtNeedsInit), "", 0, 0, 0),
+ CEntityProperty(CEntityProperty::EPT_BOOL, NULL, (0x00000192<<8)+276, offsetof(CPlayerWeapons, m_bDoubleColtNeedsInit), "", 0, 0, 0),
  CEntityProperty(CEntityProperty::EPT_ENTITYPTR, NULL, (0x00000192<<8)+255, offsetof(CPlayerWeapons, m_penPrediction), "", 0, 0, 0),
 };
 #define CPlayerWeapons_propertiesct ARRAYCOUNT(CPlayerWeapons_properties)
@@ -389,7 +393,7 @@ CEntityComponent CPlayerWeapons_components[] = {
 
 CEventHandlerEntry CPlayerWeapons_handlers[] = {
  {0x01920009, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 3898 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3909 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ChangeWeapon),DEBUGSTRING("CPlayerWeapons::ChangeWeapon")},
  {0x0192000a, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192000a_ChangeWeapon_01), DEBUGSTRING("CPlayerWeapons::H0x0192000a_ChangeWeapon_01")},
  {0x0192000b, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192000b_ChangeWeapon_02), DEBUGSTRING("CPlayerWeapons::H0x0192000b_ChangeWeapon_02")},
@@ -401,17 +405,17 @@ ChangeWeapon),DEBUGSTRING("CPlayerWeapons::ChangeWeapon")},
  {0x01920011, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920011_ChangeWeapon_08), DEBUGSTRING("CPlayerWeapons::H0x01920011_ChangeWeapon_08")},
  {0x01920012, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920012_ChangeWeapon_09), DEBUGSTRING("CPlayerWeapons::H0x01920012_ChangeWeapon_09")},
  {0x01920013, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 3961 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3972 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PutDown),DEBUGSTRING("CPlayerWeapons::PutDown")},
  {0x01920014, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920014_PutDown_01), DEBUGSTRING("CPlayerWeapons::H0x01920014_PutDown_01")},
  {0x01920015, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920015_PutDown_02), DEBUGSTRING("CPlayerWeapons::H0x01920015_PutDown_02")},
  {0x01920016, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 4073 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4084 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BringUp),DEBUGSTRING("CPlayerWeapons::BringUp")},
  {0x01920017, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920017_BringUp_01), DEBUGSTRING("CPlayerWeapons::H0x01920017_BringUp_01")},
  {0x01920018, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920018_BringUp_02), DEBUGSTRING("CPlayerWeapons::H0x01920018_BringUp_02")},
  {0x01920019, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 4223 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4234 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Fire),DEBUGSTRING("CPlayerWeapons::Fire")},
  {0x0192001a, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192001a_Fire_01), DEBUGSTRING("CPlayerWeapons::H0x0192001a_Fire_01")},
  {0x0192001b, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192001b_Fire_02), DEBUGSTRING("CPlayerWeapons::H0x0192001b_Fire_02")},
@@ -434,346 +438,294 @@ Fire),DEBUGSTRING("CPlayerWeapons::Fire")},
  {0x0192002c, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192002c_Fire_19), DEBUGSTRING("CPlayerWeapons::H0x0192002c_Fire_19")},
  {0x0192002d, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192002d_Fire_20), DEBUGSTRING("CPlayerWeapons::H0x0192002d_Fire_20")},
  {0x0192002e, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192002e_Fire_21), DEBUGSTRING("CPlayerWeapons::H0x0192002e_Fire_21")},
- {0x0192002f, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 4311 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x0192002f, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192002f_Fire_22), DEBUGSTRING("CPlayerWeapons::H0x0192002f_Fire_22")},
+ {0x01920030, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920030_Fire_23), DEBUGSTRING("CPlayerWeapons::H0x01920030_Fire_23")},
+ {0x01920031, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920031_Fire_24), DEBUGSTRING("CPlayerWeapons::H0x01920031_Fire_24")},
+ {0x01920032, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920032_Fire_25), DEBUGSTRING("CPlayerWeapons::H0x01920032_Fire_25")},
+ {0x01920033, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920033_Fire_26), DEBUGSTRING("CPlayerWeapons::H0x01920033_Fire_26")},
+ {0x01920034, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920034_Fire_27), DEBUGSTRING("CPlayerWeapons::H0x01920034_Fire_27")},
+ {0x01920035, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920035_Fire_28), DEBUGSTRING("CPlayerWeapons::H0x01920035_Fire_28")},
+ {0x01920036, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920036_Fire_29), DEBUGSTRING("CPlayerWeapons::H0x01920036_Fire_29")},
+ {0x01920037, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 4328 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 AltFire),DEBUGSTRING("CPlayerWeapons::AltFire")},
- {0x01920030, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920030_AltFire_01), DEBUGSTRING("CPlayerWeapons::H0x01920030_AltFire_01")},
- {0x01920031, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920031_AltFire_02), DEBUGSTRING("CPlayerWeapons::H0x01920031_AltFire_02")},
- {0x01920032, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920032_AltFire_03), DEBUGSTRING("CPlayerWeapons::H0x01920032_AltFire_03")},
- {0x01920033, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920033_AltFire_04), DEBUGSTRING("CPlayerWeapons::H0x01920033_AltFire_04")},
- {0x01920034, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 4376 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x01920038, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920038_AltFire_01), DEBUGSTRING("CPlayerWeapons::H0x01920038_AltFire_01")},
+ {0x01920039, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920039_AltFire_02), DEBUGSTRING("CPlayerWeapons::H0x01920039_AltFire_02")},
+ {0x0192003a, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192003a_AltFire_03), DEBUGSTRING("CPlayerWeapons::H0x0192003a_AltFire_03")},
+ {0x0192003b, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192003b_AltFire_04), DEBUGSTRING("CPlayerWeapons::H0x0192003b_AltFire_04")},
+ {0x0192003c, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 4393 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SwingKnife),DEBUGSTRING("CPlayerWeapons::SwingKnife")},
- {0x01920035, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920035_SwingKnife_01), DEBUGSTRING("CPlayerWeapons::H0x01920035_SwingKnife_01")},
- {0x01920036, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920036_SwingKnife_02), DEBUGSTRING("CPlayerWeapons::H0x01920036_SwingKnife_02")},
- {0x01920037, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920037_SwingKnife_03), DEBUGSTRING("CPlayerWeapons::H0x01920037_SwingKnife_03")},
- {0x01920038, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920038_SwingKnife_04), DEBUGSTRING("CPlayerWeapons::H0x01920038_SwingKnife_04")},
- {0x01920039, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920039_SwingKnife_05), DEBUGSTRING("CPlayerWeapons::H0x01920039_SwingKnife_05")},
- {0x0192003a, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192003a_SwingKnife_06), DEBUGSTRING("CPlayerWeapons::H0x0192003a_SwingKnife_06")},
- {0x0192003b, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192003b_SwingKnife_07), DEBUGSTRING("CPlayerWeapons::H0x0192003b_SwingKnife_07")},
- {0x0192003c, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192003c_SwingKnife_08), DEBUGSTRING("CPlayerWeapons::H0x0192003c_SwingKnife_08")},
- {0x0192003d, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192003d_SwingKnife_09), DEBUGSTRING("CPlayerWeapons::H0x0192003d_SwingKnife_09")},
- {0x0192003e, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192003e_SwingKnife_10), DEBUGSTRING("CPlayerWeapons::H0x0192003e_SwingKnife_10")},
- {0x0192003f, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192003f_SwingKnife_11), DEBUGSTRING("CPlayerWeapons::H0x0192003f_SwingKnife_11")},
- {0x01920040, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920040_SwingKnife_12), DEBUGSTRING("CPlayerWeapons::H0x01920040_SwingKnife_12")},
- {0x01920041, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 4428 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x0192003d, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192003d_SwingKnife_01), DEBUGSTRING("CPlayerWeapons::H0x0192003d_SwingKnife_01")},
+ {0x0192003e, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192003e_SwingKnife_02), DEBUGSTRING("CPlayerWeapons::H0x0192003e_SwingKnife_02")},
+ {0x0192003f, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192003f_SwingKnife_03), DEBUGSTRING("CPlayerWeapons::H0x0192003f_SwingKnife_03")},
+ {0x01920040, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920040_SwingKnife_04), DEBUGSTRING("CPlayerWeapons::H0x01920040_SwingKnife_04")},
+ {0x01920041, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920041_SwingKnife_05), DEBUGSTRING("CPlayerWeapons::H0x01920041_SwingKnife_05")},
+ {0x01920042, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920042_SwingKnife_06), DEBUGSTRING("CPlayerWeapons::H0x01920042_SwingKnife_06")},
+ {0x01920043, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920043_SwingKnife_07), DEBUGSTRING("CPlayerWeapons::H0x01920043_SwingKnife_07")},
+ {0x01920044, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920044_SwingKnife_08), DEBUGSTRING("CPlayerWeapons::H0x01920044_SwingKnife_08")},
+ {0x01920045, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920045_SwingKnife_09), DEBUGSTRING("CPlayerWeapons::H0x01920045_SwingKnife_09")},
+ {0x01920046, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920046_SwingKnife_10), DEBUGSTRING("CPlayerWeapons::H0x01920046_SwingKnife_10")},
+ {0x01920047, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920047_SwingKnife_11), DEBUGSTRING("CPlayerWeapons::H0x01920047_SwingKnife_11")},
+ {0x01920048, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920048_SwingKnife_12), DEBUGSTRING("CPlayerWeapons::H0x01920048_SwingKnife_12")},
+ {0x01920049, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 4445 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ColtStart),DEBUGSTRING("CPlayerWeapons::ColtStart")},
- {0x01920042, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 4443 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x0192004a, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 4478 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ColtStop),DEBUGSTRING("CPlayerWeapons::ColtStop")},
- {0x01920043, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 4464 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x0192004b, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 4499 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireColt),DEBUGSTRING("CPlayerWeapons::FireColt")},
- {0x01920044, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920044_FireColt_01), DEBUGSTRING("CPlayerWeapons::H0x01920044_FireColt_01")},
- {0x01920045, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920045_FireColt_02), DEBUGSTRING("CPlayerWeapons::H0x01920045_FireColt_02")},
- {0x01920046, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920046_FireColt_03), DEBUGSTRING("CPlayerWeapons::H0x01920046_FireColt_03")},
- {0x01920047, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920047_FireColt_04), DEBUGSTRING("CPlayerWeapons::H0x01920047_FireColt_04")},
- {0x01920048, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 4586 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x0192004c, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192004c_FireColt_01), DEBUGSTRING("CPlayerWeapons::H0x0192004c_FireColt_01")},
+ {0x0192004d, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192004d_FireColt_02), DEBUGSTRING("CPlayerWeapons::H0x0192004d_FireColt_02")},
+ {0x0192004e, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192004e_FireColt_03), DEBUGSTRING("CPlayerWeapons::H0x0192004e_FireColt_03")},
+ {0x0192004f, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192004f_FireColt_04), DEBUGSTRING("CPlayerWeapons::H0x0192004f_FireColt_04")},
+ {0x01920050, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 4622 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ReloadColt),DEBUGSTRING("CPlayerWeapons::ReloadColt")},
- {0x01920049, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920049_ReloadColt_01), DEBUGSTRING("CPlayerWeapons::H0x01920049_ReloadColt_01")},
- {0x0192004a, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192004a_ReloadColt_02), DEBUGSTRING("CPlayerWeapons::H0x0192004a_ReloadColt_02")},
- {0x0192004b, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192004b_ReloadColt_03), DEBUGSTRING("CPlayerWeapons::H0x0192004b_ReloadColt_03")},
- {0x0192004c, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192004c_ReloadColt_04), DEBUGSTRING("CPlayerWeapons::H0x0192004c_ReloadColt_04")},
- {0x0192004d, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192004d_ReloadColt_05), DEBUGSTRING("CPlayerWeapons::H0x0192004d_ReloadColt_05")},
- {0x0192004e, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192004e_ReloadColt_06), DEBUGSTRING("CPlayerWeapons::H0x0192004e_ReloadColt_06")},
- {0x0192004f, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192004f_ReloadColt_07), DEBUGSTRING("CPlayerWeapons::H0x0192004f_ReloadColt_07")},
- {0x01920050, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920050_ReloadColt_08), DEBUGSTRING("CPlayerWeapons::H0x01920050_ReloadColt_08")},
- {0x01920051, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920051_ReloadColt_09), DEBUGSTRING("CPlayerWeapons::H0x01920051_ReloadColt_09")},
- {0x01920052, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920052_ReloadColt_10), DEBUGSTRING("CPlayerWeapons::H0x01920052_ReloadColt_10")},
- {0x01920053, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920053_ReloadColt_11), DEBUGSTRING("CPlayerWeapons::H0x01920053_ReloadColt_11")},
- {0x01920054, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920054_ReloadColt_12), DEBUGSTRING("CPlayerWeapons::H0x01920054_ReloadColt_12")},
- {0x01920055, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920055_ReloadColt_13), DEBUGSTRING("CPlayerWeapons::H0x01920055_ReloadColt_13")},
- {0x01920056, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920056_ReloadColt_14), DEBUGSTRING("CPlayerWeapons::H0x01920056_ReloadColt_14")},
- {0x01920057, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920057_ReloadColt_15), DEBUGSTRING("CPlayerWeapons::H0x01920057_ReloadColt_15")},
- {0x01920058, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920058_ReloadColt_16), DEBUGSTRING("CPlayerWeapons::H0x01920058_ReloadColt_16")},
- {0x01920059, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920059_ReloadColt_17), DEBUGSTRING("CPlayerWeapons::H0x01920059_ReloadColt_17")},
- {0x0192005a, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 4663 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x01920051, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920051_ReloadColt_01), DEBUGSTRING("CPlayerWeapons::H0x01920051_ReloadColt_01")},
+ {0x01920052, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920052_ReloadColt_02), DEBUGSTRING("CPlayerWeapons::H0x01920052_ReloadColt_02")},
+ {0x01920053, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 4647 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DoubleColtStart),DEBUGSTRING("CPlayerWeapons::DoubleColtStart")},
- {0x0192005b, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 4678 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x01920054, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 4675 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DoubleColtStop),DEBUGSTRING("CPlayerWeapons::DoubleColtStop")},
- {0x0192005c, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 4709 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x01920055, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 4706 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireDoubleColt),DEBUGSTRING("CPlayerWeapons::FireDoubleColt")},
- {0x0192005d, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192005d_FireDoubleColt_01), DEBUGSTRING("CPlayerWeapons::H0x0192005d_FireDoubleColt_01")},
- {0x0192005e, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192005e_FireDoubleColt_02), DEBUGSTRING("CPlayerWeapons::H0x0192005e_FireDoubleColt_02")},
- {0x0192005f, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192005f_FireDoubleColt_03), DEBUGSTRING("CPlayerWeapons::H0x0192005f_FireDoubleColt_03")},
- {0x01920060, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920060_FireDoubleColt_04), DEBUGSTRING("CPlayerWeapons::H0x01920060_FireDoubleColt_04")},
- {0x01920061, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 4777 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x01920056, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920056_FireDoubleColt_01), DEBUGSTRING("CPlayerWeapons::H0x01920056_FireDoubleColt_01")},
+ {0x01920057, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920057_FireDoubleColt_02), DEBUGSTRING("CPlayerWeapons::H0x01920057_FireDoubleColt_02")},
+ {0x01920058, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920058_FireDoubleColt_03), DEBUGSTRING("CPlayerWeapons::H0x01920058_FireDoubleColt_03")},
+ {0x01920059, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920059_FireDoubleColt_04), DEBUGSTRING("CPlayerWeapons::H0x01920059_FireDoubleColt_04")},
+ {0x0192005a, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 4775 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ReloadDoubleColt),DEBUGSTRING("CPlayerWeapons::ReloadDoubleColt")},
- {0x01920062, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920062_ReloadDoubleColt_01), DEBUGSTRING("CPlayerWeapons::H0x01920062_ReloadDoubleColt_01")},
- {0x01920063, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920063_ReloadDoubleColt_02), DEBUGSTRING("CPlayerWeapons::H0x01920063_ReloadDoubleColt_02")},
- {0x01920064, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920064_ReloadDoubleColt_03), DEBUGSTRING("CPlayerWeapons::H0x01920064_ReloadDoubleColt_03")},
- {0x01920065, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920065_ReloadDoubleColt_04), DEBUGSTRING("CPlayerWeapons::H0x01920065_ReloadDoubleColt_04")},
- {0x01920066, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920066_ReloadDoubleColt_05), DEBUGSTRING("CPlayerWeapons::H0x01920066_ReloadDoubleColt_05")},
- {0x01920067, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920067_ReloadDoubleColt_06), DEBUGSTRING("CPlayerWeapons::H0x01920067_ReloadDoubleColt_06")},
- {0x01920068, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920068_ReloadDoubleColt_07), DEBUGSTRING("CPlayerWeapons::H0x01920068_ReloadDoubleColt_07")},
- {0x01920069, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920069_ReloadDoubleColt_08), DEBUGSTRING("CPlayerWeapons::H0x01920069_ReloadDoubleColt_08")},
- {0x0192006a, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192006a_ReloadDoubleColt_09), DEBUGSTRING("CPlayerWeapons::H0x0192006a_ReloadDoubleColt_09")},
- {0x0192006b, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192006b_ReloadDoubleColt_10), DEBUGSTRING("CPlayerWeapons::H0x0192006b_ReloadDoubleColt_10")},
- {0x0192006c, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192006c_ReloadDoubleColt_11), DEBUGSTRING("CPlayerWeapons::H0x0192006c_ReloadDoubleColt_11")},
- {0x0192006d, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192006d_ReloadDoubleColt_12), DEBUGSTRING("CPlayerWeapons::H0x0192006d_ReloadDoubleColt_12")},
- {0x0192006e, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192006e_ReloadDoubleColt_13), DEBUGSTRING("CPlayerWeapons::H0x0192006e_ReloadDoubleColt_13")},
- {0x0192006f, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192006f_ReloadDoubleColt_14), DEBUGSTRING("CPlayerWeapons::H0x0192006f_ReloadDoubleColt_14")},
- {0x01920070, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920070_ReloadDoubleColt_15), DEBUGSTRING("CPlayerWeapons::H0x01920070_ReloadDoubleColt_15")},
- {0x01920071, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920071_ReloadDoubleColt_16), DEBUGSTRING("CPlayerWeapons::H0x01920071_ReloadDoubleColt_16")},
- {0x01920072, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920072_ReloadDoubleColt_17), DEBUGSTRING("CPlayerWeapons::H0x01920072_ReloadDoubleColt_17")},
- {0x01920073, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 4835 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x0192005b, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192005b_ReloadDoubleColt_01), DEBUGSTRING("CPlayerWeapons::H0x0192005b_ReloadDoubleColt_01")},
+ {0x0192005c, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192005c_ReloadDoubleColt_02), DEBUGSTRING("CPlayerWeapons::H0x0192005c_ReloadDoubleColt_02")},
+ {0x0192005d, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 4797 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 StartSingleShotgun),DEBUGSTRING("CPlayerWeapons::StartSingleShotgun")},
- {0x01920074, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 4851 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x0192005e, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 4831 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SingleShotgunStop),DEBUGSTRING("CPlayerWeapons::SingleShotgunStop")},
- {0x01920075, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 4880 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x0192005f, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 4860 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireSingleShotgun),DEBUGSTRING("CPlayerWeapons::FireSingleShotgun")},
- {0x01920076, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920076_FireSingleShotgun_01), DEBUGSTRING("CPlayerWeapons::H0x01920076_FireSingleShotgun_01")},
- {0x01920077, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920077_FireSingleShotgun_02), DEBUGSTRING("CPlayerWeapons::H0x01920077_FireSingleShotgun_02")},
- {0x01920078, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920078_FireSingleShotgun_03), DEBUGSTRING("CPlayerWeapons::H0x01920078_FireSingleShotgun_03")},
- {0x01920079, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920079_FireSingleShotgun_04), DEBUGSTRING("CPlayerWeapons::H0x01920079_FireSingleShotgun_04")},
- {0x0192007a, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192007a_FireSingleShotgun_05), DEBUGSTRING("CPlayerWeapons::H0x0192007a_FireSingleShotgun_05")},
- {0x0192007b, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192007b_FireSingleShotgun_06), DEBUGSTRING("CPlayerWeapons::H0x0192007b_FireSingleShotgun_06")},
- {0x0192007c, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 4965 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x01920060, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920060_FireSingleShotgun_01), DEBUGSTRING("CPlayerWeapons::H0x01920060_FireSingleShotgun_01")},
+ {0x01920061, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920061_FireSingleShotgun_02), DEBUGSTRING("CPlayerWeapons::H0x01920061_FireSingleShotgun_02")},
+ {0x01920062, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920062_FireSingleShotgun_03), DEBUGSTRING("CPlayerWeapons::H0x01920062_FireSingleShotgun_03")},
+ {0x01920063, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920063_FireSingleShotgun_04), DEBUGSTRING("CPlayerWeapons::H0x01920063_FireSingleShotgun_04")},
+ {0x01920064, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920064_FireSingleShotgun_05), DEBUGSTRING("CPlayerWeapons::H0x01920064_FireSingleShotgun_05")},
+ {0x01920065, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920065_FireSingleShotgun_06), DEBUGSTRING("CPlayerWeapons::H0x01920065_FireSingleShotgun_06")},
+ {0x01920066, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 4946 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ReloadSingleShotgun),DEBUGSTRING("CPlayerWeapons::ReloadSingleShotgun")},
- {0x0192007d, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192007d_ReloadSingleShotgun_01), DEBUGSTRING("CPlayerWeapons::H0x0192007d_ReloadSingleShotgun_01")},
- {0x0192007e, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192007e_ReloadSingleShotgun_02), DEBUGSTRING("CPlayerWeapons::H0x0192007e_ReloadSingleShotgun_02")},
- {0x0192007f, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192007f_ReloadSingleShotgun_03), DEBUGSTRING("CPlayerWeapons::H0x0192007f_ReloadSingleShotgun_03")},
- {0x01920080, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920080_ReloadSingleShotgun_04), DEBUGSTRING("CPlayerWeapons::H0x01920080_ReloadSingleShotgun_04")},
- {0x01920081, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920081_ReloadSingleShotgun_05), DEBUGSTRING("CPlayerWeapons::H0x01920081_ReloadSingleShotgun_05")},
- {0x01920082, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920082_ReloadSingleShotgun_06), DEBUGSTRING("CPlayerWeapons::H0x01920082_ReloadSingleShotgun_06")},
- {0x01920083, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920083_ReloadSingleShotgun_07), DEBUGSTRING("CPlayerWeapons::H0x01920083_ReloadSingleShotgun_07")},
- {0x01920084, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920084_ReloadSingleShotgun_08), DEBUGSTRING("CPlayerWeapons::H0x01920084_ReloadSingleShotgun_08")},
- {0x01920085, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920085_ReloadSingleShotgun_09), DEBUGSTRING("CPlayerWeapons::H0x01920085_ReloadSingleShotgun_09")},
- {0x01920086, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920086_ReloadSingleShotgun_10), DEBUGSTRING("CPlayerWeapons::H0x01920086_ReloadSingleShotgun_10")},
- {0x01920087, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920087_ReloadSingleShotgun_11), DEBUGSTRING("CPlayerWeapons::H0x01920087_ReloadSingleShotgun_11")},
- {0x01920088, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920088_ReloadSingleShotgun_12), DEBUGSTRING("CPlayerWeapons::H0x01920088_ReloadSingleShotgun_12")},
- {0x01920089, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920089_ReloadSingleShotgun_13), DEBUGSTRING("CPlayerWeapons::H0x01920089_ReloadSingleShotgun_13")},
- {0x0192008a, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192008a_ReloadSingleShotgun_14), DEBUGSTRING("CPlayerWeapons::H0x0192008a_ReloadSingleShotgun_14")},
- {0x0192008b, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192008b_ReloadSingleShotgun_15), DEBUGSTRING("CPlayerWeapons::H0x0192008b_ReloadSingleShotgun_15")},
- {0x0192008c, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192008c_ReloadSingleShotgun_16), DEBUGSTRING("CPlayerWeapons::H0x0192008c_ReloadSingleShotgun_16")},
- {0x0192008d, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192008d_ReloadSingleShotgun_17), DEBUGSTRING("CPlayerWeapons::H0x0192008d_ReloadSingleShotgun_17")},
- {0x0192008e, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 5126 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x01920067, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920067_ReloadSingleShotgun_01), DEBUGSTRING("CPlayerWeapons::H0x01920067_ReloadSingleShotgun_01")},
+ {0x01920068, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920068_ReloadSingleShotgun_02), DEBUGSTRING("CPlayerWeapons::H0x01920068_ReloadSingleShotgun_02")},
+ {0x01920069, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5065 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireDoubleShotgun),DEBUGSTRING("CPlayerWeapons::FireDoubleShotgun")},
- {0x0192008f, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192008f_FireDoubleShotgun_01), DEBUGSTRING("CPlayerWeapons::H0x0192008f_FireDoubleShotgun_01")},
- {0x01920090, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920090_FireDoubleShotgun_02), DEBUGSTRING("CPlayerWeapons::H0x01920090_FireDoubleShotgun_02")},
- {0x01920091, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920091_FireDoubleShotgun_03), DEBUGSTRING("CPlayerWeapons::H0x01920091_FireDoubleShotgun_03")},
- {0x01920092, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920092_FireDoubleShotgun_04), DEBUGSTRING("CPlayerWeapons::H0x01920092_FireDoubleShotgun_04")},
- {0x01920093, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920093_FireDoubleShotgun_05), DEBUGSTRING("CPlayerWeapons::H0x01920093_FireDoubleShotgun_05")},
- {0x01920094, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920094_FireDoubleShotgun_06), DEBUGSTRING("CPlayerWeapons::H0x01920094_FireDoubleShotgun_06")},
- {0x01920095, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 5216 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x0192006a, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192006a_FireDoubleShotgun_01), DEBUGSTRING("CPlayerWeapons::H0x0192006a_FireDoubleShotgun_01")},
+ {0x0192006b, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192006b_FireDoubleShotgun_02), DEBUGSTRING("CPlayerWeapons::H0x0192006b_FireDoubleShotgun_02")},
+ {0x0192006c, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192006c_FireDoubleShotgun_03), DEBUGSTRING("CPlayerWeapons::H0x0192006c_FireDoubleShotgun_03")},
+ {0x0192006d, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192006d_FireDoubleShotgun_04), DEBUGSTRING("CPlayerWeapons::H0x0192006d_FireDoubleShotgun_04")},
+ {0x0192006e, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192006e_FireDoubleShotgun_05), DEBUGSTRING("CPlayerWeapons::H0x0192006e_FireDoubleShotgun_05")},
+ {0x0192006f, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192006f_FireDoubleShotgun_06), DEBUGSTRING("CPlayerWeapons::H0x0192006f_FireDoubleShotgun_06")},
+ {0x01920070, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5156 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 TommyGunStart),DEBUGSTRING("CPlayerWeapons::TommyGunStart")},
- {0x01920096, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 5232 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x01920071, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5188 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 TommyGunStop),DEBUGSTRING("CPlayerWeapons::TommyGunStop")},
- {0x01920097, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 5263 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x01920072, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5219 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireTommyGun),DEBUGSTRING("CPlayerWeapons::FireTommyGun")},
- {0x01920098, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920098_FireTommyGun_01), DEBUGSTRING("CPlayerWeapons::H0x01920098_FireTommyGun_01")},
- {0x01920099, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920099_FireTommyGun_02), DEBUGSTRING("CPlayerWeapons::H0x01920099_FireTommyGun_02")},
- {0x0192009a, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192009a_FireTommyGun_03), DEBUGSTRING("CPlayerWeapons::H0x0192009a_FireTommyGun_03")},
- {0x0192009b, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192009b_FireTommyGun_04), DEBUGSTRING("CPlayerWeapons::H0x0192009b_FireTommyGun_04")},
- {0x0192009c, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 5347 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x01920073, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920073_FireTommyGun_01), DEBUGSTRING("CPlayerWeapons::H0x01920073_FireTommyGun_01")},
+ {0x01920074, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920074_FireTommyGun_02), DEBUGSTRING("CPlayerWeapons::H0x01920074_FireTommyGun_02")},
+ {0x01920075, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920075_FireTommyGun_03), DEBUGSTRING("CPlayerWeapons::H0x01920075_FireTommyGun_03")},
+ {0x01920076, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920076_FireTommyGun_04), DEBUGSTRING("CPlayerWeapons::H0x01920076_FireTommyGun_04")},
+ {0x01920077, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5304 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 AltFireTommyGun),DEBUGSTRING("CPlayerWeapons::AltFireTommyGun")},
- {0x0192009d, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192009d_AltFireTommyGun_01), DEBUGSTRING("CPlayerWeapons::H0x0192009d_AltFireTommyGun_01")},
- {0x0192009e, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192009e_AltFireTommyGun_02), DEBUGSTRING("CPlayerWeapons::H0x0192009e_AltFireTommyGun_02")},
- {0x0192009f, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192009f_AltFireTommyGun_03), DEBUGSTRING("CPlayerWeapons::H0x0192009f_AltFireTommyGun_03")},
- {0x019200a0, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a0_AltFireTommyGun_04), DEBUGSTRING("CPlayerWeapons::H0x019200a0_AltFireTommyGun_04")},
- {0x019200a1, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a1_AltFireTommyGun_05), DEBUGSTRING("CPlayerWeapons::H0x019200a1_AltFireTommyGun_05")},
- {0x019200a2, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a2_AltFireTommyGun_06), DEBUGSTRING("CPlayerWeapons::H0x019200a2_AltFireTommyGun_06")},
- {0x019200a3, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a3_AltFireTommyGun_07), DEBUGSTRING("CPlayerWeapons::H0x019200a3_AltFireTommyGun_07")},
- {0x019200a4, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a4_AltFireTommyGun_08), DEBUGSTRING("CPlayerWeapons::H0x019200a4_AltFireTommyGun_08")},
- {0x019200a5, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a5_AltFireTommyGun_09), DEBUGSTRING("CPlayerWeapons::H0x019200a5_AltFireTommyGun_09")},
- {0x019200a6, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a6_AltFireTommyGun_10), DEBUGSTRING("CPlayerWeapons::H0x019200a6_AltFireTommyGun_10")},
- {0x019200a7, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a7_AltFireTommyGun_11), DEBUGSTRING("CPlayerWeapons::H0x019200a7_AltFireTommyGun_11")},
- {0x019200a8, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a8_AltFireTommyGun_12), DEBUGSTRING("CPlayerWeapons::H0x019200a8_AltFireTommyGun_12")},
- {0x019200a9, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a9_AltFireTommyGun_13), DEBUGSTRING("CPlayerWeapons::H0x019200a9_AltFireTommyGun_13")},
- {0x019200aa, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200aa_AltFireTommyGun_14), DEBUGSTRING("CPlayerWeapons::H0x019200aa_AltFireTommyGun_14")},
- {0x019200ab, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 5410 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x01920078, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920078_AltFireTommyGun_01), DEBUGSTRING("CPlayerWeapons::H0x01920078_AltFireTommyGun_01")},
+ {0x01920079, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920079_AltFireTommyGun_02), DEBUGSTRING("CPlayerWeapons::H0x01920079_AltFireTommyGun_02")},
+ {0x0192007a, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192007a_AltFireTommyGun_03), DEBUGSTRING("CPlayerWeapons::H0x0192007a_AltFireTommyGun_03")},
+ {0x0192007b, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192007b_AltFireTommyGun_04), DEBUGSTRING("CPlayerWeapons::H0x0192007b_AltFireTommyGun_04")},
+ {0x0192007c, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192007c_AltFireTommyGun_05), DEBUGSTRING("CPlayerWeapons::H0x0192007c_AltFireTommyGun_05")},
+ {0x0192007d, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192007d_AltFireTommyGun_06), DEBUGSTRING("CPlayerWeapons::H0x0192007d_AltFireTommyGun_06")},
+ {0x0192007e, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192007e_AltFireTommyGun_07), DEBUGSTRING("CPlayerWeapons::H0x0192007e_AltFireTommyGun_07")},
+ {0x0192007f, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192007f_AltFireTommyGun_08), DEBUGSTRING("CPlayerWeapons::H0x0192007f_AltFireTommyGun_08")},
+ {0x01920080, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920080_AltFireTommyGun_09), DEBUGSTRING("CPlayerWeapons::H0x01920080_AltFireTommyGun_09")},
+ {0x01920081, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920081_AltFireTommyGun_10), DEBUGSTRING("CPlayerWeapons::H0x01920081_AltFireTommyGun_10")},
+ {0x01920082, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920082_AltFireTommyGun_11), DEBUGSTRING("CPlayerWeapons::H0x01920082_AltFireTommyGun_11")},
+ {0x01920083, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920083_AltFireTommyGun_12), DEBUGSTRING("CPlayerWeapons::H0x01920083_AltFireTommyGun_12")},
+ {0x01920084, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920084_AltFireTommyGun_13), DEBUGSTRING("CPlayerWeapons::H0x01920084_AltFireTommyGun_13")},
+ {0x01920085, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920085_AltFireTommyGun_14), DEBUGSTRING("CPlayerWeapons::H0x01920085_AltFireTommyGun_14")},
+ {0x01920086, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5367 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ReloadTommyGun),DEBUGSTRING("CPlayerWeapons::ReloadTommyGun")},
- {0x019200ac, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ac_ReloadTommyGun_01), DEBUGSTRING("CPlayerWeapons::H0x019200ac_ReloadTommyGun_01")},
- {0x019200ad, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ad_ReloadTommyGun_02), DEBUGSTRING("CPlayerWeapons::H0x019200ad_ReloadTommyGun_02")},
- {0x019200ae, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ae_ReloadTommyGun_03), DEBUGSTRING("CPlayerWeapons::H0x019200ae_ReloadTommyGun_03")},
- {0x019200af, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200af_ReloadTommyGun_04), DEBUGSTRING("CPlayerWeapons::H0x019200af_ReloadTommyGun_04")},
- {0x019200b0, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b0_ReloadTommyGun_05), DEBUGSTRING("CPlayerWeapons::H0x019200b0_ReloadTommyGun_05")},
- {0x019200b1, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b1_ReloadTommyGun_06), DEBUGSTRING("CPlayerWeapons::H0x019200b1_ReloadTommyGun_06")},
- {0x019200b2, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b2_ReloadTommyGun_07), DEBUGSTRING("CPlayerWeapons::H0x019200b2_ReloadTommyGun_07")},
- {0x019200b3, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b3_ReloadTommyGun_08), DEBUGSTRING("CPlayerWeapons::H0x019200b3_ReloadTommyGun_08")},
- {0x019200b4, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b4_ReloadTommyGun_09), DEBUGSTRING("CPlayerWeapons::H0x019200b4_ReloadTommyGun_09")},
- {0x019200b5, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b5_ReloadTommyGun_10), DEBUGSTRING("CPlayerWeapons::H0x019200b5_ReloadTommyGun_10")},
- {0x019200b6, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b6_ReloadTommyGun_11), DEBUGSTRING("CPlayerWeapons::H0x019200b6_ReloadTommyGun_11")},
- {0x019200b7, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b7_ReloadTommyGun_12), DEBUGSTRING("CPlayerWeapons::H0x019200b7_ReloadTommyGun_12")},
- {0x019200b8, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b8_ReloadTommyGun_13), DEBUGSTRING("CPlayerWeapons::H0x019200b8_ReloadTommyGun_13")},
- {0x019200b9, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b9_ReloadTommyGun_14), DEBUGSTRING("CPlayerWeapons::H0x019200b9_ReloadTommyGun_14")},
- {0x019200ba, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ba_ReloadTommyGun_15), DEBUGSTRING("CPlayerWeapons::H0x019200ba_ReloadTommyGun_15")},
- {0x019200bb, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200bb_ReloadTommyGun_16), DEBUGSTRING("CPlayerWeapons::H0x019200bb_ReloadTommyGun_16")},
- {0x019200bc, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200bc_ReloadTommyGun_17), DEBUGSTRING("CPlayerWeapons::H0x019200bc_ReloadTommyGun_17")},
- {0x019200bd, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 5504 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x01920087, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920087_ReloadTommyGun_01), DEBUGSTRING("CPlayerWeapons::H0x01920087_ReloadTommyGun_01")},
+ {0x01920088, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920088_ReloadTommyGun_02), DEBUGSTRING("CPlayerWeapons::H0x01920088_ReloadTommyGun_02")},
+ {0x01920089, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5419 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireSniper),DEBUGSTRING("CPlayerWeapons::FireSniper")},
- {0x019200be, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200be_FireSniper_01), DEBUGSTRING("CPlayerWeapons::H0x019200be_FireSniper_01")},
- {0x019200bf, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200bf_FireSniper_02), DEBUGSTRING("CPlayerWeapons::H0x019200bf_FireSniper_02")},
- {0x019200c0, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200c0_FireSniper_03), DEBUGSTRING("CPlayerWeapons::H0x019200c0_FireSniper_03")},
- {0x019200c1, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200c1_FireSniper_04), DEBUGSTRING("CPlayerWeapons::H0x019200c1_FireSniper_04")},
- {0x019200c2, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200c2_FireSniper_05), DEBUGSTRING("CPlayerWeapons::H0x019200c2_FireSniper_05")},
- {0x019200c3, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200c3_FireSniper_06), DEBUGSTRING("CPlayerWeapons::H0x019200c3_FireSniper_06")},
- {0x019200c4, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 5592 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x0192008a, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192008a_FireSniper_01), DEBUGSTRING("CPlayerWeapons::H0x0192008a_FireSniper_01")},
+ {0x0192008b, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192008b_FireSniper_02), DEBUGSTRING("CPlayerWeapons::H0x0192008b_FireSniper_02")},
+ {0x0192008c, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192008c_FireSniper_03), DEBUGSTRING("CPlayerWeapons::H0x0192008c_FireSniper_03")},
+ {0x0192008d, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192008d_FireSniper_04), DEBUGSTRING("CPlayerWeapons::H0x0192008d_FireSniper_04")},
+ {0x0192008e, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192008e_FireSniper_05), DEBUGSTRING("CPlayerWeapons::H0x0192008e_FireSniper_05")},
+ {0x0192008f, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192008f_FireSniper_06), DEBUGSTRING("CPlayerWeapons::H0x0192008f_FireSniper_06")},
+ {0x01920090, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5508 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MiniGunSpinUp),DEBUGSTRING("CPlayerWeapons::MiniGunSpinUp")},
- {0x019200c5, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 5603 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x01920091, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5519 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MiniGunSpinDown),DEBUGSTRING("CPlayerWeapons::MiniGunSpinDown")},
- {0x019200c6, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 5634 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x01920092, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5550 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MiniGunFire),DEBUGSTRING("CPlayerWeapons::MiniGunFire")},
- {0x019200c7, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200c7_MiniGunFire_01), DEBUGSTRING("CPlayerWeapons::H0x019200c7_MiniGunFire_01")},
- {0x019200c8, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200c8_MiniGunFire_02), DEBUGSTRING("CPlayerWeapons::H0x019200c8_MiniGunFire_02")},
- {0x019200c9, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200c9_MiniGunFire_03), DEBUGSTRING("CPlayerWeapons::H0x019200c9_MiniGunFire_03")},
- {0x019200ca, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ca_MiniGunFire_04), DEBUGSTRING("CPlayerWeapons::H0x019200ca_MiniGunFire_04")},
- {0x019200cb, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 5697 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x01920093, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920093_MiniGunFire_01), DEBUGSTRING("CPlayerWeapons::H0x01920093_MiniGunFire_01")},
+ {0x01920094, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920094_MiniGunFire_02), DEBUGSTRING("CPlayerWeapons::H0x01920094_MiniGunFire_02")},
+ {0x01920095, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920095_MiniGunFire_03), DEBUGSTRING("CPlayerWeapons::H0x01920095_MiniGunFire_03")},
+ {0x01920096, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920096_MiniGunFire_04), DEBUGSTRING("CPlayerWeapons::H0x01920096_MiniGunFire_04")},
+ {0x01920097, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5614 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireRocketLauncher),DEBUGSTRING("CPlayerWeapons::FireRocketLauncher")},
- {0x019200cc, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200cc_FireRocketLauncher_01), DEBUGSTRING("CPlayerWeapons::H0x019200cc_FireRocketLauncher_01")},
- {0x019200cd, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200cd_FireRocketLauncher_02), DEBUGSTRING("CPlayerWeapons::H0x019200cd_FireRocketLauncher_02")},
- {0x019200ce, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ce_FireRocketLauncher_03), DEBUGSTRING("CPlayerWeapons::H0x019200ce_FireRocketLauncher_03")},
- {0x019200cf, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200cf_FireRocketLauncher_04), DEBUGSTRING("CPlayerWeapons::H0x019200cf_FireRocketLauncher_04")},
- {0x019200d0, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d0_FireRocketLauncher_05), DEBUGSTRING("CPlayerWeapons::H0x019200d0_FireRocketLauncher_05")},
- {0x019200d1, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d1_FireRocketLauncher_06), DEBUGSTRING("CPlayerWeapons::H0x019200d1_FireRocketLauncher_06")},
- {0x019200d2, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 5739 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x01920098, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920098_FireRocketLauncher_01), DEBUGSTRING("CPlayerWeapons::H0x01920098_FireRocketLauncher_01")},
+ {0x01920099, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920099_FireRocketLauncher_02), DEBUGSTRING("CPlayerWeapons::H0x01920099_FireRocketLauncher_02")},
+ {0x0192009a, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192009a_FireRocketLauncher_03), DEBUGSTRING("CPlayerWeapons::H0x0192009a_FireRocketLauncher_03")},
+ {0x0192009b, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192009b_FireRocketLauncher_04), DEBUGSTRING("CPlayerWeapons::H0x0192009b_FireRocketLauncher_04")},
+ {0x0192009c, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192009c_FireRocketLauncher_05), DEBUGSTRING("CPlayerWeapons::H0x0192009c_FireRocketLauncher_05")},
+ {0x0192009d, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192009d_FireRocketLauncher_06), DEBUGSTRING("CPlayerWeapons::H0x0192009d_FireRocketLauncher_06")},
+ {0x0192009e, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5656 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireGrenadeLauncher),DEBUGSTRING("CPlayerWeapons::FireGrenadeLauncher")},
- {0x019200d3, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d3_FireGrenadeLauncher_01), DEBUGSTRING("CPlayerWeapons::H0x019200d3_FireGrenadeLauncher_01")},
- {0x019200d4, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d4_FireGrenadeLauncher_02), DEBUGSTRING("CPlayerWeapons::H0x019200d4_FireGrenadeLauncher_02")},
- {0x019200d5, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d5_FireGrenadeLauncher_03), DEBUGSTRING("CPlayerWeapons::H0x019200d5_FireGrenadeLauncher_03")},
- {0x019200d6, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d6_FireGrenadeLauncher_04), DEBUGSTRING("CPlayerWeapons::H0x019200d6_FireGrenadeLauncher_04")},
- {0x019200d7, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d7_FireGrenadeLauncher_05), DEBUGSTRING("CPlayerWeapons::H0x019200d7_FireGrenadeLauncher_05")},
- {0x019200d8, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d8_FireGrenadeLauncher_06), DEBUGSTRING("CPlayerWeapons::H0x019200d8_FireGrenadeLauncher_06")},
- {0x019200d9, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d9_FireGrenadeLauncher_07), DEBUGSTRING("CPlayerWeapons::H0x019200d9_FireGrenadeLauncher_07")},
- {0x019200da, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200da_FireGrenadeLauncher_08), DEBUGSTRING("CPlayerWeapons::H0x019200da_FireGrenadeLauncher_08")},
- {0x019200db, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200db_FireGrenadeLauncher_09), DEBUGSTRING("CPlayerWeapons::H0x019200db_FireGrenadeLauncher_09")},
- {0x019200dc, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200dc_FireGrenadeLauncher_10), DEBUGSTRING("CPlayerWeapons::H0x019200dc_FireGrenadeLauncher_10")},
- {0x019200dd, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200dd_FireGrenadeLauncher_11), DEBUGSTRING("CPlayerWeapons::H0x019200dd_FireGrenadeLauncher_11")},
- {0x019200de, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200de_FireGrenadeLauncher_12), DEBUGSTRING("CPlayerWeapons::H0x019200de_FireGrenadeLauncher_12")},
- {0x019200df, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200df_FireGrenadeLauncher_13), DEBUGSTRING("CPlayerWeapons::H0x019200df_FireGrenadeLauncher_13")},
- {0x019200e0, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e0_FireGrenadeLauncher_14), DEBUGSTRING("CPlayerWeapons::H0x019200e0_FireGrenadeLauncher_14")},
- {0x019200e1, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e1_FireGrenadeLauncher_15), DEBUGSTRING("CPlayerWeapons::H0x019200e1_FireGrenadeLauncher_15")},
- {0x019200e2, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 5884 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x0192009f, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192009f_FireGrenadeLauncher_01), DEBUGSTRING("CPlayerWeapons::H0x0192009f_FireGrenadeLauncher_01")},
+ {0x019200a0, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a0_FireGrenadeLauncher_02), DEBUGSTRING("CPlayerWeapons::H0x019200a0_FireGrenadeLauncher_02")},
+ {0x019200a1, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a1_FireGrenadeLauncher_03), DEBUGSTRING("CPlayerWeapons::H0x019200a1_FireGrenadeLauncher_03")},
+ {0x019200a2, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a2_FireGrenadeLauncher_04), DEBUGSTRING("CPlayerWeapons::H0x019200a2_FireGrenadeLauncher_04")},
+ {0x019200a3, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a3_FireGrenadeLauncher_05), DEBUGSTRING("CPlayerWeapons::H0x019200a3_FireGrenadeLauncher_05")},
+ {0x019200a4, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a4_FireGrenadeLauncher_06), DEBUGSTRING("CPlayerWeapons::H0x019200a4_FireGrenadeLauncher_06")},
+ {0x019200a5, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a5_FireGrenadeLauncher_07), DEBUGSTRING("CPlayerWeapons::H0x019200a5_FireGrenadeLauncher_07")},
+ {0x019200a6, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a6_FireGrenadeLauncher_08), DEBUGSTRING("CPlayerWeapons::H0x019200a6_FireGrenadeLauncher_08")},
+ {0x019200a7, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a7_FireGrenadeLauncher_09), DEBUGSTRING("CPlayerWeapons::H0x019200a7_FireGrenadeLauncher_09")},
+ {0x019200a8, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a8_FireGrenadeLauncher_10), DEBUGSTRING("CPlayerWeapons::H0x019200a8_FireGrenadeLauncher_10")},
+ {0x019200a9, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200a9_FireGrenadeLauncher_11), DEBUGSTRING("CPlayerWeapons::H0x019200a9_FireGrenadeLauncher_11")},
+ {0x019200aa, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200aa_FireGrenadeLauncher_12), DEBUGSTRING("CPlayerWeapons::H0x019200aa_FireGrenadeLauncher_12")},
+ {0x019200ab, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ab_FireGrenadeLauncher_13), DEBUGSTRING("CPlayerWeapons::H0x019200ab_FireGrenadeLauncher_13")},
+ {0x019200ac, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ac_FireGrenadeLauncher_14), DEBUGSTRING("CPlayerWeapons::H0x019200ac_FireGrenadeLauncher_14")},
+ {0x019200ad, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ad_FireGrenadeLauncher_15), DEBUGSTRING("CPlayerWeapons::H0x019200ad_FireGrenadeLauncher_15")},
+ {0x019200ae, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5801 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FlamerStart),DEBUGSTRING("CPlayerWeapons::FlamerStart")},
- {0x019200e3, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e3_FlamerStart_01), DEBUGSTRING("CPlayerWeapons::H0x019200e3_FlamerStart_01")},
- {0x019200e4, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e4_FlamerStart_02), DEBUGSTRING("CPlayerWeapons::H0x019200e4_FlamerStart_02")},
- {0x019200e5, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e5_FlamerStart_03), DEBUGSTRING("CPlayerWeapons::H0x019200e5_FlamerStart_03")},
- {0x019200e6, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e6_FlamerStart_04), DEBUGSTRING("CPlayerWeapons::H0x019200e6_FlamerStart_04")},
- {0x019200e7, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 5904 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x019200af, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200af_FlamerStart_01), DEBUGSTRING("CPlayerWeapons::H0x019200af_FlamerStart_01")},
+ {0x019200b0, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b0_FlamerStart_02), DEBUGSTRING("CPlayerWeapons::H0x019200b0_FlamerStart_02")},
+ {0x019200b1, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b1_FlamerStart_03), DEBUGSTRING("CPlayerWeapons::H0x019200b1_FlamerStart_03")},
+ {0x019200b2, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b2_FlamerStart_04), DEBUGSTRING("CPlayerWeapons::H0x019200b2_FlamerStart_04")},
+ {0x019200b3, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5821 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FlamerFire),DEBUGSTRING("CPlayerWeapons::FlamerFire")},
- {0x019200e8, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e8_FlamerFire_01), DEBUGSTRING("CPlayerWeapons::H0x019200e8_FlamerFire_01")},
- {0x019200e9, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e9_FlamerFire_02), DEBUGSTRING("CPlayerWeapons::H0x019200e9_FlamerFire_02")},
- {0x019200ea, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ea_FlamerFire_03), DEBUGSTRING("CPlayerWeapons::H0x019200ea_FlamerFire_03")},
- {0x019200eb, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200eb_FlamerFire_04), DEBUGSTRING("CPlayerWeapons::H0x019200eb_FlamerFire_04")},
- {0x019200ec, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 5921 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x019200b4, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b4_FlamerFire_01), DEBUGSTRING("CPlayerWeapons::H0x019200b4_FlamerFire_01")},
+ {0x019200b5, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b5_FlamerFire_02), DEBUGSTRING("CPlayerWeapons::H0x019200b5_FlamerFire_02")},
+ {0x019200b6, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b6_FlamerFire_03), DEBUGSTRING("CPlayerWeapons::H0x019200b6_FlamerFire_03")},
+ {0x019200b7, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b7_FlamerFire_04), DEBUGSTRING("CPlayerWeapons::H0x019200b7_FlamerFire_04")},
+ {0x019200b8, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5838 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FlamerStop),DEBUGSTRING("CPlayerWeapons::FlamerStop")},
- {0x019200ed, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ed_FlamerStop_01), DEBUGSTRING("CPlayerWeapons::H0x019200ed_FlamerStop_01")},
- {0x019200ee, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ee_FlamerStop_02), DEBUGSTRING("CPlayerWeapons::H0x019200ee_FlamerStop_02")},
- {0x019200ef, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 5946 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x019200b9, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200b9_FlamerStop_01), DEBUGSTRING("CPlayerWeapons::H0x019200b9_FlamerStop_01")},
+ {0x019200ba, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ba_FlamerStop_02), DEBUGSTRING("CPlayerWeapons::H0x019200ba_FlamerStop_02")},
+ {0x019200bb, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5863 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ChainsawFire),DEBUGSTRING("CPlayerWeapons::ChainsawFire")},
- {0x019200f0, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200f0_ChainsawFire_01), DEBUGSTRING("CPlayerWeapons::H0x019200f0_ChainsawFire_01")},
- {0x019200f1, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200f1_ChainsawFire_02), DEBUGSTRING("CPlayerWeapons::H0x019200f1_ChainsawFire_02")},
- {0x019200f2, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200f2_ChainsawFire_03), DEBUGSTRING("CPlayerWeapons::H0x019200f2_ChainsawFire_03")},
- {0x019200f3, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200f3_ChainsawFire_04), DEBUGSTRING("CPlayerWeapons::H0x019200f3_ChainsawFire_04")},
- {0x019200f4, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200f4_ChainsawFire_05), DEBUGSTRING("CPlayerWeapons::H0x019200f4_ChainsawFire_05")},
- {0x019200f5, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200f5_ChainsawFire_06), DEBUGSTRING("CPlayerWeapons::H0x019200f5_ChainsawFire_06")},
- {0x019200f6, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200f6_ChainsawFire_07), DEBUGSTRING("CPlayerWeapons::H0x019200f6_ChainsawFire_07")},
- {0x019200f7, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200f7_ChainsawFire_08), DEBUGSTRING("CPlayerWeapons::H0x019200f7_ChainsawFire_08")},
- {0x019200f8, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 6022 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x019200bc, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200bc_ChainsawFire_01), DEBUGSTRING("CPlayerWeapons::H0x019200bc_ChainsawFire_01")},
+ {0x019200bd, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200bd_ChainsawFire_02), DEBUGSTRING("CPlayerWeapons::H0x019200bd_ChainsawFire_02")},
+ {0x019200be, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200be_ChainsawFire_03), DEBUGSTRING("CPlayerWeapons::H0x019200be_ChainsawFire_03")},
+ {0x019200bf, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200bf_ChainsawFire_04), DEBUGSTRING("CPlayerWeapons::H0x019200bf_ChainsawFire_04")},
+ {0x019200c0, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200c0_ChainsawFire_05), DEBUGSTRING("CPlayerWeapons::H0x019200c0_ChainsawFire_05")},
+ {0x019200c1, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200c1_ChainsawFire_06), DEBUGSTRING("CPlayerWeapons::H0x019200c1_ChainsawFire_06")},
+ {0x019200c2, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200c2_ChainsawFire_07), DEBUGSTRING("CPlayerWeapons::H0x019200c2_ChainsawFire_07")},
+ {0x019200c3, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200c3_ChainsawFire_08), DEBUGSTRING("CPlayerWeapons::H0x019200c3_ChainsawFire_08")},
+ {0x019200c4, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5939 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ChainsawBringUp),DEBUGSTRING("CPlayerWeapons::ChainsawBringUp")},
- {0x019200f9, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200f9_ChainsawBringUp_01), DEBUGSTRING("CPlayerWeapons::H0x019200f9_ChainsawBringUp_01")},
- {0x019200fa, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200fa_ChainsawBringUp_02), DEBUGSTRING("CPlayerWeapons::H0x019200fa_ChainsawBringUp_02")},
- {0x019200fb, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 6031 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x019200c5, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200c5_ChainsawBringUp_01), DEBUGSTRING("CPlayerWeapons::H0x019200c5_ChainsawBringUp_01")},
+ {0x019200c6, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200c6_ChainsawBringUp_02), DEBUGSTRING("CPlayerWeapons::H0x019200c6_ChainsawBringUp_02")},
+ {0x019200c7, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 5948 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireLaser),DEBUGSTRING("CPlayerWeapons::FireLaser")},
- {0x019200fc, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200fc_FireLaser_01), DEBUGSTRING("CPlayerWeapons::H0x019200fc_FireLaser_01")},
- {0x019200fd, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200fd_FireLaser_02), DEBUGSTRING("CPlayerWeapons::H0x019200fd_FireLaser_02")},
- {0x019200fe, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200fe_FireLaser_03), DEBUGSTRING("CPlayerWeapons::H0x019200fe_FireLaser_03")},
- {0x019200ff, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ff_FireLaser_04), DEBUGSTRING("CPlayerWeapons::H0x019200ff_FireLaser_04")},
- {0x01920100, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 6122 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x019200c8, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200c8_FireLaser_01), DEBUGSTRING("CPlayerWeapons::H0x019200c8_FireLaser_01")},
+ {0x019200c9, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200c9_FireLaser_02), DEBUGSTRING("CPlayerWeapons::H0x019200c9_FireLaser_02")},
+ {0x019200ca, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ca_FireLaser_03), DEBUGSTRING("CPlayerWeapons::H0x019200ca_FireLaser_03")},
+ {0x019200cb, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200cb_FireLaser_04), DEBUGSTRING("CPlayerWeapons::H0x019200cb_FireLaser_04")},
+ {0x019200cc, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 6039 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CannonFireStart),DEBUGSTRING("CPlayerWeapons::CannonFireStart")},
- {0x01920101, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920101_CannonFireStart_01), DEBUGSTRING("CPlayerWeapons::H0x01920101_CannonFireStart_01")},
- {0x01920102, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920102_CannonFireStart_02), DEBUGSTRING("CPlayerWeapons::H0x01920102_CannonFireStart_02")},
- {0x01920103, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920103_CannonFireStart_03), DEBUGSTRING("CPlayerWeapons::H0x01920103_CannonFireStart_03")},
- {0x01920104, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920104_CannonFireStart_04), DEBUGSTRING("CPlayerWeapons::H0x01920104_CannonFireStart_04")},
- {0x01920105, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920105_CannonFireStart_05), DEBUGSTRING("CPlayerWeapons::H0x01920105_CannonFireStart_05")},
- {0x01920106, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920106_CannonFireStart_06), DEBUGSTRING("CPlayerWeapons::H0x01920106_CannonFireStart_06")},
- {0x01920107, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920107_CannonFireStart_07), DEBUGSTRING("CPlayerWeapons::H0x01920107_CannonFireStart_07")},
- {0x01920108, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920108_CannonFireStart_08), DEBUGSTRING("CPlayerWeapons::H0x01920108_CannonFireStart_08")},
- {0x01920109, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920109_CannonFireStart_09), DEBUGSTRING("CPlayerWeapons::H0x01920109_CannonFireStart_09")},
- {0x0192010a, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192010a_CannonFireStart_10), DEBUGSTRING("CPlayerWeapons::H0x0192010a_CannonFireStart_10")},
- {0x0192010b, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 6226 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x019200cd, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200cd_CannonFireStart_01), DEBUGSTRING("CPlayerWeapons::H0x019200cd_CannonFireStart_01")},
+ {0x019200ce, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ce_CannonFireStart_02), DEBUGSTRING("CPlayerWeapons::H0x019200ce_CannonFireStart_02")},
+ {0x019200cf, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200cf_CannonFireStart_03), DEBUGSTRING("CPlayerWeapons::H0x019200cf_CannonFireStart_03")},
+ {0x019200d0, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d0_CannonFireStart_04), DEBUGSTRING("CPlayerWeapons::H0x019200d0_CannonFireStart_04")},
+ {0x019200d1, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d1_CannonFireStart_05), DEBUGSTRING("CPlayerWeapons::H0x019200d1_CannonFireStart_05")},
+ {0x019200d2, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d2_CannonFireStart_06), DEBUGSTRING("CPlayerWeapons::H0x019200d2_CannonFireStart_06")},
+ {0x019200d3, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d3_CannonFireStart_07), DEBUGSTRING("CPlayerWeapons::H0x019200d3_CannonFireStart_07")},
+ {0x019200d4, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d4_CannonFireStart_08), DEBUGSTRING("CPlayerWeapons::H0x019200d4_CannonFireStart_08")},
+ {0x019200d5, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d5_CannonFireStart_09), DEBUGSTRING("CPlayerWeapons::H0x019200d5_CannonFireStart_09")},
+ {0x019200d6, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d6_CannonFireStart_10), DEBUGSTRING("CPlayerWeapons::H0x019200d6_CannonFireStart_10")},
+ {0x019200d7, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 6143 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 AltCannonFire),DEBUGSTRING("CPlayerWeapons::AltCannonFire")},
- {0x0192010c, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192010c_AltCannonFire_01), DEBUGSTRING("CPlayerWeapons::H0x0192010c_AltCannonFire_01")},
- {0x0192010d, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192010d_AltCannonFire_02), DEBUGSTRING("CPlayerWeapons::H0x0192010d_AltCannonFire_02")},
- {0x0192010e, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192010e_AltCannonFire_03), DEBUGSTRING("CPlayerWeapons::H0x0192010e_AltCannonFire_03")},
- {0x0192010f, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192010f_AltCannonFire_04), DEBUGSTRING("CPlayerWeapons::H0x0192010f_AltCannonFire_04")},
- {0x01920110, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920110_AltCannonFire_05), DEBUGSTRING("CPlayerWeapons::H0x01920110_AltCannonFire_05")},
- {0x01920111, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920111_AltCannonFire_06), DEBUGSTRING("CPlayerWeapons::H0x01920111_AltCannonFire_06")},
- {0x01920112, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 6260 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x019200d8, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d8_AltCannonFire_01), DEBUGSTRING("CPlayerWeapons::H0x019200d8_AltCannonFire_01")},
+ {0x019200d9, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200d9_AltCannonFire_02), DEBUGSTRING("CPlayerWeapons::H0x019200d9_AltCannonFire_02")},
+ {0x019200da, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200da_AltCannonFire_03), DEBUGSTRING("CPlayerWeapons::H0x019200da_AltCannonFire_03")},
+ {0x019200db, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200db_AltCannonFire_04), DEBUGSTRING("CPlayerWeapons::H0x019200db_AltCannonFire_04")},
+ {0x019200dc, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200dc_AltCannonFire_05), DEBUGSTRING("CPlayerWeapons::H0x019200dc_AltCannonFire_05")},
+ {0x019200dd, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200dd_AltCannonFire_06), DEBUGSTRING("CPlayerWeapons::H0x019200dd_AltCannonFire_06")},
+ {0x019200de, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 6177 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Reload),DEBUGSTRING("CPlayerWeapons::Reload")},
- {0x01920113, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920113_Reload_01), DEBUGSTRING("CPlayerWeapons::H0x01920113_Reload_01")},
- {0x01920114, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920114_Reload_02), DEBUGSTRING("CPlayerWeapons::H0x01920114_Reload_02")},
- {0x01920115, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920115_Reload_03), DEBUGSTRING("CPlayerWeapons::H0x01920115_Reload_03")},
- {0x01920116, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920116_Reload_04), DEBUGSTRING("CPlayerWeapons::H0x01920116_Reload_04")},
- {0x01920117, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920117_Reload_05), DEBUGSTRING("CPlayerWeapons::H0x01920117_Reload_05")},
- {0x01920118, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920118_Reload_06), DEBUGSTRING("CPlayerWeapons::H0x01920118_Reload_06")},
- {0x01920119, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920119_Reload_07), DEBUGSTRING("CPlayerWeapons::H0x01920119_Reload_07")},
- {0x0192011a, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192011a_Reload_08), DEBUGSTRING("CPlayerWeapons::H0x0192011a_Reload_08")},
- {0x0192011b, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192011b_Reload_09), DEBUGSTRING("CPlayerWeapons::H0x0192011b_Reload_09")},
- {0x0192011c, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192011c_Reload_10), DEBUGSTRING("CPlayerWeapons::H0x0192011c_Reload_10")},
- {0x0192011d, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192011d_Reload_11), DEBUGSTRING("CPlayerWeapons::H0x0192011d_Reload_11")},
- {0x0192011e, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192011e_Reload_12), DEBUGSTRING("CPlayerWeapons::H0x0192011e_Reload_12")},
- {0x0192011f, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192011f_Reload_13), DEBUGSTRING("CPlayerWeapons::H0x0192011f_Reload_13")},
- {0x01920120, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920120_Reload_14), DEBUGSTRING("CPlayerWeapons::H0x01920120_Reload_14")},
- {0x01920121, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920121_Reload_15), DEBUGSTRING("CPlayerWeapons::H0x01920121_Reload_15")},
- {0x01920122, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 6283 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x019200df, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200df_Reload_01), DEBUGSTRING("CPlayerWeapons::H0x019200df_Reload_01")},
+ {0x019200e0, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e0_Reload_02), DEBUGSTRING("CPlayerWeapons::H0x019200e0_Reload_02")},
+ {0x019200e1, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e1_Reload_03), DEBUGSTRING("CPlayerWeapons::H0x019200e1_Reload_03")},
+ {0x019200e2, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e2_Reload_04), DEBUGSTRING("CPlayerWeapons::H0x019200e2_Reload_04")},
+ {0x019200e3, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e3_Reload_05), DEBUGSTRING("CPlayerWeapons::H0x019200e3_Reload_05")},
+ {0x019200e4, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e4_Reload_06), DEBUGSTRING("CPlayerWeapons::H0x019200e4_Reload_06")},
+ {0x019200e5, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e5_Reload_07), DEBUGSTRING("CPlayerWeapons::H0x019200e5_Reload_07")},
+ {0x019200e6, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e6_Reload_08), DEBUGSTRING("CPlayerWeapons::H0x019200e6_Reload_08")},
+ {0x019200e7, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e7_Reload_09), DEBUGSTRING("CPlayerWeapons::H0x019200e7_Reload_09")},
+ {0x019200e8, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e8_Reload_10), DEBUGSTRING("CPlayerWeapons::H0x019200e8_Reload_10")},
+ {0x019200e9, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200e9_Reload_11), DEBUGSTRING("CPlayerWeapons::H0x019200e9_Reload_11")},
+ {0x019200ea, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ea_Reload_12), DEBUGSTRING("CPlayerWeapons::H0x019200ea_Reload_12")},
+ {0x019200eb, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200eb_Reload_13), DEBUGSTRING("CPlayerWeapons::H0x019200eb_Reload_13")},
+ {0x019200ec, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ec_Reload_14), DEBUGSTRING("CPlayerWeapons::H0x019200ec_Reload_14")},
+ {0x019200ed, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200ed_Reload_15), DEBUGSTRING("CPlayerWeapons::H0x019200ed_Reload_15")},
+ {0x019200ee, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 6200 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ChangeKnifeStand),DEBUGSTRING("CPlayerWeapons::ChangeKnifeStand")},
- {0x01920123, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 6299 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x019200ef, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 6216 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ChangeToIronCannon),DEBUGSTRING("CPlayerWeapons::ChangeToIronCannon")},
- {0x01920124, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 6338 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x019200f0, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 6255 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BoringWeaponAnimation),DEBUGSTRING("CPlayerWeapons::BoringWeaponAnimation")},
- {0x01920125, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920125_BoringWeaponAnimation_01), DEBUGSTRING("CPlayerWeapons::H0x01920125_BoringWeaponAnimation_01")},
- {0x01920126, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920126_BoringWeaponAnimation_02), DEBUGSTRING("CPlayerWeapons::H0x01920126_BoringWeaponAnimation_02")},
- {0x01920127, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920127_BoringWeaponAnimation_03), DEBUGSTRING("CPlayerWeapons::H0x01920127_BoringWeaponAnimation_03")},
- {0x01920128, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 6368 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x019200f1, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200f1_BoringWeaponAnimation_01), DEBUGSTRING("CPlayerWeapons::H0x019200f1_BoringWeaponAnimation_01")},
+ {0x019200f2, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200f2_BoringWeaponAnimation_02), DEBUGSTRING("CPlayerWeapons::H0x019200f2_BoringWeaponAnimation_02")},
+ {0x019200f3, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200f3_BoringWeaponAnimation_03), DEBUGSTRING("CPlayerWeapons::H0x019200f3_BoringWeaponAnimation_03")},
+ {0x019200f4, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 6285 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Idle),DEBUGSTRING("CPlayerWeapons::Idle")},
- {0x01920129, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x01920129_Idle_01), DEBUGSTRING("CPlayerWeapons::H0x01920129_Idle_01")},
- {0x0192012a, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192012a_Idle_02), DEBUGSTRING("CPlayerWeapons::H0x0192012a_Idle_02")},
- {0x0192012b, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 6423 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ {0x019200f5, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200f5_Idle_01), DEBUGSTRING("CPlayerWeapons::H0x019200f5_Idle_01")},
+ {0x019200f6, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200f6_Idle_02), DEBUGSTRING("CPlayerWeapons::H0x019200f6_Idle_02")},
+ {0x019200f7, -1, CEntity::pEventHandler(&CPlayerWeapons::
+#line 6340 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Stopped),DEBUGSTRING("CPlayerWeapons::Stopped")},
- {0x0192012c, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192012c_Stopped_01), DEBUGSTRING("CPlayerWeapons::H0x0192012c_Stopped_01")},
- {0x0192012d, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192012d_Stopped_02), DEBUGSTRING("CPlayerWeapons::H0x0192012d_Stopped_02")},
+ {0x019200f8, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200f8_Stopped_01), DEBUGSTRING("CPlayerWeapons::H0x019200f8_Stopped_01")},
+ {0x019200f9, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200f9_Stopped_02), DEBUGSTRING("CPlayerWeapons::H0x019200f9_Stopped_02")},
  {1, -1, CEntity::pEventHandler(&CPlayerWeapons::
-#line 6451 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6368 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Main),DEBUGSTRING("CPlayerWeapons::Main")},
- {0x0192012e, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192012e_Main_01), DEBUGSTRING("CPlayerWeapons::H0x0192012e_Main_01")},
- {0x0192012f, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x0192012f_Main_02), DEBUGSTRING("CPlayerWeapons::H0x0192012f_Main_02")},
+ {0x019200fa, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200fa_Main_01), DEBUGSTRING("CPlayerWeapons::H0x019200fa_Main_01")},
+ {0x019200fb, -1, CEntity::pEventHandler(&CPlayerWeapons::H0x019200fb_Main_02), DEBUGSTRING("CPlayerWeapons::H0x019200fb_Main_02")},
 };
 #define CPlayerWeapons_handlersct ARRAYCOUNT(CPlayerWeapons_handlers)
 

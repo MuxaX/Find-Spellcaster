@@ -1210,6 +1210,9 @@ properties:
  196 FLOAT m_fBulletShakeFreqMod = 1.0f,
  197 FLOAT m_fBulletShakeDX = 0.0f,
  198 FLOAT m_fBulletShakeDY = 0.0f,
+ 199 FLOAT m_fRecoilX = 0.0f,          // Current horizontal displacement
+ 200 FLOAT m_fRecoilY = 0.0f,          // Current vertical displacement
+ 201 FLOAT m_tmLastRecoilTick = 0.0f,  // Timestamp of the last frame for delta calculation
  //199 INDEX m_iSeriousDamageCount = 0,      // ammount of serious bombs player owns
  //200 INDEX m_iLastSeriousDamageCount = 0,  // ammount of serious bombs player had before firing
  //201 FLOAT m_tmSeriousDamageFired = -10.0f,  // when the bomb was last fired
@@ -2290,6 +2293,27 @@ functions:
   {
     m_soSpeech.Set3DParameters(50.0f, 10.0f, 2.0f, 1.0f);
   }
+  
+  // Adds recoil momentum
+  void AddWeaponRecoil(FLOAT fKickX, FLOAT fKickY)
+  {
+    // Adding random scatter 
+    // FRnd() returns a number between 0.0 and 1.0. We subtract 0.5 to obtain a range from -0.5 to 0.5.
+    FLOAT fRandomX = (FRnd() - 0.5f) * 0.15f; // lazy horizontal trembling
+    FLOAT fRandomY = (FRnd() - 0.5f) * 0.10f; // lazy vertical trembling
+
+    // Add pulse
+    m_fRecoilX += fKickX + fRandomX;
+    m_fRecoilY += fKickY + fRandomY;
+
+    // 3. We clamp the maximum recoil so that when firing the weapon 
+    // camera didn't go off-screen and didn't cause motion sickness.
+    if (m_fRecoilY > 12.0f) {m_fRecoilY = 12.0f;}
+    if (m_fRecoilY < 0.0f) {m_fRecoilY = 0.0f;} 
+    
+    if (m_fRecoilX > 2.0f) {m_fRecoilX = 2.0f;}
+    if (m_fRecoilX < -2.0f) {m_fRecoilX = -2.0f;}
+  }
 
   // added: also shake view because of chainsaw firing
   void ApplyShaking(CPlacement3D &plViewer)
@@ -2305,14 +2329,40 @@ functions:
       plViewer.pl_PositionVector(3) += m_fChainsawShakeDY;
     }
 	
-	if (fT<m_tmBulletShakeEnd)
+	/*if (fT<m_tmBulletShakeEnd)
 	{
       m_fBulletShakeDX = -(1.0f*m_fBulletShakeStrengthX*MCosFast(fT*m_fBulletShakeFreqMod*90.0f));
 	  m_fBulletShakeDY = 1.0f*m_fBulletShakeStrengthY*MCosFast(fT*m_fBulletShakeFreqMod*90.0f);
 	  
 	  plViewer.pl_PositionVector(1) += m_fBulletShakeDX;
 	  plViewer.pl_PositionVector(2) += m_fBulletShakeDY;
-	}
+	}*/
+	    // --- RECOIL DECAY ---
+    FLOAT fCurrentTime = _pTimer->GetLerpedCurrentTick();
+    
+    // Calculate the time elapsed since the last frame (to ensure independence from FPS).
+    FLOAT fDeltaTime = fCurrentTime - m_tmLastRecoilTick;
+    m_tmLastRecoilTick = fCurrentTime;
+
+    // Protection against negative delta (sometimes occurs due to lag or loading)
+    if (fDeltaTime < 0.0f) {fDeltaTime = 0.0f;}
+
+    // Exponential decay: the higher the value (12.0f), the faster the camera returns to the center.
+    FLOAT fDecayRate = 5.5f; 
+    FLOAT fDecayFactor = exp(-fDecayRate * fDeltaTime);
+
+    // We are smoothly heading towards zero
+    m_fRecoilX *= fDecayFactor;
+    m_fRecoilY *= fDecayFactor;
+
+    // If the value becomes very small, we set it to zero for the sake of computational clarity
+    if (Abs(m_fRecoilX) < 0.01f) {m_fRecoilX = 0.0f;}
+    if (Abs(m_fRecoilY) < 0.01f) {m_fRecoilY = 0.0f;}
+
+    // We apply an offset to the camera
+    // (1) = X (left/right), (2) = Y (up/down in space view)
+    plViewer.pl_PositionVector(1) += m_fRecoilX;
+    plViewer.pl_OrientationAngle(2) += m_fRecoilY;
 
     CWorldSettingsController *pwsc = GetWSC(this);
     if (pwsc==NULL || pwsc->m_tmShakeStarted<0) {

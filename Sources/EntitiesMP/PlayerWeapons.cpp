@@ -620,3496 +620,3485 @@ m_moWeaponSecond.mo_toTexture.SetData(NULL);
   m_tmFlamerStart = 1e6;
   m_tmFlamerStop = 1e9;
   m_tmLastChainsawSpray = 0.0f;
+  m_bTommyGunNeedsInit = TRUE ;
+  m_bSingleShotgunNeedsInit = TRUE ;
+  m_bColtNeedsInit = TRUE ;
+  m_bDoubleColtNeedsInit = TRUE ;
   m_penPrediction = NULL;
   CRationalEntity::SetDefaultProperties();
 }
   
-#line 908 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::AddDependentsToPrediction(void) 
-#line 909 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 910 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_penPlayer  -> AddToPrediction  ();
-#line 912 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_penGhostBusterRay  -> AddToPrediction  ();
 #line 913 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_penFlame  -> AddToPrediction  ();
+void CPlayerWeapons::AddDependentsToPrediction(void) 
 #line 914 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
+{
 #line 915 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::Precache(void) 
-#line 916 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+m_penPlayer  -> AddToPrediction  ();
 #line 917 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayerWeapons_Precache  (m_iAvailableWeapons );
+m_penGhostBusterRay  -> AddToPrediction  ();
 #line 918 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_penFlame  -> AddToPrediction  ();
+#line 919 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 919 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer * CPlayerWeapons::GetPlayer(void) 
 #line 920 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+void CPlayerWeapons::Precache(void) 
 #line 921 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ASSERT  (m_penPlayer  != NULL );
+{
 #line 922 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return (CPlayer  *) & * m_penPlayer ;
+CPlayerWeapons_Precache  (m_iAvailableWeapons );
 #line 923 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
 #line 924 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayerAnimator * CPlayerWeapons::GetAnimator(void) 
+CPlayer * CPlayerWeapons::GetPlayer(void) 
 #line 925 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
 #line 926 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ASSERT  (m_penPlayer  != NULL );
 #line 927 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return ((CPlayerAnimator  *) & * ((CPlayer  &) * m_penPlayer ) . m_penAnimator );
+return (CPlayer  *) & * m_penPlayer ;
 #line 928 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
+#line 929 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlayerAnimator * CPlayerWeapons::GetAnimator(void) 
 #line 930 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CModelObject * CPlayerWeapons::GetChainSawTeeth(void) 
+{
 #line 931 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+ASSERT  (m_penPlayer  != NULL );
 #line 932 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  * ppl  = GetPlayer  ();
+return ((CPlayerAnimator  *) & * ((CPlayer  &) * m_penPlayer ) . m_penAnimator );
 #line 933 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(ppl  == NULL ){return NULL ;}
-#line 934 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CModelObject * pmoPlayer  = ppl  -> GetModelObject  ();
+}
+  
 #line 935 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(pmoPlayer  == NULL ){return NULL ;}
+CModelObject * CPlayerWeapons::GetChainSawTeeth(void) 
 #line 936 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CAttachmentModelObject  * pamoTorso  = pmoPlayer  -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO );
-#line 937 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(pamoTorso  == NULL ){return NULL ;}
-#line 938 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CAttachmentModelObject  * pamoChainSaw  = pamoTorso  -> amo_moModelObject  . GetAttachmentModel  (BODY_ATTACHMENT_MINIGUN );
-#line 939 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(pamoChainSaw  == NULL ){return NULL ;}
-#line 940 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CAttachmentModelObject  * pamoBlade  = pamoChainSaw  -> amo_moModelObject  . GetAttachmentModel  (CHAINSAWFORPLAYER_ATTACHMENT_BLADE );
-#line 941 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(pamoBlade  == NULL ){return NULL ;}
-#line 942 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CAttachmentModelObject  * pamoTeeth  = pamoBlade  -> amo_moModelObject  . GetAttachmentModel  (BLADE_ATTACHMENT_TEETH );
-#line 943 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(pamoTeeth  == NULL ){return NULL ;}
-#line 944 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return & pamoTeeth  -> amo_moModelObject ;
-#line 945 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 948 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::DoRecoil(void) 
-#line 949 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 952 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 937 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlayer  * ppl  = GetPlayer  ();
+#line 938 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(ppl  == NULL ){return NULL ;}
+#line 939 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CModelObject * pmoPlayer  = ppl  -> GetModelObject  ();
+#line 940 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(pmoPlayer  == NULL ){return NULL ;}
+#line 941 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CAttachmentModelObject  * pamoTorso  = pmoPlayer  -> GetAttachmentModel  (PLAYER_ATTACHMENT_TORSO );
+#line 942 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(pamoTorso  == NULL ){return NULL ;}
+#line 943 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CAttachmentModelObject  * pamoChainSaw  = pamoTorso  -> amo_moModelObject  . GetAttachmentModel  (BODY_ATTACHMENT_MINIGUN );
+#line 944 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(pamoChainSaw  == NULL ){return NULL ;}
+#line 945 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CAttachmentModelObject  * pamoBlade  = pamoChainSaw  -> amo_moModelObject  . GetAttachmentModel  (CHAINSAWFORPLAYER_ATTACHMENT_BLADE );
+#line 946 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(pamoBlade  == NULL ){return NULL ;}
+#line 947 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CAttachmentModelObject  * pamoTeeth  = pamoBlade  -> amo_moModelObject  . GetAttachmentModel  (BLADE_ATTACHMENT_TEETH );
+#line 948 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(pamoTeeth  == NULL ){return NULL ;}
+#line 949 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return & pamoTeeth  -> amo_moModelObject ;
+#line 950 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 955 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BOOL CPlayerWeapons::HoldingFire(void) 
-#line 956 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 953 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::DoRecoil(void) 
+#line 954 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
 #line 957 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return m_bFireWeapon  && ! m_bChangeWeapon ;
-#line 958 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
 #line 960 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BOOL CPlayerWeapons::HoldingAltFire(void) 
+BOOL CPlayerWeapons::HoldingFire(void) 
 #line 961 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
 #line 962 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return m_bAltFire  && ! m_bChangeWeapon ;
+return m_bFireWeapon  && ! m_bChangeWeapon ;
 #line 963 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
+#line 965 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+BOOL CPlayerWeapons::HoldingAltFire(void) 
 #line 966 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::RenderWeaponModel(CPerspectiveProjection3D & prProjection,CDrawPort * pdp,
-#line 967 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vViewerLightDirection,COLOR colViewerLight,COLOR colViewerAmbient,
-#line 968 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BOOL bRender,INDEX iEye) 
-#line 969 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 970 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-_mrpModelRenderPrefs  . SetRenderType  (RT_TEXTURE  | RT_SHADING_PHONG );
+#line 967 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return m_bAltFire  && ! m_bChangeWeapon ;
+#line 968 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 971 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::RenderWeaponModel(CPerspectiveProjection3D & prProjection,CDrawPort * pdp,
+#line 972 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT3D vViewerLightDirection,COLOR colViewerLight,COLOR colViewerAmbient,
 #line 973 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ControlFlareAttachment  ();
+BOOL bRender,INDEX iEye) 
+#line 974 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
 #line 975 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+_mrpModelRenderPrefs  . SetRenderType  (RT_TEXTURE  | RT_SHADING_PHONG );
+#line 978 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ControlFlareAttachment  ();
+#line 980 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(! bRender  || m_iCurrentWeapon  == WEAPON_NONE  
-#line 976 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 981 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 || GetPlayer  () -> GetSettings  () -> ps_ulFlags  & PSF_HIDEWEAPON ){return ;}
-#line 979 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iWeaponData  = m_iCurrentWeapon ;
-#line 982 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT fFOV  = ((CPerspectiveProjection3D  &) prProjection ) . FOVL  ();
-#line 983 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plView ;
 #line 984 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plView  = ((CPlayer  &) * m_penPlayer ) . en_plViewpoint ;
-#line 985 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plView  . RelativeToAbsolute  (m_penPlayer  -> GetPlacement  ());
+INDEX iWeaponData  = m_iCurrentWeapon ;
+#line 987 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOAT fFOV  = ((CPerspectiveProjection3D  &) prProjection ) . FOVL  ();
 #line 988 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plWeapon ;
+CPlacement3D plView ;
 #line 989 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iCurrentWeapon  == WEAPON_CHAINSAW ){
+plView  = ((CPlayer  &) * m_penPlayer ) . en_plViewpoint ;
 #line 990 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  * plPlayer  = (CPlayer  *) & * m_penPlayer ;
-#line 991 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plWeapon  = CPlacement3D (FLOAT3D (wpn_fX  [ iWeaponData  ] + plPlayer  -> m_fChainsawShakeDX  * 0.35f , 
-#line 992 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-wpn_fY  [ iWeaponData  ] + plPlayer  -> m_fChainsawShakeDY  * 0.35f , 
+plView  . RelativeToAbsolute  (m_penPlayer  -> GetPlacement  ());
 #line 993 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-wpn_fZ  [ iWeaponData  ]) , 
+CPlacement3D plWeapon ;
 #line 994 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ANGLE3D (AngleDeg  (wpn_fH  [ iWeaponData  ]) , 
+if(m_iCurrentWeapon  == WEAPON_CHAINSAW ){
 #line 995 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AngleDeg  (wpn_fP  [ iWeaponData  ]) , 
+CPlayer  * plPlayer  = (CPlayer  *) & * m_penPlayer ;
 #line 996 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AngleDeg  (wpn_fB  [ iWeaponData  ])));
+plWeapon  = CPlacement3D (FLOAT3D (wpn_fX  [ iWeaponData  ] + plPlayer  -> m_fChainsawShakeDX  * 0.35f , 
 #line 997 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
+wpn_fY  [ iWeaponData  ] + plPlayer  -> m_fChainsawShakeDY  * 0.35f , 
 #line 998 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plWeapon  = CPlacement3D (FLOAT3D (wpn_fX  [ iWeaponData  ] , 
-#line 999 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-wpn_fY  [ iWeaponData  ] , 
-#line 1000 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 wpn_fZ  [ iWeaponData  ]) , 
-#line 1001 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 999 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ANGLE3D (AngleDeg  (wpn_fH  [ iWeaponData  ]) , 
-#line 1002 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1000 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 AngleDeg  (wpn_fP  [ iWeaponData  ]) , 
-#line 1003 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1001 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 AngleDeg  (wpn_fB  [ iWeaponData  ])));
+#line 1002 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else {
+#line 1003 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plWeapon  = CPlacement3D (FLOAT3D (wpn_fX  [ iWeaponData  ] , 
 #line 1004 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+wpn_fY  [ iWeaponData  ] , 
+#line 1005 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+wpn_fZ  [ iWeaponData  ]) , 
+#line 1006 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ANGLE3D (AngleDeg  (wpn_fH  [ iWeaponData  ]) , 
 #line 1007 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-UBYTE  ubLR  , ubLG  , ubLB  , ubAR  , ubAG  , ubAB ;
+AngleDeg  (wpn_fP  [ iWeaponData  ]) , 
 #line 1008 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ColorToRGB  (colViewerLight  , ubLR  , ubLG  , ubLB );
+AngleDeg  (wpn_fB  [ iWeaponData  ])));
 #line 1009 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ColorToRGB  (colViewerAmbient  , ubAR  , ubAG  , ubAB );
-#line 1010 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iMinDL  = Min  (Min  (ubLR  , ubLG ) , ubLB ) - 32;
-#line 1011 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iMinDA  = Min  (Min  (ubAR  , ubAG ) , ubAB ) - 32;
-#line 1012 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iMinDL  < 0){
-#line 1013 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ubLR  = ClampUp  (ubLR  - iMinDL  , (INDEX) 255);
-#line 1014 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ubLG  = ClampUp  (ubLG  - iMinDL  , (INDEX) 255);
-#line 1015 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ubLB  = ClampUp  (ubLB  - iMinDL  , (INDEX) 255);
-#line 1016 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
+#line 1012 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+UBYTE  ubLR  , ubLG  , ubLB  , ubAR  , ubAG  , ubAB ;
+#line 1013 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ColorToRGB  (colViewerLight  , ubLR  , ubLG  , ubLB );
+#line 1014 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ColorToRGB  (colViewerAmbient  , ubAR  , ubAG  , ubAB );
+#line 1015 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iMinDL  = Min  (Min  (ubLR  , ubLG ) , ubLB ) - 32;
+#line 1016 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iMinDA  = Min  (Min  (ubAR  , ubAG ) , ubAB ) - 32;
 #line 1017 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iMinDA  < 0){
+if(iMinDL  < 0){
 #line 1018 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ubAR  = ClampUp  (ubAR  - iMinDA  , (INDEX) 255);
+ubLR  = ClampUp  (ubLR  - iMinDL  , (INDEX) 255);
 #line 1019 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ubAG  = ClampUp  (ubAG  - iMinDA  , (INDEX) 255);
+ubLG  = ClampUp  (ubLG  - iMinDL  , (INDEX) 255);
 #line 1020 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ubAB  = ClampUp  (ubAB  - iMinDA  , (INDEX) 255);
+ubLB  = ClampUp  (ubLB  - iMinDL  , (INDEX) 255);
 #line 1021 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 1022 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const COLOR colLight  = RGBToColor  (ubLR  , ubLG  , ubLB );
+if(iMinDA  < 0){
 #line 1023 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const COLOR colAmbient  = RGBToColor  (ubAR  , ubAG  , ubAB );
+ubAR  = ClampUp  (ubAR  - iMinDA  , (INDEX) 255);
 #line 1024 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT tmNow  = _pTimer  -> GetLerpedCurrentTick  ();
+ubAG  = ClampUp  (ubAG  - iMinDA  , (INDEX) 255);
+#line 1025 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ubAB  = ClampUp  (ubAB  - iMinDA  , (INDEX) 255);
 #line 1026 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-UBYTE  ubBlend  = INVISIBILITY_ALPHA_LOCAL ;
+}
 #line 1027 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT tmInvisibility  = ((CPlayer  *) & * m_penPlayer ) -> m_tmInvisibility ;
+const COLOR colLight  = RGBToColor  (ubLR  , ubLG  , ubLB );
 #line 1028 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT tmSeriousDamage  = ((CPlayer  *) & * m_penPlayer ) -> m_tmSeriousDamage ;
+const COLOR colAmbient  = RGBToColor  (ubAR  , ubAG  , ubAB );
 #line 1029 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT tmInvulnerability  = ((CPlayer  *) & * m_penPlayer ) -> m_tmInvulnerability ;
-#line 1030 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(tmInvisibility  > tmNow ){
+const FLOAT tmNow  = _pTimer  -> GetLerpedCurrentTick  ();
 #line 1031 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fIntensity  = 0.0f;
+UBYTE  ubBlend  = INVISIBILITY_ALPHA_LOCAL ;
 #line 1032 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if((tmInvisibility  - tmNow ) < 3.0f)
+FLOAT tmInvisibility  = ((CPlayer  *) & * m_penPlayer ) -> m_tmInvisibility ;
 #line 1033 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+FLOAT tmSeriousDamage  = ((CPlayer  *) & * m_penPlayer ) -> m_tmSeriousDamage ;
 #line 1034 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fIntensity  = 0.5f - 0.5f * cos  ((tmInvisibility  - tmNow ) * (6.0f * 3.1415927f / 3.0f));
+FLOAT tmInvulnerability  = ((CPlayer  *) & * m_penPlayer ) -> m_tmInvulnerability ;
 #line 1035 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ubBlend  = (INDEX) (INVISIBILITY_ALPHA_LOCAL  + (FLOAT) (254 - INVISIBILITY_ALPHA_LOCAL ) * fIntensity );
-#line 1036 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1037 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1078 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iWeaponData  == WEAPON_MINIGUN ){RotateMinigun  ();}
-#line 1081 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CRenderModel  rmMain ;
-#line 1082 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-prProjection  . ViewerPlacementL  () = plView ;
-#line 1083 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-prProjection  . FrontClipDistanceL  () = wpn_fClip  [ iWeaponData  ];
-#line 1084 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-prProjection  . DepthBufferNearL  () = 0.0f;
-#line 1085 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-prProjection  . DepthBufferFarL  () = 0.1f;
-#line 1086 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPerspectiveProjection3D  &) prProjection ) . FOVL  () = AngleDeg  (wpn_fFOV  [ iWeaponData  ]);
-#line 1088 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CAnyProjection3D  apr ;
-#line 1089 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-apr  = prProjection ;
-#line 1090 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Stereo_AdjustProjection  (* apr  , iEye  , 0.1f);
-#line 1091 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BeginModelRenderingView  (apr  , pdp );
-#line 1093 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponMovingOffset  (plWeapon  . pl_PositionVector );
-#line 1094 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plWeapon  . RelativeToAbsoluteSmooth  (plView );
-#line 1095 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-rmMain  . SetObjectPlacement  (plWeapon );
-#line 1097 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-rmMain  . rm_colLight  = colLight ;
-#line 1098 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-rmMain  . rm_colAmbient  = colAmbient ;
-#line 1099 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-rmMain  . rm_vLightDirection  = vViewerLightDirection ;
-#line 1100 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-rmMain  . rm_ulFlags  |= RMF_WEAPON ;
-#line 1101 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(tmInvisibility  > tmNow ){
-#line 1102 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-rmMain  . rm_colBlend  = (rmMain  . rm_colBlend  & 0xffffff00) | ubBlend ;
-#line 1103 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1036 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fIntensity  = 0.0f;
+#line 1037 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if((tmInvisibility  - tmNow ) < 3.0f)
+#line 1038 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 1039 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+fIntensity  = 0.5f - 0.5f * cos  ((tmInvisibility  - tmNow ) * (6.0f * 3.1415927f / 3.0f));
+#line 1040 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ubBlend  = (INDEX) (INVISIBILITY_ALPHA_LOCAL  + (FLOAT) (254 - INVISIBILITY_ALPHA_LOCAL ) * fIntensity );
+#line 1041 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
+#line 1042 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1083 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(iWeaponData  == WEAPON_MINIGUN ){RotateMinigun  ();}
+#line 1086 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CRenderModel  rmMain ;
+#line 1087 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+prProjection  . ViewerPlacementL  () = plView ;
+#line 1088 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+prProjection  . FrontClipDistanceL  () = wpn_fClip  [ iWeaponData  ];
+#line 1089 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+prProjection  . DepthBufferNearL  () = 0.0f;
+#line 1090 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+prProjection  . DepthBufferFarL  () = 0.1f;
+#line 1091 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPerspectiveProjection3D  &) prProjection ) . FOVL  () = AngleDeg  (wpn_fFOV  [ iWeaponData  ]);
+#line 1093 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CAnyProjection3D  apr ;
+#line 1094 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+apr  = prProjection ;
+#line 1095 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Stereo_AdjustProjection  (* apr  , iEye  , 0.1f);
+#line 1096 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+BeginModelRenderingView  (apr  , pdp );
+#line 1098 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+WeaponMovingOffset  (plWeapon  . pl_PositionVector );
+#line 1099 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plWeapon  . RelativeToAbsoluteSmooth  (plView );
+#line 1100 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+rmMain  . SetObjectPlacement  (plWeapon );
+#line 1102 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+rmMain  . rm_colLight  = colLight ;
+#line 1103 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+rmMain  . rm_colAmbient  = colAmbient ;
+#line 1104 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+rmMain  . rm_vLightDirection  = vViewerLightDirection ;
 #line 1105 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . SetupModelRendering  (rmMain );
+rmMain  . rm_ulFlags  |= RMF_WEAPON ;
 #line 1106 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . RenderModel  (rmMain );
+if(tmInvisibility  > tmNow ){
+#line 1107 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+rmMain  . rm_colBlend  = (rmMain  . rm_colBlend  & 0xffffff00) | ubBlend ;
 #line 1108 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(tmSeriousDamage  > tmNow  && tmInvulnerability  > tmNow ){
-#line 1109 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Particle_PrepareSystem  (pdp  , apr );
+}
 #line 1110 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Particle_PrepareEntity  (1 , 0 , 0 , NULL );
+m_moWeapon  . SetupModelRendering  (rmMain );
 #line 1111 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Particles_ModelGlow2  (& m_moWeapon  , plWeapon  , tmInvulnerability  , PT_STAR05  , 0.025f , 2 , 0.01f , 0x57a63900);
-#line 1112 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Particle_EndSystem  ();
+m_moWeapon  . RenderModel  (rmMain );
 #line 1113 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(tmInvulnerability  > tmNow ){
+if(tmSeriousDamage  > tmNow  && tmInvulnerability  > tmNow ){
 #line 1114 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Particle_PrepareSystem  (pdp  , apr );
 #line 1115 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Particle_PrepareEntity  (1 , 0 , 0 , NULL );
 #line 1116 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Particles_ModelGlow2  (& m_moWeapon  , plWeapon  , tmInvulnerability  , PT_STAR05  , 0.025f , 2 , 0.01f , 0x3333ff00);
+Particles_ModelGlow2  (& m_moWeapon  , plWeapon  , tmInvulnerability  , PT_STAR05  , 0.025f , 2 , 0.01f , 0x57a63900);
 #line 1117 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Particle_EndSystem  ();
 #line 1118 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(tmSeriousDamage  > tmNow ){
+}else if(tmInvulnerability  > tmNow ){
 #line 1119 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Particle_PrepareSystem  (pdp  , apr );
 #line 1120 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Particle_PrepareEntity  (1 , 0 , 0 , NULL );
 #line 1121 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Particles_ModelGlow2  (& m_moWeapon  , plWeapon  , tmSeriousDamage  , PT_STAR08  , 0.025f , 2 , 0.01f , 0xff777700);
+Particles_ModelGlow2  (& m_moWeapon  , plWeapon  , tmInvulnerability  , PT_STAR05  , 0.025f , 2 , 0.01f , 0x3333ff00);
 #line 1122 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Particle_EndSystem  ();
 #line 1123 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+}else if(tmSeriousDamage  > tmNow ){
+#line 1124 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Particle_PrepareSystem  (pdp  , apr );
 #line 1125 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-EndModelRenderingView  ();
+Particle_PrepareEntity  (1 , 0 , 0 , NULL );
+#line 1126 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Particles_ModelGlow2  (& m_moWeapon  , plWeapon  , tmSeriousDamage  , PT_STAR08  , 0.025f , 2 , 0.01f , 0xff777700);
+#line 1127 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Particle_EndSystem  ();
 #line 1128 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPerspectiveProjection3D  &) prProjection ) . FOVL  () = fFOV ;
-#line 1129 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-  
+#line 1130 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+EndModelRenderingView  ();
 #line 1133 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::WeaponMovingOffset(FLOAT3D & plPos) 
+((CPerspectiveProjection3D  &) prProjection ) . FOVL  () = fFOV ;
 #line 1134 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 1135 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayerAnimator  & plan  = (CPlayerAnimator  &) * ((CPlayer  &) * m_penPlayer ) . m_penAnimator ;
-#line 1136 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fXOffset  = Lerp  (plan  . m_fMoveLastBanking  , plan  . m_fMoveBanking  , _pTimer  -> GetLerpFactor  ()) * - 0.02f;
-#line 1137 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fYOffset  = Lerp  (plan  . m_fWeaponYLastOffset  , plan  . m_fWeaponYOffset  , _pTimer  -> GetLerpFactor  ()) * 0.15f;
-#line 1138 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fYOffset  += (fXOffset  * fXOffset ) * 30.0f;
-#line 1139 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  (1) += fXOffset ;
-#line 1140 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  (2) += fYOffset ;
-#line 1142 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iCurrentWeapon  == WEAPON_GRENADELAUNCHER )
-#line 1143 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 1145 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CAttachmentModelObject  * amo  = m_moWeapon  . GetAttachmentModel  (GRENADELAUNCHER_ATTACHMENT_MOVING_PART );
-#line 1146 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fLerpedMovement  = Lerp  (m_fWeaponDrawPowerOld  , m_fWeaponDrawPower  , _pTimer  -> GetLerpFactor  ());
-#line 1147 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-amo  -> amo_plRelative  . pl_PositionVector  (3) = fLerpedMovement ;
-#line 1148 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  (3) += fLerpedMovement  / 2.0f;
-#line 1149 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_tmDrawStartTime  != 0.0f)
-#line 1150 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 1151 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT tmPassed  = _pTimer  -> GetLerpedCurrentTick  () - m_tmDrawStartTime ;
-#line 1152 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  (1) += Sin  (tmPassed  * 360.0f * 10) * 0.0125f * tmPassed  / 6.0f;
-#line 1153 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  (2) += Sin  (tmPassed  * 270.0f * 8) * 0.01f * tmPassed  / 6.0f;
-#line 1154 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1155 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1157 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-else if((m_iCurrentWeapon  == WEAPON_IRONCANNON )
-#line 1158 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-)
-#line 1159 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 1160 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fLerpedMovement  = Lerp  (m_fWeaponDrawPowerOld  , m_fWeaponDrawPower  , _pTimer  -> GetLerpFactor  ());
-#line 1161 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  (3) += fLerpedMovement ;
-#line 1162 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_tmDrawStartTime  != 0.0f)
-#line 1163 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 1164 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT tmPassed  = _pTimer  -> GetLerpedCurrentTick  () - m_tmDrawStartTime ;
-#line 1165 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  (1) += Sin  (tmPassed  * 360.0f * 10) * 0.0125f * tmPassed  / 2.0f;
-#line 1166 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  (2) += Sin  (tmPassed  * 270.0f * 8) * 0.01f * tmPassed  / 2.0f;
-#line 1167 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1168 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1169 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 1172 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::CheckTargetPrediction(CEntity * penTarget) 
-#line 1173 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1138 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::WeaponMovingOffset(FLOAT3D & plPos) 
+#line 1139 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 1175 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(! penTarget  -> IsPredictable  ()){
+#line 1140 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlayerAnimator  & plan  = (CPlayerAnimator  &) * ((CPlayer  &) * m_penPlayer ) . m_penAnimator ;
+#line 1141 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fXOffset  = Lerp  (plan  . m_fMoveLastBanking  , plan  . m_fMoveBanking  , _pTimer  -> GetLerpFactor  ()) * - 0.02f;
+#line 1142 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fYOffset  = Lerp  (plan  . m_fWeaponYLastOffset  , plan  . m_fWeaponYOffset  , _pTimer  -> GetLerpFactor  ()) * 0.15f;
+#line 1143 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+fYOffset  += (fXOffset  * fXOffset ) * 30.0f;
+#line 1144 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  (1) += fXOffset ;
+#line 1145 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  (2) += fYOffset ;
+#line 1147 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iCurrentWeapon  == WEAPON_GRENADELAUNCHER )
+#line 1148 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 1150 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CAttachmentModelObject  * amo  = m_moWeapon  . GetAttachmentModel  (GRENADELAUNCHER_ATTACHMENT_MOVING_PART );
+#line 1151 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fLerpedMovement  = Lerp  (m_fWeaponDrawPowerOld  , m_fWeaponDrawPower  , _pTimer  -> GetLerpFactor  ());
+#line 1152 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+amo  -> amo_plRelative  . pl_PositionVector  (3) = fLerpedMovement ;
+#line 1153 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  (3) += fLerpedMovement  / 2.0f;
+#line 1154 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_tmDrawStartTime  != 0.0f)
+#line 1155 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 1156 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT tmPassed  = _pTimer  -> GetLerpedCurrentTick  () - m_tmDrawStartTime ;
+#line 1157 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  (1) += Sin  (tmPassed  * 360.0f * 10) * 0.0125f * tmPassed  / 6.0f;
+#line 1158 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  (2) += Sin  (tmPassed  * 270.0f * 8) * 0.01f * tmPassed  / 6.0f;
+#line 1159 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1160 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1162 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+else if((m_iCurrentWeapon  == WEAPON_IRONCANNON )
+#line 1163 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+)
+#line 1164 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 1165 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fLerpedMovement  = Lerp  (m_fWeaponDrawPowerOld  , m_fWeaponDrawPower  , _pTimer  -> GetLerpFactor  ());
+#line 1166 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  (3) += fLerpedMovement ;
+#line 1167 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_tmDrawStartTime  != 0.0f)
+#line 1168 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 1169 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT tmPassed  = _pTimer  -> GetLerpedCurrentTick  () - m_tmDrawStartTime ;
+#line 1170 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  (1) += Sin  (tmPassed  * 360.0f * 10) * 0.0125f * tmPassed  / 2.0f;
+#line 1171 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  (2) += Sin  (tmPassed  * 270.0f * 8) * 0.01f * tmPassed  / 2.0f;
+#line 1172 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1173 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1174 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
 #line 1177 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return ;
+void CPlayerWeapons::CheckTargetPrediction(CEntity * penTarget) 
 #line 1178 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+{
 #line 1180 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-extern  FLOAT cli_tmPredictFoe ;
-#line 1181 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-extern  FLOAT cli_tmPredictAlly ;
+if(! penTarget  -> IsPredictable  ()){
 #line 1182 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-extern  FLOAT cli_tmPredictEnemy ;
+return ;
+#line 1183 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
 #line 1185 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CEntity  * penMe  = GetPlayer  ();
+extern  FLOAT cli_tmPredictFoe ;
 #line 1186 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(IsPredictor  ()){
+extern  FLOAT cli_tmPredictAlly ;
 #line 1187 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-penMe  = penMe  -> GetPredicted  ();
-#line 1188 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1189 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CEntity  * penYou  = penTarget ;
+extern  FLOAT cli_tmPredictEnemy ;
 #line 1190 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(penYou  -> IsPredictor  ()){
+CEntity  * penMe  = GetPlayer  ();
 #line 1191 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-penYou  = penYou  -> GetPredicted  ();
+if(IsPredictor  ()){
 #line 1192 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+penMe  = penMe  -> GetPredicted  ();
+#line 1193 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
+#line 1194 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CEntity  * penYou  = penTarget ;
 #line 1195 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(IsOfClass  (penYou  , "Player")){
+if(penYou  -> IsPredictor  ()){
+#line 1196 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+penYou  = penYou  -> GetPredicted  ();
 #line 1197 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(GetSP  () -> sp_bCooperative ){
-#line 1199 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(cli_tmPredictAlly  > 0 && _pNetwork  -> IsPlayerLocal  (penMe )){
-#line 1201 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-penYou  -> SetPredictionTime  (cli_tmPredictAlly );
+}
+#line 1200 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(IsOfClass  (penYou  , "Player")){
 #line 1202 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+if(GetSP  () -> sp_bCooperative ){
 #line 1204 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
+if(cli_tmPredictAlly  > 0 && _pNetwork  -> IsPlayerLocal  (penMe )){
 #line 1206 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(cli_tmPredictFoe  > 0){
-#line 1208 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (penMe )){
-#line 1210 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-penYou  -> SetPredictionTime  (cli_tmPredictFoe );
-#line 1211 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+penYou  -> SetPredictionTime  (cli_tmPredictAlly );
+#line 1207 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
+#line 1209 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else {
+#line 1211 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(cli_tmPredictFoe  > 0){
 #line 1213 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (penYou )){
+if(_pNetwork  -> IsPlayerLocal  (penMe )){
 #line 1215 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-penMe  -> SetPredictionTime  (cli_tmPredictFoe );
+penYou  -> SetPredictionTime  (cli_tmPredictFoe );
 #line 1216 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 1217 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
 #line 1218 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1219 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
+if(_pNetwork  -> IsPlayerLocal  (penYou )){
+#line 1220 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+penMe  -> SetPredictionTime  (cli_tmPredictFoe );
 #line 1221 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(cli_tmPredictEnemy  > 0 && IsDerivedFromClass  (penYou  , "Enemy Base")){
+}
+#line 1222 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
 #line 1223 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (penMe )){
-#line 1225 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-penYou  -> SetPredictionTime  (cli_tmPredictEnemy );
+}
+#line 1224 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else {
 #line 1226 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1227 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+if(cli_tmPredictEnemy  > 0 && IsDerivedFromClass  (penYou  , "Enemy Base")){
 #line 1228 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(_pNetwork  -> IsPlayerLocal  (penMe )){
+#line 1230 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+penYou  -> SetPredictionTime  (cli_tmPredictEnemy );
+#line 1231 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 1229 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1232 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1233 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1234 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 1232 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::UpdateTargetingInfo(void) 
-#line 1233 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 1235 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plCrosshair ;
-#line 1236 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fFX  = wpn_fFX  [ m_iCurrentWeapon  ];
 #line 1237 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fFY  = wpn_fFY  [ m_iCurrentWeapon  ];
+void CPlayerWeapons::UpdateTargetingInfo(void) 
 #line 1238 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(GetPlayer  () -> m_iViewState  == PVT_3RDPERSONVIEW ){
-#line 1239 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fFX  = fFY  = 0;
-#line 1240 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1241 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPosition  (FLOAT3D (fFX  , fFY  , 0) , plCrosshair  , FALSE );
-#line 1243 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CCastRay  crRay  (m_penPlayer  , plCrosshair );
-#line 1244 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-crRay  . cr_bHitTranslucentPortals  = FALSE ;
-#line 1245 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-crRay  . cr_bPhysical  = FALSE ;
-#line 1246 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-crRay  . cr_ttHitModels  = CCastRay  :: TT_COLLISIONBOX ;
-#line 1247 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-GetWorld  () -> CastRay  (crRay );
-#line 1249 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_vRayHitLast  = m_vRayHit ;
-#line 1250 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_vRayHit  = crRay  . cr_vHit ;
-#line 1251 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_penRayHit  = crRay  . cr_penHit ;
-#line 1252 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fRayHitDistance  = crRay  . cr_fHitDistance ;
-#line 1253 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fEnemyHealth  = 0.0f;
-#line 1256 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-TIME  tmNow  = _pTimer  -> CurrentTick  ();
-#line 1257 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_penRayHit  != NULL )
-#line 1258 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 1259 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CEntity  * pen  = m_penRayHit ;
+#line 1240 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlacement3D plCrosshair ;
+#line 1241 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fFX  = wpn_fFX  [ m_iCurrentWeapon  ];
+#line 1242 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fFY  = wpn_fFY  [ m_iCurrentWeapon  ];
+#line 1243 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(GetPlayer  () -> m_iViewState  == PVT_3RDPERSONVIEW ){
+#line 1244 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+fFX  = fFY  = 0;
+#line 1245 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1246 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CalcWeaponPosition  (FLOAT3D (fFX  , fFY  , 0) , plCrosshair  , FALSE );
+#line 1248 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CCastRay  crRay  (m_penPlayer  , plCrosshair );
+#line 1249 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+crRay  . cr_bHitTranslucentPortals  = FALSE ;
+#line 1250 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+crRay  . cr_bPhysical  = FALSE ;
+#line 1251 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+crRay  . cr_ttHitModels  = CCastRay  :: TT_COLLISIONBOX ;
+#line 1252 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+GetWorld  () -> CastRay  (crRay );
+#line 1254 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_vRayHitLast  = m_vRayHit ;
+#line 1255 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_vRayHit  = crRay  . cr_vHit ;
+#line 1256 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_penRayHit  = crRay  . cr_penHit ;
+#line 1257 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_fRayHitDistance  = crRay  . cr_fHitDistance ;
+#line 1258 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_fEnemyHealth  = 0.0f;
 #line 1261 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(pen  -> GetFlags  () & ENF_ALIVE )
+TIME  tmNow  = _pTimer  -> CurrentTick  ();
 #line 1262 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_penRayHit  != NULL )
+#line 1263 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
 #line 1264 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CheckTargetPrediction  (pen );
+CEntity  * pen  = m_penRayHit ;
+#line 1266 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(pen  -> GetFlags  () & ENF_ALIVE )
 #line 1267 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(IsOfClass  (pen  , "Player")){
+{
 #line 1269 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_tmTargetingStarted  == 0){
-#line 1270 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_penTargeting  = pen ;
-#line 1271 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_tmTargetingStarted  = tmNow ;
+CheckTargetPrediction  (pen );
 #line 1272 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+if(IsOfClass  (pen  , "Player")){
 #line 1274 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fEnemyHealth  = ((CPlayer  *) pen ) -> GetHealth  () / ((CPlayer  *) pen ) -> m_fMaxHealth ;
+if(m_tmTargetingStarted  == 0){
 #line 1275 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_strLastTarget  . PrintF  ("%s" , ((CPlayer  *) pen ) -> GetPlayerName  ());
+m_penTargeting  = pen ;
 #line 1276 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(GetSP  () -> sp_gmGameMode  == CSessionProperties  :: GM_SCOREMATCH ){
-#line 1278 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CTString strMana  = "";
+m_tmTargetingStarted  = tmNow ;
+#line 1277 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
 #line 1279 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-strMana  . PrintF  (" (%d)" , ((CPlayer  *) pen ) -> m_iMana );
+m_fEnemyHealth  = ((CPlayer  *) pen ) -> GetHealth  () / ((CPlayer  *) pen ) -> m_fMaxHealth ;
 #line 1280 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_strLastTarget  += strMana ;
+m_strLastTarget  . PrintF  ("%s" , ((CPlayer  *) pen ) -> GetPlayerName  ());
 #line 1281 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1282 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(hud_bShowPlayerName ){m_tmLastTarget  = tmNow  + 1.5f;}
+if(GetSP  () -> sp_gmGameMode  == CSessionProperties  :: GM_SCOREMATCH ){
 #line 1283 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+CTString strMana  = "";
+#line 1284 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+strMana  . PrintF  (" (%d)" , ((CPlayer  *) pen ) -> m_iMana );
 #line 1285 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-else {
+m_strLastTarget  += strMana ;
+#line 1286 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
 #line 1287 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_tmTargetingStarted  = 0;
+if(hud_bShowPlayerName ){m_tmLastTarget  = tmNow  + 1.5f;}
 #line 1288 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 1290 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(IsDerivedFromClass  (pen  , "Enemy Base")){
-#line 1291 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fEnemyHealth  = ((CEnemyBase  *) pen ) -> GetHealth  () / ((CEnemyBase  *) pen ) -> m_fMaxHealth ;
-#line 1292 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1294 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_bFireWeapon  || m_bAltFire ){m_tmTargetingStarted  = 0;}
-#line 1295 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1297 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-else 
-#line 1298 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 1300 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_tmTargetingStarted  = 0;
-#line 1303 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(IsOfClass  (pen  , "Moving Brush") && ((CMovingBrush  &) * pen ) . m_penSwitch  != NULL ){
-#line 1304 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pen  = ((CMovingBrush  &) * pen ) . m_penSwitch ;
-#line 1305 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1307 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(IsOfClass  (pen  , "Switch") && m_fRayHitDistance  < 2.0f){
-#line 1308 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CSwitch  & enSwitch  = (CSwitch  &) * pen ;
-#line 1310 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(enSwitch  . m_bUseable ){
-#line 1312 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(enSwitch  . m_strMessage  != ""){m_strLastTarget  = enSwitch  . m_strMessage ;}
-#line 1313 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-else {m_strLastTarget  = TRANS  ("Use");}
-#line 1314 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_tmLastTarget  = tmNow  + 0.5f;
-#line 1316 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1317 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1319 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(IsOfClass  (pen  , "MessageHolder") 
-#line 1320 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-&& m_fRayHitDistance  < ((CMessageHolder  *) & * pen ) -> m_fDistance  
-#line 1321 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-&& ((CMessageHolder  *) & * pen ) -> m_bActive ){
-#line 1322 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const CTFileName & fnmMessage  = ((CMessageHolder  *) & * pen ) -> m_fnmMessage ;
-#line 1324 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 1325 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(! pl  . HasMessage  (fnmMessage )){
-#line 1327 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_strLastTarget  = TRANS  ("Analyze");
-#line 1328 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_tmLastTarget  = tmNow  + 0.5f;
-#line 1329 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1330 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1331 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1332 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1334 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 else {
-#line 1336 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1292 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_tmTargetingStarted  = 0;
-#line 1338 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vDir  = crRay  . cr_vTarget  - crRay  . cr_vOrigin ;
-#line 1339 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vDir  . Normalize  ();
-#line 1340 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_vRayHit  = crRay  . cr_vOrigin  + vDir  * 50.0f;
-#line 1341 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1293 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 1344 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-TIME  tmDelta  = tmNow  - m_tmTargetingStarted ;
-#line 1345 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_tmTargetingStarted  > 0 && plr_tmSnoopingDelay  > 0 && tmDelta  > plr_tmSnoopingDelay ){
-#line 1346 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_tmSnoopingStarted  = tmNow ;
-#line 1347 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1295 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(IsDerivedFromClass  (pen  , "Enemy Base")){
+#line 1296 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_fEnemyHealth  = ((CEnemyBase  *) pen ) -> GetHealth  () / ((CEnemyBase  *) pen ) -> m_fMaxHealth ;
+#line 1297 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 1348 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1299 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_bFireWeapon  || m_bAltFire ){m_tmTargetingStarted  = 0;}
+#line 1300 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-  
-#line 1353 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::RenderCrosshair(CProjection3D & prProjection,CDrawPort * pdp,CPlacement3D & plViewSource) 
-#line 1354 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 1355 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iCrossHair  = GetPlayer  () -> GetSettings  () -> ps_iCrossHairType  + 1;
-#line 1358 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iCrossHair  <= 0){
-#line 1359 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iCrossHair  = 0;
-#line 1360 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-_iLastCrosshairType  = 0;
-#line 1361 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1364 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_iLastCrosshairType  != iCrossHair ){
-#line 1365 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-_iLastCrosshairType  = iCrossHair ;
-#line 1366 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CTString fnCrosshair ;
-#line 1367 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fnCrosshair  . PrintF  ("Textures\\Interface\\Crosshairs\\Crosshair%d.tex" , iCrossHair );
-#line 1368 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-try {
-#line 1370 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-_toCrosshair  . SetData_t  (fnCrosshair );
-#line 1371 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}catch  (char  * strError ){
-#line 1373 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPrintF  (strError );
-#line 1374 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iCrossHair  = 0;
-#line 1375 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return ;
-#line 1376 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1377 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1378 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-COLOR colCrosshair  = C_WHITE ;
-#line 1379 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-TIME  tmNow  = _pTimer  -> CurrentTick  ();
-#line 1382 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vOnScreen ;
-#line 1383 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fDistance  = m_fRayHitDistance ;
-#line 1385 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT3D vRayHit  = m_vRayHit ;
-#line 1387 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_penRayHit  != NULL ){
-#line 1389 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CEntity  * pen  = m_penRayHit ;
-#line 1391 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-prProjection  . ViewerPlacementL  () = plViewSource ;
-#line 1392 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-prProjection  . ObjectPlacementL  () = CPlacement3D (FLOAT3D (0.0f , 0.0f , 0.0f) , ANGLE3D (0 , 0 , 0));
-#line 1393 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-prProjection  . Prepare  ();
-#line 1394 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-prProjection  . ProjectCoordinate  (vRayHit  , vOnScreen );
-#line 1396 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(hud_bCrosshairColoring  && m_fEnemyHealth  > 0){
-#line 1397 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_fEnemyHealth  < 0.25f){colCrosshair  = C_RED ;}
-#line 1398 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-else if(m_fEnemyHealth  < 0.60f){colCrosshair  = C_YELLOW ;}
-#line 1399 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-else {colCrosshair  = C_GREEN ;}
-#line 1400 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1401 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1403 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1302 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 else 
-#line 1404 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1303 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 1406 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vOnScreen  (1) = (FLOAT) pdp  -> GetWidth  () * 0.5f;
-#line 1407 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vOnScreen  (2) = (FLOAT) pdp  -> GetHeight  () * 0.5f;
-#line 1408 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fDistance  = 100.0f;
-#line 1409 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1305 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_tmTargetingStarted  = 0;
+#line 1308 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(IsOfClass  (pen  , "Moving Brush") && ((CMovingBrush  &) * pen ) . m_penSwitch  != NULL ){
+#line 1309 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pen  = ((CMovingBrush  &) * pen ) . m_penSwitch ;
+#line 1310 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 1412 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(hud_bCrosshairFixed  || GetPlayer  () -> m_iViewState  == PVT_3RDPERSONVIEW ){
-#line 1414 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vOnScreen  (1) = (FLOAT) pdp  -> GetWidth  () * 0.5f;
-#line 1415 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vOnScreen  (2) = (FLOAT) pdp  -> GetHeight  () * 0.5f;
-#line 1417 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1312 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(IsOfClass  (pen  , "Switch") && m_fRayHitDistance  < 2.0f){
+#line 1313 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CSwitch  & enSwitch  = (CSwitch  &) * pen ;
+#line 1315 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(enSwitch  . m_bUseable ){
+#line 1317 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(enSwitch  . m_strMessage  != ""){m_strLastTarget  = enSwitch  . m_strMessage ;}
+#line 1318 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+else {m_strLastTarget  = TRANS  ("Use");}
+#line 1319 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_tmLastTarget  = tmNow  + 0.5f;
+#line 1321 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 1420 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-hud_fCrosshairScale  = Clamp  (hud_fCrosshairScale  , 0.1f , 2.0f);
-#line 1421 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-hud_fCrosshairRatio  = Clamp  (hud_fCrosshairRatio  , 0.1f , 1.0f);
-#line 1422 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-hud_fCrosshairOpacity  = Clamp  (hud_fCrosshairOpacity  , 0.1f , 1.0f);
-#line 1423 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const ULONG  ulAlpha  = NormFloatToByte  (hud_fCrosshairOpacity );
-#line 1425 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iCrossHair  > 0){
-#line 1427 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT fMinD  = 1.0f;
-#line 1428 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT fMaxD  = 100.0f;
-#line 1429 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fDistance  = Clamp  (fDistance  , fMinD  , fMaxD );
-#line 1430 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT fRatio  = (fDistance  - fMinD ) / (fMaxD  - fMinD );
-#line 1431 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT fMaxSize  = (FLOAT) pdp  -> GetWidth  () / 640.0f;
-#line 1432 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT fMinSize  = fMaxSize  * hud_fCrosshairRatio ;
-#line 1433 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT fSize  = 16 * Lerp  (fMaxSize  , fMinSize  , fRatio ) * hud_fCrosshairScale ;
-#line 1435 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT fI0  = + (PIX ) vOnScreen  (1) - fSize ;
-#line 1436 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT fI1  = + (PIX ) vOnScreen  (1) + fSize ;
-#line 1437 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT fJ0  = - (PIX ) vOnScreen  (2) - fSize  + pdp  -> GetHeight  ();
-#line 1438 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT fJ1  = - (PIX ) vOnScreen  (2) + fSize  + pdp  -> GetHeight  ();
-#line 1439 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pdp  -> InitTexture  (& _toCrosshair );
-#line 1440 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pdp  -> AddTexture  (fI0  , fJ0  , fI1  , fJ1  , colCrosshair  | ulAlpha );
-#line 1441 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pdp  -> FlushRenderingQueue  ();
-#line 1442 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1322 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 1445 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-TIME  tmDelta  = m_tmLastTarget  - tmNow ;
-#line 1446 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(tmDelta  > 0 && m_strLastTarget  != TRANS  ("Use")){
-#line 1448 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SLONG  slDPWidth  = pdp  -> GetWidth  ();
-#line 1449 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SLONG  slDPHeight  = pdp  -> GetHeight  ();
-#line 1450 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fScaling  = (FLOAT) slDPWidth  / 640.0f;
-#line 1452 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pdp  -> SetFont  (_pfdDisplayFont );
-#line 1453 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pdp  -> SetTextScaling  (fScaling );
-#line 1454 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pdp  -> SetTextAspect  (1.0f);
-#line 1456 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ULONG  ulA  = (FLOAT) ulAlpha  * Clamp  (2 * tmDelta  , 0.0f , 1.0f);
-#line 1457 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pdp  -> PutTextC  (m_strLastTarget  , slDPWidth  * 0.5f , slDPHeight  * 0.75f , SE_COL_PURPLE_NEUTRAL  | ulA );
-#line 1458 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1461 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(hud_bShowCoords ){
-#line 1462 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CTString strCoords ;
-#line 1463 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SLONG  slDPWidth  = pdp  -> GetWidth  ();
-#line 1464 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SLONG  slDPHeight  = pdp  -> GetHeight  ();
-#line 1466 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pdp  -> SetFont  (_pfdDisplayFont );
-#line 1467 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pdp  -> SetTextAspect  (1.0f);
-#line 1468 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pdp  -> SetTextScaling  ((FLOAT) slDPWidth  / 640.0f);
-#line 1470 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT fMax  = Max  (Max  (vRayHit  (1) , vRayHit  (2)) , vRayHit  (3));
-#line 1471 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT fMin  = Min  (Min  (vRayHit  (1) , vRayHit  (2)) , vRayHit  (3));
-#line 1472 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(fMax  < + 100000 && fMin  > - 100000){
-#line 1473 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-strCoords  . PrintF  ("%.0f,%.0f,%.0f" , vRayHit  (1) , vRayHit  (2) , vRayHit  (3));
-#line 1474 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pdp  -> PutTextC  (strCoords  , slDPWidth  * 0.5f , slDPHeight  * 0.10f , C_WHITE  | CT_OPAQUE );
-#line 1475 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1476 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1477 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 1485 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::ShowFlare(CModelObject & moWeapon,INDEX iAttachObject,INDEX iAttachFlare,FLOAT fSize) {
-#line 1486 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CModelObject * pmo  = & (moWeapon  . GetAttachmentModel  (iAttachObject ) -> amo_moModelObject );
-#line 1487 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CAttachmentModelObject  * pamo  = pmo  -> GetAttachmentModel  (iAttachFlare );
-#line 1488 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pamo  -> amo_plRelative  . pl_OrientationAngle  (3) = (rand  () * 360.0f) / RAND_MAX ;
-#line 1489 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pmo  = & (pamo  -> amo_moModelObject );
-#line 1490 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pmo  -> StretchModel  (FLOAT3D (fSize  , fSize  , fSize ));
-#line 1491 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 1495 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::HideFlare(CModelObject & moWeapon,INDEX iAttachObject,INDEX iAttachFlare) {
-#line 1496 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CModelObject * pmo  = & (moWeapon  . GetAttachmentModel  (iAttachObject ) -> amo_moModelObject );
-#line 1497 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pmo  = & (pmo  -> GetAttachmentModel  (iAttachFlare ) -> amo_moModelObject );
-#line 1498 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pmo  -> StretchModel  (FLOAT3D (0 , 0 , 0));
-#line 1499 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 1501 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::SetFlare(INDEX iFlare,INDEX iAction) 
-#line 1502 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 1504 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(! IsPredictionHead  ()){
-#line 1506 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return ;
-#line 1507 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1510 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayerWeapons  * pen  = (CPlayerWeapons  *) GetPredictionTail  ();
-#line 1511 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iFlare  == 0){
-#line 1512 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pen  -> m_iFlare  = iAction ;
-#line 1513 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pen  -> GetPlayer  () -> GetPlayerAnimator  () -> m_iFlare  = iAction ;
-#line 1514 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
-#line 1515 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pen  -> m_iSecondFlare  = iAction ;
-#line 1516 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pen  -> GetPlayer  () -> GetPlayerAnimator  () -> m_iSecondFlare  = iAction ;
-#line 1517 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1518 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 1521 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::ControlFlareAttachment(void) {
-#line 1530 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayerWeapons  * pen  = (CPlayerWeapons  *) GetPredictionTail  ();
-#line 1544 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(pen  -> m_iFlare  == FLARE_ADD ){
-#line 1545 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pen  -> m_iFlare  = FLARE_REMOVE ;
-#line 1546 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(m_iCurrentWeapon ){
-#line 1547 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_COLT : 
-#line 1548 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShowFlare  (m_moWeapon  , COLT_ATTACHMENT_COLT  , COLTMAIN_ATTACHMENT_FLARE  , 0.75f);
-#line 1549 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 1550 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLECOLT : 
-#line 1551 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShowFlare  (m_moWeapon  , P90_ATTACHMENT_P90_BODY  , P90_BODY_ATTACHMENT_FLARE  , 0.75f);
-#line 1552 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 1553 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : 
-#line 1554 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShowFlare  (m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_BARRELS  , BARRELS_ATTACHMENT_FLARE  , 1.0f);
-#line 1555 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 1556 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLESHOTGUN : 
-#line 1557 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShowFlare  (m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_BARRELS  , BARRELS_ATTACHMENT_FLARE  , 1.75f);
-#line 1558 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 1559 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : 
-#line 1560 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShowFlare  (m_moWeapon  , TOMMYGUN_ATTACHMENT_BODY  , BODY_ATTACHMENT_FLARE  , 0.5f);
-#line 1561 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 1562 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SNIPER : 
-#line 1563 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShowFlare  (m_moWeapon  , SNIPER_ATTACHMENT_BODY  , BODY_ATTACHMENT_FLARE  , 0.5f);
-#line 1564 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 1565 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_MINIGUN : 
-#line 1566 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShowFlare  (m_moWeapon  , MINIGUN_ATTACHMENT_BODY  , BODY_ATTACHMENT_FLARE  , 1.25f);
-#line 1567 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 1568 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1570 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(pen  -> m_iFlare  == FLARE_REMOVE ){
-#line 1571 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(m_iCurrentWeapon ){
-#line 1572 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_COLT : 
-#line 1573 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-HideFlare  (m_moWeapon  , COLT_ATTACHMENT_COLT  , COLTMAIN_ATTACHMENT_FLARE );
-#line 1574 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 1575 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLECOLT : 
-#line 1576 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-HideFlare  (m_moWeapon  , P90_ATTACHMENT_P90_BODY  , P90_BODY_ATTACHMENT_FLARE );
-#line 1577 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 1578 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : 
-#line 1579 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-HideFlare  (m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_BARRELS  , BARRELS_ATTACHMENT_FLARE );
-#line 1580 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 1581 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLESHOTGUN : 
-#line 1582 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-HideFlare  (m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_BARRELS  , BARRELS_ATTACHMENT_FLARE );
-#line 1583 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 1584 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : 
-#line 1585 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-HideFlare  (m_moWeapon  , TOMMYGUN_ATTACHMENT_BODY  , BODY_ATTACHMENT_FLARE );
-#line 1586 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 1587 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SNIPER : 
-#line 1588 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-HideFlare  (m_moWeapon  , SNIPER_ATTACHMENT_BODY  , BODY_ATTACHMENT_FLARE );
-#line 1589 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 1590 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_MINIGUN : 
-#line 1591 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-HideFlare  (m_moWeapon  , MINIGUN_ATTACHMENT_BODY  , BODY_ATTACHMENT_FLARE );
-#line 1592 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 1593 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1594 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
-#line 1595 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ASSERT  (FALSE );
-#line 1596 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1597 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 1601 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::PlayLightAnim(INDEX iAnim,ULONG ulFlags) {
-#line 1602 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1324 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(IsOfClass  (pen  , "MessageHolder") 
+#line 1325 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+&& m_fRayHitDistance  < ((CMessageHolder  *) & * pen ) -> m_fDistance  
+#line 1326 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+&& ((CMessageHolder  *) & * pen ) -> m_bActive ){
+#line 1327 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const CTFileName & fnmMessage  = ((CMessageHolder  *) & * pen ) -> m_fnmMessage ;
+#line 1329 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 1603 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(pl  . m_aoLightAnimation  . GetData  () != NULL ){
-#line 1604 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pl  . m_aoLightAnimation  . PlayAnim  (iAnim  , ulFlags );
-#line 1605 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1330 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(! pl  . HasMessage  (fnmMessage )){
+#line 1332 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_strLastTarget  = TRANS  ("Analyze");
+#line 1333 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_tmLastTarget  = tmNow  + 0.5f;
+#line 1334 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 1606 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1335 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1336 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1337 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1339 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+else {
+#line 1341 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_tmTargetingStarted  = 0;
+#line 1343 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT3D vDir  = crRay  . cr_vTarget  - crRay  . cr_vOrigin ;
+#line 1344 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+vDir  . Normalize  ();
+#line 1345 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_vRayHit  = crRay  . cr_vOrigin  + vDir  * 50.0f;
+#line 1346 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1349 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+TIME  tmDelta  = tmNow  - m_tmTargetingStarted ;
+#line 1350 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_tmTargetingStarted  > 0 && plr_tmSnoopingDelay  > 0 && tmDelta  > plr_tmSnoopingDelay ){
+#line 1351 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_tmSnoopingStarted  = tmNow ;
+#line 1352 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1353 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 1610 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::SetCurrentWeaponModel(void) {
-#line 1612 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1358 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::RenderCrosshair(CProjection3D & prProjection,CDrawPort * pdp,CPlacement3D & plViewSource) 
+#line 1359 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 1360 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iCrossHair  = GetPlayer  () -> GetSettings  () -> ps_iCrossHairType  + 1;
+#line 1363 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(iCrossHair  <= 0){
+#line 1364 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+iCrossHair  = 0;
+#line 1365 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+_iLastCrosshairType  = 0;
+#line 1366 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1369 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(_iLastCrosshairType  != iCrossHair ){
+#line 1370 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+_iLastCrosshairType  = iCrossHair ;
+#line 1371 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CTString fnCrosshair ;
+#line 1372 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+fnCrosshair  . PrintF  ("Textures\\Interface\\Crosshairs\\Crosshair%d.tex" , iCrossHair );
+#line 1373 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+try {
+#line 1375 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+_toCrosshair  . SetData_t  (fnCrosshair );
+#line 1376 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}catch  (char  * strError ){
+#line 1378 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPrintF  (strError );
+#line 1379 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+iCrossHair  = 0;
+#line 1380 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return ;
+#line 1381 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1382 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1383 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+COLOR colCrosshair  = C_WHITE ;
+#line 1384 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+TIME  tmNow  = _pTimer  -> CurrentTick  ();
+#line 1387 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT3D vOnScreen ;
+#line 1388 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fDistance  = m_fRayHitDistance ;
+#line 1390 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOAT3D vRayHit  = m_vRayHit ;
+#line 1392 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_penRayHit  != NULL ){
+#line 1394 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CEntity  * pen  = m_penRayHit ;
+#line 1396 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+prProjection  . ViewerPlacementL  () = plViewSource ;
+#line 1397 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+prProjection  . ObjectPlacementL  () = CPlacement3D (FLOAT3D (0.0f , 0.0f , 0.0f) , ANGLE3D (0 , 0 , 0));
+#line 1398 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+prProjection  . Prepare  ();
+#line 1399 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+prProjection  . ProjectCoordinate  (vRayHit  , vOnScreen );
+#line 1401 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(hud_bCrosshairColoring  && m_fEnemyHealth  > 0){
+#line 1402 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_fEnemyHealth  < 0.25f){colCrosshair  = C_RED ;}
+#line 1403 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+else if(m_fEnemyHealth  < 0.60f){colCrosshair  = C_YELLOW ;}
+#line 1404 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+else {colCrosshair  = C_GREEN ;}
+#line 1405 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1406 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1408 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+else 
+#line 1409 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 1411 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+vOnScreen  (1) = (FLOAT) pdp  -> GetWidth  () * 0.5f;
+#line 1412 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+vOnScreen  (2) = (FLOAT) pdp  -> GetHeight  () * 0.5f;
+#line 1413 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+fDistance  = 100.0f;
+#line 1414 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1417 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(hud_bCrosshairFixed  || GetPlayer  () -> m_iViewState  == PVT_3RDPERSONVIEW ){
+#line 1419 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+vOnScreen  (1) = (FLOAT) pdp  -> GetWidth  () * 0.5f;
+#line 1420 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+vOnScreen  (2) = (FLOAT) pdp  -> GetHeight  () * 0.5f;
+#line 1422 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1425 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+hud_fCrosshairScale  = Clamp  (hud_fCrosshairScale  , 0.1f , 2.0f);
+#line 1426 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+hud_fCrosshairRatio  = Clamp  (hud_fCrosshairRatio  , 0.1f , 1.0f);
+#line 1427 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+hud_fCrosshairOpacity  = Clamp  (hud_fCrosshairOpacity  , 0.1f , 1.0f);
+#line 1428 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const ULONG  ulAlpha  = NormFloatToByte  (hud_fCrosshairOpacity );
+#line 1430 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(iCrossHair  > 0){
+#line 1432 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOAT fMinD  = 1.0f;
+#line 1433 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOAT fMaxD  = 100.0f;
+#line 1434 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+fDistance  = Clamp  (fDistance  , fMinD  , fMaxD );
+#line 1435 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOAT fRatio  = (fDistance  - fMinD ) / (fMaxD  - fMinD );
+#line 1436 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOAT fMaxSize  = (FLOAT) pdp  -> GetWidth  () / 640.0f;
+#line 1437 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOAT fMinSize  = fMaxSize  * hud_fCrosshairRatio ;
+#line 1438 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOAT fSize  = 16 * Lerp  (fMaxSize  , fMinSize  , fRatio ) * hud_fCrosshairScale ;
+#line 1440 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOAT fI0  = + (PIX ) vOnScreen  (1) - fSize ;
+#line 1441 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOAT fI1  = + (PIX ) vOnScreen  (1) + fSize ;
+#line 1442 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOAT fJ0  = - (PIX ) vOnScreen  (2) - fSize  + pdp  -> GetHeight  ();
+#line 1443 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOAT fJ1  = - (PIX ) vOnScreen  (2) + fSize  + pdp  -> GetHeight  ();
+#line 1444 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pdp  -> InitTexture  (& _toCrosshair );
+#line 1445 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pdp  -> AddTexture  (fI0  , fJ0  , fI1  , fJ1  , colCrosshair  | ulAlpha );
+#line 1446 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pdp  -> FlushRenderingQueue  ();
+#line 1447 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1450 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+TIME  tmDelta  = m_tmLastTarget  - tmNow ;
+#line 1451 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(tmDelta  > 0 && m_strLastTarget  != TRANS  ("Use")){
+#line 1453 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SLONG  slDPWidth  = pdp  -> GetWidth  ();
+#line 1454 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SLONG  slDPHeight  = pdp  -> GetHeight  ();
+#line 1455 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fScaling  = (FLOAT) slDPWidth  / 640.0f;
+#line 1457 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pdp  -> SetFont  (_pfdDisplayFont );
+#line 1458 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pdp  -> SetTextScaling  (fScaling );
+#line 1459 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pdp  -> SetTextAspect  (1.0f);
+#line 1461 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ULONG  ulA  = (FLOAT) ulAlpha  * Clamp  (2 * tmDelta  , 0.0f , 1.0f);
+#line 1462 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pdp  -> PutTextC  (m_strLastTarget  , slDPWidth  * 0.5f , slDPHeight  * 0.75f , SE_COL_PURPLE_NEUTRAL  | ulA );
+#line 1463 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1466 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(hud_bShowCoords ){
+#line 1467 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CTString strCoords ;
+#line 1468 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SLONG  slDPWidth  = pdp  -> GetWidth  ();
+#line 1469 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SLONG  slDPHeight  = pdp  -> GetHeight  ();
+#line 1471 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pdp  -> SetFont  (_pfdDisplayFont );
+#line 1472 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pdp  -> SetTextAspect  (1.0f);
+#line 1473 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pdp  -> SetTextScaling  ((FLOAT) slDPWidth  / 640.0f);
+#line 1475 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOAT fMax  = Max  (Max  (vRayHit  (1) , vRayHit  (2)) , vRayHit  (3));
+#line 1476 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOAT fMin  = Min  (Min  (vRayHit  (1) , vRayHit  (2)) , vRayHit  (3));
+#line 1477 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(fMax  < + 100000 && fMin  > - 100000){
+#line 1478 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+strCoords  . PrintF  ("%.0f,%.0f,%.0f" , vRayHit  (1) , vRayHit  (2) , vRayHit  (3));
+#line 1479 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pdp  -> PutTextC  (strCoords  , slDPWidth  * 0.5f , slDPHeight  * 0.10f , C_WHITE  | CT_OPAQUE );
+#line 1480 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1481 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1482 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 1490 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::ShowFlare(CModelObject & moWeapon,INDEX iAttachObject,INDEX iAttachFlare,FLOAT fSize) {
+#line 1491 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CModelObject * pmo  = & (moWeapon  . GetAttachmentModel  (iAttachObject ) -> amo_moModelObject );
+#line 1492 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CAttachmentModelObject  * pamo  = pmo  -> GetAttachmentModel  (iAttachFlare );
+#line 1493 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pamo  -> amo_plRelative  . pl_OrientationAngle  (3) = (rand  () * 360.0f) / RAND_MAX ;
+#line 1494 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pmo  = & (pamo  -> amo_moModelObject );
+#line 1495 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pmo  -> StretchModel  (FLOAT3D (fSize  , fSize  , fSize ));
+#line 1496 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 1500 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::HideFlare(CModelObject & moWeapon,INDEX iAttachObject,INDEX iAttachFlare) {
+#line 1501 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CModelObject * pmo  = & (moWeapon  . GetAttachmentModel  (iAttachObject ) -> amo_moModelObject );
+#line 1502 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pmo  = & (pmo  -> GetAttachmentModel  (iAttachFlare ) -> amo_moModelObject );
+#line 1503 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pmo  -> StretchModel  (FLOAT3D (0 , 0 , 0));
+#line 1504 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 1506 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::SetFlare(INDEX iFlare,INDEX iAction) 
+#line 1507 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 1509 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(! IsPredictionHead  ()){
+#line 1511 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return ;
+#line 1512 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1515 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlayerWeapons  * pen  = (CPlayerWeapons  *) GetPredictionTail  ();
+#line 1516 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(iFlare  == 0){
+#line 1517 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pen  -> m_iFlare  = iAction ;
+#line 1518 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pen  -> GetPlayer  () -> GetPlayerAnimator  () -> m_iFlare  = iAction ;
+#line 1519 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else {
+#line 1520 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pen  -> m_iSecondFlare  = iAction ;
+#line 1521 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pen  -> GetPlayer  () -> GetPlayerAnimator  () -> m_iSecondFlare  = iAction ;
+#line 1522 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1523 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 1526 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::ControlFlareAttachment(void) {
+#line 1535 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlayerWeapons  * pen  = (CPlayerWeapons  *) GetPredictionTail  ();
+#line 1549 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(pen  -> m_iFlare  == FLARE_ADD ){
+#line 1550 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pen  -> m_iFlare  = FLARE_REMOVE ;
+#line 1551 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 switch(m_iCurrentWeapon ){
-#line 1613 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_NONE : 
-#line 1614 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1552 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_COLT : 
+#line 1553 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ShowFlare  (m_moWeapon  , COLT_ATTACHMENT_COLT  , COLTMAIN_ATTACHMENT_FLARE  , 0.75f);
+#line 1554 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
-#line 1616 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_KNIFE : 
+#line 1555 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLECOLT : 
+#line 1556 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ShowFlare  (m_moWeapon  , P90_ATTACHMENT_P90_BODY  , P90_BODY_ATTACHMENT_FLARE  , 0.75f);
+#line 1557 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 1558 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SINGLESHOTGUN : 
+#line 1559 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ShowFlare  (m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_BARRELS  , BARRELS_ATTACHMENT_FLARE  , 1.0f);
+#line 1560 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 1561 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLESHOTGUN : 
+#line 1562 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ShowFlare  (m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_BARRELS  , BARRELS_ATTACHMENT_FLARE  , 1.75f);
+#line 1563 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 1564 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_TOMMYGUN : 
+#line 1565 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ShowFlare  (m_moWeapon  , TOMMYGUN_ATTACHMENT_BODY  , BODY_ATTACHMENT_FLARE  , 0.5f);
+#line 1566 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 1567 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SNIPER : 
+#line 1568 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ShowFlare  (m_moWeapon  , SNIPER_ATTACHMENT_BODY  , BODY_ATTACHMENT_FLARE  , 0.5f);
+#line 1569 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 1570 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_MINIGUN : 
+#line 1571 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ShowFlare  (m_moWeapon  , MINIGUN_ATTACHMENT_BODY  , BODY_ATTACHMENT_FLARE  , 1.25f);
+#line 1572 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 1573 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1575 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else if(pen  -> m_iFlare  == FLARE_REMOVE ){
+#line 1576 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(m_iCurrentWeapon ){
+#line 1577 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_COLT : 
+#line 1578 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+HideFlare  (m_moWeapon  , COLT_ATTACHMENT_COLT  , COLTMAIN_ATTACHMENT_FLARE );
+#line 1579 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 1580 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLECOLT : 
+#line 1581 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+HideFlare  (m_moWeapon  , P90_ATTACHMENT_P90_BODY  , P90_BODY_ATTACHMENT_FLARE );
+#line 1582 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 1583 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SINGLESHOTGUN : 
+#line 1584 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+HideFlare  (m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_BARRELS  , BARRELS_ATTACHMENT_FLARE );
+#line 1585 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 1586 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLESHOTGUN : 
+#line 1587 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+HideFlare  (m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_BARRELS  , BARRELS_ATTACHMENT_FLARE );
+#line 1588 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 1589 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_TOMMYGUN : 
+#line 1590 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+HideFlare  (m_moWeapon  , TOMMYGUN_ATTACHMENT_BODY  , BODY_ATTACHMENT_FLARE );
+#line 1591 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 1592 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SNIPER : 
+#line 1593 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+HideFlare  (m_moWeapon  , SNIPER_ATTACHMENT_BODY  , BODY_ATTACHMENT_FLARE );
+#line 1594 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 1595 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_MINIGUN : 
+#line 1596 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+HideFlare  (m_moWeapon  , MINIGUN_ATTACHMENT_BODY  , BODY_ATTACHMENT_FLARE );
+#line 1597 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 1598 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1599 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else {
+#line 1600 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ASSERT  (FALSE );
+#line 1601 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1602 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 1606 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::PlayLightAnim(INDEX iAnim,ULONG ulFlags) {
+#line 1607 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
+#line 1608 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(pl  . m_aoLightAnimation  . GetData  () != NULL ){
+#line 1609 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pl  . m_aoLightAnimation  . PlayAnim  (iAnim  , ulFlags );
+#line 1610 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1611 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 1615 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::SetCurrentWeaponModel(void) {
 #line 1617 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetComponents  (this  , m_moWeapon  , MODEL_KNIFE  , TEXTURE_HAND  , 0 , 0 , 0);
+switch(m_iCurrentWeapon ){
 #line 1618 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , KNIFE_ATTACHMENT_KNIFEITEM  , MODEL_KNIFEITEM  , 
+case WEAPON_NONE : 
 #line 1619 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-TEXTURE_KNIFEITEM  , TEX_REFL_BWRIPLES02  , TEX_SPEC_WEAK  , 0);
-#line 1620 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (KNIFE_ANIM_WAIT1  , 0);
+break ;
 #line 1621 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+case WEAPON_KNIFE : 
+#line 1622 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetComponents  (this  , m_moWeapon  , MODEL_KNIFE  , TEXTURE_HAND  , 0 , 0 , 0);
 #line 1623 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_COLT : {
+AddAttachmentToModel  (this  , m_moWeapon  , KNIFE_ATTACHMENT_KNIFEITEM  , MODEL_KNIFEITEM  , 
 #line 1624 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetComponents  (this  , m_moWeapon  , MODEL_COLT  , TEXTURE_HAND  , 0 , 0 , 0);
+TEXTURE_KNIFEITEM  , TEX_REFL_BWRIPLES02  , TEX_SPEC_WEAK  , 0);
 #line 1625 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , COLT_ATTACHMENT_BULLETS  , MODEL_COLTBULLETS  , TEXTURE_COLTMAIN  , TEX_REFL_LIGHTBLUEMETAL01  , TEX_SPEC_MEDIUM  , 0);
+m_moWeapon  . PlayAnim  (KNIFE_ANIM_WAIT1  , 0);
 #line 1626 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , COLT_ATTACHMENT_COCK  , MODEL_COLTCOCK  , TEXTURE_COLTMAIN  , TEX_REFL_LIGHTBLUEMETAL01  , TEX_SPEC_MEDIUM  , 0);
-#line 1627 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , COLT_ATTACHMENT_COLT  , MODEL_COLTMAIN  , TEXTURE_COLTMAIN  , TEX_REFL_LIGHTBLUEMETAL01  , TEX_SPEC_MEDIUM  , 0);
+break ;
 #line 1628 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CModelObject & mo  = m_moWeapon  . GetAttachmentModel  (COLT_ATTACHMENT_COLT ) -> amo_moModelObject ;
+case WEAPON_COLT : {
 #line 1629 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , mo  , COLTMAIN_ATTACHMENT_FLARE  , MODEL_FLARE01  , TEXTURE_FLARE01  , 0 , 0 , 0);
+SetComponents  (this  , m_moWeapon  , MODEL_COLT  , TEXTURE_HAND  , 0 , 0 , 0);
 #line 1630 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (COLT_ANIM_WAIT1  , 0);
+AddAttachmentToModel  (this  , m_moWeapon  , COLT_ATTACHMENT_BULLETS  , MODEL_COLTBULLETS  , TEXTURE_COLTMAIN  , TEX_REFL_LIGHTBLUEMETAL01  , TEX_SPEC_MEDIUM  , 0);
 #line 1631 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;}
+AddAttachmentToModel  (this  , m_moWeapon  , COLT_ATTACHMENT_COCK  , MODEL_COLTCOCK  , TEXTURE_COLTMAIN  , TEX_REFL_LIGHTBLUEMETAL01  , TEX_SPEC_MEDIUM  , 0);
 #line 1632 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLECOLT : {
+AddAttachmentToModel  (this  , m_moWeapon  , COLT_ATTACHMENT_COLT  , MODEL_COLTMAIN  , TEXTURE_COLTMAIN  , TEX_REFL_LIGHTBLUEMETAL01  , TEX_SPEC_MEDIUM  , 0);
 #line 1633 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetComponents  (this  , m_moWeapon  , MODEL_P90  , TEXTURE_HAND  , 0 , 0 , 0);
+CModelObject & mo  = m_moWeapon  . GetAttachmentModel  (COLT_ATTACHMENT_COLT ) -> amo_moModelObject ;
 #line 1634 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , P90_ATTACHMENT_P90_BODY  , MODEL_P90BODY  , TEXTURE_P90  , 0 , 0 , 0);
+AddAttachmentToModel  (this  , mo  , COLTMAIN_ATTACHMENT_FLARE  , MODEL_FLARE01  , TEXTURE_FLARE01  , 0 , 0 , 0);
 #line 1635 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , P90_ATTACHMENT_P90_RELOADM  , MODEL_P90MAGAZIN  , TEXTURE_P90  , 0 , 0 , 0);
+m_moWeapon  . PlayAnim  (COLT_ANIM_WAIT1  , 0);
 #line 1636 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , P90_ATTACHMENT_P90_ZATVORM  , MODEL_P90ZATVOR  , TEXTURE_P90  , 0 , 0 , 0);
+break ;}
 #line 1637 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CModelObject & mo  = m_moWeapon  . GetAttachmentModel  (P90_ATTACHMENT_P90_BODY ) -> amo_moModelObject ;
+case WEAPON_DOUBLECOLT : {
 #line 1638 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , mo  , P90_BODY_ATTACHMENT_FLARE  , MODEL_FLARE01  , TEXTURE_FLARE01  , 0 , 0 , 0);
+SetComponents  (this  , m_moWeapon  , MODEL_P90  , TEXTURE_HAND  , 0 , 0 , 0);
+#line 1639 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , P90_ATTACHMENT_P90_BODY  , MODEL_P90BODY  , TEXTURE_P90  , 0 , 0 , 0);
+#line 1640 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , P90_ATTACHMENT_P90_RELOADM  , MODEL_P90MAGAZIN  , TEXTURE_P90  , 0 , 0 , 0);
 #line 1641 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;}
+AddAttachmentToModel  (this  , m_moWeapon  , P90_ATTACHMENT_P90_ZATVORM  , MODEL_P90ZATVOR  , TEXTURE_P90  , 0 , 0 , 0);
 #line 1642 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : {
+CModelObject & mo  = m_moWeapon  . GetAttachmentModel  (P90_ATTACHMENT_P90_BODY ) -> amo_moModelObject ;
 #line 1643 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetComponents  (this  , m_moWeapon  , MODEL_SINGLESHOTGUN  , TEXTURE_HAND  , 0 , 0 , 0);
-#line 1644 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_BARRELS  , MODEL_SS_BARRELS  , TEXTURE_SS_BARRELS  , TEX_REFL_DARKMETAL  , TEX_SPEC_WEAK  , 0);
-#line 1645 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_HANDLE  , MODEL_SS_HANDLE  , TEXTURE_SS_HANDLE  , TEX_REFL_DARKMETAL  , TEX_SPEC_MEDIUM  , 0);
+AddAttachmentToModel  (this  , mo  , P90_BODY_ATTACHMENT_FLARE  , MODEL_FLARE01  , TEXTURE_FLARE01  , 0 , 0 , 0);
 #line 1646 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_SLIDER  , MODEL_SS_SLIDER  , TEXTURE_SS_BARRELS  , TEX_REFL_DARKMETAL  , TEX_SPEC_MEDIUM  , 0);
+break ;}
 #line 1647 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CModelObject & mo  = m_moWeapon  . GetAttachmentModel  (SINGLESHOTGUN_ATTACHMENT_BARRELS ) -> amo_moModelObject ;
+case WEAPON_SINGLESHOTGUN : {
 #line 1648 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , mo  , BARRELS_ATTACHMENT_FLARE  , MODEL_FLARE01  , TEXTURE_FLARE01  , 0 , 0 , 0);
+SetComponents  (this  , m_moWeapon  , MODEL_SINGLESHOTGUN  , TEXTURE_HAND  , 0 , 0 , 0);
 #line 1649 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (SINGLESHOTGUN_ANIM_WAIT1  , 0);
+AddAttachmentToModel  (this  , m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_BARRELS  , MODEL_SS_BARRELS  , TEXTURE_SS_BARRELS  , TEX_REFL_DARKMETAL  , TEX_SPEC_WEAK  , 0);
 #line 1650 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;}
+AddAttachmentToModel  (this  , m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_HANDLE  , MODEL_SS_HANDLE  , TEXTURE_SS_HANDLE  , TEX_REFL_DARKMETAL  , TEX_SPEC_MEDIUM  , 0);
 #line 1651 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLESHOTGUN : {
+AddAttachmentToModel  (this  , m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_SLIDER  , MODEL_SS_SLIDER  , TEXTURE_SS_BARRELS  , TEX_REFL_DARKMETAL  , TEX_SPEC_MEDIUM  , 0);
 #line 1652 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetComponents  (this  , m_moWeapon  , MODEL_DOUBLESHOTGUN  , TEXTURE_HAND  , 0 , 0 , 0);
-#line 1653 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_BARRELS  , MODEL_DS_BARRELS  , TEXTURE_DS_BARRELS  , TEX_REFL_BWRIPLES01  , TEX_SPEC_MEDIUM  , 0);
-#line 1654 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_HANDLE  , MODEL_DS_HANDLE  , TEXTURE_DS_HANDLE  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
-#line 1656 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_SLIDER  , MODEL_DS_AMMO  , TEXTURE_DS_BARRELS  , 0 , 0 , 0);
-#line 1658 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CModelObject & mo  = m_moWeapon  . GetAttachmentModel  (SINGLESHOTGUN_ATTACHMENT_BARRELS ) -> amo_moModelObject ;
-#line 1659 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1653 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 AddAttachmentToModel  (this  , mo  , BARRELS_ATTACHMENT_FLARE  , MODEL_FLARE01  , TEXTURE_FLARE01  , 0 , 0 , 0);
-#line 1660 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeaponSecond  . StretchModel  (FLOAT3D (1 , 1 , 1));
-#line 1661 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1654 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (SINGLESHOTGUN_ANIM_WAIT1  , 0);
-#line 1662 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1655 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;}
+#line 1656 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLESHOTGUN : {
+#line 1657 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetComponents  (this  , m_moWeapon  , MODEL_DOUBLESHOTGUN  , TEXTURE_HAND  , 0 , 0 , 0);
+#line 1658 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_BARRELS  , MODEL_DS_BARRELS  , TEXTURE_DS_BARRELS  , TEX_REFL_BWRIPLES01  , TEX_SPEC_MEDIUM  , 0);
+#line 1659 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_HANDLE  , MODEL_DS_HANDLE  , TEXTURE_DS_HANDLE  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+#line 1661 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , SINGLESHOTGUN_ATTACHMENT_SLIDER  , MODEL_DS_AMMO  , TEXTURE_DS_BARRELS  , 0 , 0 , 0);
 #line 1663 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : {
+CModelObject & mo  = m_moWeapon  . GetAttachmentModel  (SINGLESHOTGUN_ATTACHMENT_BARRELS ) -> amo_moModelObject ;
 #line 1664 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetComponents  (this  , m_moWeapon  , MODEL_TOMMYGUN  , TEXTURE_HAND  , 0 , 0 , 0);
+AddAttachmentToModel  (this  , mo  , BARRELS_ATTACHMENT_FLARE  , MODEL_FLARE01  , TEXTURE_FLARE01  , 0 , 0 , 0);
 #line 1665 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , TOMMYGUN_ATTACHMENT_BODY  , MODEL_TG_BODY  , TEXTURE_TG_BODY  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+m_moWeaponSecond  . StretchModel  (FLOAT3D (1 , 1 , 1));
 #line 1666 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , TOMMYGUN_ATTACHMENT_SLIDER  , MODEL_TG_SLIDER  , TEXTURE_TG_BODY  , 0 , TEX_SPEC_MEDIUM  , 0);
+m_moWeapon  . PlayAnim  (SINGLESHOTGUN_ANIM_WAIT1  , 0);
 #line 1667 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , TOMMYGUN_ATTACHMENT_UNDERBARREL  , MODEL_UNDERBARREL  , TEXTURE_TG_BODY  , 0 , 0 , 0);
+break ;}
 #line 1668 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , TOMMYGUN_ATTACHMENT_AG36GRANAT  , MODEL_AGGRANAT  , TEXTURE_TG_BODY  , 0 , 0 , 0);
+case WEAPON_TOMMYGUN : {
 #line 1669 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CModelObject & mo  = m_moWeapon  . GetAttachmentModel  (TOMMYGUN_ATTACHMENT_BODY ) -> amo_moModelObject ;
+SetComponents  (this  , m_moWeapon  , MODEL_TOMMYGUN  , TEXTURE_HAND  , 0 , 0 , 0);
 #line 1670 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , mo  , BODY_ATTACHMENT_FLARE  , MODEL_FLARE01  , TEXTURE_FLARE01  , 0 , 0 , 0);
+AddAttachmentToModel  (this  , m_moWeapon  , TOMMYGUN_ATTACHMENT_BODY  , MODEL_TG_BODY  , TEXTURE_TG_BODY  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
 #line 1671 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;}
+AddAttachmentToModel  (this  , m_moWeapon  , TOMMYGUN_ATTACHMENT_SLIDER  , MODEL_TG_SLIDER  , TEXTURE_TG_BODY  , 0 , TEX_SPEC_MEDIUM  , 0);
 #line 1672 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SNIPER : {
+AddAttachmentToModel  (this  , m_moWeapon  , TOMMYGUN_ATTACHMENT_UNDERBARREL  , MODEL_UNDERBARREL  , TEXTURE_TG_BODY  , 0 , 0 , 0);
 #line 1673 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetComponents  (this  , m_moWeapon  , MODEL_SNIPER  , TEXTURE_HAND  , 0 , 0 , 0);
+AddAttachmentToModel  (this  , m_moWeapon  , TOMMYGUN_ATTACHMENT_AG36GRANAT  , MODEL_AGGRANAT  , TEXTURE_TG_BODY  , 0 , 0 , 0);
 #line 1674 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , SNIPER_ATTACHMENT_BODY  , MODEL_SNIPER_BODY  , TEXTURE_SNIPER_BODY  , 0 , 0 , 0);
+CModelObject & mo  = m_moWeapon  . GetAttachmentModel  (TOMMYGUN_ATTACHMENT_BODY ) -> amo_moModelObject ;
 #line 1675 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , SNIPER_ATTACHMENT_SHUTTER  , MODEL_SNIPER_SHUTTER  , TEXTURE_SNIPER_BODY  , 0 , 0 , 0);
+AddAttachmentToModel  (this  , mo  , BODY_ATTACHMENT_FLARE  , MODEL_FLARE01  , TEXTURE_FLARE01  , 0 , 0 , 0);
 #line 1676 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CModelObject & mo  = m_moWeapon  . GetAttachmentModel  (SNIPER_ATTACHMENT_BODY ) -> amo_moModelObject ;
+break ;}
 #line 1677 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , mo  , BODY_ATTACHMENT_FLARE  , MODEL_FLARE01  , TEXTURE_FLARE01  , 0 , 0 , 0);
+case WEAPON_SNIPER : {
 #line 1678 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;}
+SetComponents  (this  , m_moWeapon  , MODEL_SNIPER  , TEXTURE_HAND  , 0 , 0 , 0);
 #line 1679 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_MINIGUN : {
+AddAttachmentToModel  (this  , m_moWeapon  , SNIPER_ATTACHMENT_BODY  , MODEL_SNIPER_BODY  , TEXTURE_SNIPER_BODY  , 0 , 0 , 0);
 #line 1680 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetComponents  (this  , m_moWeapon  , MODEL_MINIGUN  , TEXTURE_HAND  , 0 , 0 , 0);
+AddAttachmentToModel  (this  , m_moWeapon  , SNIPER_ATTACHMENT_SHUTTER  , MODEL_SNIPER_SHUTTER  , TEXTURE_SNIPER_BODY  , 0 , 0 , 0);
 #line 1681 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , MINIGUN_ATTACHMENT_BARRELS  , MODEL_MG_BARRELS  , TEXTURE_MG_BODY  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+CModelObject & mo  = m_moWeapon  . GetAttachmentModel  (SNIPER_ATTACHMENT_BODY ) -> amo_moModelObject ;
 #line 1682 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , MINIGUN_ATTACHMENT_BODY  , MODEL_MG_BODY  , TEXTURE_MG_BODY  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
-#line 1684 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CModelObject & mo  = m_moWeapon  . GetAttachmentModel  (MINIGUN_ATTACHMENT_BODY ) -> amo_moModelObject ;
-#line 1685 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 AddAttachmentToModel  (this  , mo  , BODY_ATTACHMENT_FLARE  , MODEL_FLARE01  , TEXTURE_FLARE01  , 0 , 0 , 0);
+#line 1683 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;}
+#line 1684 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_MINIGUN : {
+#line 1685 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetComponents  (this  , m_moWeapon  , MODEL_MINIGUN  , TEXTURE_HAND  , 0 , 0 , 0);
 #line 1686 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;}
+AddAttachmentToModel  (this  , m_moWeapon  , MINIGUN_ATTACHMENT_BARRELS  , MODEL_MG_BARRELS  , TEXTURE_MG_BODY  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
 #line 1687 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_ROCKETLAUNCHER : 
-#line 1688 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetComponents  (this  , m_moWeapon  , MODEL_ROCKETLAUNCHER  , TEXTURE_HAND  , 0 , 0 , 0);
+AddAttachmentToModel  (this  , m_moWeapon  , MINIGUN_ATTACHMENT_BODY  , MODEL_MG_BODY  , TEXTURE_MG_BODY  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
 #line 1689 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , ROCKETLAUNCHER_ATTACHMENT_BODY  , MODEL_RL_BODY  , TEXTURE_RL_BODY  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+CModelObject & mo  = m_moWeapon  . GetAttachmentModel  (MINIGUN_ATTACHMENT_BODY ) -> amo_moModelObject ;
+#line 1690 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , mo  , BODY_ATTACHMENT_FLARE  , MODEL_FLARE01  , TEXTURE_FLARE01  , 0 , 0 , 0);
 #line 1691 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , ROCKETLAUNCHER_ATTACHMENT_ROCKET1  , MODEL_RL_ROCKET  , TEXTURE_RL_ROCKET  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
-#line 1694 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 1695 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_GRENADELAUNCHER : 
-#line 1696 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetComponents  (this  , m_moWeapon  , MODEL_GRENADELAUNCHER  , TEXTURE_GL_BODY  , 0 , 0 , 0);
-#line 1697 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , GRENADELAUNCHER_ATTACHMENT_BODY  , MODEL_GL_BODY  , TEXTURE_GL_BODY  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
-#line 1698 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , GRENADELAUNCHER_ATTACHMENT_MOVING_PART  , MODEL_GL_MOVINGPART  , TEXTURE_GL_MOVINGPART  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
-#line 1699 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , GRENADELAUNCHER_ATTACHMENT_GRENADE  , MODEL_GL_GRENADE  , TEXTURE_GL_MOVINGPART  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
-#line 1700 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 1712 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_FLAMER : 
-#line 1713 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetComponents  (this  , m_moWeapon  , MODEL_FLAMER  , TEXTURE_HAND  , 0 , 0 , 0);
-#line 1714 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , FLAMER_ATTACHMENT_BODY  , MODEL_FL_BODY  , TEXTURE_FL_BODY  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
-#line 1715 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , FLAMER_ATTACHMENT_FUEL  , MODEL_FL_RESERVOIR  , TEXTURE_FL_FUELRESERVOIR  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
-#line 1716 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , FLAMER_ATTACHMENT_FLAME  , MODEL_FL_FLAME  , TEXTURE_FL_FLAME  , 0 , 0 , 0);
-#line 1717 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 1718 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_CHAINSAW : {
-#line 1719 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetComponents  (this  , m_moWeapon  , MODEL_CHAINSAW  , TEXTURE_HAND  , 0 , 0 , 0);
-#line 1720 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , CHAINSAW_ATTACHMENT_CHAINSAW  , MODEL_CS_BODY  , TEXTURE_CS_BODY  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
-#line 1721 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , CHAINSAW_ATTACHMENT_BLADE  , MODEL_CS_BLADE  , TEXTURE_CS_BLADE  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
-#line 1722 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CModelObject * pmo ;
-#line 1723 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pmo  = & (m_moWeapon  . GetAttachmentModel  (CHAINSAW_ATTACHMENT_BLADE ) -> amo_moModelObject );
-#line 1724 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , * pmo  , BLADE_ATTACHMENT_TEETH  , MODEL_CS_TEETH  , TEXTURE_CS_TEETH  , 0 , 0 , 0);
-#line 1725 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;}
+#line 1692 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_ROCKETLAUNCHER : 
+#line 1693 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetComponents  (this  , m_moWeapon  , MODEL_ROCKETLAUNCHER  , TEXTURE_HAND  , 0 , 0 , 0);
+#line 1694 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , ROCKETLAUNCHER_ATTACHMENT_BODY  , MODEL_RL_BODY  , TEXTURE_RL_BODY  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+#line 1696 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , ROCKETLAUNCHER_ATTACHMENT_ROCKET1  , MODEL_RL_ROCKET  , TEXTURE_RL_ROCKET  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+#line 1699 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 1700 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_GRENADELAUNCHER : 
+#line 1701 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetComponents  (this  , m_moWeapon  , MODEL_GRENADELAUNCHER  , TEXTURE_GL_BODY  , 0 , 0 , 0);
+#line 1702 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , GRENADELAUNCHER_ATTACHMENT_BODY  , MODEL_GL_BODY  , TEXTURE_GL_BODY  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+#line 1703 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , GRENADELAUNCHER_ATTACHMENT_MOVING_PART  , MODEL_GL_MOVINGPART  , TEXTURE_GL_MOVINGPART  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+#line 1704 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , GRENADELAUNCHER_ATTACHMENT_GRENADE  , MODEL_GL_GRENADE  , TEXTURE_GL_MOVINGPART  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+#line 1705 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 1717 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_FLAMER : 
+#line 1718 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetComponents  (this  , m_moWeapon  , MODEL_FLAMER  , TEXTURE_HAND  , 0 , 0 , 0);
+#line 1719 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , FLAMER_ATTACHMENT_BODY  , MODEL_FL_BODY  , TEXTURE_FL_BODY  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+#line 1720 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , FLAMER_ATTACHMENT_FUEL  , MODEL_FL_RESERVOIR  , TEXTURE_FL_FUELRESERVOIR  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+#line 1721 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , FLAMER_ATTACHMENT_FLAME  , MODEL_FL_FLAME  , TEXTURE_FL_FLAME  , 0 , 0 , 0);
+#line 1722 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 1723 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_CHAINSAW : {
+#line 1724 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetComponents  (this  , m_moWeapon  , MODEL_CHAINSAW  , TEXTURE_HAND  , 0 , 0 , 0);
+#line 1725 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , CHAINSAW_ATTACHMENT_CHAINSAW  , MODEL_CS_BODY  , TEXTURE_CS_BODY  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
 #line 1726 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_LASER : 
+AddAttachmentToModel  (this  , m_moWeapon  , CHAINSAW_ATTACHMENT_BLADE  , MODEL_CS_BLADE  , TEXTURE_CS_BLADE  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
 #line 1727 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetComponents  (this  , m_moWeapon  , MODEL_LASER  , TEXTURE_HAND  , 0 , 0 , 0);
+CModelObject * pmo ;
 #line 1728 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , LASER_ATTACHMENT_BODY  , MODEL_LS_BODY  , TEXTURE_LS_BODY  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+pmo  = & (m_moWeapon  . GetAttachmentModel  (CHAINSAW_ATTACHMENT_BLADE ) -> amo_moModelObject );
 #line 1729 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , LASER_ATTACHMENT_LEFTUP  , MODEL_LS_BARREL  , TEXTURE_LS_BARREL  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+AddAttachmentToModel  (this  , * pmo  , BLADE_ATTACHMENT_TEETH  , MODEL_CS_TEETH  , TEXTURE_CS_TEETH  , 0 , 0 , 0);
 #line 1730 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , LASER_ATTACHMENT_LEFTDOWN  , MODEL_LS_BARREL  , TEXTURE_LS_BARREL  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+break ;}
 #line 1731 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , LASER_ATTACHMENT_RIGHTUP  , MODEL_LS_BARREL  , TEXTURE_LS_BARREL  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+case WEAPON_LASER : 
 #line 1732 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , LASER_ATTACHMENT_RIGHTDOWN  , MODEL_LS_BARREL  , TEXTURE_LS_BARREL  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+SetComponents  (this  , m_moWeapon  , MODEL_LASER  , TEXTURE_HAND  , 0 , 0 , 0);
 #line 1733 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , LASER_ATTACHMENT_BODY  , MODEL_LS_BODY  , TEXTURE_LS_BODY  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+#line 1734 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , LASER_ATTACHMENT_LEFTUP  , MODEL_LS_BARREL  , TEXTURE_LS_BARREL  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+#line 1735 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , LASER_ATTACHMENT_LEFTDOWN  , MODEL_LS_BARREL  , TEXTURE_LS_BARREL  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+#line 1736 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , LASER_ATTACHMENT_RIGHTUP  , MODEL_LS_BARREL  , TEXTURE_LS_BARREL  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+#line 1737 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , LASER_ATTACHMENT_RIGHTDOWN  , MODEL_LS_BARREL  , TEXTURE_LS_BARREL  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+#line 1738 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
-#line 1754 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1759 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_IRONCANNON : 
-#line 1756 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetComponents  (this  , m_moWeapon  , MODEL_CANNON  , TEXTURE_CANNON  , 0 , 0 , 0);
-#line 1757 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddAttachmentToModel  (this  , m_moWeapon  , CANNON_ATTACHMENT_BODY  , MODEL_CN_BODY  , TEXTURE_CANNON  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
-#line 1760 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
 #line 1761 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+SetComponents  (this  , m_moWeapon  , MODEL_CANNON  , TEXTURE_CANNON  , 0 , 0 , 0);
 #line 1762 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddAttachmentToModel  (this  , m_moWeapon  , CANNON_ATTACHMENT_BODY  , MODEL_CN_BODY  , TEXTURE_CANNON  , TEX_REFL_LIGHTMETAL01  , TEX_SPEC_MEDIUM  , 0);
+#line 1765 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 1766 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1767 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 1769 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::RotateMinigun(void) {
-#line 1770 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ANGLE aAngle  = Lerp  (m_aMiniGunLast  , m_aMiniGun  , _pTimer  -> GetLerpFactor  ());
-#line 1772 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CAttachmentModelObject  * amo  = m_moWeapon  . GetAttachmentModel  (MINIGUN_ATTACHMENT_BARRELS );
-#line 1773 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-amo  -> amo_plRelative  . pl_OrientationAngle  (3) = aAngle ;
 #line 1774 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::RotateMinigun(void) {
+#line 1775 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ANGLE aAngle  = Lerp  (m_aMiniGunLast  , m_aMiniGun  , _pTimer  -> GetLerpFactor  ());
+#line 1777 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CAttachmentModelObject  * amo  = m_moWeapon  . GetAttachmentModel  (MINIGUN_ATTACHMENT_BARRELS );
+#line 1778 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+amo  -> amo_plRelative  . pl_OrientationAngle  (3) = aAngle ;
+#line 1779 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 1783 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::CalcWeaponPosition3rdPersonView(FLOAT3D vPos,CPlacement3D & plPos,BOOL bResetZ) {
-#line 1784 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
-#line 1786 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(! m_bMirrorFire ){
-#line 1787 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  = FLOAT3D (wpn_fX  [ m_iCurrentWeapon  ] , wpn_fY  [ m_iCurrentWeapon  ] , 
 #line 1788 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-wpn_fZ  [ m_iCurrentWeapon  ]);
+void CPlayerWeapons::CalcWeaponPosition3rdPersonView(FLOAT3D vPos,CPlacement3D & plPos,BOOL bResetZ) {
 #line 1789 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
-#line 1790 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  = FLOAT3D (- wpn_fX  [ m_iCurrentWeapon  ] , wpn_fY  [ m_iCurrentWeapon  ] , 
+plPos  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
 #line 1791 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-wpn_fZ  [ m_iCurrentWeapon  ]);
-#line 1792 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1794 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(! m_bMirrorFire ){
-#line 1795 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . RelativeToAbsoluteSmooth  (CPlacement3D (vPos  , ANGLE3D (0 , 0 , 0)));
-#line 1796 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1792 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  = FLOAT3D (wpn_fX  [ m_iCurrentWeapon  ] , wpn_fY  [ m_iCurrentWeapon  ] , 
+#line 1793 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+wpn_fZ  [ m_iCurrentWeapon  ]);
+#line 1794 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }else {
+#line 1795 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  = FLOAT3D (- wpn_fX  [ m_iCurrentWeapon  ] , wpn_fY  [ m_iCurrentWeapon  ] , 
+#line 1796 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+wpn_fZ  [ m_iCurrentWeapon  ]);
 #line 1797 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . RelativeToAbsoluteSmooth  (CPlacement3D (vPos  , ANGLE3D (0 , 0 , 0)));
-#line 1798 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 1799 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  (1) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+if(! m_bMirrorFire ){
 #line 1800 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  (2) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+plPos  . RelativeToAbsoluteSmooth  (CPlacement3D (vPos  , ANGLE3D (0 , 0 , 0)));
 #line 1801 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  (3) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+}else {
+#line 1802 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . RelativeToAbsoluteSmooth  (CPlacement3D (vPos  , ANGLE3D (0 , 0 , 0)));
 #line 1803 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(bResetZ ){
-#line 1804 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  (3) = 0.0f;
-#line 1805 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
+#line 1804 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  (1) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+#line 1805 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  (2) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+#line 1806 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  (3) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
 #line 1808 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plView  = ((CPlayer  &) * m_penPlayer ) . en_plViewpoint ;
+if(bResetZ ){
 #line 1809 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plView  . pl_PositionVector  (2) = 1.25118f;
+plPos  . pl_PositionVector  (3) = 0.0f;
 #line 1810 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1813 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlacement3D plView  = ((CPlayer  &) * m_penPlayer ) . en_plViewpoint ;
+#line 1814 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plView  . pl_PositionVector  (2) = 1.25118f;
+#line 1815 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 plPos  . RelativeToAbsoluteSmooth  (plView );
-#line 1811 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1816 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 plPos  . RelativeToAbsoluteSmooth  (m_penPlayer  -> GetPlacement  ());
-#line 1812 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1817 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 1815 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::CalcWeaponPosition(FLOAT3D vPos,CPlacement3D & plPos,BOOL bResetZ) {
-#line 1816 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
-#line 1818 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(! m_bMirrorFire ){
-#line 1819 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  = FLOAT3D (wpn_fX  [ m_iCurrentWeapon  ] , wpn_fY  [ m_iCurrentWeapon  ] , 
 #line 1820 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-wpn_fZ  [ m_iCurrentWeapon  ]);
+void CPlayerWeapons::CalcWeaponPosition(FLOAT3D vPos,CPlacement3D & plPos,BOOL bResetZ) {
 #line 1821 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_bSniping ){
-#line 1822 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  = FLOAT3D (0.0f , 0.0f , 0.0f);
+plPos  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
 #line 1823 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+if(! m_bMirrorFire ){
 #line 1824 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
+plPos  . pl_PositionVector  = FLOAT3D (wpn_fX  [ m_iCurrentWeapon  ] , wpn_fY  [ m_iCurrentWeapon  ] , 
 #line 1825 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  = FLOAT3D (- wpn_fX  [ m_iCurrentWeapon  ] , wpn_fY  [ m_iCurrentWeapon  ] , 
-#line 1826 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 wpn_fZ  [ m_iCurrentWeapon  ]);
+#line 1826 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_bSniping ){
 #line 1827 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  = FLOAT3D (0.0f , 0.0f , 0.0f);
+#line 1828 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 1829 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(! m_bMirrorFire ){
-#line 1830 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . RelativeToAbsoluteSmooth  (CPlacement3D (vPos  , ANGLE3D (0 , 0 , 0)));
-#line 1831 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }else {
+#line 1830 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  = FLOAT3D (- wpn_fX  [ m_iCurrentWeapon  ] , wpn_fY  [ m_iCurrentWeapon  ] , 
+#line 1831 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+wpn_fZ  [ m_iCurrentWeapon  ]);
 #line 1832 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . RelativeToAbsoluteSmooth  (CPlacement3D (vPos  , ANGLE3D (0 , 0 , 0)));
-#line 1833 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 1834 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  (1) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+if(! m_bMirrorFire ){
 #line 1835 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  (2) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+plPos  . RelativeToAbsoluteSmooth  (CPlacement3D (vPos  , ANGLE3D (0 , 0 , 0)));
 #line 1836 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  (3) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+}else {
+#line 1837 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . RelativeToAbsoluteSmooth  (CPlacement3D (vPos  , ANGLE3D (0 , 0 , 0)));
 #line 1838 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(bResetZ ){
-#line 1839 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  (3) = 0.0f;
-#line 1840 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
+#line 1839 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  (1) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+#line 1840 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  (2) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+#line 1841 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  (3) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
 #line 1843 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plView  = ((CPlayer  &) * m_penPlayer ) . en_plViewpoint ;
+if(bResetZ ){
 #line 1844 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plView  . pl_PositionVector  (2) += ((CPlayerAnimator  &) * ((CPlayer  &) * m_penPlayer ) . m_penAnimator ) . 
+plPos  . pl_PositionVector  (3) = 0.0f;
 #line 1845 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fEyesYOffset ;
-#line 1846 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . RelativeToAbsoluteSmooth  (plView );
-#line 1847 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . RelativeToAbsoluteSmooth  (m_penPlayer  -> GetPlacement  ());
+}
 #line 1848 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlacement3D plView  = ((CPlayer  &) * m_penPlayer ) . en_plViewpoint ;
+#line 1849 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plView  . pl_PositionVector  (2) += ((CPlayerAnimator  &) * ((CPlayer  &) * m_penPlayer ) . m_penAnimator ) . 
+#line 1850 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_fEyesYOffset ;
+#line 1851 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . RelativeToAbsoluteSmooth  (plView );
+#line 1852 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . RelativeToAbsoluteSmooth  (m_penPlayer  -> GetPlacement  ());
+#line 1853 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 1851 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::CalcLerpedWeaponPosition(FLOAT3D vPos,CPlacement3D & plPos,BOOL bResetZ) 
-#line 1852 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 1853 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
-#line 1855 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(! m_bMirrorFire ){
 #line 1856 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  = FLOAT3D (wpn_fX  [ m_iCurrentWeapon  ] , wpn_fY  [ m_iCurrentWeapon  ] , 
+void CPlayerWeapons::CalcLerpedWeaponPosition(FLOAT3D vPos,CPlacement3D & plPos,BOOL bResetZ) 
 #line 1857 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-wpn_fZ  [ m_iCurrentWeapon  ]);
+{
 #line 1858 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_bSniping ){
-#line 1859 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  = FLOAT3D (0.0f , 0.0f , 0.0f);
+plPos  . pl_OrientationAngle  = ANGLE3D (0 , 0 , 0);
 #line 1860 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+if(! m_bMirrorFire ){
 #line 1861 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
+plPos  . pl_PositionVector  = FLOAT3D (wpn_fX  [ m_iCurrentWeapon  ] , wpn_fY  [ m_iCurrentWeapon  ] , 
 #line 1862 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  = FLOAT3D (- wpn_fX  [ m_iCurrentWeapon  ] , wpn_fY  [ m_iCurrentWeapon  ] , 
-#line 1863 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 wpn_fZ  [ m_iCurrentWeapon  ]);
+#line 1863 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_bSniping ){
 #line 1864 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  = FLOAT3D (0.0f , 0.0f , 0.0f);
+#line 1865 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 1866 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(! m_bMirrorFire ){
-#line 1867 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . RelativeToAbsoluteSmooth  (CPlacement3D (vPos  , ANGLE3D (0 , 0 , 0)));
-#line 1868 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }else {
+#line 1867 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  = FLOAT3D (- wpn_fX  [ m_iCurrentWeapon  ] , wpn_fY  [ m_iCurrentWeapon  ] , 
+#line 1868 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+wpn_fZ  [ m_iCurrentWeapon  ]);
 #line 1869 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . RelativeToAbsoluteSmooth  (CPlacement3D (vPos  , ANGLE3D (0 , 0 , 0)));
-#line 1870 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 1871 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  (1) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+if(! m_bMirrorFire ){
 #line 1872 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  (2) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+plPos  . RelativeToAbsoluteSmooth  (CPlacement3D (vPos  , ANGLE3D (0 , 0 , 0)));
 #line 1873 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  (3) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+}else {
+#line 1874 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . RelativeToAbsoluteSmooth  (CPlacement3D (vPos  , ANGLE3D (0 , 0 , 0)));
 #line 1875 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(bResetZ ){
-#line 1876 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  (3) = 0.0f;
-#line 1877 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
+#line 1876 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  (1) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+#line 1877 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  (2) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+#line 1878 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  (3) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
 #line 1880 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plRes ;
+if(bResetZ ){
 #line 1881 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-GetPlayer  () -> GetLerpedWeaponPosition  (plPos  . pl_PositionVector  , plRes );
+plPos  . pl_PositionVector  (3) = 0.0f;
 #line 1882 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 1885 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlacement3D plRes ;
+#line 1886 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+GetPlayer  () -> GetLerpedWeaponPosition  (plPos  . pl_PositionVector  , plRes );
+#line 1887 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 plPos  = plRes ;
-#line 1883 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1888 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 1886 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::CalcWeaponPositionImprecise(FLOAT3D vPos,CPlacement3D & plPos,BOOL bResetZ,FLOAT fImprecissionAngle) {
-#line 1887 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_OrientationAngle  = ANGLE3D ((FRnd  () - 0.5f) * fImprecissionAngle  , (FRnd  () - 0.5f) * fImprecissionAngle  , 0);
-#line 1889 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(! m_bMirrorFire ){
-#line 1890 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  = FLOAT3D (wpn_fX  [ m_iCurrentWeapon  ] , wpn_fY  [ m_iCurrentWeapon  ] , 
 #line 1891 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-wpn_fZ  [ m_iCurrentWeapon  ]);
+void CPlayerWeapons::CalcWeaponPositionImprecise(FLOAT3D vPos,CPlacement3D & plPos,BOOL bResetZ,FLOAT fImprecissionAngle) {
 #line 1892 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_bSniping ){
-#line 1893 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  = FLOAT3D (0.0f , 0.0f , 0.0f);
+plPos  . pl_OrientationAngle  = ANGLE3D ((FRnd  () - 0.5f) * fImprecissionAngle  , (FRnd  () - 0.5f) * fImprecissionAngle  , 0);
 #line 1894 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+if(! m_bMirrorFire ){
 #line 1895 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
+plPos  . pl_PositionVector  = FLOAT3D (wpn_fX  [ m_iCurrentWeapon  ] , wpn_fY  [ m_iCurrentWeapon  ] , 
 #line 1896 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  = FLOAT3D (- wpn_fX  [ m_iCurrentWeapon  ] , wpn_fY  [ m_iCurrentWeapon  ] , 
-#line 1897 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 wpn_fZ  [ m_iCurrentWeapon  ]);
+#line 1897 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_bSniping ){
 #line 1898 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  = FLOAT3D (0.0f , 0.0f , 0.0f);
+#line 1899 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 1900 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(! m_bMirrorFire ){
-#line 1901 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . RelativeToAbsoluteSmooth  (CPlacement3D (vPos  , ANGLE3D (0 , 0 , 0)));
-#line 1902 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }else {
+#line 1901 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  = FLOAT3D (- wpn_fX  [ m_iCurrentWeapon  ] , wpn_fY  [ m_iCurrentWeapon  ] , 
+#line 1902 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+wpn_fZ  [ m_iCurrentWeapon  ]);
 #line 1903 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . RelativeToAbsoluteSmooth  (CPlacement3D (vPos  , ANGLE3D (0 , 0 , 0)));
-#line 1904 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 1905 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  (1) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+if(! m_bMirrorFire ){
 #line 1906 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  (2) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+plPos  . RelativeToAbsoluteSmooth  (CPlacement3D (vPos  , ANGLE3D (0 , 0 , 0)));
 #line 1907 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  (3) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+}else {
+#line 1908 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . RelativeToAbsoluteSmooth  (CPlacement3D (vPos  , ANGLE3D (0 , 0 , 0)));
 #line 1909 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(bResetZ ){
+}
 #line 1910 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . pl_PositionVector  (3) = 0.0f;
+plPos  . pl_PositionVector  (1) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
 #line 1911 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+plPos  . pl_PositionVector  (2) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
+#line 1912 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . pl_PositionVector  (3) *= SinFast  (wpn_fFOV  [ m_iCurrentWeapon  ] / 2) / SinFast  (90.0f / 2);
 #line 1914 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plView  = ((CPlayer  &) * m_penPlayer ) . en_plViewpoint ;
+if(bResetZ ){
 #line 1915 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plView  . pl_PositionVector  (2) += ((CPlayerAnimator  &) * ((CPlayer  &) * m_penPlayer ) . m_penAnimator ) . 
+plPos  . pl_PositionVector  (3) = 0.0f;
 #line 1916 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fEyesYOffset ;
-#line 1917 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . RelativeToAbsoluteSmooth  (plView );
-#line 1918 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plPos  . RelativeToAbsoluteSmooth  (m_penPlayer  -> GetPlacement  ());
+}
 #line 1919 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
+CPlacement3D plView  = ((CPlayer  &) * m_penPlayer ) . en_plViewpoint ;
+#line 1920 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plView  . pl_PositionVector  (2) += ((CPlayerAnimator  &) * ((CPlayer  &) * m_penPlayer ) . m_penAnimator ) . 
+#line 1921 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_fEyesYOffset ;
 #line 1922 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::Setup3DSoundParameters(void) {
+plPos  . RelativeToAbsoluteSmooth  (plView );
 #line 1923 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 1926 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pl  . m_soWeapon0  . Set3DParameters  (50.0f , 5.0f , 1.0f , 1.0f);
-#line 1927 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pl  . m_soWeapon1  . Set3DParameters  (50.0f , 5.0f , 1.0f , 1.0f);
-#line 1928 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pl  . m_soWeapon2  . Set3DParameters  (50.0f , 5.0f , 1.0f , 1.0f);
-#line 1929 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pl  . m_soWeapon3  . Set3DParameters  (50.0f , 5.0f , 1.0f , 1.0f);
-#line 1930 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pl  . m_soWeaponAmbient  . Set3DParameters  (30.0f , 3.0f , 0.0f , 1.0f);
-#line 1931 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plPos  . RelativeToAbsoluteSmooth  (m_penPlayer  -> GetPlacement  ());
+#line 1924 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 1939 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1927 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::Setup3DSoundParameters(void) {
+#line 1928 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
+#line 1931 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pl  . m_soWeapon0  . Set3DParameters  (50.0f , 5.0f , 1.0f , 1.0f);
+#line 1932 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pl  . m_soWeapon1  . Set3DParameters  (50.0f , 5.0f , 1.0f , 1.0f);
+#line 1933 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pl  . m_soWeapon2  . Set3DParameters  (50.0f , 5.0f , 1.0f , 1.0f);
+#line 1934 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pl  . m_soWeapon3  . Set3DParameters  (50.0f , 5.0f , 1.0f , 1.0f);
+#line 1935 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pl  . m_soWeaponAmbient  . Set3DParameters  (30.0f , 3.0f , 0.0f , 1.0f);
+#line 1936 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 1944 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BOOL CPlayerWeapons::CutWithKnife(FLOAT fX,FLOAT fY,FLOAT fRange,FLOAT fWide,FLOAT fThickness,FLOAT fDamage) 
-#line 1940 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 1945 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 1942 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plKnife ;
-#line 1943 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPosition  (FLOAT3D (fX  , fY  , 0) , plKnife  , TRUE );
-#line 1946 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT3D & vBase  = plKnife  . pl_PositionVector ;
 #line 1947 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOATmatrix3D m ;
+CPlacement3D plKnife ;
 #line 1948 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-MakeRotationMatrixFast  (m  , plKnife  . pl_OrientationAngle );
-#line 1949 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vRight  = m  . GetColumn  (1) * fWide ;
-#line 1950 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vUp  = m  . GetColumn  (2) * fWide ;
+CalcWeaponPosition  (FLOAT3D (fX  , fY  , 0) , plKnife  , TRUE );
 #line 1951 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vFront  = - m  . GetColumn  (3) * fRange ;
+const FLOAT3D & vBase  = plKnife  . pl_PositionVector ;
+#line 1952 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOATmatrix3D m ;
 #line 1953 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vDest  [ 5 ];
+MakeRotationMatrixFast  (m  , plKnife  . pl_OrientationAngle );
 #line 1954 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vDest  [ 0 ] = vBase  + vFront ;
+FLOAT3D vRight  = m  . GetColumn  (1) * fWide ;
 #line 1955 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vDest  [ 1 ] = vBase  + vFront  + vUp ;
+FLOAT3D vUp  = m  . GetColumn  (2) * fWide ;
 #line 1956 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vDest  [ 2 ] = vBase  + vFront  - vUp ;
-#line 1957 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vDest  [ 3 ] = vBase  + vFront  + vRight ;
+FLOAT3D vFront  = - m  . GetColumn  (3) * fRange ;
 #line 1958 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vDest  [ 4 ] = vBase  + vFront  - vRight ;
+FLOAT3D vDest  [ 5 ];
+#line 1959 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+vDest  [ 0 ] = vBase  + vFront ;
 #line 1960 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CEntity  * penClosest  = NULL ;
+vDest  [ 1 ] = vBase  + vFront  + vUp ;
 #line 1961 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fDistance  = UpperLimit  (0.0f);
+vDest  [ 2 ] = vBase  + vFront  - vUp ;
 #line 1962 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vHit ;
+vDest  [ 3 ] = vBase  + vFront  + vRight ;
 #line 1963 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vDir ;
+vDest  [ 4 ] = vBase  + vFront  - vRight ;
 #line 1965 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-for(INDEX i  = 0;i  < 5;i  ++){
+CEntity  * penClosest  = NULL ;
+#line 1966 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fDistance  = UpperLimit  (0.0f);
 #line 1967 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CCastRay  crRay  (m_penPlayer  , vBase  , vDest  [ i  ]);
+FLOAT3D vHit ;
 #line 1968 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-crRay  . cr_bHitTranslucentPortals  = FALSE ;
-#line 1969 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-crRay  . cr_fTestR  = fThickness ;
+FLOAT3D vDir ;
 #line 1970 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-crRay  . cr_ttHitModels  = CCastRay  :: TT_COLLISIONBOX ;
-#line 1971 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-GetWorld  () -> CastRay  (crRay );
+for(INDEX i  = 0;i  < 5;i  ++){
+#line 1972 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CCastRay  crRay  (m_penPlayer  , vBase  , vDest  [ i  ]);
+#line 1973 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+crRay  . cr_bHitTranslucentPortals  = FALSE ;
 #line 1974 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(crRay  . cr_penHit  != NULL  && crRay  . cr_fHitDistance  < fDistance ){
+crRay  . cr_fTestR  = fThickness ;
 #line 1975 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-penClosest  = crRay  . cr_penHit ;
+crRay  . cr_ttHitModels  = CCastRay  :: TT_COLLISIONBOX ;
 #line 1976 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fDistance  = crRay  . cr_fHitDistance ;
-#line 1977 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vDir  = vDest  [ i  ] - vBase ;
-#line 1978 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vHit  = crRay  . cr_vHit ;
+GetWorld  () -> CastRay  (crRay );
+#line 1979 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(crRay  . cr_penHit  != NULL  && crRay  . cr_fHitDistance  < fDistance ){
 #line 1980 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(i  == 0){
+penClosest  = crRay  . cr_penHit ;
 #line 1981 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(crRay  . cr_penHit  -> GetRenderType  () == RT_BRUSH )
+fDistance  = crRay  . cr_fHitDistance ;
 #line 1982 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+vDir  = vDest  [ i  ] - vBase ;
 #line 1983 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iSurfaceType  = crRay  . cr_pbpoBrushPolygon  -> bpo_bppProperties  . bpp_ubSurfaceType ;
-#line 1984 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-EffectParticlesType  eptType  = GetParticleEffectTypeForSurface  (iSurfaceType );
+vHit  = crRay  . cr_vHit ;
+#line 1985 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(i  == 0){
 #line 1986 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vNormal  = crRay  . cr_pbpoBrushPolygon  -> bpo_pbplPlane  -> bpl_plAbsolute ;
+if(crRay  . cr_penHit  -> GetRenderType  () == RT_BRUSH )
 #line 1987 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vReflected  = vDir  - vNormal  * (2.0f * (vNormal  % vDir ));
+{
 #line 1988 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . AddBulletSpray  (vBase  + vFront  , eptType  , vReflected );
+INDEX iSurfaceType  = crRay  . cr_pbpoBrushPolygon  -> bpo_bppProperties  . bpp_ubSurfaceType ;
 #line 1989 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 1990 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-else if(crRay  . cr_penHit  -> GetRenderType  () == RT_MODEL )
+EffectParticlesType  eptType  = GetParticleEffectTypeForSurface  (iSurfaceType );
 #line 1991 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+FLOAT3D vNormal  = crRay  . cr_pbpoBrushPolygon  -> bpo_pbplPlane  -> bpl_plAbsolute ;
 #line 1992 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BOOL bRender  = TRUE ;
+FLOAT3D vReflected  = vDir  - vNormal  * (2.0f * (vNormal  % vDir ));
 #line 1993 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vSpillDir  = - ((CPlayer  &) * m_penPlayer ) . en_vGravityDir  * 0.5f;
+((CPlayer  &) * m_penPlayer ) . AddBulletSpray  (vBase  + vFront  , eptType  , vReflected );
 #line 1994 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SprayParticlesType  sptType  = SPT_NONE ;
+}
 #line 1995 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-COLOR colParticles  = C_WHITE  | CT_OPAQUE ;
+else if(crRay  . cr_penHit  -> GetRenderType  () == RT_MODEL )
 #line 1996 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fPower  = 4.0f;
+{
 #line 1997 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(IsOfClass  (crRay  . cr_penHit  , "ModelHolder2"))
+BOOL bRender  = TRUE ;
 #line 1998 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+FLOAT3D vSpillDir  = - ((CPlayer  &) * m_penPlayer ) . en_vGravityDir  * 0.5f;
 #line 1999 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-bRender  = FALSE ;
+SprayParticlesType  sptType  = SPT_NONE ;
 #line 2000 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CModelDestruction  * penDestruction  = ((CModelHolder2  &) * crRay  . cr_penHit ) . GetDestruction  ();
+COLOR colParticles  = C_WHITE  | CT_OPAQUE ;
 #line 2001 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(penDestruction  != NULL )
+FLOAT fPower  = 4.0f;
 #line 2002 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+if(IsOfClass  (crRay  . cr_penHit  , "ModelHolder2"))
 #line 2003 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-bRender  = TRUE ;
-#line 2004 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sptType  = penDestruction  -> m_sptType ;
-#line 2005 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2006 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CModelHolder2  * pmh2  = (CModelHolder2  *) crRay  . cr_penHit ;
-#line 2007 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-colParticles  = pmh2  -> m_colBurning ;
-#line 2008 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2009 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOATaabbox3D boxCutted  = FLOATaabbox3D (FLOAT3D (0 , 0 , 0) , FLOAT3D (1 , 1 , 1));
-#line 2010 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(bRender )
-#line 2011 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
+#line 2004 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+bRender  = FALSE ;
+#line 2005 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CModelDestruction  * penDestruction  = ((CModelHolder2  &) * crRay  . cr_penHit ) . GetDestruction  ();
+#line 2006 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(penDestruction  != NULL )
+#line 2007 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 2008 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+bRender  = TRUE ;
+#line 2009 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sptType  = penDestruction  -> m_sptType ;
+#line 2010 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2011 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CModelHolder2  * pmh2  = (CModelHolder2  *) crRay  . cr_penHit ;
 #line 2012 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-crRay  . cr_penHit  -> en_pmoModelObject  -> GetCurrentFrameBBox  (boxCutted );
+colParticles  = pmh2  -> m_colBurning ;
 #line 2013 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . AddGoreSpray  (vBase  + vFront  , vHit  , sptType  , 
+}
 #line 2014 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vSpillDir  , boxCutted  , fPower  , colParticles );
+FLOATaabbox3D boxCutted  = FLOATaabbox3D (FLOAT3D (0 , 0 , 0) , FLOAT3D (1 , 1 , 1));
 #line 2015 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+if(bRender )
 #line 2016 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+{
+#line 2017 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+crRay  . cr_penHit  -> en_pmoModelObject  -> GetCurrentFrameBBox  (boxCutted );
 #line 2018 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+((CPlayer  &) * m_penPlayer ) . AddGoreSpray  (vBase  + vFront  , vHit  , sptType  , 
 #line 2019 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+vSpillDir  , boxCutted  , fPower  , colParticles );
 #line 2020 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 2021 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 2023 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(penClosest  != NULL ){
+break ;
+#line 2024 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
 #line 2025 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(! (GetSP  () -> sp_bCooperative ) && IsOfClass  (penClosest  , "Player")){
+}
 #line 2026 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vToTarget  = penClosest  -> GetPlacement  () . pl_PositionVector  - m_penPlayer  -> GetPlacement  () . pl_PositionVector ;
-#line 2027 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vTargetHeading  = FLOAT3D (0.0 , 0.0 , - 1.0f) * penClosest  -> GetRotationMatrix  ();
+}
 #line 2028 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vToTarget  . Normalize  ();vTargetHeading  . Normalize  ();
-#line 2029 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(vToTarget  % vTargetHeading  > 0.64279)
+if(penClosest  != NULL ){
 #line 2030 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+if(! (GetSP  () -> sp_bCooperative ) && IsOfClass  (penClosest  , "Player")){
 #line 2031 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PrintCenterMessage  (this  , m_penPlayer  , TRANS  ("Backstab!") , 4.0f , MSS_NONE );
+FLOAT3D vToTarget  = penClosest  -> GetPlacement  () . pl_PositionVector  - m_penPlayer  -> GetPlacement  () . pl_PositionVector ;
 #line 2032 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fDamage  *= 4.0f;
+FLOAT3D vTargetHeading  = FLOAT3D (0.0 , 0.0 , - 1.0f) * penClosest  -> GetRotationMatrix  ();
 #line 2033 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+vToTarget  . Normalize  ();vTargetHeading  . Normalize  ();
 #line 2034 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+if(vToTarget  % vTargetHeading  > 0.64279)
 #line 2035 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT fDamageMul  = GetSeriousDamageMultiplier  (m_penPlayer );
+{
 #line 2036 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-InflictDirectDamage  (penClosest  , m_penPlayer  , DMT_CLOSERANGE  , fDamage  * fDamageMul  , vHit  , vDir );
+PrintCenterMessage  (this  , m_penPlayer  , TRANS  ("Backstab!") , 4.0f , MSS_NONE );
 #line 2037 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return TRUE ;
+fDamage  *= 4.0f;
 #line 2038 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 2039 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return FALSE ;
+}
 #line 2040 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOAT fDamageMul  = GetSeriousDamageMultiplier  (m_penPlayer );
+#line 2041 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+InflictDirectDamage  (penClosest  , m_penPlayer  , DMT_CLOSERANGE  , fDamage  * fDamageMul  , vHit  , vDir );
+#line 2042 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return TRUE ;
+#line 2043 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2044 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return FALSE ;
+#line 2045 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 2044 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2049 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BOOL CPlayerWeapons::CutWithChainsaw(FLOAT fX,FLOAT fY,FLOAT fRange,FLOAT fWide,FLOAT fThickness,FLOAT fDamage) 
-#line 2045 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2050 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 2047 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plKnife ;
-#line 2048 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPosition  (FLOAT3D (fX  , fY  , 0) , plKnife  , TRUE );
-#line 2051 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOAT3D & vBase  = plKnife  . pl_PositionVector ;
 #line 2052 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOATmatrix3D m ;
+CPlacement3D plKnife ;
 #line 2053 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-MakeRotationMatrixFast  (m  , plKnife  . pl_OrientationAngle );
-#line 2054 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vRight  = m  . GetColumn  (1) * fWide ;
-#line 2055 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vUp  = m  . GetColumn  (2) * fWide ;
+CalcWeaponPosition  (FLOAT3D (fX  , fY  , 0) , plKnife  , TRUE );
 #line 2056 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vFront  = - m  . GetColumn  (3) * fRange ;
+const FLOAT3D & vBase  = plKnife  . pl_PositionVector ;
+#line 2057 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOATmatrix3D m ;
 #line 2058 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vDest  [ 3 ];
+MakeRotationMatrixFast  (m  , plKnife  . pl_OrientationAngle );
 #line 2059 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vDest  [ 0 ] = vBase  + vFront ;
+FLOAT3D vRight  = m  . GetColumn  (1) * fWide ;
 #line 2060 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vDest  [ 1 ] = vBase  + vFront  + vRight ;
+FLOAT3D vUp  = m  . GetColumn  (2) * fWide ;
 #line 2061 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vDest  [ 2 ] = vBase  + vFront  - vRight ;
+FLOAT3D vFront  = - m  . GetColumn  (3) * fRange ;
 #line 2063 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CEntity  * penClosest  = NULL ;
+FLOAT3D vDest  [ 3 ];
 #line 2064 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fDistance  = UpperLimit  (0.0f);
+vDest  [ 0 ] = vBase  + vFront ;
 #line 2065 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vHit ;
+vDest  [ 1 ] = vBase  + vFront  + vRight ;
 #line 2066 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vDir ;
+vDest  [ 2 ] = vBase  + vFront  - vRight ;
 #line 2068 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-for(INDEX i  = 0;i  < 3;i  ++){
+CEntity  * penClosest  = NULL ;
+#line 2069 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fDistance  = UpperLimit  (0.0f);
 #line 2070 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CCastRay  crRay  (m_penPlayer  , vBase  , vDest  [ i  ]);
+FLOAT3D vHit ;
 #line 2071 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-crRay  . cr_bHitTranslucentPortals  = FALSE ;
-#line 2072 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-crRay  . cr_fTestR  = fThickness ;
+FLOAT3D vDir ;
 #line 2073 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-crRay  . cr_ttHitModels  = CCastRay  :: TT_COLLISIONBOX ;
-#line 2074 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-GetWorld  () -> CastRay  (crRay );
+for(INDEX i  = 0;i  < 3;i  ++){
+#line 2075 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CCastRay  crRay  (m_penPlayer  , vBase  , vDest  [ i  ]);
+#line 2076 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+crRay  . cr_bHitTranslucentPortals  = FALSE ;
 #line 2077 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(crRay  . cr_penHit  != NULL )
+crRay  . cr_fTestR  = fThickness ;
 #line 2078 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+crRay  . cr_ttHitModels  = CCastRay  :: TT_COLLISIONBOX ;
 #line 2079 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-penClosest  = crRay  . cr_penHit ;
-#line 2080 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fDistance  = crRay  . cr_fHitDistance ;
-#line 2081 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vDir  = vDest  [ i  ] - vBase ;
+GetWorld  () -> CastRay  (crRay );
 #line 2082 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vDir  . Normalize  ();
+if(crRay  . cr_penHit  != NULL )
 #line 2083 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vHit  = crRay  . cr_vHit ;
+{
+#line 2084 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+penClosest  = crRay  . cr_penHit ;
 #line 2085 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(i  == 0)
+fDistance  = crRay  . cr_fHitDistance ;
 #line 2086 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+vDir  = vDest  [ i  ] - vBase ;
 #line 2087 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(crRay  . cr_penHit  -> GetRenderType  () == RT_BRUSH )
+vDir  . Normalize  ();
 #line 2088 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 2089 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iSurfaceType  = crRay  . cr_pbpoBrushPolygon  -> bpo_bppProperties  . bpp_ubSurfaceType ;
+vHit  = crRay  . cr_vHit ;
 #line 2090 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-EffectParticlesType  eptType  = GetParticleEffectTypeForSurface  (iSurfaceType );
+if(i  == 0)
+#line 2091 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
 #line 2092 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vNormal  = crRay  . cr_pbpoBrushPolygon  -> bpo_pbplPlane  -> bpl_plAbsolute ;
+if(crRay  . cr_penHit  -> GetRenderType  () == RT_BRUSH )
 #line 2093 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vReflected  = vDir  - vNormal  * (2.0f * (vNormal  % vDir ));
+{
 #line 2094 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . AddBulletSpray  (vBase  + vFront  , eptType  , vReflected );
+INDEX iSurfaceType  = crRay  . cr_pbpoBrushPolygon  -> bpo_bppProperties  . bpp_ubSurfaceType ;
+#line 2095 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+EffectParticlesType  eptType  = GetParticleEffectTypeForSurface  (iSurfaceType );
 #line 2097 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . m_fChainShakeStrength  = 0.85f;
+FLOAT3D vNormal  = crRay  . cr_pbpoBrushPolygon  -> bpo_pbplPlane  -> bpl_plAbsolute ;
 #line 2098 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . m_fChainShakeFreqMod  = 1.0f;
+FLOAT3D vReflected  = vDir  - vNormal  * (2.0f * (vNormal  % vDir ));
 #line 2099 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . m_tmChainShakeEnd  = _pTimer  -> CurrentTick  () + CHAINSAW_UPDATETIME  * 1.5f;
-#line 2101 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+((CPlayer  &) * m_penPlayer ) . AddBulletSpray  (vBase  + vFront  , eptType  , vReflected );
 #line 2102 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-else if(crRay  . cr_penHit  -> GetRenderType  () == RT_MODEL )
+((CPlayer  &) * m_penPlayer ) . m_fChainShakeStrength  = 0.85f;
 #line 2103 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 2104 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BOOL bRender  = TRUE ;
-#line 2105 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vSpillDir  = - ((CPlayer  &) * m_penPlayer ) . en_vGravityDir  * 0.5f;
-#line 2106 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SprayParticlesType  sptType  = SPT_BLOOD ;
-#line 2107 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-COLOR colParticles  = C_WHITE  | CT_OPAQUE ;
-#line 2108 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(! IsDerivedFromClass  (crRay  . cr_penHit  , "Enemy Base")){
-#line 2109 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sptType  = SPT_NONE ;
-#line 2110 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2111 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fPower  = 4.0f;
-#line 2112 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(IsOfClass  (crRay  . cr_penHit  , "Boneman")){sptType  = SPT_BONES ;fPower  = 6.0f;}
-#line 2113 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(IsOfClass  (crRay  . cr_penHit  , "Gizmo") || 
-#line 2114 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-IsOfClass  (crRay  . cr_penHit  , "Beast")){sptType  = SPT_SLIME ;fPower  = 4.0f;}
-#line 2115 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(IsOfClass  (crRay  . cr_penHit  , "Woman")){sptType  = SPT_FEATHER ;fPower  = 3.0f;}
-#line 2116 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(IsOfClass  (crRay  . cr_penHit  , "Elemental")){sptType  = SPT_LAVA_STONES ;fPower  = 3.0f;}
-#line 2117 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(IsOfClass  (crRay  . cr_penHit  , "Walker")){sptType  = SPT_ELECTRICITY_SPARKS ;fPower  = 30.0f;}
-#line 2118 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(IsOfClass  (crRay  . cr_penHit  , "AirElemental")){sptType  = SPT_AIRSPOUTS ;fPower  = 6.0f;}
-#line 2119 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(IsOfClass  (crRay  . cr_penHit  , "CannonRotating") || 
-#line 2120 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-IsOfClass  (crRay  . cr_penHit  , "CannonStatic")){sptType  = SPT_WOOD ;}
-#line 2121 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(IsOfClass  (crRay  . cr_penHit  , "ModelHolder2"))
-#line 2122 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 2123 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-bRender  = FALSE ;
-#line 2124 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CModelDestruction  * penDestruction  = ((CModelHolder2  &) * crRay  . cr_penHit ) . GetDestruction  ();
-#line 2125 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CModelHolder2  * pmh2  = (CModelHolder2  *) crRay  . cr_penHit ;
-#line 2126 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-colParticles  = pmh2  -> m_colBurning ;
-#line 2127 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(penDestruction  != NULL )
-#line 2128 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 2129 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-bRender  = TRUE ;
-#line 2130 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sptType  = penDestruction  -> m_sptType ;
-#line 2131 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(sptType  == SPT_COLOREDSTONE )
-#line 2132 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 2133 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-colParticles  = MulColors  (colParticles  , penDestruction  -> m_colParticles );
-#line 2134 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2135 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2136 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2137 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOATaabbox3D boxCutted  = FLOATaabbox3D (FLOAT3D (0 , 0 , 0) , FLOAT3D (1 , 1 , 1));
-#line 2138 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(bRender  && m_tmLastChainsawSpray  + 0.2f < _pTimer  -> CurrentTick  ())
-#line 2139 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 2140 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-crRay  . cr_penHit  -> en_pmoModelObject  -> GetCurrentFrameBBox  (boxCutted );
-#line 2141 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . AddGoreSpray  (vBase  + vFront  , vHit  , sptType  , 
-#line 2142 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vSpillDir  , boxCutted  , fPower  , colParticles );
-#line 2143 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_tmLastChainsawSpray  = _pTimer  -> CurrentTick  ();
-#line 2144 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2147 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . m_fChainShakeStrength  = 1.1f;
-#line 2148 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ((CPlayer  &) * m_penPlayer ) . m_fChainShakeFreqMod  = 1.0f;
-#line 2149 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2104 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ((CPlayer  &) * m_penPlayer ) . m_tmChainShakeEnd  = _pTimer  -> CurrentTick  () + CHAINSAW_UPDATETIME  * 1.5f;
-#line 2151 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2106 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2107 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+else if(crRay  . cr_penHit  -> GetRenderType  () == RT_MODEL )
+#line 2108 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 2109 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+BOOL bRender  = TRUE ;
+#line 2110 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT3D vSpillDir  = - ((CPlayer  &) * m_penPlayer ) . en_vGravityDir  * 0.5f;
+#line 2111 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SprayParticlesType  sptType  = SPT_BLOOD ;
+#line 2112 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+COLOR colParticles  = C_WHITE  | CT_OPAQUE ;
+#line 2113 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(! IsDerivedFromClass  (crRay  . cr_penHit  , "Enemy Base")){
+#line 2114 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sptType  = SPT_NONE ;
+#line 2115 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2116 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fPower  = 4.0f;
+#line 2117 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(IsOfClass  (crRay  . cr_penHit  , "Boneman")){sptType  = SPT_BONES ;fPower  = 6.0f;}
+#line 2118 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(IsOfClass  (crRay  . cr_penHit  , "Gizmo") || 
+#line 2119 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+IsOfClass  (crRay  . cr_penHit  , "Beast")){sptType  = SPT_SLIME ;fPower  = 4.0f;}
+#line 2120 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(IsOfClass  (crRay  . cr_penHit  , "Woman")){sptType  = SPT_FEATHER ;fPower  = 3.0f;}
+#line 2121 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(IsOfClass  (crRay  . cr_penHit  , "Elemental")){sptType  = SPT_LAVA_STONES ;fPower  = 3.0f;}
+#line 2122 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(IsOfClass  (crRay  . cr_penHit  , "Walker")){sptType  = SPT_ELECTRICITY_SPARKS ;fPower  = 30.0f;}
+#line 2123 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(IsOfClass  (crRay  . cr_penHit  , "AirElemental")){sptType  = SPT_AIRSPOUTS ;fPower  = 6.0f;}
+#line 2124 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(IsOfClass  (crRay  . cr_penHit  , "CannonRotating") || 
+#line 2125 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+IsOfClass  (crRay  . cr_penHit  , "CannonStatic")){sptType  = SPT_WOOD ;}
+#line 2126 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(IsOfClass  (crRay  . cr_penHit  , "ModelHolder2"))
+#line 2127 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 2128 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+bRender  = FALSE ;
+#line 2129 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CModelDestruction  * penDestruction  = ((CModelHolder2  &) * crRay  . cr_penHit ) . GetDestruction  ();
+#line 2130 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CModelHolder2  * pmh2  = (CModelHolder2  *) crRay  . cr_penHit ;
+#line 2131 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+colParticles  = pmh2  -> m_colBurning ;
+#line 2132 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(penDestruction  != NULL )
+#line 2133 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 2134 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+bRender  = TRUE ;
+#line 2135 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sptType  = penDestruction  -> m_sptType ;
+#line 2136 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(sptType  == SPT_COLOREDSTONE )
+#line 2137 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 2138 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+colParticles  = MulColors  (colParticles  , penDestruction  -> m_colParticles );
+#line 2139 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2140 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2141 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2142 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOATaabbox3D boxCutted  = FLOATaabbox3D (FLOAT3D (0 , 0 , 0) , FLOAT3D (1 , 1 , 1));
+#line 2143 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(bRender  && m_tmLastChainsawSpray  + 0.2f < _pTimer  -> CurrentTick  ())
+#line 2144 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 2145 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+crRay  . cr_penHit  -> en_pmoModelObject  -> GetCurrentFrameBBox  (boxCutted );
+#line 2146 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . AddGoreSpray  (vBase  + vFront  , vHit  , sptType  , 
+#line 2147 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+vSpillDir  , boxCutted  , fPower  , colParticles );
+#line 2148 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_tmLastChainsawSpray  = _pTimer  -> CurrentTick  ();
+#line 2149 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 2152 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2154 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(crRay  . cr_penHit  -> GetRenderType  () == RT_MODEL  && crRay  . cr_fHitDistance  <= fDistance )
-#line 2155 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 2157 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(i  == 0)
-#line 2158 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 2160 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 2161 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2162 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2163 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
-#line 2165 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . m_fChainShakeStrength  = 2.1f;
-#line 2166 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . m_fChainShakeStrength  = 1.1f;
+#line 2153 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ((CPlayer  &) * m_penPlayer ) . m_fChainShakeFreqMod  = 1.0f;
-#line 2167 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2154 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ((CPlayer  &) * m_penPlayer ) . m_tmChainShakeEnd  = _pTimer  -> CurrentTick  () + CHAINSAW_UPDATETIME  * 1.5f;
+#line 2156 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2157 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2159 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(crRay  . cr_penHit  -> GetRenderType  () == RT_MODEL  && crRay  . cr_fHitDistance  <= fDistance )
+#line 2160 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 2162 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(i  == 0)
+#line 2163 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 2165 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 2166 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2167 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
 #line 2168 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2169 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+}else {
+#line 2170 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . m_fChainShakeStrength  = 2.1f;
 #line 2171 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(penClosest  != NULL ){
+((CPlayer  &) * m_penPlayer ) . m_fChainShakeFreqMod  = 1.0f;
 #line 2172 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-InflictDirectDamage  (penClosest  , m_penPlayer  , DMT_CHAINSAW  , fDamage  , vHit  , vDir );
+((CPlayer  &) * m_penPlayer ) . m_tmChainShakeEnd  = _pTimer  -> CurrentTick  () + CHAINSAW_UPDATETIME  * 1.5f;
 #line 2173 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return TRUE ;
+}
 #line 2174 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 2175 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return FALSE ;
 #line 2176 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
+if(penClosest  != NULL ){
+#line 2177 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+InflictDirectDamage  (penClosest  , m_penPlayer  , DMT_CHAINSAW  , fDamage  , vHit  , vDir );
+#line 2178 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return TRUE ;
 #line 2179 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BOOL CPlayerWeapons::ShakeBullet(FLOAT STRX,FLOAT STRY,FLOAT FM,FLOAT END) {
-#line 2182 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . m_fBulletShakeStrengthX  = STRX ;
-#line 2183 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . m_fBulletShakeStrengthY  = STRY ;
-#line 2184 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . m_fBulletShakeFreqMod  = FM ;
-#line 2185 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . m_tmBulletShakeEnd  = _pTimer  -> CurrentTick  () + END ;
-#line 2186 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2180 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return FALSE ;
+#line 2181 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 2184 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+BOOL CPlayerWeapons::ShakeBullet(FLOAT STRX,FLOAT STRY,FLOAT FM,FLOAT END) {
+#line 2187 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . m_fBulletShakeStrengthX  = STRX ;
 #line 2188 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
+((CPlayer  &) * m_penPlayer ) . m_fBulletShakeStrengthY  = STRY ;
+#line 2189 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . m_fBulletShakeFreqMod  = FM ;
+#line 2190 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . m_tmBulletShakeEnd  = _pTimer  -> CurrentTick  () + END ;
 #line 2191 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::PrepareSniperBullet(FLOAT fX,FLOAT fY,FLOAT fDamage,FLOAT fImprecission) {
+return FALSE ;
 #line 2193 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPositionImprecise  (FLOAT3D (fX  , fY  , 0) , plBullet  , TRUE  , fImprecission );
-#line 2195 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-penBullet  = CreateEntity  (plBullet  , CLASS_BULLET );
+}
+  
 #line 2196 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_vBulletSource  = plBullet  . pl_PositionVector ;
+void CPlayerWeapons::ApplyWeaponKick(FLOAT fKickX,FLOAT fKickY) {
 #line 2198 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-EBulletInit  eInit ;
+((CPlayer  &) * m_penPlayer ) . AddWeaponRecoil  (fKickX  , fKickY );
 #line 2199 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eInit  . penOwner  = m_penPlayer ;
-#line 2200 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eInit  . fDamage  = fDamage ;
-#line 2201 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-penBullet  -> Initialize  (eInit );
+}
+  
 #line 2202 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 2205 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::PrepareBullet(FLOAT fX,FLOAT fY,FLOAT fDamage) {
-#line 2207 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPosition  (FLOAT3D (fX  , fY  , 0) , plBullet  , TRUE );
-#line 2208 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plBullet  . pl_OrientationAngle  (1) += FRnd  () * 2.5f;
-#line 2209 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plBullet  . pl_OrientationAngle  (2) += FRnd  () * 2.5f;
-#line 2211 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::PrepareSniperBullet(FLOAT fX,FLOAT fY,FLOAT fDamage,FLOAT fImprecission) {
+#line 2204 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CalcWeaponPositionImprecise  (FLOAT3D (fX  , fY  , 0) , plBullet  , TRUE  , fImprecission );
+#line 2206 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 penBullet  = CreateEntity  (plBullet  , CLASS_BULLET );
-#line 2213 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2207 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_vBulletSource  = plBullet  . pl_PositionVector ;
+#line 2209 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 EBulletInit  eInit ;
-#line 2214 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2210 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 eInit  . penOwner  = m_penPlayer ;
-#line 2215 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2211 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 eInit  . fDamage  = fDamage ;
-#line 2216 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2212 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 penBullet  -> Initialize  (eInit );
-#line 2217 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2213 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
+#line 2216 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::PrepareBullet(FLOAT fX,FLOAT fY,FLOAT fDamage) {
+#line 2218 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CalcWeaponPosition  (FLOAT3D (fX  , fY  , 0) , plBullet  , TRUE );
+#line 2219 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plBullet  . pl_OrientationAngle  (1) += FRnd  () * 2.5f;
 #line 2220 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::FireSniperBullet(FLOAT fX,FLOAT fY,FLOAT fRange,FLOAT fDamage,FLOAT fImprecission) {
-#line 2221 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PrepareSniperBullet  (fX  , fY  , fDamage  , fImprecission );
+plBullet  . pl_OrientationAngle  (2) += FRnd  () * 2.5f;
 #line 2222 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CBullet  &) * penBullet ) . CalcTarget  (fRange );
-#line 2223 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CBullet  &) * penBullet ) . m_fBulletSize  = 0.1f;
+penBullet  = CreateEntity  (plBullet  , CLASS_BULLET );
+#line 2224 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+EBulletInit  eInit ;
 #line 2225 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CBullet  &) * penBullet ) . LaunchBullet  (TRUE  , FALSE  , TRUE );
+eInit  . penOwner  = m_penPlayer ;
+#line 2226 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+eInit  . fDamage  = fDamage ;
 #line 2227 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(((CBullet  &) * penBullet ) . m_vHitPoint  != FLOAT3D (0.0f , 0.0f , 0.0f)){
+penBullet  -> Initialize  (eInit );
 #line 2228 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_vBulletTarget  = ((CBullet  &) * penBullet ) . m_vHitPoint ;
-#line 2229 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(TRUE ){
-#line 2230 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_vBulletTarget  = m_vBulletSource  + FLOAT3D (0.0f , 0.0f , - 500.0f) * ((CBullet  &) * penBullet ) . GetRotationMatrix  ();
+}
+  
+#line 2231 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::FireSniperBullet(FLOAT fX,FLOAT fY,FLOAT fRange,FLOAT fDamage,FLOAT fImprecission) {
 #line 2232 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2246 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CBullet  &) * penBullet ) . DestroyBullet  ();
-#line 2247 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 2250 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::FireOneBullet(FLOAT fX,FLOAT fY,FLOAT fRange,FLOAT fDamage) {
-#line 2251 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PrepareBullet  (fX  , fY  , fDamage );
-#line 2252 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+PrepareSniperBullet  (fX  , fY  , fDamage  , fImprecission );
+#line 2233 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ((CBullet  &) * penBullet ) . CalcTarget  (fRange );
-#line 2253 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2234 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ((CBullet  &) * penBullet ) . m_fBulletSize  = 0.1f;
-#line 2255 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2236 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ((CBullet  &) * penBullet ) . LaunchBullet  (TRUE  , FALSE  , TRUE );
-#line 2256 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CBullet  &) * penBullet ) . DestroyBullet  ();
+#line 2238 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(((CBullet  &) * penBullet ) . m_vHitPoint  != FLOAT3D (0.0f , 0.0f , 0.0f)){
+#line 2239 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_vBulletTarget  = ((CBullet  &) * penBullet ) . m_vHitPoint ;
+#line 2240 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else if(TRUE ){
+#line 2241 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_vBulletTarget  = m_vBulletSource  + FLOAT3D (0.0f , 0.0f , - 500.0f) * ((CBullet  &) * penBullet ) . GetRotationMatrix  ();
+#line 2243 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
 #line 2257 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CBullet  &) * penBullet ) . DestroyBullet  ();
+#line 2258 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 2260 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::FireBullets(FLOAT fX,FLOAT fY,FLOAT fRange,FLOAT fDamage,INDEX iBullets,
 #line 2261 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT * afPositions,FLOAT fStretch,FLOAT fJitter) {
+void CPlayerWeapons::FireOneBullet(FLOAT fX,FLOAT fY,FLOAT fRange,FLOAT fDamage) {
 #line 2262 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PrepareBullet  (fX  , fY  , fDamage );
 #line 2263 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ((CBullet  &) * penBullet ) . CalcTarget  (fRange );
 #line 2264 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CBullet  &) * penBullet ) . m_fBulletSize  = GetSP  () -> sp_bCooperative  ? 0.1f : 0.3f;
+((CBullet  &) * penBullet ) . m_fBulletSize  = 0.1f;
 #line 2266 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iSlug ;
-#line 2267 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-for(iSlug  = 0;iSlug  < iBullets ;iSlug  ++){
-#line 2269 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CBullet  &) * penBullet ) . CalcJitterTargetFixed  (
-#line 2270 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-afPositions  [ iSlug  * 2 + 0 ] * fRange  * fStretch  , afPositions  [ iSlug  * 2 + 1 ] * fRange  * fStretch  , 
-#line 2271 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fJitter  * fRange  * fStretch );
-#line 2272 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CBullet  &) * penBullet ) . LaunchBullet  (iSlug  < 2 , FALSE  , TRUE );
-#line 2273 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2274 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CBullet  &) * penBullet ) . DestroyBullet  ();
-#line 2275 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 2278 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::FireMachineBullet(FLOAT fX,FLOAT fY,FLOAT fRange,FLOAT fDamage,
-#line 2279 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fJitter,FLOAT fBulletSize) 
-#line 2280 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 2281 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fJitter  *= fRange ;
-#line 2282 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PrepareBullet  (fX  , fY  , fDamage );
-#line 2283 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CBullet  &) * penBullet ) . CalcTarget  (fRange );
-#line 2284 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CBullet  &) * penBullet ) . m_fBulletSize  = fBulletSize ;
-#line 2285 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CBullet  &) * penBullet ) . CalcJitterTarget  (fJitter );
-#line 2286 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ((CBullet  &) * penBullet ) . LaunchBullet  (TRUE  , FALSE  , TRUE );
-#line 2287 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2267 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ((CBullet  &) * penBullet ) . DestroyBullet  ();
-#line 2288 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2268 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
+#line 2271 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::FireBullets(FLOAT fX,FLOAT fY,FLOAT fRange,FLOAT fDamage,INDEX iBullets,
+#line 2272 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT * afPositions,FLOAT fStretch,FLOAT fJitter) {
+#line 2273 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+PrepareBullet  (fX  , fY  , fDamage );
+#line 2274 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CBullet  &) * penBullet ) . CalcTarget  (fRange );
+#line 2275 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CBullet  &) * penBullet ) . m_fBulletSize  = GetSP  () -> sp_bCooperative  ? 0.1f : 0.3f;
+#line 2277 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iSlug ;
+#line 2278 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+for(iSlug  = 0;iSlug  < iBullets ;iSlug  ++){
+#line 2280 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CBullet  &) * penBullet ) . CalcJitterTargetFixed  (
+#line 2281 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+afPositions  [ iSlug  * 2 + 0 ] * fRange  * fStretch  , afPositions  [ iSlug  * 2 + 1 ] * fRange  * fStretch  , 
+#line 2282 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+fJitter  * fRange  * fStretch );
+#line 2283 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CBullet  &) * penBullet ) . LaunchBullet  (iSlug  < 2 , FALSE  , TRUE );
+#line 2284 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2285 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CBullet  &) * penBullet ) . DestroyBullet  ();
+#line 2286 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 2289 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::FireMachineBullet(FLOAT fX,FLOAT fY,FLOAT fRange,FLOAT fDamage,
+#line 2290 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fJitter,FLOAT fBulletSize) 
 #line 2291 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::FireGrenade(INDEX iPower) {
+{
+#line 2292 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+fJitter  *= fRange ;
 #line 2293 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plGrenade ;
+PrepareBullet  (fX  , fY  , fDamage );
 #line 2294 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPosition  (
+((CBullet  &) * penBullet ) . CalcTarget  (fRange );
 #line 2295 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D (wpn_fFX  [ WEAPON_GRENADELAUNCHER  ] , wpn_fFY  [ WEAPON_GRENADELAUNCHER  ] , 0) , 
+((CBullet  &) * penBullet ) . m_fBulletSize  = fBulletSize ;
 #line 2296 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plGrenade  , TRUE );
+((CBullet  &) * penBullet ) . CalcJitterTarget  (fJitter );
+#line 2297 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CBullet  &) * penBullet ) . LaunchBullet  (TRUE  , FALSE  , TRUE );
 #line 2298 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CEntityPointer penAltGrenade  = CreateEntity  (plGrenade  , CLASS_PROJECTILE );
-#line 2300 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ELaunchProjectile  eLaunch ;
-#line 2301 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eLaunch  . penLauncher  = m_penPlayer ;
+((CBullet  &) * penBullet ) . DestroyBullet  ();
+#line 2299 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
 #line 2302 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eLaunch  . prtType  = PRT_GRENADE ;
-#line 2303 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eLaunch  . fSpeed  = 20.0f + iPower  * 5.0f;
+void CPlayerWeapons::FireGrenade(INDEX iPower) {
 #line 2304 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-penAltGrenade  -> Initialize  (eLaunch );
+CPlacement3D plGrenade ;
 #line 2305 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 2308 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::AltFireGrenade(INDEX iPower) {
-#line 2310 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plGrenadeAlt ;
+CalcWeaponPosition  (
+#line 2306 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT3D (wpn_fFX  [ WEAPON_GRENADELAUNCHER  ] , wpn_fFY  [ WEAPON_GRENADELAUNCHER  ] , 0) , 
+#line 2307 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plGrenade  , TRUE );
+#line 2309 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CEntityPointer penAltGrenade  = CreateEntity  (plGrenade  , CLASS_PROJECTILE );
 #line 2311 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPosition  (
+ELaunchProjectile  eLaunch ;
 #line 2312 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D (wpn_fFX  [ WEAPON_TOMMYGUN  ] , wpn_fFY  [ WEAPON_TOMMYGUN  ] , 0) , 
+eLaunch  . penLauncher  = m_penPlayer ;
 #line 2313 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plGrenadeAlt  , TRUE );
+eLaunch  . prtType  = PRT_GRENADE ;
+#line 2314 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+eLaunch  . fSpeed  = 20.0f + iPower  * 5.0f;
 #line 2315 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CEntityPointer penAltGrenade  = CreateEntity  (plGrenadeAlt  , CLASS_PROJECTILE );
-#line 2317 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ELaunchProjectile  eLaunch ;
-#line 2318 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eLaunch  . penLauncher  = m_penPlayer ;
-#line 2319 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eLaunch  . prtType  = PRT_ALT_GRANAT ;
-#line 2320 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eLaunch  . fSpeed  = 80.0f + iPower  * 25.0f;
-#line 2321 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 penAltGrenade  -> Initialize  (eLaunch );
+#line 2316 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 2319 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::AltFireGrenade(INDEX iPower) {
+#line 2321 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlacement3D plGrenadeAlt ;
 #line 2322 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 2325 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::FireRocket(void) {
-#line 2327 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plRocket ;
-#line 2328 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CalcWeaponPosition  (
-#line 2329 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D (wpn_fFX  [ WEAPON_ROCKETLAUNCHER  ] , wpn_fFY  [ WEAPON_ROCKETLAUNCHER  ] , 0) , 
-#line 2330 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plRocket  , TRUE );
-#line 2332 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CEntityPointer penRocket  = CreateEntity  (plRocket  , CLASS_PROJECTILE );
-#line 2334 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2323 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT3D (wpn_fFX  [ WEAPON_TOMMYGUN  ] , wpn_fFY  [ WEAPON_TOMMYGUN  ] , 0) , 
+#line 2324 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plGrenadeAlt  , TRUE );
+#line 2326 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CEntityPointer penAltGrenade  = CreateEntity  (plGrenadeAlt  , CLASS_PROJECTILE );
+#line 2328 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ELaunchProjectile  eLaunch ;
-#line 2335 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2329 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 eLaunch  . penLauncher  = m_penPlayer ;
-#line 2336 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eLaunch  . prtType  = PRT_ROCKET ;
-#line 2337 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-penRocket  -> Initialize  (eLaunch );
-#line 2338 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2330 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+eLaunch  . prtType  = PRT_ALT_GRANAT ;
+#line 2331 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+eLaunch  . fSpeed  = 80.0f + iPower  * 25.0f;
+#line 2332 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+penAltGrenade  -> Initialize  (eLaunch );
+#line 2333 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 2365 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::GetFlamerSourcePlacement(CPlacement3D & plSource,CPlacement3D & plInFrontOfPipe) {
-#line 2366 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcLerpedWeaponPosition  (
-#line 2367 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D (wpn_fFX  [ WEAPON_FLAMER  ] , wpn_fFY  [ WEAPON_FLAMER  ] , - 0.15f) , 
-#line 2368 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plSource  , FALSE );
-#line 2369 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plInFrontOfPipe  = plSource ;
-#line 2370 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vFront ;
-#line 2371 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AnglesToDirectionVector  (plSource  . pl_OrientationAngle  , vFront );
-#line 2372 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plInFrontOfPipe  . pl_PositionVector  = plSource  . pl_PositionVector  + vFront  * 1.0f;
-#line 2373 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2336 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::FireRocket(void) {
+#line 2338 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlacement3D plRocket ;
+#line 2339 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CalcWeaponPosition  (
+#line 2340 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT3D (wpn_fFX  [ WEAPON_ROCKETLAUNCHER  ] , wpn_fFY  [ WEAPON_ROCKETLAUNCHER  ] , 0) , 
+#line 2341 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plRocket  , TRUE );
+#line 2343 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CEntityPointer penRocket  = CreateEntity  (plRocket  , CLASS_PROJECTILE );
+#line 2345 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ELaunchProjectile  eLaunch ;
+#line 2346 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+eLaunch  . penLauncher  = m_penPlayer ;
+#line 2347 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+eLaunch  . prtType  = PRT_ROCKET ;
+#line 2348 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+penRocket  -> Initialize  (eLaunch );
+#line 2349 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
 #line 2376 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::FireFlame(void) {
+void CPlayerWeapons::GetFlamerSourcePlacement(CPlacement3D & plSource,CPlacement3D & plInFrontOfPipe) {
+#line 2377 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CalcLerpedWeaponPosition  (
 #line 2378 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plFlame ;
+FLOAT3D (wpn_fFX  [ WEAPON_FLAMER  ] , wpn_fFY  [ WEAPON_FLAMER  ] , - 0.15f) , 
+#line 2379 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plSource  , FALSE );
 #line 2380 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPosition  (FLOAT3D (wpn_fFX  [ WEAPON_FLAMER  ] , wpn_fFY  [ WEAPON_FLAMER  ] , - 0.15f) , plFlame  , TRUE );
+plInFrontOfPipe  = plSource ;
+#line 2381 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT3D vFront ;
+#line 2382 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AnglesToDirectionVector  (plSource  . pl_OrientationAngle  , vFront );
 #line 2383 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CEntityPointer penFlame  = CreateEntity  (plFlame  , CLASS_PROJECTILE );
-#line 2385 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ELaunchProjectile  eLaunch ;
-#line 2386 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eLaunch  . penLauncher  = m_penPlayer ;
+plInFrontOfPipe  . pl_PositionVector  = plSource  . pl_PositionVector  + vFront  * 1.0f;
+#line 2384 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
 #line 2387 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eLaunch  . prtType  = PRT_FLAME ;
-#line 2388 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-penFlame  -> Initialize  (eLaunch );
-#line 2390 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_penFlame  != NULL  && ! (m_penFlame  -> GetFlags  () & ENF_DELETED )){
+void CPlayerWeapons::FireFlame(void) {
+#line 2389 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlacement3D plFlame ;
 #line 2391 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CProjectile  &) * m_penFlame ) . m_penParticles  = penFlame ;
-#line 2392 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+CalcWeaponPosition  (FLOAT3D (wpn_fFX  [ WEAPON_FLAMER  ] , wpn_fFY  [ WEAPON_FLAMER  ] , - 0.15f) , plFlame  , TRUE );
 #line 2394 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CProjectile  &) * penFlame ) . m_penParticles  = this ;
+CEntityPointer penFlame  = CreateEntity  (plFlame  , CLASS_PROJECTILE );
 #line 2396 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_penFlame  = penFlame ;
-#line 2397 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 2400 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::FireLaserRay(void) {
-#line 2402 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plLaserRay ;
-#line 2403 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fFX  = wpn_fFX  [ WEAPON_LASER  ];
-#line 2404 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fFY  = wpn_fFY  [ WEAPON_LASER  ];
-#line 2405 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fLUX  = 0.0f;
-#line 2406 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fRUX  = 0.8f;
-#line 2407 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fLUY  = 0.0f;
-#line 2408 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fRUY  = 0.0f;
-#line 2409 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fLDX  = - 0.1f;
-#line 2410 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fRDX  = 0.9f;
-#line 2411 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fLDY  = - 0.3f;
-#line 2412 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fRDY  = - 0.3f;
-#line 2413 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(((CPlayer  *) & * m_penPlayer ) -> m_pstState  == PST_CROUCH ){
-#line 2414 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fLDY  = - 0.1f;
-#line 2415 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fRDY  = - 0.1f;
-#line 2416 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2418 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(m_iLaserBarrel ){
-#line 2419 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 0: 
-#line 2420 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPosition  (FLOAT3D (fFX  + fLUX  , fFY  + fLUY  , 0) , plLaserRay  , TRUE );
-#line 2421 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 2422 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 1: 
-#line 2423 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPosition  (FLOAT3D (fFX  + fLDX  , fFY  + fLDY  , 0) , plLaserRay  , TRUE );
-#line 2424 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 2425 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 2: 
-#line 2426 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPosition  (FLOAT3D (fFX  + fRUX  , fFY  + fRUY  , 0) , plLaserRay  , TRUE );
-#line 2427 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 2428 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 3: 
-#line 2429 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPosition  (FLOAT3D (fFX  + fRDX  , fFY  + fRDY  , 0) , plLaserRay  , TRUE );
-#line 2430 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 2431 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2433 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CEntityPointer penLaser  = CreateEntity  (plLaserRay  , CLASS_PROJECTILE );
-#line 2435 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ELaunchProjectile  eLaunch ;
+#line 2397 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+eLaunch  . penLauncher  = m_penPlayer ;
+#line 2398 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+eLaunch  . prtType  = PRT_FLAME ;
+#line 2399 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+penFlame  -> Initialize  (eLaunch );
+#line 2401 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_penFlame  != NULL  && ! (m_penFlame  -> GetFlags  () & ENF_DELETED )){
+#line 2402 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CProjectile  &) * m_penFlame ) . m_penParticles  = penFlame ;
+#line 2403 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2405 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CProjectile  &) * penFlame ) . m_penParticles  = this ;
+#line 2407 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_penFlame  = penFlame ;
+#line 2408 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 2411 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::FireLaserRay(void) {
+#line 2413 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlacement3D plLaserRay ;
+#line 2414 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fFX  = wpn_fFX  [ WEAPON_LASER  ];
+#line 2415 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fFY  = wpn_fFY  [ WEAPON_LASER  ];
+#line 2416 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fLUX  = 0.0f;
+#line 2417 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fRUX  = 0.8f;
+#line 2418 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fLUY  = 0.0f;
+#line 2419 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fRUY  = 0.0f;
+#line 2420 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fLDX  = - 0.1f;
+#line 2421 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fRDX  = 0.9f;
+#line 2422 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fLDY  = - 0.3f;
+#line 2423 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT fRDY  = - 0.3f;
+#line 2424 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(((CPlayer  *) & * m_penPlayer ) -> m_pstState  == PST_CROUCH ){
+#line 2425 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+fLDY  = - 0.1f;
+#line 2426 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+fRDY  = - 0.1f;
+#line 2427 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2429 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(m_iLaserBarrel ){
+#line 2430 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 0: 
+#line 2431 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CalcWeaponPosition  (FLOAT3D (fFX  + fLUX  , fFY  + fLUY  , 0) , plLaserRay  , TRUE );
+#line 2432 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 2433 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 1: 
+#line 2434 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CalcWeaponPosition  (FLOAT3D (fFX  + fLDX  , fFY  + fLDY  , 0) , plLaserRay  , TRUE );
+#line 2435 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
 #line 2436 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eLaunch  . penLauncher  = m_penPlayer ;
+case 2: 
 #line 2437 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eLaunch  . prtType  = PRT_LASER_RAY ;
+CalcWeaponPosition  (FLOAT3D (fFX  + fRUX  , fFY  + fRUY  , 0) , plLaserRay  , TRUE );
 #line 2438 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-penLaser  -> Initialize  (eLaunch );
+break ;
 #line 2439 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 3: 
+#line 2440 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CalcWeaponPosition  (FLOAT3D (fFX  + fRDX  , fFY  + fRDY  , 0) , plLaserRay  , TRUE );
+#line 2441 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 2442 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2444 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CEntityPointer penLaser  = CreateEntity  (plLaserRay  , CLASS_PROJECTILE );
+#line 2446 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ELaunchProjectile  eLaunch ;
+#line 2447 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+eLaunch  . penLauncher  = m_penPlayer ;
+#line 2448 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+eLaunch  . prtType  = PRT_LASER_RAY ;
+#line 2449 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+penLaser  -> Initialize  (eLaunch );
+#line 2450 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 2460 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::FireCannonBall(INDEX iPower) 
-#line 2461 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 2463 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plBall ;
-#line 2464 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPosition  (
-#line 2465 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D (wpn_fFX  [ WEAPON_IRONCANNON  ] , wpn_fFY  [ WEAPON_IRONCANNON  ] , 0) , 
-#line 2466 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plBall  , TRUE );
-#line 2468 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CEntityPointer penBall  = CreateEntity  (plBall  , CLASS_CANNONBALL );
-#line 2470 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ELaunchCannonBall  eLaunch ;
 #line 2471 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eLaunch  . penLauncher  = m_penPlayer ;
+void CPlayerWeapons::FireCannonBall(INDEX iPower) 
 #line 2472 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eLaunch  . fLaunchPower  = 60.0f + iPower  * 4.0f;
-#line 2473 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eLaunch  . fSize  = 3.0f;
-#line 2481 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eLaunch  . cbtType  = CBT_IRON ;
-#line 2483 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-penBall  -> Initialize  (eLaunch );
-#line 2484 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 2486 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::FireAltCannonRay() 
-#line 2487 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 2489 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2474 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlacement3D plBall ;
-#line 2490 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2475 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CalcWeaponPosition  (
-#line 2491 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2476 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D (wpn_fFX  [ WEAPON_IRONCANNON  ] , wpn_fFY  [ WEAPON_IRONCANNON  ] , 0) , 
-#line 2492 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2477 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 plBall  , TRUE );
-#line 2494 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CEntityPointer penBall  = CreateEntity  (plBall  , CLASS_ALT_CANNONBALL );
-#line 2496 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ELaunchAltCannonBall  eLaunch ;
-#line 2497 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2479 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CEntityPointer penBall  = CreateEntity  (plBall  , CLASS_CANNONBALL );
+#line 2481 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ELaunchCannonBall  eLaunch ;
+#line 2482 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 eLaunch  . penLauncher  = m_penPlayer ;
-#line 2498 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eLaunch  . fLaunchPower  = 60.0f + 3 * 4.0f;
-#line 2499 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2483 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+eLaunch  . fLaunchPower  = 60.0f + iPower  * 4.0f;
+#line 2484 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 eLaunch  . fSize  = 3.0f;
-#line 2500 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2492 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+eLaunch  . cbtType  = CBT_IRON ;
+#line 2494 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 penBall  -> Initialize  (eLaunch );
+#line 2495 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 2497 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::FireAltCannonRay() 
+#line 2498 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 2500 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlacement3D plBall ;
 #line 2501 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 2504 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::SpawnRangeSound(FLOAT fRange) 
+CalcWeaponPosition  (
+#line 2502 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT3D (wpn_fFX  [ WEAPON_IRONCANNON  ] , wpn_fFY  [ WEAPON_IRONCANNON  ] , 0) , 
+#line 2503 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plBall  , TRUE );
 #line 2505 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 2506 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pTimer  -> CurrentTick  () > m_tmRangeSoundSpawned  + 0.5f){
+CEntityPointer penBall  = CreateEntity  (plBall  , CLASS_ALT_CANNONBALL );
 #line 2507 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_tmRangeSoundSpawned  = _pTimer  -> CurrentTick  ();
+ELaunchAltCannonBall  eLaunch ;
 #line 2508 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-:: SpawnRangeSound  (m_penPlayer  , m_penPlayer  , SNDT_PLAYER  , fRange );
+eLaunch  . penLauncher  = m_penPlayer ;
 #line 2509 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+eLaunch  . fLaunchPower  = 60.0f + 3 * 4.0f;
 #line 2510 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+eLaunch  . fSize  = 3.0f;
+#line 2511 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+penBall  -> Initialize  (eLaunch );
+#line 2512 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
+#line 2515 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::SpawnRangeSound(FLOAT fRange) 
+#line 2516 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
 #line 2517 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::ClearWeapons(void) {
+if(_pTimer  -> CurrentTick  () > m_tmRangeSoundSpawned  + 0.5f){
+#line 2518 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_tmRangeSoundSpawned  = _pTimer  -> CurrentTick  ();
 #line 2519 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAvailableWeapons  = 0x03;
+:: SpawnRangeSound  (m_penPlayer  , m_penPlayer  , SNDT_PLAYER  , fRange );
 #line 2520 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iColtBullets  = 7;
+}
 #line 2521 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistolMagazin  = 7;
-#line 2522 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistol  = 0;
-#line 2523 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMGMagazin  = 50;
-#line 2524 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMG  = 0;
-#line 2525 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBulletsMagazin  = 50;
-#line 2526 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBullets  = 0;
-#line 2527 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShellsMagazin  = 20;
+}
+  
 #line 2528 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShells  = 0;
-#line 2529 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iRockets  = 0;
+void CPlayerWeapons::ClearWeapons(void) {
 #line 2530 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iGrenades  = 0;
+m_iAvailableWeapons  = 0x03;
 #line 2531 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iNapalm  = 0;
+m_iColtBullets  = 7;
 #line 2532 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iElectricity  = 0;
+m_iPistolMagazin  = 7;
 #line 2533 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iIronBalls  = 0;
+m_iPistol  = 0;
+#line 2534 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iSMGMagazin  = 50;
 #line 2535 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSniperBullets  = 0;
+m_iSMG  = 0;
 #line 2536 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
+m_iBulletsMagazin  = 50;
+#line 2537 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iBullets  = 0;
 #line 2538 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::ResetWeaponMovingOffset(void) 
+m_iShellsMagazin  = 20;
 #line 2539 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+m_iShells  = 0;
+#line 2540 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iRockets  = 0;
 #line 2541 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fWeaponDrawPowerOld  = m_fWeaponDrawPower  = m_tmDrawStartTime  = 0;
+m_iGrenades  = 0;
 #line 2542 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 2545 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::InitializeWeapons(INDEX iGiveWeapons,INDEX iTakeWeapons,INDEX iTakeAmmo,FLOAT fMaxAmmoRatio) 
+m_iNapalm  = 0;
+#line 2543 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iElectricity  = 0;
+#line 2544 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iIronBalls  = 0;
 #line 2546 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+m_iSniperBullets  = 0;
 #line 2547 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ResetWeaponMovingOffset  ();
+}
+  
 #line 2549 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ULONG  ulOldWeapons  = m_iAvailableWeapons ;
-#line 2551 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAvailableWeapons  &= ~ iTakeWeapons ;
+void CPlayerWeapons::ResetWeaponMovingOffset(void) 
+#line 2550 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
 #line 2552 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAvailableWeapons  |= 0x00 | iGiveWeapons ;
+m_fWeaponDrawPowerOld  = m_fWeaponDrawPower  = m_tmDrawStartTime  = 0;
 #line 2553 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAvailableWeapons  &= WEAPONS_ALLAVAILABLEMASK ;
+}
+  
 #line 2556 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ULONG  ulNewWeapons  = m_iAvailableWeapons  & ~ ulOldWeapons ;
+void CPlayerWeapons::InitializeWeapons(INDEX iGiveWeapons,INDEX iTakeWeapons,INDEX iTakeAmmo,FLOAT fMaxAmmoRatio) 
+#line 2557 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
 #line 2558 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-for(INDEX iWeapon  = WEAPON_KNIFE ;iWeapon  < WEAPON_LAST ;iWeapon  ++){
-#line 2559 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(ulNewWeapons  & (1 << (iWeapon  - 1))){
-#line 2561 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddDefaultAmmoForWeapon  (iWeapon  , fMaxAmmoRatio );
+ResetWeaponMovingOffset  ();
+#line 2560 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ULONG  ulOldWeapons  = m_iAvailableWeapons ;
 #line 2562 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+m_iAvailableWeapons  &= ~ iTakeWeapons ;
 #line 2563 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2566 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT fModifier  = ClampDn  (GetSP  () -> sp_fAmmoQuantity  , 1.0f);
+m_iAvailableWeapons  |= 0x00 | iGiveWeapons ;
+#line 2564 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iAvailableWeapons  &= WEAPONS_ALLAVAILABLEMASK ;
 #line 2567 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iMaxPistol  = ClampUp  ((INDEX) ceil  (MAX_PISTOL  * fModifier ) , INDEX (999));
-#line 2568 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iMaxSMG  = ClampUp  ((INDEX) ceil  (MAX_SMG  * fModifier ) , INDEX (999));
+ULONG  ulNewWeapons  = m_iAvailableWeapons  & ~ ulOldWeapons ;
 #line 2569 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iMaxBullets  = ClampUp  ((INDEX) ceil  (MAX_BULLETS  * fModifier ) , INDEX (999));
+for(INDEX iWeapon  = WEAPON_KNIFE ;iWeapon  < WEAPON_LAST ;iWeapon  ++){
 #line 2570 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iMaxShells  = ClampUp  ((INDEX) ceil  (MAX_SHELLS  * fModifier ) , INDEX (999));
-#line 2571 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iMaxRockets  = ClampUp  ((INDEX) ceil  (MAX_ROCKETS  * fModifier ) , INDEX (999));
+if(ulNewWeapons  & (1 << (iWeapon  - 1))){
 #line 2572 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iMaxGrenades  = ClampUp  ((INDEX) ceil  (MAX_GRENADES  * fModifier ) , INDEX (999));
+AddDefaultAmmoForWeapon  (iWeapon  , fMaxAmmoRatio );
 #line 2573 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iMaxNapalm  = ClampUp  ((INDEX) ceil  (MAX_NAPALM  * fModifier ) , INDEX (999));
+}
 #line 2574 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iMaxElectricity  = ClampUp  ((INDEX) ceil  (MAX_ELECTRICITY  * fModifier ) , INDEX (999));
-#line 2576 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iMaxIronBalls  = ClampUp  ((INDEX) ceil  (MAX_IRONBALLS  * fModifier ) , INDEX (999));
+}
 #line 2577 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iMaxSniperBullets  = ClampUp  ((INDEX) ceil  (MAX_SNIPERBULLETS  * fModifier ) , INDEX (999));
+FLOAT fModifier  = ClampDn  (GetSP  () -> sp_fAmmoQuantity  , 1.0f);
+#line 2578 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iMaxPistol  = ClampUp  ((INDEX) ceil  (MAX_PISTOL  * fModifier ) , INDEX (999));
+#line 2579 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iMaxSMG  = ClampUp  ((INDEX) ceil  (MAX_SMG  * fModifier ) , INDEX (999));
 #line 2580 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iTakeAmmo  & (1 << AMMO_PISTOL )){m_iPistol  = 0;}
+m_iMaxBullets  = ClampUp  ((INDEX) ceil  (MAX_BULLETS  * fModifier ) , INDEX (999));
 #line 2581 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iTakeAmmo  & (1 << AMMO_SMG )){m_iSMG  = 0;}
+m_iMaxShells  = ClampUp  ((INDEX) ceil  (MAX_SHELLS  * fModifier ) , INDEX (999));
 #line 2582 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iTakeAmmo  & (1 << AMMO_BULLETS )){m_iBullets  = 0;}
+m_iMaxRockets  = ClampUp  ((INDEX) ceil  (MAX_ROCKETS  * fModifier ) , INDEX (999));
 #line 2583 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iTakeAmmo  & (1 << AMMO_SHELLS )){m_iShells  = 0;}
+m_iMaxGrenades  = ClampUp  ((INDEX) ceil  (MAX_GRENADES  * fModifier ) , INDEX (999));
 #line 2584 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iTakeAmmo  & (1 << AMMO_ROCKETS )){m_iRockets  = 0;}
+m_iMaxNapalm  = ClampUp  ((INDEX) ceil  (MAX_NAPALM  * fModifier ) , INDEX (999));
 #line 2585 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iTakeAmmo  & (1 << AMMO_GRENADES )){m_iGrenades  = 0;}
-#line 2586 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iTakeAmmo  & (1 << AMMO_NAPALM )){m_iNapalm  = 0;}
+m_iMaxElectricity  = ClampUp  ((INDEX) ceil  (MAX_ELECTRICITY  * fModifier ) , INDEX (999));
 #line 2587 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iTakeAmmo  & (1 << AMMO_ELECTRICITY )){m_iElectricity  = 0;}
-#line 2589 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iTakeAmmo  & (1 << AMMO_IRONBALLS )){m_iIronBalls  = 0;}
-#line 2590 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iTakeAmmo  & (1 << AMMO_SNIPERBULLETS )){m_iSniperBullets  = 0;}
+m_iMaxIronBalls  = ClampUp  ((INDEX) ceil  (MAX_IRONBALLS  * fModifier ) , INDEX (999));
+#line 2588 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iMaxSniperBullets  = ClampUp  ((INDEX) ceil  (MAX_SNIPERBULLETS  * fModifier ) , INDEX (999));
+#line 2591 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(iTakeAmmo  & (1 << AMMO_PISTOL )){m_iPistol  = 0;}
+#line 2592 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(iTakeAmmo  & (1 << AMMO_SMG )){m_iSMG  = 0;}
 #line 2593 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Precache  ();
+if(iTakeAmmo  & (1 << AMMO_BULLETS )){m_iBullets  = 0;}
+#line 2594 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(iTakeAmmo  & (1 << AMMO_SHELLS )){m_iShells  = 0;}
+#line 2595 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(iTakeAmmo  & (1 << AMMO_ROCKETS )){m_iRockets  = 0;}
 #line 2596 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_aMiniGun  = 0;
+if(iTakeAmmo  & (1 << AMMO_GRENADES )){m_iGrenades  = 0;}
 #line 2597 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_aMiniGunLast  = 0;
+if(iTakeAmmo  & (1 << AMMO_NAPALM )){m_iNapalm  = 0;}
 #line 2598 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_aMiniGunSpeed  = 0;
+if(iTakeAmmo  & (1 << AMMO_ELECTRICITY )){m_iElectricity  = 0;}
+#line 2600 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(iTakeAmmo  & (1 << AMMO_IRONBALLS )){m_iIronBalls  = 0;}
 #line 2601 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SelectNewWeapon  ();
-#line 2602 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iCurrentWeapon  = m_iWantedWeapon ;
-#line 2603 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-wpn_iCurrent  = m_iCurrentWeapon ;
+if(iTakeAmmo  & (1 << AMMO_SNIPERBULLETS )){m_iSniperBullets  = 0;}
 #line 2604 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_bChangeWeapon  = FALSE ;
-#line 2606 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetCurrentWeaponModel  ();
-#line 2607 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlayDefaultAnim  ();
-#line 2609 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayerAnimator  &) * ((CPlayer  &) * m_penPlayer ) . m_penAnimator ) . RemoveWeapon  ();
-#line 2611 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayerAnimator  &) * ((CPlayer  &) * m_penPlayer ) . m_penAnimator ) . SetWeapon  ();
-#line 2612 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 2615 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX CPlayerWeapons::GetAmmo(void) 
-#line 2616 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 2617 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(m_iCurrentWeapon ){
-#line 2618 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_KNIFE : return 0;
-#line 2619 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_COLT : return m_iPistol ;
-#line 2620 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLECOLT : return m_iSMG ;
-#line 2621 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : return m_iShells ;
-#line 2622 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLESHOTGUN : return m_iShells ;
-#line 2623 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : return m_iBullets ;
-#line 2624 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_MINIGUN : return m_iBullets ;
-#line 2625 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_ROCKETLAUNCHER : return m_iRockets ;
-#line 2626 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_GRENADELAUNCHER : return m_iGrenades ;
-#line 2627 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SNIPER : return m_iSniperBullets ;
-#line 2628 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_FLAMER : return m_iNapalm ;
-#line 2629 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_CHAINSAW : return 0;
-#line 2630 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_LASER : return m_iElectricity ;
-#line 2631 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_IRONCANNON : return m_iIronBalls ;
-#line 2632 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2633 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return 0;
-#line 2634 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 2637 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX CPlayerWeapons::GetMaxAmmo(void) 
-#line 2638 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 2639 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(m_iCurrentWeapon ){
-#line 2640 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_KNIFE : return 0;
-#line 2641 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_COLT : return m_iMaxPistol ;
-#line 2642 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLECOLT : return m_iMaxSMG ;
-#line 2643 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : return m_iMaxShells ;
-#line 2644 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLESHOTGUN : return m_iMaxShells ;
-#line 2645 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : return m_iMaxBullets ;
-#line 2646 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_MINIGUN : return m_iMaxBullets ;
-#line 2647 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_ROCKETLAUNCHER : return m_iMaxRockets ;
-#line 2648 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_GRENADELAUNCHER : return m_iMaxGrenades ;
-#line 2649 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SNIPER : return m_iMaxSniperBullets ;
-#line 2650 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_FLAMER : return m_iMaxNapalm ;
-#line 2651 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_CHAINSAW : return m_iMaxNapalm ;
-#line 2652 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_LASER : return m_iMaxElectricity ;
-#line 2653 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_IRONCANNON : return m_iMaxIronBalls ;
-#line 2654 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2655 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return 0;
-#line 2656 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 2659 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX CPlayerWeapons::GetMagazinAmmo(void) 
-#line 2660 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 2661 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(m_iCurrentWeapon ){
-#line 2663 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_COLT : return m_iPistolMagazin ;
-#line 2664 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLECOLT : return m_iSMGMagazin ;
-#line 2665 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : return m_iShellsMagazin ;
-#line 2667 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : return m_iBulletsMagazin ;
-#line 2676 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2677 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return 0;
-#line 2678 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 2680 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::CheatOpen(void) 
-#line 2681 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 2682 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(IsOfClass  (m_penRayHit  , "Moving Brush")){
-#line 2683 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_penRayHit  -> SendEvent  (ETrigger  ());
-#line 2684 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2685 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 2688 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::CheatGiveAll(void) {
-#line 2690 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAvailableWeapons  = WEAPONS_ALLAVAILABLEMASK ;
-#line 2693 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistol  = m_iMaxPistol ;
-#line 2694 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMG  = m_iMaxSMG ;
-#line 2695 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBullets  = m_iMaxBullets ;
-#line 2696 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShells  = m_iMaxShells ;
-#line 2697 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iRockets  = m_iMaxRockets ;
-#line 2698 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iGrenades  = m_iMaxGrenades ;
-#line 2699 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iNapalm  = m_iMaxNapalm ;
-#line 2700 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iElectricity  = m_iMaxElectricity ;
-#line 2701 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iIronBalls  = m_iMaxIronBalls ;
-#line 2704 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSniperBullets  = m_iMaxSniperBullets ;
-#line 2705 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Precache  ();
+#line 2607 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_aMiniGun  = 0;
+#line 2608 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_aMiniGunLast  = 0;
+#line 2609 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_aMiniGunSpeed  = 0;
+#line 2612 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SelectNewWeapon  ();
+#line 2613 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iCurrentWeapon  = m_iWantedWeapon ;
+#line 2614 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+wpn_iCurrent  = m_iCurrentWeapon ;
+#line 2615 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_bChangeWeapon  = FALSE ;
+#line 2617 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetCurrentWeaponModel  ();
+#line 2618 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+PlayDefaultAnim  ();
+#line 2620 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayerAnimator  &) * ((CPlayer  &) * m_penPlayer ) . m_penAnimator ) . RemoveWeapon  ();
+#line 2622 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayerAnimator  &) * ((CPlayer  &) * m_penPlayer ) . m_penAnimator ) . SetWeapon  ();
+#line 2623 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 2626 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX CPlayerWeapons::GetAmmo(void) 
+#line 2627 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 2628 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(m_iCurrentWeapon ){
+#line 2629 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_KNIFE : return 0;
+#line 2630 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_COLT : return m_iPistol ;
+#line 2631 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLECOLT : return m_iSMG ;
+#line 2632 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SINGLESHOTGUN : return m_iShells ;
+#line 2633 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLESHOTGUN : return m_iShells ;
+#line 2634 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_TOMMYGUN : return m_iBullets ;
+#line 2635 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_MINIGUN : return m_iBullets ;
+#line 2636 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_ROCKETLAUNCHER : return m_iRockets ;
+#line 2637 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_GRENADELAUNCHER : return m_iGrenades ;
+#line 2638 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SNIPER : return m_iSniperBullets ;
+#line 2639 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_FLAMER : return m_iNapalm ;
+#line 2640 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_CHAINSAW : return 0;
+#line 2641 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_LASER : return m_iElectricity ;
+#line 2642 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_IRONCANNON : return m_iIronBalls ;
+#line 2643 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2644 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return 0;
+#line 2645 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 2648 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX CPlayerWeapons::GetMaxAmmo(void) 
+#line 2649 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 2650 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(m_iCurrentWeapon ){
+#line 2651 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_KNIFE : return 0;
+#line 2652 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_COLT : return m_iMaxPistol ;
+#line 2653 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLECOLT : return m_iMaxSMG ;
+#line 2654 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SINGLESHOTGUN : return m_iMaxShells ;
+#line 2655 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLESHOTGUN : return m_iMaxShells ;
+#line 2656 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_TOMMYGUN : return m_iMaxBullets ;
+#line 2657 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_MINIGUN : return m_iMaxBullets ;
+#line 2658 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_ROCKETLAUNCHER : return m_iMaxRockets ;
+#line 2659 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_GRENADELAUNCHER : return m_iMaxGrenades ;
+#line 2660 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SNIPER : return m_iMaxSniperBullets ;
+#line 2661 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_FLAMER : return m_iMaxNapalm ;
+#line 2662 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_CHAINSAW : return m_iMaxNapalm ;
+#line 2663 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_LASER : return m_iMaxElectricity ;
+#line 2664 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_IRONCANNON : return m_iMaxIronBalls ;
+#line 2665 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2666 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return 0;
+#line 2667 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 2670 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX CPlayerWeapons::GetMagazinAmmo(void) 
+#line 2671 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 2672 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(m_iCurrentWeapon ){
+#line 2674 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_COLT : return m_iPistolMagazin ;
+#line 2675 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLECOLT : return m_iSMGMagazin ;
+#line 2676 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SINGLESHOTGUN : return m_iShellsMagazin ;
+#line 2678 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_TOMMYGUN : return m_iBulletsMagazin ;
+#line 2687 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2688 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return 0;
+#line 2689 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 2691 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::CheatOpen(void) 
+#line 2692 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 2693 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(IsOfClass  (m_penRayHit  , "Moving Brush")){
+#line 2694 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_penRayHit  -> SendEvent  (ETrigger  ());
+#line 2695 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2696 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 2699 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::CheatGiveAll(void) {
+#line 2701 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iAvailableWeapons  = WEAPONS_ALLAVAILABLEMASK ;
+#line 2704 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iPistol  = m_iMaxPistol ;
+#line 2705 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iSMG  = m_iMaxSMG ;
 #line 2706 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
+m_iBullets  = m_iMaxBullets ;
+#line 2707 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iShells  = m_iMaxShells ;
+#line 2708 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iRockets  = m_iMaxRockets ;
 #line 2709 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::AddManaToPlayer(INDEX iMana) 
+m_iGrenades  = m_iMaxGrenades ;
 #line 2710 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+m_iNapalm  = m_iMaxNapalm ;
 #line 2711 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . m_iMana  += iMana ;
+m_iElectricity  = m_iMaxElectricity ;
 #line 2712 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . m_fPickedMana  += iMana ;
-#line 2713 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iIronBalls  = m_iMaxIronBalls ;
+#line 2715 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iSniperBullets  = m_iMaxSniperBullets ;
+#line 2716 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Precache  ();
+#line 2717 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
+#line 2720 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::AddManaToPlayer(INDEX iMana) 
 #line 2721 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::ClampAllAmmo(void) 
-#line 2722 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
+#line 2722 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . m_iMana  += iMana ;
 #line 2723 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistol  = ClampUp  (m_iPistol  , m_iMaxPistol );
+((CPlayer  &) * m_penPlayer ) . m_fPickedMana  += iMana ;
 #line 2724 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMG  = ClampUp  (m_iSMG  , m_iMaxSMG );
-#line 2725 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBullets  = ClampUp  (m_iBullets  , m_iMaxBullets );
-#line 2726 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShells  = ClampUp  (m_iShells  , m_iMaxShells );
-#line 2727 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iRockets  = ClampUp  (m_iRockets  , m_iMaxRockets );
-#line 2728 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iGrenades  = ClampUp  (m_iGrenades  , m_iMaxGrenades );
-#line 2729 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iNapalm  = ClampUp  (m_iNapalm  , m_iMaxNapalm );
-#line 2730 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iElectricity  = ClampUp  (m_iElectricity  , m_iMaxElectricity );
-#line 2731 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iIronBalls  = ClampUp  (m_iIronBalls  , m_iMaxIronBalls );
-#line 2733 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSniperBullets  = ClampUp  (m_iSniperBullets  , m_iMaxSniperBullets );
-#line 2734 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 2737 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::AddDefaultAmmoForWeapon(INDEX iWeapon,FLOAT fMaxAmmoRatio) 
-#line 2738 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2732 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::ClampAllAmmo(void) 
+#line 2733 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
+#line 2734 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iPistol  = ClampUp  (m_iPistol  , m_iMaxPistol );
+#line 2735 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iSMG  = ClampUp  (m_iSMG  , m_iMaxSMG );
+#line 2736 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iBullets  = ClampUp  (m_iBullets  , m_iMaxBullets );
+#line 2737 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iShells  = ClampUp  (m_iShells  , m_iMaxShells );
+#line 2738 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iRockets  = ClampUp  (m_iRockets  , m_iMaxRockets );
 #line 2739 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iAmmoPicked ;
+m_iGrenades  = ClampUp  (m_iGrenades  , m_iMaxGrenades );
+#line 2740 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iNapalm  = ClampUp  (m_iNapalm  , m_iMaxNapalm );
 #line 2741 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(iWeapon ){
-#line 2743 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_KNIFE : 
+m_iElectricity  = ClampUp  (m_iElectricity  , m_iMaxElectricity );
+#line 2742 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iIronBalls  = ClampUp  (m_iIronBalls  , m_iMaxIronBalls );
 #line 2744 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 2746 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLECOLT : 
-#line 2747 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iAmmoPicked  = Max  (50.0f , m_iMaxSMG  * fMaxAmmoRatio );
+m_iSniperBullets  = ClampUp  (m_iSniperBullets  , m_iMaxSniperBullets );
+#line 2745 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
 #line 2748 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMG  += iAmmoPicked ;
+void CPlayerWeapons::AddDefaultAmmoForWeapon(INDEX iWeapon,FLOAT fMaxAmmoRatio) 
 #line 2749 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (iAmmoPicked  * 50.0f * MANA_AMMO );
+{
 #line 2750 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+INDEX iAmmoPicked ;
 #line 2752 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_COLT : 
-#line 2753 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iAmmoPicked  = Max  (7.0f , m_iMaxPistol  * fMaxAmmoRatio );
+switch(iWeapon ){
 #line 2754 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistol  += iAmmoPicked ;
+case WEAPON_KNIFE : 
 #line 2755 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (iAmmoPicked  * 50.0f * MANA_AMMO );
-#line 2756 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
+#line 2757 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLECOLT : 
 #line 2758 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : 
+iAmmoPicked  = Max  (50.0f , m_iMaxSMG  * fMaxAmmoRatio );
 #line 2759 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iAmmoPicked  = Max  (10.0f , m_iMaxShells  * fMaxAmmoRatio );
+m_iSMG  += iAmmoPicked ;
 #line 2760 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShells  += iAmmoPicked ;
+AddManaToPlayer  (iAmmoPicked  * 50.0f * MANA_AMMO );
 #line 2761 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (iAmmoPicked  * 70.0f * MANA_AMMO );
-#line 2762 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
 #line 2763 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLESHOTGUN : 
+case WEAPON_COLT : 
 #line 2764 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iAmmoPicked  = Max  (5.0f , m_iMaxShells  * fMaxAmmoRatio );
+iAmmoPicked  = Max  (7.0f , m_iMaxPistol  * fMaxAmmoRatio );
 #line 2765 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShells  += iAmmoPicked ;
+m_iPistol  += iAmmoPicked ;
 #line 2766 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (iAmmoPicked  * 70.0f * MANA_AMMO );
+AddManaToPlayer  (iAmmoPicked  * 50.0f * MANA_AMMO );
 #line 2767 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
 #line 2769 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : 
+case WEAPON_SINGLESHOTGUN : 
 #line 2770 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iAmmoPicked  = Max  (50.0f , m_iMaxBullets  * fMaxAmmoRatio );
+iAmmoPicked  = Max  (10.0f , m_iMaxShells  * fMaxAmmoRatio );
 #line 2771 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBullets  += iAmmoPicked ;
+m_iShells  += iAmmoPicked ;
 #line 2772 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (iAmmoPicked  * 10.0f * MANA_AMMO );
+AddManaToPlayer  (iAmmoPicked  * 70.0f * MANA_AMMO );
 #line 2773 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iAmmoPicked  = Max  (1.0f , m_iMaxGrenades  * fMaxAmmoRatio );
+break ;
 #line 2774 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iGrenades  += iAmmoPicked ;
+case WEAPON_DOUBLESHOTGUN : 
 #line 2775 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (iAmmoPicked  * 100.0f * MANA_AMMO );
+iAmmoPicked  = Max  (5.0f , m_iMaxShells  * fMaxAmmoRatio );
 #line 2776 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+m_iShells  += iAmmoPicked ;
 #line 2777 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SNIPER : 
+AddManaToPlayer  (iAmmoPicked  * 70.0f * MANA_AMMO );
 #line 2778 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iAmmoPicked  = Max  (15.0f , m_iMaxSniperBullets  * fMaxAmmoRatio );
-#line 2779 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSniperBullets  += iAmmoPicked ;
-#line 2780 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (iAmmoPicked  * 10.0f * MANA_AMMO );
-#line 2781 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
+#line 2780 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_TOMMYGUN : 
+#line 2781 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+iAmmoPicked  = Max  (50.0f , m_iMaxBullets  * fMaxAmmoRatio );
 #line 2782 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_MINIGUN : 
-#line 2783 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iAmmoPicked  = Max  (100.0f , m_iMaxBullets  * fMaxAmmoRatio );
-#line 2784 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_iBullets  += iAmmoPicked ;
-#line 2785 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2783 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 AddManaToPlayer  (iAmmoPicked  * 10.0f * MANA_AMMO );
+#line 2784 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+iAmmoPicked  = Max  (1.0f , m_iMaxGrenades  * fMaxAmmoRatio );
+#line 2785 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iGrenades  += iAmmoPicked ;
 #line 2786 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddManaToPlayer  (iAmmoPicked  * 100.0f * MANA_AMMO );
+#line 2787 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
 #line 2788 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_ROCKETLAUNCHER : 
+case WEAPON_SNIPER : 
 #line 2789 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iAmmoPicked  = Max  (5.0f , m_iMaxRockets  * fMaxAmmoRatio );
+iAmmoPicked  = Max  (15.0f , m_iMaxSniperBullets  * fMaxAmmoRatio );
 #line 2790 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iRockets  += iAmmoPicked ;
+m_iSniperBullets  += iAmmoPicked ;
 #line 2791 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (iAmmoPicked  * 150.0f * MANA_AMMO );
+AddManaToPlayer  (iAmmoPicked  * 10.0f * MANA_AMMO );
 #line 2792 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
+#line 2793 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_MINIGUN : 
 #line 2794 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_GRENADELAUNCHER : 
+iAmmoPicked  = Max  (100.0f , m_iMaxBullets  * fMaxAmmoRatio );
 #line 2795 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iAmmoPicked  = Max  (5.0f , m_iMaxGrenades  * fMaxAmmoRatio );
+m_iBullets  += iAmmoPicked ;
 #line 2796 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iGrenades  += iAmmoPicked ;
+AddManaToPlayer  (iAmmoPicked  * 10.0f * MANA_AMMO );
 #line 2797 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 2799 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_ROCKETLAUNCHER : 
+#line 2800 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+iAmmoPicked  = Max  (5.0f , m_iMaxRockets  * fMaxAmmoRatio );
+#line 2801 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iRockets  += iAmmoPicked ;
+#line 2802 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddManaToPlayer  (iAmmoPicked  * 150.0f * MANA_AMMO );
+#line 2803 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 2805 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_GRENADELAUNCHER : 
+#line 2806 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+iAmmoPicked  = Max  (5.0f , m_iMaxGrenades  * fMaxAmmoRatio );
+#line 2807 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iGrenades  += iAmmoPicked ;
+#line 2808 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 AddManaToPlayer  (iAmmoPicked  * 100.0f * MANA_AMMO );
-#line 2798 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2809 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
-#line 2812 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_LASER : 
-#line 2813 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iAmmoPicked  = Max  (50.0f , m_iMaxElectricity  * fMaxAmmoRatio );
-#line 2814 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iElectricity  += iAmmoPicked ;
-#line 2815 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (iAmmoPicked  * 15.0f * MANA_AMMO );
-#line 2816 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 2818 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_IRONCANNON : 
-#line 2820 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iAmmoPicked  = Max  (1.0f , m_iMaxIronBalls  * fMaxAmmoRatio );
-#line 2821 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iIronBalls  += iAmmoPicked ;
-#line 2822 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (iAmmoPicked  * 700.0f * MANA_AMMO );
 #line 2823 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 2831 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_FLAMER : 
-#line 2832 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iAmmoPicked  = Max  (50.0f , m_iMaxNapalm  * fMaxAmmoRatio );
-#line 2833 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iNapalm  += iAmmoPicked ;
-#line 2834 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_LASER : 
+#line 2824 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+iAmmoPicked  = Max  (50.0f , m_iMaxElectricity  * fMaxAmmoRatio );
+#line 2825 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iElectricity  += iAmmoPicked ;
+#line 2826 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 AddManaToPlayer  (iAmmoPicked  * 15.0f * MANA_AMMO );
-#line 2835 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2827 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
-#line 2836 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_CHAINSAW : 
-#line 2840 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2829 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_IRONCANNON : 
+#line 2831 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+iAmmoPicked  = Max  (1.0f , m_iMaxIronBalls  * fMaxAmmoRatio );
+#line 2832 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iIronBalls  += iAmmoPicked ;
+#line 2833 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddManaToPlayer  (iAmmoPicked  * 700.0f * MANA_AMMO );
+#line 2834 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
 #line 2842 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-default  : 
+case WEAPON_FLAMER : 
 #line 2843 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ASSERTALWAYS  ("Uknown weapon type");
+iAmmoPicked  = Max  (50.0f , m_iMaxNapalm  * fMaxAmmoRatio );
 #line 2844 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+m_iNapalm  += iAmmoPicked ;
 #line 2845 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2848 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ClampAllAmmo  ();
-#line 2849 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 2852 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::DropWeapon(void) 
+AddManaToPlayer  (iAmmoPicked  * 15.0f * MANA_AMMO );
+#line 2846 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 2847 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_CHAINSAW : 
+#line 2851 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
 #line 2853 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 2854 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CEntityPointer penWeapon  = CreateEntity  (GetPlayer  () -> GetPlacement  () , CLASS_WEAPONITEM );
-#line 2855 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CWeaponItem  * pwi  = (CWeaponItem  *) & * penWeapon ;
-#line 2857 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponItemType  wit  = WIT_COLT ;
-#line 2858 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(m_iCurrentWeapon ){
-#line 2859 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 default  : 
-#line 2860 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ASSERT  (FALSE );
-#line 2861 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_KNIFE : 
-#line 2862 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-NOTHING ;break ;
-#line 2863 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_COLT : wit  = WIT_COLT ;break ;
-#line 2864 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLECOLT : wit  = WIT_DOUBLECOLT ;break ;
-#line 2865 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLESHOTGUN : wit  = WIT_DOUBLESHOTGUN ;break ;
-#line 2866 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : wit  = WIT_SINGLESHOTGUN ;break ;
-#line 2867 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : wit  = WIT_TOMMYGUN ;break ;
-#line 2868 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SNIPER : wit  = WIT_SNIPER ;break ;
-#line 2869 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_MINIGUN : wit  = WIT_MINIGUN ;break ;
-#line 2870 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_ROCKETLAUNCHER : wit  = WIT_ROCKETLAUNCHER ;break ;
-#line 2871 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_GRENADELAUNCHER : wit  = WIT_GRENADELAUNCHER ;break ;
-#line 2872 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_FLAMER : wit  = WIT_FLAMER ;break ;
-#line 2873 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_CHAINSAW : wit  = WIT_CHAINSAW ;break ;
-#line 2874 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_LASER : wit  = WIT_LASER ;break ;
-#line 2875 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_IRONCANNON : wit  = WIT_CANNON ;break ;
-#line 2876 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2854 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ASSERTALWAYS  ("Uknown weapon type");
+#line 2855 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 2856 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 2878 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pwi  -> m_EwitType  = wit ;
-#line 2879 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pwi  -> m_bDropped  = TRUE ;
-#line 2880 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pwi  -> CEntity  :: Initialize  ();
-#line 2882 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOATmatrix3D & m  = GetPlayer  () -> GetRotationMatrix  ();
-#line 2883 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vSpeed  = FLOAT3D (5.0f , 10.0f , - 7.5f);
-#line 2884 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pwi  -> GiveImpulseTranslationAbsolute  (vSpeed  * m );
-#line 2885 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2859 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ClampAllAmmo  ();
+#line 2860 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 2888 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BOOL CPlayerWeapons::ReceiveWeapon(const CEntityEvent & ee) {
-#line 2889 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ASSERT  (ee  . ee_slEvent  == EVENTCODE_EWeaponItem );
-#line 2891 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-EWeaponItem  & Ewi  = (EWeaponItem  &) ee ;
-#line 2892 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX wit  = Ewi  . iWeapon ;
-#line 2893 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(Ewi  . iWeapon ){
-#line 2894 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_COLT : Ewi  . iWeapon  = WEAPON_COLT ;break ;
-#line 2895 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_DOUBLECOLT : Ewi  . iWeapon  = WEAPON_DOUBLECOLT ;break ;
-#line 2896 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_DOUBLESHOTGUN : Ewi  . iWeapon  = WEAPON_DOUBLESHOTGUN ;break ;
-#line 2897 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_SINGLESHOTGUN : Ewi  . iWeapon  = WEAPON_SINGLESHOTGUN ;break ;
-#line 2898 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_TOMMYGUN : Ewi  . iWeapon  = WEAPON_TOMMYGUN ;break ;
-#line 2899 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_SNIPER : Ewi  . iWeapon  = WEAPON_SNIPER ;break ;
-#line 2900 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_MINIGUN : Ewi  . iWeapon  = WEAPON_MINIGUN ;break ;
-#line 2901 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_ROCKETLAUNCHER : Ewi  . iWeapon  = WEAPON_ROCKETLAUNCHER ;break ;
-#line 2902 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_GRENADELAUNCHER : Ewi  . iWeapon  = WEAPON_GRENADELAUNCHER ;break ;
-#line 2903 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_FLAMER : Ewi  . iWeapon  = WEAPON_FLAMER ;break ;
-#line 2904 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_CHAINSAW : Ewi  . iWeapon  = WEAPON_CHAINSAW ;break ;
-#line 2905 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_LASER : Ewi  . iWeapon  = WEAPON_LASER ;break ;
-#line 2906 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_CANNON : Ewi  . iWeapon  = WEAPON_IRONCANNON ;break ;
-#line 2907 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2863 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::DropWeapon(void) 
+#line 2864 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 2865 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CEntityPointer penWeapon  = CreateEntity  (GetPlayer  () -> GetPlacement  () , CLASS_WEAPONITEM );
+#line 2866 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CWeaponItem  * pwi  = (CWeaponItem  *) & * penWeapon ;
+#line 2868 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+WeaponItemType  wit  = WIT_COLT ;
+#line 2869 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(m_iCurrentWeapon ){
+#line 2870 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 default  : 
-#line 2908 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ASSERTALWAYS  ("Uknown weapon type");
-#line 2909 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 2871 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ASSERT  (FALSE );
+#line 2872 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_KNIFE : 
+#line 2873 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+NOTHING ;break ;
+#line 2874 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_COLT : wit  = WIT_COLT ;break ;
+#line 2875 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLECOLT : wit  = WIT_DOUBLECOLT ;break ;
+#line 2876 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLESHOTGUN : wit  = WIT_DOUBLESHOTGUN ;break ;
+#line 2877 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SINGLESHOTGUN : wit  = WIT_SINGLESHOTGUN ;break ;
+#line 2878 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_TOMMYGUN : wit  = WIT_TOMMYGUN ;break ;
+#line 2879 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SNIPER : wit  = WIT_SNIPER ;break ;
+#line 2880 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_MINIGUN : wit  = WIT_MINIGUN ;break ;
+#line 2881 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_ROCKETLAUNCHER : wit  = WIT_ROCKETLAUNCHER ;break ;
+#line 2882 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_GRENADELAUNCHER : wit  = WIT_GRENADELAUNCHER ;break ;
+#line 2883 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_FLAMER : wit  = WIT_FLAMER ;break ;
+#line 2884 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_CHAINSAW : wit  = WIT_CHAINSAW ;break ;
+#line 2885 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_LASER : wit  = WIT_LASER ;break ;
+#line 2886 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_IRONCANNON : wit  = WIT_CANNON ;break ;
+#line 2887 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
+#line 2889 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pwi  -> m_EwitType  = wit ;
+#line 2890 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pwi  -> m_bDropped  = TRUE ;
+#line 2891 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pwi  -> CEntity  :: Initialize  ();
+#line 2893 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOATmatrix3D & m  = GetPlayer  () -> GetRotationMatrix  ();
+#line 2894 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT3D vSpeed  = FLOAT3D (5.0f , 10.0f , - 7.5f);
+#line 2895 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pwi  -> GiveImpulseTranslationAbsolute  (vSpeed  * m );
+#line 2896 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 2899 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+BOOL CPlayerWeapons::ReceiveWeapon(const CEntityEvent & ee) {
+#line 2900 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ASSERT  (ee  . ee_slEvent  == EVENTCODE_EWeaponItem );
+#line 2902 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+EWeaponItem  & Ewi  = (EWeaponItem  &) ee ;
+#line 2903 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX wit  = Ewi  . iWeapon ;
+#line 2904 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(Ewi  . iWeapon ){
+#line 2905 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WIT_COLT : Ewi  . iWeapon  = WEAPON_COLT ;break ;
+#line 2906 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WIT_DOUBLECOLT : Ewi  . iWeapon  = WEAPON_DOUBLECOLT ;break ;
+#line 2907 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WIT_DOUBLESHOTGUN : Ewi  . iWeapon  = WEAPON_DOUBLESHOTGUN ;break ;
+#line 2908 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WIT_SINGLESHOTGUN : Ewi  . iWeapon  = WEAPON_SINGLESHOTGUN ;break ;
+#line 2909 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WIT_TOMMYGUN : Ewi  . iWeapon  = WEAPON_TOMMYGUN ;break ;
+#line 2910 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WIT_SNIPER : Ewi  . iWeapon  = WEAPON_SNIPER ;break ;
+#line 2911 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WIT_MINIGUN : Ewi  . iWeapon  = WEAPON_MINIGUN ;break ;
+#line 2912 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WIT_ROCKETLAUNCHER : Ewi  . iWeapon  = WEAPON_ROCKETLAUNCHER ;break ;
+#line 2913 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WIT_GRENADELAUNCHER : Ewi  . iWeapon  = WEAPON_GRENADELAUNCHER ;break ;
+#line 2914 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WIT_FLAMER : Ewi  . iWeapon  = WEAPON_FLAMER ;break ;
+#line 2915 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WIT_CHAINSAW : Ewi  . iWeapon  = WEAPON_CHAINSAW ;break ;
 #line 2916 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ULONG  ulOldWeapons  = m_iAvailableWeapons ;
+case WIT_LASER : Ewi  . iWeapon  = WEAPON_LASER ;break ;
 #line 2917 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WIT_CANNON : Ewi  . iWeapon  = WEAPON_IRONCANNON ;break ;
+#line 2918 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+default  : 
+#line 2919 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ASSERTALWAYS  ("Uknown weapon type");
+#line 2920 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 2927 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ULONG  ulOldWeapons  = m_iAvailableWeapons ;
+#line 2928 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_iAvailableWeapons  |= 1 << (Ewi  . iWeapon  - 1);
-#line 2929 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Precache  ();
-#line 2931 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CTFileName fnmMsg ;
-#line 2932 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(wit ){
-#line 2933 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_COLT : 
-#line 2934 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Desert Eagle") , 0);
-#line 2935 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\colt.txt");
-#line 2936 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 2937 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_DOUBLECOLT : 
-#line 2938 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("P90") , 0);
-#line 2939 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\p90.txt");
 #line 2940 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 2941 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_SINGLESHOTGUN : 
+Precache  ();
 #line 2942 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Pancor Jackhammer") , 0);
+CTFileName fnmMsg ;
 #line 2943 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\singleshotgun.txt");
+switch(wit ){
 #line 2944 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+case WIT_COLT : 
 #line 2945 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_DOUBLESHOTGUN : 
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Desert Eagle") , 0);
 #line 2946 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("SPAS-12") , 0);
+fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\colt.txt");
 #line 2947 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\doubleshotgun.txt");
+break ;
 #line 2948 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+case WIT_DOUBLECOLT : 
 #line 2949 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_TOMMYGUN : 
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("P90") , 0);
 #line 2950 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("AG-36") , 0);
+fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\p90.txt");
 #line 2951 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\tommygun.txt");
+break ;
 #line 2952 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+case WIT_SINGLESHOTGUN : 
 #line 2953 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_SNIPER : 
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Pancor Jackhammer") , 0);
 #line 2954 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("AW-50") , 0);
+fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\singleshotgun.txt");
 #line 2955 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fnmMsg  = CTFILENAME  ("DataMP\\Messages\\Weapons\\sniper.txt");
+break ;
 #line 2956 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+case WIT_DOUBLESHOTGUN : 
 #line 2957 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_MINIGUN : 
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("SPAS-12") , 0);
 #line 2958 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("M249 Para") , 0);
+fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\doubleshotgun.txt");
 #line 2959 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\minigun.txt");
+break ;
 #line 2960 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+case WIT_TOMMYGUN : 
 #line 2961 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_ROCKETLAUNCHER : 
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("AG-36") , 0);
 #line 2962 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("RLX-9157") , 0);
+fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\tommygun.txt");
 #line 2963 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\rocketlauncher.txt");
-#line 2964 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
+#line 2964 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WIT_SNIPER : 
 #line 2965 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_GRENADELAUNCHER : 
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("AW-50") , 0);
 #line 2966 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("MKIII Grenade Launcher") , 0);
+fnmMsg  = CTFILENAME  ("DataMP\\Messages\\Weapons\\sniper.txt");
 #line 2967 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\grenadelauncher.txt");
+break ;
 #line 2968 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WIT_MINIGUN : 
+#line 2969 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("M249 Para") , 0);
+#line 2970 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\minigun.txt");
+#line 2971 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
 #line 2972 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_FLAMER : 
+case WIT_ROCKETLAUNCHER : 
 #line 2973 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("XOP Flamethrower") , 0);
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("RLX-9157") , 0);
 #line 2974 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fnmMsg  = CTFILENAME  ("DataMP\\Messages\\Weapons\\flamer.txt");
+fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\rocketlauncher.txt");
 #line 2975 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
 #line 2976 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_CHAINSAW : 
+case WIT_GRENADELAUNCHER : 
 #line 2977 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("'Bonecracker' P-LAH Chainsaw") , 0);
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("MKIII Grenade Launcher") , 0);
 #line 2978 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fnmMsg  = CTFILENAME  ("DataMP\\Messages\\Weapons\\chainsaw.txt");
+fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\grenadelauncher.txt");
 #line 2979 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
-#line 2980 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_LASER : 
-#line 2981 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("XL2 Lasergun") , 0);
-#line 2982 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\laser.txt");
 #line 2983 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WIT_FLAMER : 
+#line 2984 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("XOP Flamethrower") , 0);
+#line 2985 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+fnmMsg  = CTFILENAME  ("DataMP\\Messages\\Weapons\\flamer.txt");
+#line 2986 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
 #line 2987 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WIT_CANNON : 
+case WIT_CHAINSAW : 
 #line 2988 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Rail gun") , 0);
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("'Bonecracker' P-LAH Chainsaw") , 0);
 #line 2989 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\cannon.txt");
+fnmMsg  = CTFILENAME  ("DataMP\\Messages\\Weapons\\chainsaw.txt");
 #line 2990 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
 #line 2991 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-default  : 
+case WIT_LASER : 
 #line 2992 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ASSERTALWAYS  ("Uknown weapon type");
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("XL2 Lasergun") , 0);
 #line 2993 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 2995 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(GetSP  () -> sp_bCooperative ){
-#line 2996 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-EComputerMessage  eMsg ;
-#line 2997 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-eMsg  . fnmMessage  = fnmMsg ;
+fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\laser.txt");
+#line 2994 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
 #line 2998 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_penPlayer  -> SendEvent  (eMsg );
+case WIT_CANNON : 
 #line 2999 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Rail gun") , 0);
+#line 3000 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+fnmMsg  = CTFILENAME  ("Data\\Messages\\Weapons\\cannon.txt");
+#line 3001 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
 #line 3002 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ASSERT  (Ewi  . iAmmo  == - 1);
+default  : 
+#line 3003 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ASSERTALWAYS  ("Uknown weapon type");
 #line 3004 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddDefaultAmmoForWeapon  (Ewi  . iWeapon  , 0);
+}
+#line 3006 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(GetSP  () -> sp_bCooperative ){
 #line 3007 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BOOL bAutoSelect  = FALSE ;
+EComputerMessage  eMsg ;
 #line 3008 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iSelectionSetting  = GetPlayer  () -> GetSettings  () -> ps_iWeaponAutoSelect ;
+eMsg  . fnmMessage  = fnmMsg ;
 #line 3009 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iSelectionSetting  == PS_WAS_ALL ){
+m_penPlayer  -> SendEvent  (eMsg );
 #line 3010 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-bAutoSelect  = TRUE ;
-#line 3011 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(iSelectionSetting  == PS_WAS_ONLYNEW ){
-#line 3012 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iAvailableWeapons  & ~ ulOldWeapons ){
+}
 #line 3013 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-bAutoSelect  = TRUE ;
-#line 3014 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+ASSERT  (Ewi  . iAmmo  == - 1);
 #line 3015 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(iSelectionSetting  == PS_WAS_BETTER ){
-#line 3016 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(FindRemapedPos  (m_iCurrentWeapon ) < FindRemapedPos  ((WeaponType ) Ewi  . iWeapon )){
-#line 3017 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-bAutoSelect  = TRUE ;
+AddDefaultAmmoForWeapon  (Ewi  . iWeapon  , 0);
 #line 3018 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+BOOL bAutoSelect  = FALSE ;
 #line 3019 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+INDEX iSelectionSetting  = GetPlayer  () -> GetSettings  () -> ps_iWeaponAutoSelect ;
 #line 3020 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(bAutoSelect ){
+if(iSelectionSetting  == PS_WAS_ALL ){
+#line 3021 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+bAutoSelect  = TRUE ;
 #line 3022 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(WeaponSelectOk  ((WeaponType ) Ewi  . iWeapon )){
+}else if(iSelectionSetting  == PS_WAS_ONLYNEW ){
 #line 3023 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SendEvent  (EBegin  ());
+if(m_iAvailableWeapons  & ~ ulOldWeapons ){
 #line 3024 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+bAutoSelect  = TRUE ;
 #line 3025 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
+#line 3026 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else if(iSelectionSetting  == PS_WAS_BETTER ){
 #line 3027 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return TRUE ;
+if(FindRemapedPos  (m_iCurrentWeapon ) < FindRemapedPos  ((WeaponType ) Ewi  . iWeapon )){
 #line 3028 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+bAutoSelect  = TRUE ;
+#line 3029 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-  
+#line 3030 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
 #line 3031 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BOOL CPlayerWeapons::ReceiveAmmo(const CEntityEvent & ee) {
-#line 3032 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ASSERT  (ee  . ee_slEvent  == EVENTCODE_EAmmoItem );
+if(bAutoSelect ){
+#line 3033 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(WeaponSelectOk  ((WeaponType ) Ewi  . iWeapon )){
+#line 3034 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SendEvent  (EBegin  ());
 #line 3035 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(GetSP  () -> sp_bInfiniteAmmo ){
+}
+#line 3036 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
 #line 3038 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE ;
 #line 3039 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
+  
 #line 3042 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-EAmmoItem  & Eai  = (EAmmoItem  &) ee ;
-#line 3044 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(Eai  . EaitType ){
+BOOL CPlayerWeapons::ReceiveAmmo(const CEntityEvent & ee) {
+#line 3043 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ASSERT  (ee  . ee_slEvent  == EVENTCODE_EAmmoItem );
 #line 3046 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case AIT_PISTOL : 
-#line 3047 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iPistol  >= m_iMaxPistol ){m_iPistol  = m_iMaxPistol ;return FALSE ;}
-#line 3048 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistol  += Eai  . iQuantity ;
-#line 3049 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Pistols") , Eai  . iQuantity );
-#line 3050 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (Eai  . iQuantity  * AV_PISTOL  * MANA_AMMO );
-#line 3051 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 3053 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case AIT_SMG : 
-#line 3054 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iSMG  >= m_iMaxSMG ){m_iSMG  = m_iMaxSMG ;return FALSE ;}
-#line 3055 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMG  += Eai  . iQuantity ;
-#line 3056 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("SMG") , Eai  . iQuantity );
-#line 3057 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (Eai  . iQuantity  * AV_SMG  * MANA_AMMO );
-#line 3058 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 3060 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case AIT_SHELLS : 
-#line 3061 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iShells  >= m_iMaxShells ){m_iShells  = m_iMaxShells ;return FALSE ;}
-#line 3062 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShells  += Eai  . iQuantity ;
-#line 3063 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Shells") , Eai  . iQuantity );
-#line 3064 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (Eai  . iQuantity  * AV_SHELLS  * MANA_AMMO );
-#line 3065 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 3067 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case AIT_BULLETS : 
-#line 3068 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iBullets  >= m_iMaxBullets ){m_iBullets  = m_iMaxBullets ;return FALSE ;}
-#line 3069 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBullets  += Eai  . iQuantity ;
-#line 3070 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Bullets") , Eai  . iQuantity );
-#line 3071 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (Eai  . iQuantity  * AV_BULLETS  * MANA_AMMO );
-#line 3072 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 3074 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case AIT_ROCKETS : 
-#line 3075 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iRockets  >= m_iMaxRockets ){m_iRockets  = m_iMaxRockets ;return FALSE ;}
-#line 3076 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iRockets  += Eai  . iQuantity ;
-#line 3077 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Rockets") , Eai  . iQuantity );
-#line 3078 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (Eai  . iQuantity  * AV_ROCKETS  * MANA_AMMO );
-#line 3079 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 3081 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case AIT_GRENADES : 
-#line 3082 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iGrenades  >= m_iMaxGrenades ){m_iGrenades  = m_iMaxGrenades ;return FALSE ;}
-#line 3083 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iGrenades  += Eai  . iQuantity ;
-#line 3084 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Grenades") , Eai  . iQuantity );
-#line 3085 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (Eai  . iQuantity  * AV_GRENADES  * MANA_AMMO );
-#line 3086 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 3088 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case AIT_ELECTRICITY : 
-#line 3089 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iElectricity  >= m_iMaxElectricity ){m_iElectricity  = m_iMaxElectricity ;return FALSE ;}
-#line 3090 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iElectricity  += Eai  . iQuantity ;
-#line 3091 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Cells") , Eai  . iQuantity );
-#line 3092 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (Eai  . iQuantity  * AV_ELECTRICITY  * MANA_AMMO );
-#line 3093 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 3101 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case AIT_IRONBALLS : 
-#line 3102 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iIronBalls  >= m_iMaxIronBalls ){m_iIronBalls  = m_iMaxIronBalls ;return FALSE ;}
-#line 3103 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iIronBalls  += Eai  . iQuantity ;
-#line 3104 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Cannonballs") , Eai  . iQuantity );
-#line 3105 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (Eai  . iQuantity  * AV_IRONBALLS  * MANA_AMMO );
-#line 3106 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 3107 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case AIT_NAPALM : 
-#line 3108 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iNapalm  >= m_iMaxNapalm ){m_iNapalm  = m_iMaxNapalm ;return FALSE ;}
-#line 3109 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iNapalm  += Eai  . iQuantity ;
-#line 3110 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Napalm") , Eai  . iQuantity );
-#line 3111 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (Eai  . iQuantity  * AV_NAPALM  * MANA_AMMO );
-#line 3112 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 3113 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case AIT_BACKPACK : 
-#line 3114 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistol  += 14 * GetSP  () -> sp_fAmmoQuantity ;
-#line 3115 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMG  += 200 * GetSP  () -> sp_fAmmoQuantity ;
-#line 3116 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShells  += 20 * GetSP  () -> sp_fAmmoQuantity ;
-#line 3117 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBullets  += 200 * GetSP  () -> sp_fAmmoQuantity ;
-#line 3118 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iRockets  += 5 * GetSP  () -> sp_fAmmoQuantity ;
-#line 3119 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Ammo pack") , 0);
-#line 3120 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (100000000.0f * MANA_AMMO );
-#line 3121 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 3122 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case AIT_SERIOUSPACK : 
-#line 3123 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistol  += MAX_PISTOL  * GetSP  () -> sp_fAmmoQuantity ;
-#line 3124 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMG  += MAX_SMG  * GetSP  () -> sp_fAmmoQuantity ;
-#line 3125 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShells  += MAX_SHELLS  * GetSP  () -> sp_fAmmoQuantity ;
-#line 3126 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBullets  += MAX_BULLETS  * GetSP  () -> sp_fAmmoQuantity ;
-#line 3127 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iGrenades  += MAX_GRENADES  * GetSP  () -> sp_fAmmoQuantity ;
-#line 3128 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iRockets  += MAX_ROCKETS  * GetSP  () -> sp_fAmmoQuantity ;
-#line 3129 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iElectricity  += MAX_ELECTRICITY  * GetSP  () -> sp_fAmmoQuantity ;
-#line 3130 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iIronBalls  += MAX_IRONBALLS  * GetSP  () -> sp_fAmmoQuantity ;
-#line 3132 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case AIT_SNIPERBULLETS : 
-#line 3133 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iSniperBullets  >= m_iMaxSniperBullets ){m_iSniperBullets  = m_iMaxSniperBullets ;return FALSE ;}
-#line 3134 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSniperBullets  += Eai  . iQuantity ;
-#line 3135 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Sniper bullets") , Eai  . iQuantity );
-#line 3136 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (Eai  . iQuantity  * AV_SNIPERBULLETS  * MANA_AMMO );
-#line 3137 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 3140 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("All Ammo") , 0);
-#line 3141 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-AddManaToPlayer  (100000000.0f * MANA_AMMO );
-#line 3142 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 3144 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-default  : 
-#line 3145 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ASSERTALWAYS  ("Uknown ammo type");
-#line 3146 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3149 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ClampAllAmmo  ();
-#line 3150 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return TRUE ;
-#line 3151 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 3154 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BOOL CPlayerWeapons::ReceivePackAmmo(const CEntityEvent & ee) 
-#line 3155 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 3157 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(GetSP  () -> sp_bInfiniteAmmo ){
-#line 3160 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3049 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE ;
-#line 3161 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3050 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 3163 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ASSERT  (ee  . ee_slEvent  == EVENTCODE_EAmmoPackItem );
-#line 3164 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-EAmmoPackItem  & eapi  = (EAmmoPackItem  &) ee ;
-#line 3165 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if((eapi  . iShells  > 0 && m_iShells  < m_iMaxShells ) || 
-#line 3166 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-(eapi  . iBullets  > 0 && m_iBullets  < m_iMaxBullets ) || 
-#line 3167 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-(eapi  . iRockets  > 0 && m_iRockets  < m_iMaxRockets ) || 
-#line 3168 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-(eapi  . iGrenades  > 0 && m_iGrenades  < m_iMaxGrenades ) || 
-#line 3169 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-(eapi  . iNapalm  > 0 && m_iNapalm  < m_iMaxNapalm ) || 
-#line 3170 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-(eapi  . iElectricity  > 0 && m_iElectricity  < m_iMaxElectricity ) || 
-#line 3171 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-(eapi  . iIronBalls  > 0 && m_iIronBalls  < m_iMaxIronBalls ) || 
-#line 3172 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-(eapi  . iSniperBullets  > 0 && m_iSniperBullets  < m_iMaxSniperBullets ) || 
-#line 3173 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-(eapi  . iPistol  > 0 && m_iPistol  < m_iMaxPistol ) || 
-#line 3174 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-(eapi  . iSMG  > 0 && m_iSMG  < m_iMaxSMG ))
-#line 3175 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 3177 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistol  += eapi  . iPistol ;
-#line 3178 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMG  += eapi  . iSMG ;
-#line 3179 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShells  += eapi  . iShells ;
-#line 3180 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBullets  += eapi  . iBullets ;
-#line 3181 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iRockets  += eapi  . iRockets ;
-#line 3182 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iGrenades  += eapi  . iGrenades ;
-#line 3183 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iNapalm  += eapi  . iNapalm ;
-#line 3184 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iElectricity  += eapi  . iElectricity ;
-#line 3185 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iIronBalls  += eapi  . iIronBalls ;
-#line 3186 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSniperBullets  += eapi  . iSniperBullets ;
-#line 3188 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ClampAllAmmo  ();
-#line 3191 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iAmmoTypes  = 0;
-#line 3192 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CTString strMessage ;
-#line 3193 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(eapi  . iPistol  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iPistol  , TRANS  ("Pistols"));iAmmoTypes  ++;}
-#line 3194 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(eapi  . iSMG  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iSMG  , TRANS  ("SMG"));iAmmoTypes  ++;}
-#line 3195 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(eapi  . iShells  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iShells  , TRANS  ("Shells"));iAmmoTypes  ++;}
-#line 3196 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(eapi  . iBullets  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iBullets  , TRANS  ("Bullets"));iAmmoTypes  ++;}
-#line 3197 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(eapi  . iRockets  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iRockets  , TRANS  ("Rockets"));iAmmoTypes  ++;}
-#line 3198 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(eapi  . iGrenades  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iGrenades  , TRANS  ("Grenades"));iAmmoTypes  ++;}
-#line 3199 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(eapi  . iNapalm  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iNapalm  , TRANS  ("Napalm"));iAmmoTypes  ++;}
-#line 3200 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(eapi  . iElectricity  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iElectricity  , TRANS  ("Cells"));iAmmoTypes  ++;}
-#line 3201 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(eapi  . iIronBalls  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iIronBalls  , TRANS  ("Cannonballs"));iAmmoTypes  ++;}
-#line 3202 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(eapi  . iSniperBullets  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iSniperBullets  , TRANS  ("Sniper bullets"));iAmmoTypes  ++;}
-#line 3204 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iLen  = strlen  (strMessage );
-#line 3205 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iLen  > 0 && strMessage  [ iLen  - 1 ] == ',')
-#line 3206 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 3207 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-strMessage  . DeleteChar  (iLen  - 1);
-#line 3208 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-};
-#line 3209 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iAmmoTypes  > 4){
-#line 3210 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-strMessage  . PrintF  (TRANS  ("Ammo pack"));
-#line 3211 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-};
-#line 3213 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayer  &) * m_penPlayer ) . ItemPicked  (strMessage  , 0);
-#line 3214 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return TRUE ;
-#line 3215 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3216 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return FALSE ;
-#line 3217 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 3223 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponType CPlayerWeapons::GetStrongerWeapon(INDEX iWeapon) {
-#line 3224 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(iWeapon ){
-#line 3225 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 1: return WEAPON_CHAINSAW ;
-#line 3226 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 2: return WEAPON_DOUBLECOLT ;
-#line 3227 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 3: return WEAPON_SINGLESHOTGUN ;
-#line 3228 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 4: return WEAPON_MINIGUN ;
-#line 3229 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 5: return WEAPON_ROCKETLAUNCHER ;
-#line 3230 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 6: return WEAPON_FLAMER ;
-#line 3231 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 7: return WEAPON_LASER ;
-#line 3232 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 8: return WEAPON_IRONCANNON ;
-#line 3233 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3234 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return WEAPON_NONE ;
-#line 3235 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 3238 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX CPlayerWeapons::GetSelectedWeapon(WeaponType EwtSelectedWeapon) {
-#line 3239 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(EwtSelectedWeapon ){
-#line 3240 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_KNIFE : case WEAPON_CHAINSAW : return 1;
-#line 3241 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_COLT : case WEAPON_DOUBLECOLT : return 2;
-#line 3242 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : case WEAPON_DOUBLESHOTGUN : return 3;
-#line 3243 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : case WEAPON_MINIGUN : return 4;
-#line 3244 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_ROCKETLAUNCHER : case WEAPON_GRENADELAUNCHER : return 5;
-#line 3245 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_FLAMER : case WEAPON_SNIPER : return 6;
-#line 3246 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_LASER : return 7;
-#line 3247 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_IRONCANNON : return 8;
-#line 3248 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3249 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return 0;
-#line 3250 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 3253 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponType CPlayerWeapons::GetAltWeapon(WeaponType EwtWeapon) {
-#line 3254 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(EwtWeapon ){
-#line 3255 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_KNIFE : return WEAPON_CHAINSAW ;
-#line 3256 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_CHAINSAW : return WEAPON_KNIFE ;
-#line 3257 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_COLT : return WEAPON_DOUBLECOLT ;
-#line 3258 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLECOLT : return WEAPON_COLT ;
-#line 3259 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : return WEAPON_DOUBLESHOTGUN ;
-#line 3260 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLESHOTGUN : return WEAPON_SINGLESHOTGUN ;
-#line 3261 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : return WEAPON_MINIGUN ;
-#line 3262 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_MINIGUN : return WEAPON_TOMMYGUN ;
-#line 3263 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_ROCKETLAUNCHER : return WEAPON_GRENADELAUNCHER ;
-#line 3264 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_GRENADELAUNCHER : return WEAPON_ROCKETLAUNCHER ;
-#line 3265 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_FLAMER : return WEAPON_SNIPER ;
-#line 3266 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SNIPER : return WEAPON_FLAMER ;
-#line 3267 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_LASER : return WEAPON_LASER ;
-#line 3268 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_IRONCANNON : return WEAPON_IRONCANNON ;
-#line 3269 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3270 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return WEAPON_NONE ;
-#line 3271 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 3274 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BOOL CPlayerWeapons::WeaponSelectOk(WeaponType wtToTry) 
-#line 3275 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 3277 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(((1 << (INDEX (wtToTry ) - 1)) & m_iAvailableWeapons ) 
-#line 3278 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-&& HasAmmo  (wtToTry )){
-#line 3280 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(wtToTry  != m_iCurrentWeapon ){
-#line 3283 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iWantedWeapon  = wtToTry ;
-#line 3284 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_bChangeWeapon  = TRUE ;
-#line 3285 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3287 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return TRUE ;
-#line 3289 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
-#line 3291 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return FALSE ;
-#line 3292 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3293 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 3295 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::SelectNewWeapon() 
-#line 3296 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 3297 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(m_iCurrentWeapon ){
-#line 3298 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_NONE : 
-#line 3299 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_KNIFE : case WEAPON_COLT : case WEAPON_DOUBLECOLT : 
-#line 3300 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : case WEAPON_DOUBLESHOTGUN : 
-#line 3301 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : case WEAPON_MINIGUN : case WEAPON_SNIPER : 
-#line 3302 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponSelectOk  (WEAPON_MINIGUN ) || 
-#line 3303 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponSelectOk  (WEAPON_TOMMYGUN ) || 
-#line 3304 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponSelectOk  (WEAPON_DOUBLESHOTGUN ) || 
-#line 3305 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponSelectOk  (WEAPON_SINGLESHOTGUN ) || 
-#line 3306 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponSelectOk  (WEAPON_DOUBLECOLT ) || 
-#line 3307 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponSelectOk  (WEAPON_COLT ) || 
-#line 3308 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponSelectOk  (WEAPON_KNIFE );
-#line 3309 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3053 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+EAmmoItem  & Eai  = (EAmmoItem  &) ee ;
+#line 3055 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(Eai  . EaitType ){
+#line 3057 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case AIT_PISTOL : 
+#line 3058 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iPistol  >= m_iMaxPistol ){m_iPistol  = m_iMaxPistol ;return FALSE ;}
+#line 3059 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iPistol  += Eai  . iQuantity ;
+#line 3060 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Pistols") , Eai  . iQuantity );
+#line 3061 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddManaToPlayer  (Eai  . iQuantity  * AV_PISTOL  * MANA_AMMO );
+#line 3062 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
+#line 3064 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case AIT_SMG : 
+#line 3065 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iSMG  >= m_iMaxSMG ){m_iSMG  = m_iMaxSMG ;return FALSE ;}
+#line 3066 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iSMG  += Eai  . iQuantity ;
+#line 3067 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("SMG") , Eai  . iQuantity );
+#line 3068 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddManaToPlayer  (Eai  . iQuantity  * AV_SMG  * MANA_AMMO );
+#line 3069 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 3071 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case AIT_SHELLS : 
+#line 3072 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iShells  >= m_iMaxShells ){m_iShells  = m_iMaxShells ;return FALSE ;}
+#line 3073 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iShells  += Eai  . iQuantity ;
+#line 3074 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Shells") , Eai  . iQuantity );
+#line 3075 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddManaToPlayer  (Eai  . iQuantity  * AV_SHELLS  * MANA_AMMO );
+#line 3076 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 3078 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case AIT_BULLETS : 
+#line 3079 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iBullets  >= m_iMaxBullets ){m_iBullets  = m_iMaxBullets ;return FALSE ;}
+#line 3080 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iBullets  += Eai  . iQuantity ;
+#line 3081 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Bullets") , Eai  . iQuantity );
+#line 3082 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddManaToPlayer  (Eai  . iQuantity  * AV_BULLETS  * MANA_AMMO );
+#line 3083 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 3085 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case AIT_ROCKETS : 
+#line 3086 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iRockets  >= m_iMaxRockets ){m_iRockets  = m_iMaxRockets ;return FALSE ;}
+#line 3087 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iRockets  += Eai  . iQuantity ;
+#line 3088 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Rockets") , Eai  . iQuantity );
+#line 3089 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddManaToPlayer  (Eai  . iQuantity  * AV_ROCKETS  * MANA_AMMO );
+#line 3090 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 3092 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case AIT_GRENADES : 
+#line 3093 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iGrenades  >= m_iMaxGrenades ){m_iGrenades  = m_iMaxGrenades ;return FALSE ;}
+#line 3094 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iGrenades  += Eai  . iQuantity ;
+#line 3095 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Grenades") , Eai  . iQuantity );
+#line 3096 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddManaToPlayer  (Eai  . iQuantity  * AV_GRENADES  * MANA_AMMO );
+#line 3097 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 3099 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case AIT_ELECTRICITY : 
+#line 3100 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iElectricity  >= m_iMaxElectricity ){m_iElectricity  = m_iMaxElectricity ;return FALSE ;}
+#line 3101 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iElectricity  += Eai  . iQuantity ;
+#line 3102 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Cells") , Eai  . iQuantity );
+#line 3103 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddManaToPlayer  (Eai  . iQuantity  * AV_ELECTRICITY  * MANA_AMMO );
+#line 3104 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 3112 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case AIT_IRONBALLS : 
+#line 3113 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iIronBalls  >= m_iMaxIronBalls ){m_iIronBalls  = m_iMaxIronBalls ;return FALSE ;}
+#line 3114 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iIronBalls  += Eai  . iQuantity ;
+#line 3115 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Cannonballs") , Eai  . iQuantity );
+#line 3116 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddManaToPlayer  (Eai  . iQuantity  * AV_IRONBALLS  * MANA_AMMO );
+#line 3117 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 3118 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case AIT_NAPALM : 
+#line 3119 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iNapalm  >= m_iMaxNapalm ){m_iNapalm  = m_iMaxNapalm ;return FALSE ;}
+#line 3120 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iNapalm  += Eai  . iQuantity ;
+#line 3121 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Napalm") , Eai  . iQuantity );
+#line 3122 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddManaToPlayer  (Eai  . iQuantity  * AV_NAPALM  * MANA_AMMO );
+#line 3123 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 3124 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case AIT_BACKPACK : 
+#line 3125 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iPistol  += 14 * GetSP  () -> sp_fAmmoQuantity ;
+#line 3126 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iSMG  += 200 * GetSP  () -> sp_fAmmoQuantity ;
+#line 3127 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iShells  += 20 * GetSP  () -> sp_fAmmoQuantity ;
+#line 3128 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iBullets  += 200 * GetSP  () -> sp_fAmmoQuantity ;
+#line 3129 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iRockets  += 5 * GetSP  () -> sp_fAmmoQuantity ;
+#line 3130 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Ammo pack") , 0);
+#line 3131 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddManaToPlayer  (100000000.0f * MANA_AMMO );
+#line 3132 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 3133 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case AIT_SERIOUSPACK : 
+#line 3134 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iPistol  += MAX_PISTOL  * GetSP  () -> sp_fAmmoQuantity ;
+#line 3135 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iSMG  += MAX_SMG  * GetSP  () -> sp_fAmmoQuantity ;
+#line 3136 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iShells  += MAX_SHELLS  * GetSP  () -> sp_fAmmoQuantity ;
+#line 3137 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iBullets  += MAX_BULLETS  * GetSP  () -> sp_fAmmoQuantity ;
+#line 3138 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iGrenades  += MAX_GRENADES  * GetSP  () -> sp_fAmmoQuantity ;
+#line 3139 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iRockets  += MAX_ROCKETS  * GetSP  () -> sp_fAmmoQuantity ;
+#line 3140 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iElectricity  += MAX_ELECTRICITY  * GetSP  () -> sp_fAmmoQuantity ;
+#line 3141 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iIronBalls  += MAX_IRONBALLS  * GetSP  () -> sp_fAmmoQuantity ;
+#line 3143 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case AIT_SNIPERBULLETS : 
+#line 3144 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iSniperBullets  >= m_iMaxSniperBullets ){m_iSniperBullets  = m_iMaxSniperBullets ;return FALSE ;}
+#line 3145 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iSniperBullets  += Eai  . iQuantity ;
+#line 3146 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("Sniper bullets") , Eai  . iQuantity );
+#line 3147 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddManaToPlayer  (Eai  . iQuantity  * AV_SNIPERBULLETS  * MANA_AMMO );
+#line 3148 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 3151 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (TRANS  ("All Ammo") , 0);
+#line 3152 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+AddManaToPlayer  (100000000.0f * MANA_AMMO );
+#line 3153 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 3155 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+default  : 
+#line 3156 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ASSERTALWAYS  ("Uknown ammo type");
+#line 3157 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3160 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ClampAllAmmo  ();
+#line 3161 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return TRUE ;
+#line 3162 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 3165 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+BOOL CPlayerWeapons::ReceivePackAmmo(const CEntityEvent & ee) 
+#line 3166 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 3168 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(GetSP  () -> sp_bInfiniteAmmo ){
+#line 3171 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return TRUE ;
+#line 3172 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3174 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ASSERT  (ee  . ee_slEvent  == EVENTCODE_EAmmoPackItem );
+#line 3175 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+EAmmoPackItem  & eapi  = (EAmmoPackItem  &) ee ;
+#line 3176 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if((eapi  . iShells  > 0 && m_iShells  < m_iMaxShells ) || 
+#line 3177 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+(eapi  . iBullets  > 0 && m_iBullets  < m_iMaxBullets ) || 
+#line 3178 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+(eapi  . iRockets  > 0 && m_iRockets  < m_iMaxRockets ) || 
+#line 3179 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+(eapi  . iGrenades  > 0 && m_iGrenades  < m_iMaxGrenades ) || 
+#line 3180 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+(eapi  . iNapalm  > 0 && m_iNapalm  < m_iMaxNapalm ) || 
+#line 3181 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+(eapi  . iElectricity  > 0 && m_iElectricity  < m_iMaxElectricity ) || 
+#line 3182 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+(eapi  . iIronBalls  > 0 && m_iIronBalls  < m_iMaxIronBalls ) || 
+#line 3183 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+(eapi  . iSniperBullets  > 0 && m_iSniperBullets  < m_iMaxSniperBullets ) || 
+#line 3184 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+(eapi  . iPistol  > 0 && m_iPistol  < m_iMaxPistol ) || 
+#line 3185 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+(eapi  . iSMG  > 0 && m_iSMG  < m_iMaxSMG ))
+#line 3186 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 3188 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iPistol  += eapi  . iPistol ;
+#line 3189 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iSMG  += eapi  . iSMG ;
+#line 3190 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iShells  += eapi  . iShells ;
+#line 3191 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iBullets  += eapi  . iBullets ;
+#line 3192 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iRockets  += eapi  . iRockets ;
+#line 3193 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iGrenades  += eapi  . iGrenades ;
+#line 3194 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iNapalm  += eapi  . iNapalm ;
+#line 3195 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iElectricity  += eapi  . iElectricity ;
+#line 3196 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iIronBalls  += eapi  . iIronBalls ;
+#line 3197 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iSniperBullets  += eapi  . iSniperBullets ;
+#line 3199 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ClampAllAmmo  ();
+#line 3202 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iAmmoTypes  = 0;
+#line 3203 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CTString strMessage ;
+#line 3204 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(eapi  . iPistol  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iPistol  , TRANS  ("Pistols"));iAmmoTypes  ++;}
+#line 3205 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(eapi  . iSMG  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iSMG  , TRANS  ("SMG"));iAmmoTypes  ++;}
+#line 3206 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(eapi  . iShells  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iShells  , TRANS  ("Shells"));iAmmoTypes  ++;}
+#line 3207 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(eapi  . iBullets  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iBullets  , TRANS  ("Bullets"));iAmmoTypes  ++;}
+#line 3208 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(eapi  . iRockets  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iRockets  , TRANS  ("Rockets"));iAmmoTypes  ++;}
+#line 3209 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(eapi  . iGrenades  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iGrenades  , TRANS  ("Grenades"));iAmmoTypes  ++;}
+#line 3210 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(eapi  . iNapalm  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iNapalm  , TRANS  ("Napalm"));iAmmoTypes  ++;}
+#line 3211 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(eapi  . iElectricity  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iElectricity  , TRANS  ("Cells"));iAmmoTypes  ++;}
+#line 3212 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(eapi  . iIronBalls  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iIronBalls  , TRANS  ("Cannonballs"));iAmmoTypes  ++;}
+#line 3213 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(eapi  . iSniperBullets  != 0){strMessage  . PrintF  ("%s %d %s," , strMessage  , eapi  . iSniperBullets  , TRANS  ("Sniper bullets"));iAmmoTypes  ++;}
+#line 3215 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iLen  = strlen  (strMessage );
+#line 3216 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(iLen  > 0 && strMessage  [ iLen  - 1 ] == ',')
+#line 3217 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 3218 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+strMessage  . DeleteChar  (iLen  - 1);
+#line 3219 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+};
+#line 3220 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(iAmmoTypes  > 4){
+#line 3221 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+strMessage  . PrintF  (TRANS  ("Ammo pack"));
+#line 3222 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+};
+#line 3224 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayer  &) * m_penPlayer ) . ItemPicked  (strMessage  , 0);
+#line 3225 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return TRUE ;
+#line 3226 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3227 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return FALSE ;
+#line 3228 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 3234 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+WeaponType CPlayerWeapons::GetStrongerWeapon(INDEX iWeapon) {
+#line 3235 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(iWeapon ){
+#line 3236 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 1: return WEAPON_CHAINSAW ;
+#line 3237 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 2: return WEAPON_DOUBLECOLT ;
+#line 3238 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 3: return WEAPON_SINGLESHOTGUN ;
+#line 3239 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 4: return WEAPON_MINIGUN ;
+#line 3240 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 5: return WEAPON_ROCKETLAUNCHER ;
+#line 3241 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 6: return WEAPON_FLAMER ;
+#line 3242 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 7: return WEAPON_LASER ;
+#line 3243 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 8: return WEAPON_IRONCANNON ;
+#line 3244 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3245 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return WEAPON_NONE ;
+#line 3246 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 3249 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX CPlayerWeapons::GetSelectedWeapon(WeaponType EwtSelectedWeapon) {
+#line 3250 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(EwtSelectedWeapon ){
+#line 3251 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_KNIFE : case WEAPON_CHAINSAW : return 1;
+#line 3252 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_COLT : case WEAPON_DOUBLECOLT : return 2;
+#line 3253 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SINGLESHOTGUN : case WEAPON_DOUBLESHOTGUN : return 3;
+#line 3254 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_TOMMYGUN : case WEAPON_MINIGUN : return 4;
+#line 3255 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_ROCKETLAUNCHER : case WEAPON_GRENADELAUNCHER : return 5;
+#line 3256 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_FLAMER : case WEAPON_SNIPER : return 6;
+#line 3257 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_LASER : return 7;
+#line 3258 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_IRONCANNON : return 8;
+#line 3259 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3260 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return 0;
+#line 3261 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 3264 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+WeaponType CPlayerWeapons::GetAltWeapon(WeaponType EwtWeapon) {
+#line 3265 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(EwtWeapon ){
+#line 3266 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_KNIFE : return WEAPON_CHAINSAW ;
+#line 3267 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_CHAINSAW : return WEAPON_KNIFE ;
+#line 3268 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_COLT : return WEAPON_DOUBLECOLT ;
+#line 3269 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLECOLT : return WEAPON_COLT ;
+#line 3270 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SINGLESHOTGUN : return WEAPON_DOUBLESHOTGUN ;
+#line 3271 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLESHOTGUN : return WEAPON_SINGLESHOTGUN ;
+#line 3272 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_TOMMYGUN : return WEAPON_MINIGUN ;
+#line 3273 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_MINIGUN : return WEAPON_TOMMYGUN ;
+#line 3274 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_ROCKETLAUNCHER : return WEAPON_GRENADELAUNCHER ;
+#line 3275 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_GRENADELAUNCHER : return WEAPON_ROCKETLAUNCHER ;
+#line 3276 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_FLAMER : return WEAPON_SNIPER ;
+#line 3277 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SNIPER : return WEAPON_FLAMER ;
+#line 3278 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_LASER : return WEAPON_LASER ;
+#line 3279 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_IRONCANNON : return WEAPON_IRONCANNON ;
+#line 3280 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3281 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return WEAPON_NONE ;
+#line 3282 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 3285 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+BOOL CPlayerWeapons::WeaponSelectOk(WeaponType wtToTry) 
+#line 3286 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 3288 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(((1 << (INDEX (wtToTry ) - 1)) & m_iAvailableWeapons ) 
+#line 3289 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+&& HasAmmo  (wtToTry )){
+#line 3291 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(wtToTry  != m_iCurrentWeapon ){
+#line 3294 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iWantedWeapon  = wtToTry ;
+#line 3295 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_bChangeWeapon  = TRUE ;
+#line 3296 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3298 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return TRUE ;
+#line 3300 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else {
+#line 3302 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return FALSE ;
+#line 3303 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3304 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 3306 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::SelectNewWeapon() 
+#line 3307 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 3308 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(m_iCurrentWeapon ){
+#line 3309 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_NONE : 
 #line 3310 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_IRONCANNON : 
+case WEAPON_KNIFE : case WEAPON_COLT : case WEAPON_DOUBLECOLT : 
 #line 3311 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponSelectOk  (WEAPON_ROCKETLAUNCHER ) || 
+case WEAPON_SINGLESHOTGUN : case WEAPON_DOUBLESHOTGUN : 
 #line 3312 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponSelectOk  (WEAPON_GRENADELAUNCHER ) || 
+case WEAPON_TOMMYGUN : case WEAPON_MINIGUN : case WEAPON_SNIPER : 
 #line 3313 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 WeaponSelectOk  (WEAPON_MINIGUN ) || 
 #line 3314 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -4127,35 +4116,35 @@ WeaponSelectOk  (WEAPON_KNIFE );
 #line 3320 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
 #line 3321 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_ROCKETLAUNCHER : 
+case WEAPON_IRONCANNON : 
 #line 3322 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_GRENADELAUNCHER : 
-#line 3323 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 WeaponSelectOk  (WEAPON_ROCKETLAUNCHER ) || 
-#line 3324 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3323 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 WeaponSelectOk  (WEAPON_GRENADELAUNCHER ) || 
-#line 3325 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3324 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 WeaponSelectOk  (WEAPON_MINIGUN ) || 
-#line 3326 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3325 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 WeaponSelectOk  (WEAPON_TOMMYGUN ) || 
-#line 3327 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3326 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 WeaponSelectOk  (WEAPON_DOUBLESHOTGUN ) || 
-#line 3328 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3327 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 WeaponSelectOk  (WEAPON_SINGLESHOTGUN ) || 
-#line 3329 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3328 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 WeaponSelectOk  (WEAPON_DOUBLECOLT ) || 
-#line 3330 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3329 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 WeaponSelectOk  (WEAPON_COLT ) || 
-#line 3331 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3330 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 WeaponSelectOk  (WEAPON_KNIFE );
-#line 3332 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3331 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
+#line 3332 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_ROCKETLAUNCHER : 
 #line 3333 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_LASER : case WEAPON_FLAMER : case WEAPON_CHAINSAW : 
+case WEAPON_GRENADELAUNCHER : 
 #line 3334 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponSelectOk  (WEAPON_LASER ) || 
+WeaponSelectOk  (WEAPON_ROCKETLAUNCHER ) || 
 #line 3335 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponSelectOk  (WEAPON_FLAMER ) || 
+WeaponSelectOk  (WEAPON_GRENADELAUNCHER ) || 
 #line 3336 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 WeaponSelectOk  (WEAPON_MINIGUN ) || 
 #line 3337 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -4173,167 +4162,170 @@ WeaponSelectOk  (WEAPON_KNIFE );
 #line 3343 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
 #line 3344 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-default  : 
+case WEAPON_LASER : case WEAPON_FLAMER : case WEAPON_CHAINSAW : 
 #line 3345 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponSelectOk  (WEAPON_KNIFE );
+WeaponSelectOk  (WEAPON_LASER ) || 
 #line 3346 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ASSERT  (FALSE );
+WeaponSelectOk  (WEAPON_FLAMER ) || 
 #line 3347 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+WeaponSelectOk  (WEAPON_MINIGUN ) || 
 #line 3348 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
+WeaponSelectOk  (WEAPON_TOMMYGUN ) || 
+#line 3349 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+WeaponSelectOk  (WEAPON_DOUBLESHOTGUN ) || 
+#line 3350 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+WeaponSelectOk  (WEAPON_SINGLESHOTGUN ) || 
 #line 3351 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BOOL CPlayerWeapons::HasAmmo(WeaponType EwtWeapon) {
+WeaponSelectOk  (WEAPON_DOUBLECOLT ) || 
 #line 3352 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(EwtWeapon ){
+WeaponSelectOk  (WEAPON_COLT ) || 
 #line 3353 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_KNIFE : return TRUE ;
+WeaponSelectOk  (WEAPON_KNIFE );
 #line 3354 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_COLT : return (m_iPistol  + m_iPistolMagazin  > 0);
+break ;
 #line 3355 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLECOLT : return (m_iSMG  + m_iSMGMagazin  > 0);
-#line 3356 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : return (m_iShells  + m_iShellsMagazin  > 0);
-#line 3357 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLESHOTGUN : return (m_iShells  > 0);
-#line 3358 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : return (m_iBullets  + m_iBulletsMagazin  > 0 || m_iGrenades  > 0);
-#line 3359 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SNIPER : return (m_iSniperBullets  > 0);
-#line 3360 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_MINIGUN : return (m_iBullets  > 0);
-#line 3361 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_ROCKETLAUNCHER : return (m_iRockets  > 0);
-#line 3362 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_GRENADELAUNCHER : return (m_iGrenades  > 0);
-#line 3363 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_FLAMER : return (m_iNapalm  > 0);
-#line 3364 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_CHAINSAW : return TRUE ;
-#line 3365 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_LASER : return (m_iElectricity  > 0);
-#line 3366 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_IRONCANNON : return (m_iIronBalls  > 0);
-#line 3367 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3368 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return FALSE ;
-#line 3369 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 3374 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::PlayDefaultAnim(void) {
-#line 3375 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(m_iCurrentWeapon ){
-#line 3376 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_NONE : 
-#line 3377 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 3378 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_KNIFE : 
-#line 3379 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(m_iKnifeStand ){
-#line 3380 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 1: m_moWeapon  . PlayAnim  (KNIFE_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
-#line 3381 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 3: m_moWeapon  . PlayAnim  (KNIFE_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
-#line 3382 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-default  : ASSERTALWAYS  ("Unknown knife stand.");
-#line 3383 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3384 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 3385 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLECOLT : 
-#line 3386 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (P90_ANIM_P90_ANIM_WAIT3  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
-#line 3387 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_COLT : 
-#line 3388 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (COLT_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
-#line 3389 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : 
-#line 3390 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (SINGLESHOTGUN_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
-#line 3391 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLESHOTGUN : 
-#line 3392 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (SINGLESHOTGUN_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
-#line 3393 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : 
-#line 3394 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (TOMMYGUN_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
-#line 3395 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SNIPER : 
-#line 3396 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (SNIPER_ANIM_WAIT01  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
-#line 3397 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_MINIGUN : 
-#line 3398 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (MINIGUN_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
-#line 3399 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_ROCKETLAUNCHER : 
-#line 3400 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (ROCKETLAUNCHER_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
-#line 3401 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_GRENADELAUNCHER : 
-#line 3402 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (GRENADELAUNCHER_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
-#line 3411 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_FLAMER : 
-#line 3412 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (FLAMER_ANIM_WAIT01  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
-#line 3413 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_CHAINSAW : 
-#line 3414 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (CHAINSAW_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
-#line 3415 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_LASER : 
-#line 3416 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (LASER_ANIM_WAIT01  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
-#line 3421 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_IRONCANNON : 
-#line 3423 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (CANNON_ANIM_WAIT01  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
-#line 3424 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 default  : 
-#line 3425 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ASSERTALWAYS  ("Unknown weapon.");
-#line 3426 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3356 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+WeaponSelectOk  (WEAPON_KNIFE );
+#line 3357 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ASSERT  (FALSE );
+#line 3358 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 3427 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3359 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 3432 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT CPlayerWeapons::KnifeBoring(void) {
-#line 3434 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iAnim ;
-#line 3435 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(m_iKnifeStand ){
-#line 3436 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 1: iAnim  = KNIFE_ANIM_WAIT1 ;break ;
-#line 3437 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 3: iAnim  = KNIFE_ANIM_WAIT1 ;break ;
-#line 3438 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3362 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+BOOL CPlayerWeapons::HasAmmo(WeaponType EwtWeapon) {
+#line 3363 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(EwtWeapon ){
+#line 3364 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_KNIFE : return TRUE ;
+#line 3365 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_COLT : return (m_iPistol  + m_iPistolMagazin  > 0);
+#line 3366 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLECOLT : return (m_iSMG  + m_iSMGMagazin  > 0);
+#line 3367 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SINGLESHOTGUN : return (m_iShells  + m_iShellsMagazin  > 0);
+#line 3368 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLESHOTGUN : return (m_iShells  > 0);
+#line 3369 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_TOMMYGUN : return (m_iBullets  + m_iBulletsMagazin  > 0 || m_iGrenades  > 0);
+#line 3370 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SNIPER : return (m_iSniperBullets  > 0);
+#line 3371 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_MINIGUN : return (m_iBullets  > 0);
+#line 3372 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_ROCKETLAUNCHER : return (m_iRockets  > 0);
+#line 3373 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_GRENADELAUNCHER : return (m_iGrenades  > 0);
+#line 3374 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_FLAMER : return (m_iNapalm  > 0);
+#line 3375 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_CHAINSAW : return TRUE ;
+#line 3376 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_LASER : return (m_iElectricity  > 0);
+#line 3377 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_IRONCANNON : return (m_iIronBalls  > 0);
+#line 3378 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 3439 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (iAnim  , AOF_SMOOTHCHANGE );
-#line 3440 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return m_moWeapon  . GetAnimLength  (iAnim );
-#line 3441 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3379 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return FALSE ;
+#line 3380 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 3385 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::PlayDefaultAnim(void) {
+#line 3386 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(m_iCurrentWeapon ){
+#line 3387 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_NONE : 
+#line 3388 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 3389 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_KNIFE : 
+#line 3390 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(m_iKnifeStand ){
+#line 3391 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 1: m_moWeapon  . PlayAnim  (KNIFE_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
+#line 3392 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 3: m_moWeapon  . PlayAnim  (KNIFE_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
+#line 3393 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+default  : ASSERTALWAYS  ("Unknown knife stand.");
+#line 3394 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3395 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 3396 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLECOLT : 
+#line 3397 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (P90_ANIM_P90_ANIM_WAIT3  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
+#line 3398 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_COLT : 
+#line 3399 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (COLT_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
+#line 3400 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SINGLESHOTGUN : 
+#line 3401 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (SINGLESHOTGUN_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
+#line 3402 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLESHOTGUN : 
+#line 3403 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (SINGLESHOTGUN_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
+#line 3404 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_TOMMYGUN : 
+#line 3405 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (TOMMYGUN_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
+#line 3406 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SNIPER : 
+#line 3407 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (SNIPER_ANIM_WAIT01  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
+#line 3408 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_MINIGUN : 
+#line 3409 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (MINIGUN_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
+#line 3410 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_ROCKETLAUNCHER : 
+#line 3411 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (ROCKETLAUNCHER_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
+#line 3412 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_GRENADELAUNCHER : 
+#line 3413 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (GRENADELAUNCHER_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
+#line 3422 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_FLAMER : 
+#line 3423 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (FLAMER_ANIM_WAIT01  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
+#line 3424 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_CHAINSAW : 
+#line 3425 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (CHAINSAW_ANIM_WAIT1  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
+#line 3426 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_LASER : 
+#line 3427 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (LASER_ANIM_WAIT01  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
+#line 3432 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_IRONCANNON : 
+#line 3434 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (CANNON_ANIM_WAIT01  , AOF_LOOPING  | AOF_NORESTART  | AOF_SMOOTHCHANGE );break ;
+#line 3435 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+default  : 
+#line 3436 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ASSERTALWAYS  ("Unknown weapon.");
+#line 3437 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3438 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
 #line 3443 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT CPlayerWeapons::ColtBoring(void) {
+FLOAT CPlayerWeapons::KnifeBoring(void) {
 #line 3445 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX iAnim ;
 #line 3446 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(IRnd  () % 3){
+switch(m_iKnifeStand ){
 #line 3447 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 0: iAnim  = COLT_ANIM_WAIT2 ;break ;
+case 1: iAnim  = KNIFE_ANIM_WAIT1 ;break ;
 #line 3448 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 1: iAnim  = COLT_ANIM_WAIT3 ;break ;
+case 3: iAnim  = KNIFE_ANIM_WAIT1 ;break ;
 #line 3449 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 3450 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -4344,30 +4336,30 @@ return m_moWeapon  . GetAnimLength  (iAnim );
 }
   
 #line 3454 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT CPlayerWeapons::DoubleColtBoring(void) {
+FLOAT CPlayerWeapons::ColtBoring(void) {
 #line 3456 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX iAnim ;
 #line 3457 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iAnim  = P90_ANIM_P90_ANIM_WAIT2 ;
+switch(IRnd  () % 3){
 #line 3458 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (iAnim  , AOF_SMOOTHCHANGE );
+case 0: iAnim  = COLT_ANIM_WAIT2 ;break ;
 #line 3459 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return m_moWeapon  . GetAnimLength  (iAnim );
+case 1: iAnim  = COLT_ANIM_WAIT3 ;break ;
 #line 3460 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-  
+#line 3461 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (iAnim  , AOF_SMOOTHCHANGE );
 #line 3462 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT CPlayerWeapons::SingleShotgunBoring(void) {
-#line 3464 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iAnim ;
-#line 3465 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(IRnd  () % 2){
-#line 3466 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 0: iAnim  = SINGLESHOTGUN_ANIM_WAIT2 ;break ;
-#line 3467 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 1: iAnim  = SINGLESHOTGUN_ANIM_WAIT3 ;break ;
-#line 3468 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return m_moWeapon  . GetAnimLength  (iAnim );
+#line 3463 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
+  
+#line 3465 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT CPlayerWeapons::DoubleColtBoring(void) {
+#line 3467 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iAnim ;
+#line 3468 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+iAnim  = P90_ANIM_P90_ANIM_WAIT2 ;
 #line 3469 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (iAnim  , AOF_SMOOTHCHANGE );
 #line 3470 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -4376,34 +4368,34 @@ return m_moWeapon  . GetAnimLength  (iAnim );
 }
   
 #line 3473 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT CPlayerWeapons::DoubleShotgunBoring(void) {
+FLOAT CPlayerWeapons::SingleShotgunBoring(void) {
 #line 3475 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX iAnim ;
 #line 3476 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(IRnd  () % 3){
+switch(IRnd  () % 2){
 #line 3477 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case 0: iAnim  = SINGLESHOTGUN_ANIM_WAIT2 ;break ;
 #line 3478 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case 1: iAnim  = SINGLESHOTGUN_ANIM_WAIT3 ;break ;
-#line 3480 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3479 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 3481 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3480 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (iAnim  , AOF_SMOOTHCHANGE );
-#line 3482 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3481 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return m_moWeapon  . GetAnimLength  (iAnim );
-#line 3483 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3482 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 3485 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT CPlayerWeapons::TommyGunBoring(void) {
-#line 3487 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3484 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT CPlayerWeapons::DoubleShotgunBoring(void) {
+#line 3486 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX iAnim ;
+#line 3487 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(IRnd  () % 3){
 #line 3488 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(IRnd  () % 2){
+case 0: iAnim  = SINGLESHOTGUN_ANIM_WAIT2 ;break ;
 #line 3489 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 0: iAnim  = TOMMYGUN_ANIM_WAIT2 ;break ;
-#line 3490 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 1: iAnim  = TOMMYGUN_ANIM_WAIT3 ;break ;
+case 1: iAnim  = SINGLESHOTGUN_ANIM_WAIT3 ;break ;
 #line 3491 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 3492 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -4414,577 +4406,596 @@ return m_moWeapon  . GetAnimLength  (iAnim );
 }
   
 #line 3496 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT CPlayerWeapons::SniperBoring(void) {
+FLOAT CPlayerWeapons::TommyGunBoring(void) {
 #line 3498 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX iAnim ;
 #line 3499 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iAnim  = SNIPER_ANIM_WAIT01 ;
+switch(IRnd  () % 2){
 #line 3500 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (iAnim  , AOF_SMOOTHCHANGE );
+case 0: iAnim  = TOMMYGUN_ANIM_WAIT2 ;break ;
 #line 3501 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return m_moWeapon  . GetAnimLength  (iAnim );
+case 1: iAnim  = TOMMYGUN_ANIM_WAIT3 ;break ;
 #line 3502 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-  
+#line 3503 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (iAnim  , AOF_SMOOTHCHANGE );
 #line 3504 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT CPlayerWeapons::MiniGunBoring(void) {
-#line 3506 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iAnim ;
+return m_moWeapon  . GetAnimLength  (iAnim );
+#line 3505 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
 #line 3507 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(IRnd  () % 3){
-#line 3508 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 0: iAnim  = MINIGUN_ANIM_WAIT2 ;break ;
+FLOAT CPlayerWeapons::SniperBoring(void) {
 #line 3509 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 1: iAnim  = MINIGUN_ANIM_WAIT3 ;break ;
+INDEX iAnim ;
 #line 3510 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 2: iAnim  = MINIGUN_ANIM_WAIT4 ;break ;
+iAnim  = SNIPER_ANIM_WAIT01 ;
 #line 3511 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+m_moWeapon  . PlayAnim  (iAnim  , AOF_SMOOTHCHANGE );
 #line 3512 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (iAnim  , AOF_SMOOTHCHANGE );
+return m_moWeapon  . GetAnimLength  (iAnim );
 #line 3513 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return m_moWeapon  . GetAnimLength  (iAnim );
-#line 3514 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 3516 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT CPlayerWeapons::RocketLauncherBoring(void) {
+#line 3515 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT CPlayerWeapons::MiniGunBoring(void) {
+#line 3517 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iAnim ;
 #line 3518 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (ROCKETLAUNCHER_ANIM_WAIT2  , AOF_SMOOTHCHANGE );
-#line 3519 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return m_moWeapon  . GetAnimLength  (ROCKETLAUNCHER_ANIM_WAIT2 );
-#line 3520 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 3522 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT CPlayerWeapons::GrenadeLauncherBoring(void) {
-#line 3524 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (GRENADELAUNCHER_ANIM_WAIT2  , AOF_SMOOTHCHANGE );
-#line 3525 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return m_moWeapon  . GetAnimLength  (GRENADELAUNCHER_ANIM_WAIT2 );
-#line 3526 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 3561 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT CPlayerWeapons::FlamerBoring(void) {
-#line 3563 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iAnim ;
-#line 3564 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(IRnd  () % 4){
-#line 3565 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 0: iAnim  = FLAMER_ANIM_WAIT02 ;break ;
-#line 3566 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 1: iAnim  = FLAMER_ANIM_WAIT03 ;break ;
-#line 3567 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 2: iAnim  = FLAMER_ANIM_WAIT04 ;break ;
-#line 3568 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 3: iAnim  = FLAMER_ANIM_WAIT05 ;break ;
-#line 3569 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3570 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (iAnim  , AOF_SMOOTHCHANGE );
-#line 3571 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return m_moWeapon  . GetAnimLength  (iAnim );
-#line 3572 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 3574 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT CPlayerWeapons::ChainsawBoring(void) {
-#line 3576 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iAnim ;
-#line 3577 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 switch(IRnd  () % 3){
-#line 3578 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 0: iAnim  = CHAINSAW_ANIM_WAIT2 ;break ;
-#line 3579 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 1: iAnim  = CHAINSAW_ANIM_WAIT3 ;break ;
-#line 3580 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 2: iAnim  = CHAINSAW_ANIM_WAIT4 ;break ;
-#line 3581 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3519 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 0: iAnim  = MINIGUN_ANIM_WAIT2 ;break ;
+#line 3520 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 1: iAnim  = MINIGUN_ANIM_WAIT3 ;break ;
+#line 3521 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 2: iAnim  = MINIGUN_ANIM_WAIT4 ;break ;
+#line 3522 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 3582 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3523 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (iAnim  , AOF_SMOOTHCHANGE );
-#line 3583 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3524 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return m_moWeapon  . GetAnimLength  (iAnim );
-#line 3584 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3525 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 3586 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT CPlayerWeapons::LaserBoring(void) {
-#line 3588 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3527 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT CPlayerWeapons::RocketLauncherBoring(void) {
+#line 3529 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (ROCKETLAUNCHER_ANIM_WAIT2  , AOF_SMOOTHCHANGE );
+#line 3530 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return m_moWeapon  . GetAnimLength  (ROCKETLAUNCHER_ANIM_WAIT2 );
+#line 3531 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 3533 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT CPlayerWeapons::GrenadeLauncherBoring(void) {
+#line 3535 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (GRENADELAUNCHER_ANIM_WAIT2  , AOF_SMOOTHCHANGE );
+#line 3536 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return m_moWeapon  . GetAnimLength  (GRENADELAUNCHER_ANIM_WAIT2 );
+#line 3537 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 3572 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT CPlayerWeapons::FlamerBoring(void) {
+#line 3574 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX iAnim ;
-#line 3589 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iAnim  = LASER_ANIM_WAIT02 ;
-#line 3590 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3575 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(IRnd  () % 4){
+#line 3576 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 0: iAnim  = FLAMER_ANIM_WAIT02 ;break ;
+#line 3577 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 1: iAnim  = FLAMER_ANIM_WAIT03 ;break ;
+#line 3578 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 2: iAnim  = FLAMER_ANIM_WAIT04 ;break ;
+#line 3579 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 3: iAnim  = FLAMER_ANIM_WAIT05 ;break ;
+#line 3580 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3581 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (iAnim  , AOF_SMOOTHCHANGE );
-#line 3591 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3582 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return m_moWeapon  . GetAnimLength  (iAnim );
+#line 3583 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 3585 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT CPlayerWeapons::ChainsawBoring(void) {
+#line 3587 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iAnim ;
+#line 3588 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(IRnd  () % 3){
+#line 3589 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 0: iAnim  = CHAINSAW_ANIM_WAIT2 ;break ;
+#line 3590 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 1: iAnim  = CHAINSAW_ANIM_WAIT3 ;break ;
+#line 3591 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 2: iAnim  = CHAINSAW_ANIM_WAIT4 ;break ;
 #line 3592 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-  
-#line 3608 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT CPlayerWeapons::CannonBoring(void) {
-#line 3610 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iAnim ;
-#line 3611 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(IRnd  () % 3){
-#line 3612 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 0: iAnim  = CANNON_ANIM_WAIT02 ;break ;
-#line 3613 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 1: iAnim  = CANNON_ANIM_WAIT03 ;break ;
-#line 3614 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 2: iAnim  = CANNON_ANIM_WAIT04 ;break ;
-#line 3615 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3616 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3593 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (iAnim  , AOF_SMOOTHCHANGE );
-#line 3617 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3594 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return m_moWeapon  . GetAnimLength  (iAnim );
-#line 3618 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3595 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
+#line 3597 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT CPlayerWeapons::LaserBoring(void) {
+#line 3599 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iAnim ;
+#line 3600 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+iAnim  = LASER_ANIM_WAIT02 ;
+#line 3601 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (iAnim  , AOF_SMOOTHCHANGE );
+#line 3602 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return m_moWeapon  . GetAnimLength  (iAnim );
+#line 3603 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 3619 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT CPlayerWeapons::CannonBoring(void) {
 #line 3621 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponType CPlayerWeapons::FindRemapedPos(WeaponType wt) 
+INDEX iAnim ;
 #line 3622 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+switch(IRnd  () % 3){
 #line 3623 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-for(INDEX i  = 0;i  < 18;i  ++)
+case 0: iAnim  = CANNON_ANIM_WAIT02 ;break ;
 #line 3624 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+case 1: iAnim  = CANNON_ANIM_WAIT03 ;break ;
 #line 3625 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(aiWeaponsRemap  [ i  ] == wt ){
+case 2: iAnim  = CANNON_ANIM_WAIT04 ;break ;
 #line 3626 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return (WeaponType ) i ;
+}
 #line 3627 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+m_moWeapon  . PlayAnim  (iAnim  , AOF_SMOOTHCHANGE );
 #line 3628 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+return m_moWeapon  . GetAnimLength  (iAnim );
 #line 3629 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ASSERT  ("Non-existant weapon in remap array!");
-#line 3630 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return (WeaponType ) 0;
-#line 3631 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
+#line 3632 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+WeaponType CPlayerWeapons::FindRemapedPos(WeaponType wt) 
+#line 3633 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
 #line 3634 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponType CPlayerWeapons::PrimaryToSecondary(WeaponType wt) 
+for(INDEX i  = 0;i  < 18;i  ++)
 #line 3635 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
 #line 3636 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(wt  == WEAPON_CHAINSAW ){
+if(aiWeaponsRemap  [ i  ] == wt ){
 #line 3637 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return WEAPON_KNIFE ;
+return (WeaponType ) i ;
 #line 3638 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(wt  == WEAPON_DOUBLECOLT ){
+}
 #line 3639 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return WEAPON_COLT ;
+}
 #line 3640 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(wt  == WEAPON_DOUBLESHOTGUN ){
+ASSERT  ("Non-existant weapon in remap array!");
 #line 3641 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return WEAPON_SINGLESHOTGUN ;
+return (WeaponType ) 0;
 #line 3642 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(wt  == WEAPON_MINIGUN ){
-#line 3643 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return WEAPON_TOMMYGUN ;
-#line 3644 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(wt  == WEAPON_ROCKETLAUNCHER ){
+}
+  
 #line 3645 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return WEAPON_GRENADELAUNCHER ;
+WeaponType CPlayerWeapons::PrimaryToSecondary(WeaponType wt) 
 #line 3646 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(wt  == WEAPON_SNIPER ){
+{
 #line 3647 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return WEAPON_FLAMER ;
+if(wt  == WEAPON_CHAINSAW ){
 #line 3648 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
+return WEAPON_KNIFE ;
 #line 3649 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return wt ;
+}else if(wt  == WEAPON_DOUBLECOLT ){
 #line 3650 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+return WEAPON_COLT ;
 #line 3651 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-  
-#line 3653 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponType CPlayerWeapons::SecondaryToPrimary(WeaponType wt) 
-#line 3654 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 3655 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(wt  == WEAPON_KNIFE ){
-#line 3656 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return WEAPON_CHAINSAW ;
-#line 3657 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(wt  == WEAPON_COLT ){
-#line 3658 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return WEAPON_DOUBLECOLT ;
-#line 3659 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }else if(wt  == WEAPON_DOUBLESHOTGUN ){
-#line 3660 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3652 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return WEAPON_SINGLESHOTGUN ;
-#line 3661 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(wt  == WEAPON_TOMMYGUN ){
-#line 3662 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return WEAPON_MINIGUN ;
-#line 3663 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(wt  == WEAPON_GRENADELAUNCHER ){
-#line 3664 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return WEAPON_ROCKETLAUNCHER ;
-#line 3665 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(wt  == WEAPON_FLAMER ){
-#line 3666 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return WEAPON_SNIPER ;
-#line 3667 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3653 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else if(wt  == WEAPON_MINIGUN ){
+#line 3654 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return WEAPON_TOMMYGUN ;
+#line 3655 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else if(wt  == WEAPON_ROCKETLAUNCHER ){
+#line 3656 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return WEAPON_GRENADELAUNCHER ;
+#line 3657 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else if(wt  == WEAPON_SNIPER ){
+#line 3658 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return WEAPON_FLAMER ;
+#line 3659 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }else {
-#line 3668 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3660 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return wt ;
-#line 3669 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3661 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 3670 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3662 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 3700 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponType CPlayerWeapons::FindWeaponInDirection(INDEX iDir) 
-#line 3701 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3664 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+WeaponType CPlayerWeapons::SecondaryToPrimary(WeaponType wt) 
+#line 3665 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 3702 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX wtOrg  = FindRemapedPos  (m_iWantedWeapon );
-#line 3703 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX wti  = wtOrg ;
-#line 3704 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FOREVER {
-#line 3705 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-(INDEX &) wti  += iDir ;
-#line 3706 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(wti  < 1){
-#line 3707 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-wti  = WEAPON_IRONCANNON ;
-#line 3708 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3709 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(wti  > 14){
-#line 3710 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-wti  = WEAPON_KNIFE ;
-#line 3711 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3712 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(wti  == wtOrg ){
-#line 3713 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 3714 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3715 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponType  wt  = (WeaponType ) aiWeaponsRemap  [ wti  ];
-#line 3716 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if((((1 << (wt  - 1)) & m_iAvailableWeapons ) && HasAmmo  (wt ))){
-#line 3717 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3666 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(wt  == WEAPON_KNIFE ){
+#line 3667 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return WEAPON_CHAINSAW ;
+#line 3668 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else if(wt  == WEAPON_COLT ){
+#line 3669 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return WEAPON_DOUBLECOLT ;
+#line 3670 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else if(wt  == WEAPON_DOUBLESHOTGUN ){
+#line 3671 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return WEAPON_SINGLESHOTGUN ;
+#line 3672 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else if(wt  == WEAPON_TOMMYGUN ){
+#line 3673 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return WEAPON_MINIGUN ;
+#line 3674 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else if(wt  == WEAPON_GRENADELAUNCHER ){
+#line 3675 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return WEAPON_ROCKETLAUNCHER ;
+#line 3676 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else if(wt  == WEAPON_FLAMER ){
+#line 3677 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return WEAPON_SNIPER ;
+#line 3678 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else {
+#line 3679 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return wt ;
-#line 3718 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3680 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
+#line 3681 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+  
+#line 3711 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+WeaponType CPlayerWeapons::FindWeaponInDirection(INDEX iDir) 
+#line 3712 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 3713 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX wtOrg  = FindRemapedPos  (m_iWantedWeapon );
+#line 3714 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX wti  = wtOrg ;
+#line 3715 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FOREVER {
+#line 3716 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+(INDEX &) wti  += iDir ;
+#line 3717 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(wti  < 1){
+#line 3718 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+wti  = WEAPON_IRONCANNON ;
 #line 3719 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 3720 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return m_iWantedWeapon ;
+if(wti  > 14){
 #line 3721 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+wti  = WEAPON_KNIFE ;
+#line 3722 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-  
+#line 3723 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(wti  == wtOrg ){
 #line 3724 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::SelectWeaponChange(INDEX iSelect) 
+break ;
 #line 3725 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+}
 #line 3726 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-WeaponType  EwtTemp ;
+WeaponType  wt  = (WeaponType ) aiWeaponsRemap  [ wti  ];
+#line 3727 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if((((1 << (wt  - 1)) & m_iAvailableWeapons ) && HasAmmo  (wt ))){
 #line 3728 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_tmWeaponChangeRequired  = _pTimer  -> CurrentTick  ();
+return wt ;
+#line 3729 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3730 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
 #line 3731 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iSelect  == 0){
+return m_iWantedWeapon ;
 #line 3732 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_bChangeWeapon  = TRUE ;
-#line 3733 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iWantedWeapon  = WEAPON_NONE ;
-#line 3734 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return ;
-#line 3735 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3738 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iSelect  == - 4){
-#line 3739 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SelectNewWeapon  ();
-#line 3740 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return ;
-#line 3741 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3744 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iSelect  == - 3){
-#line 3745 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-EwtTemp  = GetAltWeapon  (m_iWantedWeapon );
-#line 3748 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(iSelect  == - 2){
-#line 3749 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-EwtTemp  = FindWeaponInDirection  (- 1);
-#line 3752 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(iSelect  == - 1){
-#line 3753 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-EwtTemp  = FindWeaponInDirection  (+ 1);
-#line 3756 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
-#line 3758 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iSelect  == GetSelectedWeapon  (m_iWantedWeapon )){
-#line 3759 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-EwtTemp  = GetAltWeapon  (m_iWantedWeapon );
-#line 3762 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
-#line 3763 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-EwtTemp  = GetStrongerWeapon  (iSelect );
-#line 3766 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(! ((1 << (EwtTemp  - 1)) & m_iAvailableWeapons ) || ! HasAmmo  (EwtTemp )){
-#line 3767 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-EwtTemp  = GetAltWeapon  (EwtTemp );
-#line 3768 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3769 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3770 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3773 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BOOL bChange  = (((1 << (EwtTemp  - 1)) & m_iAvailableWeapons ) && HasAmmo  (EwtTemp ));
-#line 3774 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(bChange ){
-#line 3775 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iWantedWeapon  = EwtTemp ;
-#line 3776 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_bChangeWeapon  = TRUE ;
-#line 3777 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3778 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 3782 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-void CPlayerWeapons::MinigunSmoke() 
-#line 3783 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3735 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+void CPlayerWeapons::SelectWeaponChange(INDEX iSelect) 
+#line 3736 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 3784 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(! hud_bShowWeapon )
-#line 3785 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 3786 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3737 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+WeaponType  EwtTemp ;
+#line 3739 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_tmWeaponChangeRequired  = _pTimer  -> CurrentTick  ();
+#line 3742 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(iSelect  == 0){
+#line 3743 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_bChangeWeapon  = TRUE ;
+#line 3744 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iWantedWeapon  = WEAPON_NONE ;
+#line 3745 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return ;
+#line 3746 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3749 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(iSelect  == - 4){
+#line 3750 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SelectNewWeapon  ();
+#line 3751 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return ;
+#line 3752 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3755 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(iSelect  == - 3){
+#line 3756 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+EwtTemp  = GetAltWeapon  (m_iWantedWeapon );
+#line 3759 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else if(iSelect  == - 2){
+#line 3760 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+EwtTemp  = FindWeaponInDirection  (- 1);
+#line 3763 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else if(iSelect  == - 1){
+#line 3764 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+EwtTemp  = FindWeaponInDirection  (+ 1);
+#line 3767 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else {
+#line 3769 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(iSelect  == GetSelectedWeapon  (m_iWantedWeapon )){
+#line 3770 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+EwtTemp  = GetAltWeapon  (m_iWantedWeapon );
+#line 3773 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}else {
+#line 3774 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+EwtTemp  = GetStrongerWeapon  (iSelect );
+#line 3777 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(! ((1 << (EwtTemp  - 1)) & m_iAvailableWeapons ) || ! HasAmmo  (EwtTemp )){
+#line 3778 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+EwtTemp  = GetAltWeapon  (EwtTemp );
+#line 3779 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3780 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3781 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3784 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+BOOL bChange  = (((1 << (EwtTemp  - 1)) & m_iAvailableWeapons ) && HasAmmo  (EwtTemp ));
+#line 3785 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(bChange ){
+#line 3786 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iWantedWeapon  = EwtTemp ;
 #line 3787 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_bChangeWeapon  = TRUE ;
+#line 3788 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 3789 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 3790 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(pl  . m_pstState  != PST_DIVE )
-#line 3791 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 3792 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BOOL b3rdPersonView  = TRUE ;
+}
+  
 #line 3793 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(pl  . m_penCamera  == NULL  && pl  . m_pen3rdPersonView  == NULL )
+void CPlayerWeapons::MinigunSmoke() 
 #line 3794 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
 #line 3795 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-b3rdPersonView  = FALSE ;
+if(! hud_bShowWeapon )
 #line 3796 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+{
+#line 3797 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return ;
 #line 3798 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX ctBulletsFired  = ClampUp  (m_iBulletsOnFireStart  - m_iBullets  , INDEX (200));
-#line 3799 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-for(INDEX iSmoke  = 0;iSmoke  < ctBulletsFired  / 10;iSmoke  ++)
+}
 #line 3800 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
 #line 3801 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShellLaunchData  * psldSmoke  = & pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
+if(pl  . m_pstState  != PST_DIVE )
 #line 3802 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plPipe ;
-#line 3803 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(b3rdPersonView )
-#line 3804 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
+#line 3803 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+BOOL b3rdPersonView  = TRUE ;
+#line 3804 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(pl  . m_penCamera  == NULL  && pl  . m_pen3rdPersonView  == NULL )
 #line 3805 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPosition3rdPersonView  (FLOAT3D (afMinigunPipe3rdView  [ 0 ] , 
+{
 #line 3806 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-afMinigunPipe3rdView  [ 1 ] , afMinigunPipe3rdView  [ 2 ]) , plPipe  , FALSE );
+b3rdPersonView  = FALSE ;
 #line 3807 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 3808 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-else 
 #line 3809 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+INDEX ctBulletsFired  = ClampUp  (m_iBulletsOnFireStart  - m_iBullets  , INDEX (200));
 #line 3810 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPosition  (FLOAT3D (afMinigunPipe  [ 0 ] , afMinigunPipe  [ 1 ] , afMinigunPipe  [ 2 ]) , plPipe  , FALSE );
+for(INDEX iSmoke  = 0;iSmoke  < ctBulletsFired  / 10;iSmoke  ++)
 #line 3811 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+{
 #line 3812 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOATmatrix3D m ;
+ShellLaunchData  * psldSmoke  = & pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
 #line 3813 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-MakeRotationMatrixFast  (m  , plPipe  . pl_OrientationAngle );
+CPlacement3D plPipe ;
 #line 3814 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-psldSmoke  -> sld_vPos  = plPipe  . pl_PositionVector  + pl  . en_vCurrentTranslationAbsolute  * iSmoke  * _pTimer  -> TickQuantum ;
+if(b3rdPersonView )
 #line 3815 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
+{
 #line 3816 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-psldSmoke  -> sld_vUp  = vUp ;
+CalcWeaponPosition3rdPersonView  (FLOAT3D (afMinigunPipe3rdView  [ 0 ] , 
 #line 3817 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-psldSmoke  -> sld_tmLaunch  = _pTimer  -> CurrentTick  () + iSmoke  * _pTimer  -> TickQuantum ;
+afMinigunPipe3rdView  [ 1 ] , afMinigunPipe3rdView  [ 2 ]) , plPipe  , FALSE );
 #line 3818 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-psldSmoke  -> sld_estType  = ESL_BULLET_SMOKE ;
+}
 #line 3819 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-psldSmoke  -> sld_fSize  = 0.75f + ctBulletsFired  / 50.0f;
+else 
 #line 3820 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vSpeedRelative  = FLOAT3D (- 0.06f , FRnd  () / 4.0f , - 0.06f);
+{
 #line 3821 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-psldSmoke  -> sld_vSpeed  = vSpeedRelative  * m  + pl  . en_vCurrentTranslationAbsolute ;
+CalcWeaponPosition  (FLOAT3D (afMinigunPipe  [ 0 ] , afMinigunPipe  [ 1 ] , afMinigunPipe  [ 2 ]) , plPipe  , FALSE );
 #line 3822 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
+}
 #line 3823 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+FLOATmatrix3D m ;
 #line 3824 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+MakeRotationMatrixFast  (m  , plPipe  . pl_OrientationAngle );
 #line 3825 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+psldSmoke  -> sld_vPos  = plPipe  . pl_PositionVector  + pl  . en_vCurrentTranslationAbsolute  * iSmoke  * _pTimer  -> TickQuantum ;
+#line 3826 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
+#line 3827 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+psldSmoke  -> sld_vUp  = vUp ;
+#line 3828 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+psldSmoke  -> sld_tmLaunch  = _pTimer  -> CurrentTick  () + iSmoke  * _pTimer  -> TickQuantum ;
+#line 3829 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+psldSmoke  -> sld_estType  = ESL_BULLET_SMOKE ;
+#line 3830 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+psldSmoke  -> sld_fSize  = 0.75f + ctBulletsFired  / 50.0f;
+#line 3831 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT3D vSpeedRelative  = FLOAT3D (- 0.06f , FRnd  () / 4.0f , - 0.06f);
+#line 3832 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+psldSmoke  -> sld_vSpeed  = vSpeedRelative  * m  + pl  . en_vCurrentTranslationAbsolute ;
+#line 3833 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
+#line 3834 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3835 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3836 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 3827 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BOOL CPlayerWeapons::SniperZoomDiscrete(INDEX iDirection,BOOL & bZoomChanged) 
-#line 3828 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 3829 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-bZoomChanged  = FALSE ;
-#line 3831 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iDirection  > 0){
-#line 3832 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-for(INDEX i  = 0;i  < iSniperDiscreteZoomLevels ;i  ++){
-#line 3833 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(afSniperZoom  [ 2 * i  ] < m_fSniperFOV ){
-#line 3834 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fSniperFOV  = afSniperZoom  [ 2 * i  ];
-#line 3835 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fSniperFOVlast  = m_fSniperFOV ;
-#line 3836 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-bZoomChanged  = TRUE ;
-#line 3837 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
 #line 3838 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+BOOL CPlayerWeapons::SniperZoomDiscrete(INDEX iDirection,BOOL & bZoomChanged) 
 #line 3839 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3841 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
+{
+#line 3840 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+bZoomChanged  = FALSE ;
 #line 3842 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-for(INDEX i  = iSniperDiscreteZoomLevels ;i  > 0;i  --){
+if(iDirection  > 0){
 #line 3843 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(afSniperZoom  [ 2 * i  ] > m_fSniperFOV ){
+for(INDEX i  = 0;i  < iSniperDiscreteZoomLevels ;i  ++){
 #line 3844 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fSniperFOV  = afSniperZoom  [ 2 * i  ];
+if(afSniperZoom  [ 2 * i  ] < m_fSniperFOV ){
 #line 3845 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fSniperFOVlast  = m_fSniperFOV ;
+m_fSniperFOV  = afSniperZoom  [ 2 * i  ];
 #line 3846 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-bZoomChanged  = TRUE ;
+m_fSniperFOVlast  = m_fSniperFOV ;
 #line 3847 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+bZoomChanged  = TRUE ;
 #line 3848 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+break ;
 #line 3849 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 3850 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 3851 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_fSniperFOV  < 90.0f){
 #line 3852 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_bSniping  = TRUE ;
+}else {
 #line 3853 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+for(INDEX i  = iSniperDiscreteZoomLevels ;i  > 0;i  --){
 #line 3854 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-else {
+if(afSniperZoom  [ 2 * i  ] > m_fSniperFOV ){
 #line 3855 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_bSniping  = FALSE ;
+m_fSniperFOV  = afSniperZoom  [ 2 * i  ];
 #line 3856 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+m_fSniperFOVlast  = m_fSniperFOV ;
 #line 3857 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return m_bSniping ;
+bZoomChanged  = TRUE ;
 #line 3858 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 3859 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3860 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3861 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3862 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_fSniperFOV  < 90.0f){
+#line 3863 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_bSniping  = TRUE ;
+#line 3864 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3865 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+else {
+#line 3866 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_bSniping  = FALSE ;
+#line 3867 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3868 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return m_bSniping ;
+#line 3869 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
   
-#line 3860 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-BOOL CPlayerWeapons::AGZoomDiscrete(INDEX iDirection,BOOL & bZoomChanged) 
-#line 3861 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 3862 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-bZoomChanged  = FALSE ;
-#line 3864 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(iDirection  > 0){
-#line 3865 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-for(INDEX i  = 0;i  < (iSniperDiscreteZoomLevels  - 2);i  ++){
-#line 3866 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(afSniperZoom  [ 2 * i  ] < (m_fSniperFOV  - 70.0f)){
-#line 3867 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fSniperFOV  = afSniperZoom  [ 2 * i  ];
-#line 3868 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fSniperFOVlast  = m_fSniperFOV ;
-#line 3869 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-bZoomChanged  = TRUE ;
-#line 3870 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
 #line 3871 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+BOOL CPlayerWeapons::AGZoomDiscrete(INDEX iDirection,BOOL & bZoomChanged) 
 #line 3872 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3874 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
+{
+#line 3873 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+bZoomChanged  = FALSE ;
 #line 3875 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-for(INDEX i  = (iSniperDiscreteZoomLevels  - 2);i  > 0;i  --){
+if(iDirection  > 0){
 #line 3876 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(afSniperZoom  [ 2 * i  ] > (m_fSniperFOV  - 70.0f)){
+for(INDEX i  = 0;i  < (iSniperDiscreteZoomLevels  - 2);i  ++){
 #line 3877 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fSniperFOV  = afSniperZoom  [ 2 * i  ];
+if(afSniperZoom  [ 2 * i  ] < (m_fSniperFOV  - 70.0f)){
 #line 3878 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fSniperFOVlast  = m_fSniperFOV ;
+m_fSniperFOV  = afSniperZoom  [ 2 * i  ];
 #line 3879 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-bZoomChanged  = TRUE ;
+m_fSniperFOVlast  = m_fSniperFOV ;
 #line 3880 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+bZoomChanged  = TRUE ;
 #line 3881 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+break ;
 #line 3882 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 #line 3883 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 3884 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_fSniperFOV  < 30.0f){
 #line 3885 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_bSniping  = TRUE ;
+}else {
 #line 3886 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+for(INDEX i  = (iSniperDiscreteZoomLevels  - 2);i  > 0;i  --){
 #line 3887 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-else {
+if(afSniperZoom  [ 2 * i  ] > (m_fSniperFOV  - 70.0f)){
 #line 3888 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_bSniping  = FALSE ;
+m_fSniperFOV  = afSniperZoom  [ 2 * i  ];
 #line 3889 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+m_fSniperFOVlast  = m_fSniperFOV ;
 #line 3890 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return m_bSniping ;
+bZoomChanged  = TRUE ;
 #line 3891 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 3892 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3893 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3894 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3895 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_fSniperFOV  < 30.0f){
+#line 3896 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_bSniping  = TRUE ;
+#line 3897 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3898 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+else {
+#line 3899 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_bSniping  = FALSE ;
+#line 3900 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 3901 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return m_bSniping ;
+#line 3902 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
 BOOL CPlayerWeapons::
-#line 3898 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3909 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ChangeWeapon(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_ChangeWeapon
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::ChangeWeapon expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 3900 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3911 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_iCurrentWeapon  != m_iWantedWeapon ){
-#line 3901 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3912 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fSniperFOV  = m_fSniperFOVlast  = m_fSniperMaxFOV ;
-#line 3902 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3913 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bSniping  = FALSE ;
-#line 3904 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3915 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_penPlayer  -> SendEvent  (EWeaponChanged  ());
-#line 3905 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3916 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 3907 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3918 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bChangeWeapon  = FALSE ;
-#line 3909 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3920 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(!(m_iCurrentWeapon  != m_iWantedWeapon )){ Jump(STATE_CURRENT,0x01920012, FALSE, EInternal());return TRUE;}
-#line 3929 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3940 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_iPreviousWeapon  = m_iCurrentWeapon ;
-#line 3930 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3941 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 STATE_CPlayerWeapons_PutDown, TRUE;
 Jump(STATE_CURRENT, 0x0192000a, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192000a_ChangeWeapon_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -4994,11 +5005,11 @@ switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_C
 #define STATE_CURRENT 0x0192000b
 const EEnd&__e= (EEnd&)__eeInput;
 ;
-#line 3932 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3943 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_iCurrentWeapon  = m_iWantedWeapon ;
-#line 3934 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3945 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 wpn_iCurrent  = m_iCurrentWeapon ;
-#line 3935 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3946 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 STATE_CPlayerWeapons_BringUp, TRUE;
 Jump(STATE_CURRENT, 0x0192000c, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192000c_ChangeWeapon_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -5008,25 +5019,25 @@ switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_C
 #define STATE_CURRENT 0x0192000d
 const EEnd&__e= (EEnd&)__eeInput;
 ;
-#line 3937 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3948 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_iCurrentWeapon  == WEAPON_CHAINSAW ){
-#line 3938 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3949 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 3939 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3950 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeaponAmbient  . Set3DParameters  (30.0f , 3.0f , 1.0f , 1.0f);
-#line 3940 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3951 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeaponAmbient  , SOUND_CS_IDLE  , SOF_3D  | SOF_VOLUMETRIC  | SOF_LOOP  | SOF_SMOOTHCHANGE );
-#line 3941 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3952 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("ChainsawIdle");}
-#line 3942 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3953 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }Jump(STATE_CURRENT,0x01920011, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920012_ChangeWeapon_09(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01920012
 if(!(m_iWantedWeapon  == WEAPON_KNIFE )){ Jump(STATE_CURRENT,0x01920010, FALSE, EInternal());return TRUE;}
-#line 3947 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3958 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_tmWeaponChangeRequired  = 0.0f;
-#line 3948 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3959 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 STATE_CPlayerWeapons_ChangeKnifeStand, TRUE;
 Jump(STATE_CURRENT, 0x0192000e, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192000e_ChangeWeapon_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -5045,136 +5056,136 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01920011
 
-#line 3956 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3967 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 3961 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 3972 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PutDown(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_PutDown
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::PutDown expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 3963 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(m_iCurrentWeapon ){
-#line 3964 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_NONE : 
-#line 3965 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 3967 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_KNIFE : 
-#line 3968 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iKnifeStand  == 1){
-#line 3969 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = KNIFE_ANIM_PULLOUT ;
-#line 3970 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else if(m_iKnifeStand  == 3){
-#line 3971 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = KNIFE_ANIM_PULLOUT ;
-#line 3972 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 3973 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
 #line 3974 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_COLT : 
+switch(m_iCurrentWeapon ){
 #line 3975 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = COLT_ANIM_DEACTIVATE ;
+case WEAPON_NONE : 
 #line 3976 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
-#line 3977 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLECOLT : 
 #line 3978 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = P90_ANIM_P90_ANIM_DEACTIVATE ;
+case WEAPON_KNIFE : 
 #line 3979 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+if(m_iKnifeStand  == 1){
 #line 3980 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : 
+m_iAnim  = KNIFE_ANIM_PULLOUT ;
 #line 3981 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = SINGLESHOTGUN_ANIM_DEACTIVATE ;
+}else if(m_iKnifeStand  == 3){
 #line 3982 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+m_iAnim  = KNIFE_ANIM_PULLOUT ;
 #line 3983 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLESHOTGUN : 
+}
 #line 3984 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = SINGLESHOTGUN_ANIM_DEACTIVATE ;
+break ;
 #line 3985 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+case WEAPON_COLT : 
 #line 3986 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : 
+m_iAnim  = COLT_ANIM_DEACTIVATE ;
 #line 3987 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = TOMMYGUN_ANIM_DEACTIVATE ;
+break ;
 #line 3988 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+case WEAPON_DOUBLECOLT : 
 #line 3989 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SNIPER : 
+m_iAnim  = P90_ANIM_P90_ANIM_DEACTIVATE ;
 #line 3990 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = SNIPER_ANIM_DEACTIVATE ;
+break ;
 #line 3991 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+case WEAPON_SINGLESHOTGUN : 
 #line 3992 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_MINIGUN : 
+m_iAnim  = SINGLESHOTGUN_ANIM_DEACTIVATE ;
 #line 3993 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = MINIGUN_ANIM_DEACTIVATE ;
+break ;
 #line 3994 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+case WEAPON_DOUBLESHOTGUN : 
 #line 3995 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_ROCKETLAUNCHER : 
+m_iAnim  = SINGLESHOTGUN_ANIM_DEACTIVATE ;
 #line 3996 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = ROCKETLAUNCHER_ANIM_DEACTIVATE ;
+break ;
 #line 3997 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+case WEAPON_TOMMYGUN : 
 #line 3998 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_GRENADELAUNCHER : 
+m_iAnim  = TOMMYGUN_ANIM_DEACTIVATE ;
 #line 3999 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = GRENADELAUNCHER_ANIM_DEACTIVATE ;
+break ;
 #line 4000 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SNIPER : 
+#line 4001 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iAnim  = SNIPER_ANIM_DEACTIVATE ;
+#line 4002 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
+#line 4003 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_MINIGUN : 
 #line 4004 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_FLAMER : 
+m_iAnim  = MINIGUN_ANIM_DEACTIVATE ;
 #line 4005 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = FLAMER_ANIM_DEACTIVATE ;
+break ;
 #line 4006 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+case WEAPON_ROCKETLAUNCHER : 
 #line 4007 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_CHAINSAW : {
+m_iAnim  = ROCKETLAUNCHER_ANIM_DEACTIVATE ;
 #line 4008 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
+break ;
 #line 4009 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeaponAmbient  , SOUND_CS_BRINGDOWN  , SOF_3D  | SOF_VOLUMETRIC  | SOF_SMOOTHCHANGE );
+case WEAPON_GRENADELAUNCHER : 
 #line 4010 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_StopEffect  ("ChainsawIdle");}
+m_iAnim  = GRENADELAUNCHER_ANIM_DEACTIVATE ;
 #line 4011 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = CHAINSAW_ANIM_DEACTIVATE ;
-#line 4012 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;}
-#line 4013 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_LASER : 
-#line 4014 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = LASER_ANIM_DEACTIVATE ;
+break ;
 #line 4015 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_FLAMER : 
+#line 4016 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iAnim  = FLAMER_ANIM_DEACTIVATE ;
+#line 4017 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
+#line 4018 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_CHAINSAW : {
+#line 4019 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
+#line 4020 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+PlaySound  (pl  . m_soWeaponAmbient  , SOUND_CS_BRINGDOWN  , SOF_3D  | SOF_VOLUMETRIC  | SOF_SMOOTHCHANGE );
 #line 4021 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_IRONCANNON : 
+if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_StopEffect  ("ChainsawIdle");}
+#line 4022 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iAnim  = CHAINSAW_ANIM_DEACTIVATE ;
 #line 4023 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = CANNON_ANIM_DEACTIVATE ;
+break ;}
 #line 4024 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+case WEAPON_LASER : 
 #line 4025 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-default  : ASSERTALWAYS  ("Unknown weapon.");
+m_iAnim  = LASER_ANIM_DEACTIVATE ;
 #line 4026 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 4028 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayerAnimator  & plan  = (CPlayerAnimator  &) * ((CPlayer  &) * m_penPlayer ) . m_penAnimator ;
-#line 4029 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-plan  . BodyPushAnimation  ();
-#line 4030 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iCurrentWeapon  == WEAPON_NONE ){
-#line 4031 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Return(STATE_CURRENT,EEnd  ());
-#line 4031 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return TRUE;
+break ;
 #line 4032 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_IRONCANNON : 
+#line 4034 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iAnim  = CANNON_ANIM_DEACTIVATE ;
+#line 4035 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 4036 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+default  : ASSERTALWAYS  ("Unknown weapon.");
+#line 4037 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4067 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4039 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlayerAnimator  & plan  = (CPlayerAnimator  &) * ((CPlayer  &) * m_penPlayer ) . m_penAnimator ;
+#line 4040 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plan  . BodyPushAnimation  ();
+#line 4041 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iCurrentWeapon  == WEAPON_NONE ){
+#line 4042 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Return(STATE_CURRENT,EEnd  ());
+#line 4042 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return TRUE;
+#line 4043 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4078 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (m_iAnim  , 0);
-#line 4068 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4079 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (m_iAnim ));
 Jump(STATE_CURRENT, 0x01920014, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920014_PutDown_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -5184,79 +5195,57 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01920015
 ;
-#line 4069 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4080 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 4069 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4080 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 4073 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4084 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BringUp(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_BringUp
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::BringUp expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 4075 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ResetWeaponMovingOffset  ();
-#line 4077 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetCurrentWeaponModel  ();
-#line 4079 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(m_iCurrentWeapon ){
-#line 4080 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_KNIFE : 
-#line 4081 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = KNIFE_ANIM_PULL ;
-#line 4082 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iKnifeStand  = 1;
-#line 4083 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 4084 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_COLT : 
-#line 4085 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = COLT_ANIM_ACTIVATE ;
 #line 4086 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetFlare  (0 , FLARE_REMOVE );
-#line 4087 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetFlare  (1 , FLARE_REMOVE );
+ResetWeaponMovingOffset  ();
 #line 4088 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 4089 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLECOLT : {
+SetCurrentWeaponModel  ();
 #line 4090 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = P90_ANIM_P90_ANIM_ACTIVATE ;
+switch(m_iCurrentWeapon ){
 #line 4091 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetFlare  (0 , FLARE_REMOVE );
+case WEAPON_KNIFE : 
 #line 4092 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
+m_iAnim  = KNIFE_ANIM_PULL ;
 #line 4093 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pl  . m_soWeaponAmbient  . Set3DParameters  (30.0f , 3.0f , 1.0f , 1.0f);
+m_iKnifeStand  = 1;
 #line 4094 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeaponAmbient  , SOUND_P90_ACTIVATE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4095 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;}
-#line 4096 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : {
-#line 4097 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = SINGLESHOTGUN_ANIM_ACTIVATE ;
-#line 4098 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetFlare  (0 , FLARE_REMOVE );
-#line 4099 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4100 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pl  . m_soWeaponAmbient  . Set3DParameters  (30.0f , 3.0f , 1.0f , 1.0f);
-#line 4101 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeaponAmbient  , SOUND_SINGLESHOTGUN_ACTIVATE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4102 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;}
-#line 4103 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLESHOTGUN : 
-#line 4104 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = SINGLESHOTGUN_ANIM_ACTIVATE ;
-#line 4105 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetFlare  (0 , FLARE_REMOVE );
-#line 4106 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
+#line 4095 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_COLT : 
+#line 4096 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iAnim  = COLT_ANIM_ACTIVATE ;
+#line 4097 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetFlare  (0 , FLARE_REMOVE );
+#line 4098 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetFlare  (1 , FLARE_REMOVE );
+#line 4099 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 4100 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLECOLT : {
+#line 4101 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iAnim  = P90_ANIM_P90_ANIM_ACTIVATE ;
+#line 4102 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetFlare  (0 , FLARE_REMOVE );
+#line 4103 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
+#line 4104 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pl  . m_soWeaponAmbient  . Set3DParameters  (30.0f , 3.0f , 1.0f , 1.0f);
+#line 4105 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+PlaySound  (pl  . m_soWeaponAmbient  , SOUND_P90_ACTIVATE  , SOF_3D  | SOF_VOLUMETRIC );
+#line 4106 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;}
 #line 4107 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : {
+case WEAPON_SINGLESHOTGUN : {
 #line 4108 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = TOMMYGUN_ANIM_ACTIVATE ;
+m_iAnim  = SINGLESHOTGUN_ANIM_ACTIVATE ;
 #line 4109 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetFlare  (0 , FLARE_REMOVE );
 #line 4110 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
@@ -5264,104 +5253,126 @@ CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
 #line 4111 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeaponAmbient  . Set3DParameters  (30.0f , 3.0f , 1.0f , 1.0f);
 #line 4112 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeaponAmbient  , SOUND_TOMMYGUN_ACTIVATE  , SOF_3D  | SOF_VOLUMETRIC );
+PlaySound  (pl  . m_soWeaponAmbient  , SOUND_SINGLESHOTGUN_ACTIVATE  , SOF_3D  | SOF_VOLUMETRIC );
 #line 4113 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;}
 #line 4114 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SNIPER : {
+case WEAPON_DOUBLESHOTGUN : 
 #line 4115 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = SNIPER_ANIM_ACTIVATE ;
+m_iAnim  = SINGLESHOTGUN_ANIM_ACTIVATE ;
 #line 4116 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetFlare  (0 , FLARE_REMOVE );
 #line 4117 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
+break ;
 #line 4118 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pl  . m_soWeaponAmbient  . Set3DParameters  (30.0f , 3.0f , 1.0f , 1.0f);
+case WEAPON_TOMMYGUN : {
 #line 4119 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeaponAmbient  , SOUND_SNIPER_ACTIVATE  , SOF_3D  | SOF_VOLUMETRIC );
+m_iAnim  = TOMMYGUN_ANIM_ACTIVATE ;
 #line 4120 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;}
-#line 4121 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_MINIGUN : {
-#line 4122 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CAttachmentModelObject  * amo  = m_moWeapon  . GetAttachmentModel  (MINIGUN_ATTACHMENT_BARRELS );
-#line 4123 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_aMiniGunLast  = m_aMiniGun  = amo  -> amo_plRelative  . pl_OrientationAngle  (3);
-#line 4124 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = MINIGUN_ANIM_ACTIVATE ;
-#line 4125 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetFlare  (0 , FLARE_REMOVE );
-#line 4126 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4121 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4127 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4122 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeaponAmbient  . Set3DParameters  (30.0f , 3.0f , 1.0f , 1.0f);
-#line 4128 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4123 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeaponAmbient  , SOUND_TOMMYGUN_ACTIVATE  , SOF_3D  | SOF_VOLUMETRIC );
+#line 4124 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;}
+#line 4125 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SNIPER : {
+#line 4126 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iAnim  = SNIPER_ANIM_ACTIVATE ;
+#line 4127 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetFlare  (0 , FLARE_REMOVE );
+#line 4128 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
 #line 4129 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;}
+pl  . m_soWeaponAmbient  . Set3DParameters  (30.0f , 3.0f , 1.0f , 1.0f);
 #line 4130 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_ROCKETLAUNCHER : {
+PlaySound  (pl  . m_soWeaponAmbient  , SOUND_SNIPER_ACTIVATE  , SOF_3D  | SOF_VOLUMETRIC );
 #line 4131 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = ROCKETLAUNCHER_ANIM_ACTIVATE ;
+break ;}
 #line 4132 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
+case WEAPON_MINIGUN : {
 #line 4133 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pl  . m_soWeaponAmbient  . Set3DParameters  (30.0f , 3.0f , 1.0f , 1.0f);
+CAttachmentModelObject  * amo  = m_moWeapon  . GetAttachmentModel  (MINIGUN_ATTACHMENT_BARRELS );
 #line 4134 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeaponAmbient  , SOUND_ROCKETLAUNCHER_ACTIVATE  , SOF_3D  | SOF_VOLUMETRIC );
+m_aMiniGunLast  = m_aMiniGun  = amo  -> amo_plRelative  . pl_OrientationAngle  (3);
 #line 4135 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;}
+m_iAnim  = MINIGUN_ANIM_ACTIVATE ;
 #line 4136 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_GRENADELAUNCHER : 
+SetFlare  (0 , FLARE_REMOVE );
 #line 4137 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = GRENADELAUNCHER_ANIM_ACTIVATE ;
-#line 4138 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 4142 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_FLAMER : 
-#line 4143 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = FLAMER_ANIM_ACTIVATE ;
-#line 4144 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 4145 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_CHAINSAW : {
-#line 4146 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = CHAINSAW_ANIM_ACTIVATE ;
-#line 4147 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4148 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4138 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeaponAmbient  . Set3DParameters  (30.0f , 3.0f , 1.0f , 1.0f);
-#line 4149 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeaponAmbient  , SOUND_CS_BRINGUP  , SOF_3D  | SOF_VOLUMETRIC  | SOF_LOOP );
-#line 4150 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4139 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+PlaySound  (pl  . m_soWeaponAmbient  , SOUND_TOMMYGUN_ACTIVATE  , SOF_3D  | SOF_VOLUMETRIC );
+#line 4140 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;}
-#line 4151 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_LASER : 
-#line 4152 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = LASER_ANIM_ACTIVATE ;
+#line 4141 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_ROCKETLAUNCHER : {
+#line 4142 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iAnim  = ROCKETLAUNCHER_ANIM_ACTIVATE ;
+#line 4143 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
+#line 4144 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pl  . m_soWeaponAmbient  . Set3DParameters  (30.0f , 3.0f , 1.0f , 1.0f);
+#line 4145 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+PlaySound  (pl  . m_soWeaponAmbient  , SOUND_ROCKETLAUNCHER_ACTIVATE  , SOF_3D  | SOF_VOLUMETRIC );
+#line 4146 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;}
+#line 4147 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_GRENADELAUNCHER : 
+#line 4148 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iAnim  = GRENADELAUNCHER_ANIM_ACTIVATE ;
+#line 4149 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
 #line 4153 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_FLAMER : 
+#line 4154 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iAnim  = FLAMER_ANIM_ACTIVATE ;
+#line 4155 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
+#line 4156 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_CHAINSAW : {
+#line 4157 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iAnim  = CHAINSAW_ANIM_ACTIVATE ;
 #line 4158 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_IRONCANNON : 
+CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
+#line 4159 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pl  . m_soWeaponAmbient  . Set3DParameters  (30.0f , 3.0f , 1.0f , 1.0f);
 #line 4160 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iAnim  = CANNON_ANIM_ACTIVATE ;
+PlaySound  (pl  . m_soWeaponAmbient  , SOUND_CS_BRINGUP  , SOF_3D  | SOF_VOLUMETRIC  | SOF_LOOP );
 #line 4161 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+break ;}
 #line 4162 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_NONE : 
+case WEAPON_LASER : 
 #line 4163 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+m_iAnim  = LASER_ANIM_ACTIVATE ;
 #line 4164 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 4169 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_IRONCANNON : 
+#line 4171 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iAnim  = CANNON_ANIM_ACTIVATE ;
+#line 4172 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 4173 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_NONE : 
+#line 4174 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 4175 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 default  : ASSERTALWAYS  ("Unknown weapon.");
-#line 4165 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4176 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4167 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4178 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayerAnimator  & plan  = (CPlayerAnimator  &) * ((CPlayer  &) * m_penPlayer ) . m_penAnimator ;
-#line 4168 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4179 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 plan  . BodyPullAnimation  ();
-#line 4203 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4214 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (m_iAnim  , 0);
-#line 4204 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4215 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (m_iAnim ));
 Jump(STATE_CURRENT, 0x01920017, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920017_BringUp_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -5371,40 +5382,40 @@ ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01920018
 ;
-#line 4214 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4225 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_tmWeaponChangeRequired  -= hud_tmWeaponsOnScreen  / 2;
-#line 4216 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4227 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 4216 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4227 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 4223 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4234 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Fire(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_Fire
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::Fire expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 4225 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4226 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon0  , SOUND_SILENCE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4228 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_tmWeaponChangeRequired  = 0;
-#line 4230 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_bFireWeapon  = TRUE ;
-#line 4232 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_bHasAmmo  = HasAmmo  (m_iCurrentWeapon );
-#line 4235 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(! m_bHasAmmo ){
 #line 4236 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SelectNewWeapon  ();
+CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
 #line 4237 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE;
-#line 4238 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+PlaySound  (pl  . m_soWeapon0  , SOUND_SILENCE  , SOF_3D  | SOF_VOLUMETRIC );
+#line 4239 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_tmWeaponChangeRequired  = 0;
 #line 4241 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Setup3DSoundParameters  ();
-#line 4244 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iCurrentWeapon  == WEAPON_MINIGUN )){ Jump(STATE_CURRENT,0x0192002a, FALSE, EInternal());return TRUE;}
+m_bFireWeapon  = TRUE ;
+#line 4243 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_bHasAmmo  = HasAmmo  (m_iCurrentWeapon );
 #line 4246 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(! m_bHasAmmo ){
+#line 4247 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SelectNewWeapon  ();
+#line 4248 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE;
+#line 4249 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4252 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Setup3DSoundParameters  ();
+#line 4255 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(m_iCurrentWeapon  == WEAPON_MINIGUN )){ Jump(STATE_CURRENT,0x01920032, FALSE, EInternal());return TRUE;}
+#line 4257 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 STATE_CPlayerWeapons_MiniGunSpinUp, TRUE;
 Jump(STATE_CURRENT, 0x0192001a, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192001a_Fire_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -5413,30 +5424,30 @@ switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_C
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0192001b
 const EEnd&__e= (EEnd&)__eeInput;
-;Jump(STATE_CURRENT,0x01920029, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192002a_Fire_17(const CEntityEvent &__eeInput){
+;Jump(STATE_CURRENT,0x01920031, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920032_Fire_25(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192002a
-if(!(m_iCurrentWeapon  == WEAPON_FLAMER )){ Jump(STATE_CURRENT,0x01920028, FALSE, EInternal());return TRUE;}
-#line 4248 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT, STATE_CPlayerWeapons_FlamerStart, TRUE, EVoid());return TRUE;Jump(STATE_CURRENT,0x01920027, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920028_Fire_15(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01920032
+if(!(m_iCurrentWeapon  == WEAPON_FLAMER )){ Jump(STATE_CURRENT,0x01920030, FALSE, EInternal());return TRUE;}
+#line 4259 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT, STATE_CPlayerWeapons_FlamerStart, TRUE, EVoid());return TRUE;Jump(STATE_CURRENT,0x0192002f, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920030_Fire_23(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920028
-if(!(m_iCurrentWeapon  == WEAPON_CHAINSAW )){ Jump(STATE_CURRENT,0x01920026, FALSE, EInternal());return TRUE;}
-#line 4250 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT, STATE_CPlayerWeapons_ChainsawFire, TRUE, EVoid());return TRUE;Jump(STATE_CURRENT,0x01920025, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920026_Fire_13(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01920030
+if(!(m_iCurrentWeapon  == WEAPON_CHAINSAW )){ Jump(STATE_CURRENT,0x0192002e, FALSE, EInternal());return TRUE;}
+#line 4261 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT, STATE_CPlayerWeapons_ChainsawFire, TRUE, EVoid());return TRUE;Jump(STATE_CURRENT,0x0192002d, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192002e_Fire_21(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920026
-if(!(m_iCurrentWeapon  == WEAPON_LASER )){ Jump(STATE_CURRENT,0x01920024, FALSE, EInternal());return TRUE;}
-#line 4254 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-GetAnimator  () -> FireAnimation  (BODY_ANIM_SHOTGUN_FIRESHORT  , AOF_LOOPING );Jump(STATE_CURRENT,0x01920023, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920024_Fire_11(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x0192002e
+if(!(m_iCurrentWeapon  == WEAPON_LASER )){ Jump(STATE_CURRENT,0x0192002c, FALSE, EInternal());return TRUE;}
+#line 4265 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+GetAnimator  () -> FireAnimation  (BODY_ANIM_SHOTGUN_FIRESHORT  , AOF_LOOPING );Jump(STATE_CURRENT,0x0192002b, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192002c_Fire_19(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920024
-if(!(m_iCurrentWeapon  == WEAPON_TOMMYGUN )){ Jump(STATE_CURRENT,0x01920022, FALSE, EInternal());return TRUE;}
-#line 4256 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#define STATE_CURRENT 0x0192002c
+if(!(m_iCurrentWeapon  == WEAPON_TOMMYGUN )){ Jump(STATE_CURRENT,0x0192002a, FALSE, EInternal());return TRUE;}
+#line 4267 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 STATE_CPlayerWeapons_TommyGunStart, TRUE;
 Jump(STATE_CURRENT, 0x0192001c, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192001c_Fire_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -5445,12 +5456,12 @@ switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_C
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0192001d
 const EEnd&__e= (EEnd&)__eeInput;
-;Jump(STATE_CURRENT,0x01920021, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920022_Fire_09(const CEntityEvent &__eeInput){
+;Jump(STATE_CURRENT,0x01920029, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192002a_Fire_17(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920022
-if(!(m_iCurrentWeapon  == WEAPON_DOUBLECOLT )){ Jump(STATE_CURRENT,0x01920020, FALSE, EInternal());return TRUE;}
-#line 4258 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#define STATE_CURRENT 0x0192002a
+if(!(m_iCurrentWeapon  == WEAPON_DOUBLECOLT )){ Jump(STATE_CURRENT,0x01920028, FALSE, EInternal());return TRUE;}
+#line 4269 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 STATE_CPlayerWeapons_DoubleColtStart, TRUE;
 Jump(STATE_CURRENT, 0x0192001e, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192001e_Fire_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
@@ -5459,20 +5470,38 @@ switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_C
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0192001f
 const EEnd&__e= (EEnd&)__eeInput;
-;Jump(STATE_CURRENT,0x01920020, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920020_Fire_07(const CEntityEvent &__eeInput){
+;Jump(STATE_CURRENT,0x01920027, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920028_Fire_15(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920028
+if(!(m_iCurrentWeapon  == WEAPON_SINGLESHOTGUN )){ Jump(STATE_CURRENT,0x01920026, FALSE, EInternal());return TRUE;}
+#line 4271 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+STATE_CPlayerWeapons_StartSingleShotgun, TRUE;
+Jump(STATE_CURRENT, 0x01920020, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920020_Fire_07(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01920020
-Jump(STATE_CURRENT,0x01920021, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x01920021_Fire_08(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CPlayerWeapons_StartSingleShotgun, TRUE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x01920021, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920021_Fire_08(const CEntityEvent &__eeInput){
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01920021
-Jump(STATE_CURRENT,0x01920023, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x01920023_Fire_10(const CEntityEvent &__eeInput){
+const EEnd&__e= (EEnd&)__eeInput;
+;Jump(STATE_CURRENT,0x01920025, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920026_Fire_13(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
+#define STATE_CURRENT 0x01920026
+if(!(m_iCurrentWeapon  == WEAPON_COLT )){ Jump(STATE_CURRENT,0x01920024, FALSE, EInternal());return TRUE;}
+#line 4273 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+STATE_CPlayerWeapons_ColtStart, TRUE;
+Jump(STATE_CURRENT, 0x01920022, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920022_Fire_09(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920022
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CPlayerWeapons_ColtStart, TRUE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x01920023, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920023_Fire_10(const CEntityEvent &__eeInput){
+#undef STATE_CURRENT
 #define STATE_CURRENT 0x01920023
+const EEnd&__e= (EEnd&)__eeInput;
+;Jump(STATE_CURRENT,0x01920024, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920024_Fire_11(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920024
 Jump(STATE_CURRENT,0x01920025, FALSE, EInternal());return TRUE;}
 BOOL CPlayerWeapons::H0x01920025_Fire_12(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
@@ -5488,3797 +5517,3419 @@ BOOL CPlayerWeapons::H0x01920029_Fire_16(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01920029
-
-#line 4262 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iLastBulletPosition  = FLOAT3D (32000.0f , 32000.0f , 32000.0f);
-#line 4265 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iLaserBarrel  = 0;
-#line 4267 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT,0x0192002d, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192002d_Fire_20(const CEntityEvent &__eeInput){
+Jump(STATE_CURRENT,0x0192002b, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x0192002b_Fire_18(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0192002b
+Jump(STATE_CURRENT,0x0192002d, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x0192002d_Fire_20(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0192002d
-if(!(HoldingFire  () && m_bHasAmmo )){ Jump(STATE_CURRENT,0x0192002e, FALSE, EInternal());return TRUE;}
-#line 4269 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((CPlayerAnimator  &) * ((CPlayer  &) * m_penPlayer ) . m_penAnimator ) . m_fLastActionTime  = _pTimer  -> CurrentTick  ();
-#line 4270 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAt(THINKTIME_NEVER);
-Jump(STATE_CURRENT, 0x0192002b, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192002b_Fire_18(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT,0x0192002f, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x0192002f_Fire_22(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192002b
+#define STATE_CURRENT 0x0192002f
+Jump(STATE_CURRENT,0x01920031, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x01920031_Fire_24(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920031
+
+#line 4277 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iLastBulletPosition  = FLOAT3D (32000.0f , 32000.0f , 32000.0f);
+#line 4280 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iLaserBarrel  = 0;
+#line 4282 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT,0x01920035, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920035_Fire_28(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920035
+if(!(HoldingFire  () && m_bHasAmmo )){ Jump(STATE_CURRENT,0x01920036, FALSE, EInternal());return TRUE;}
+#line 4284 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((CPlayerAnimator  &) * ((CPlayer  &) * m_penPlayer ) . m_penAnimator ) . m_fLastActionTime  = _pTimer  -> CurrentTick  ();
+#line 4285 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetTimerAt(THINKTIME_NEVER);
+Jump(STATE_CURRENT, 0x01920033, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920033_Fire_26(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920033
 switch(__eeInput.ee_slEvent){case(EVENTCODE_EBegin):{const EBegin&e= (EBegin&)__eeInput;
 
-#line 4273 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(m_iCurrentWeapon ){
-#line 4274 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_KNIFE : Call(STATE_CURRENT, STATE_CPlayerWeapons_SwingKnife, TRUE, EVoid());return TRUE;break ;
-#line 4275 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_COLT : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireColt, TRUE, EVoid());return TRUE;break ;
-#line 4276 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLECOLT : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireDoubleColt, TRUE, EVoid());return TRUE;break ;
-#line 4277 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireSingleShotgun, TRUE, EVoid());return TRUE;break ;
-#line 4278 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLESHOTGUN : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireDoubleShotgun, TRUE, EVoid());return TRUE;break ;
-#line 4279 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireTommyGun, TRUE, EVoid());return TRUE;break ;
-#line 4280 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_MINIGUN : Call(STATE_CURRENT, STATE_CPlayerWeapons_MiniGunFire, TRUE, EVoid());return TRUE;break ;
-#line 4281 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SNIPER : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireSniper, TRUE, EVoid());return TRUE;break ;
-#line 4282 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_ROCKETLAUNCHER : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireRocketLauncher, TRUE, EVoid());return TRUE;break ;
-#line 4283 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_GRENADELAUNCHER : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireGrenadeLauncher, TRUE, EVoid());return TRUE;break ;
-#line 4284 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_LASER : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireLaser, TRUE, EVoid());return TRUE;break ;
-#line 4285 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_IRONCANNON : Call(STATE_CURRENT, STATE_CPlayerWeapons_AltCannonFire, TRUE, EVoid());return TRUE;break ;
-#line 4286 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-default  : ASSERTALWAYS  ("Unknown weapon.");
-#line 4287 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
 #line 4288 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return TRUE;
+switch(m_iCurrentWeapon ){
 #line 4289 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_KNIFE : Call(STATE_CURRENT, STATE_CPlayerWeapons_SwingKnife, TRUE, EVoid());return TRUE;break ;
+#line 4290 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_COLT : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireColt, TRUE, EVoid());return TRUE;break ;
+#line 4291 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLECOLT : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireDoubleColt, TRUE, EVoid());return TRUE;break ;
+#line 4292 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SINGLESHOTGUN : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireSingleShotgun, TRUE, EVoid());return TRUE;break ;
+#line 4293 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLESHOTGUN : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireDoubleShotgun, TRUE, EVoid());return TRUE;break ;
+#line 4294 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_TOMMYGUN : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireTommyGun, TRUE, EVoid());return TRUE;break ;
+#line 4295 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_MINIGUN : Call(STATE_CURRENT, STATE_CPlayerWeapons_MiniGunFire, TRUE, EVoid());return TRUE;break ;
+#line 4296 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SNIPER : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireSniper, TRUE, EVoid());return TRUE;break ;
+#line 4297 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_ROCKETLAUNCHER : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireRocketLauncher, TRUE, EVoid());return TRUE;break ;
+#line 4298 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_GRENADELAUNCHER : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireGrenadeLauncher, TRUE, EVoid());return TRUE;break ;
+#line 4299 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_LASER : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireLaser, TRUE, EVoid());return TRUE;break ;
+#line 4300 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_IRONCANNON : Call(STATE_CURRENT, STATE_CPlayerWeapons_AltCannonFire, TRUE, EVoid());return TRUE;break ;
+#line 4301 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+default  : ASSERTALWAYS  ("Unknown weapon.");
+#line 4302 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4303 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return TRUE;
+#line 4304 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EEnd):{const EEnd&e= (EEnd&)__eeInput;
 
-#line 4291 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-UnsetTimer();Jump(STATE_CURRENT,0x0192002c, FALSE, EInternal());return TRUE;
-#line 4292 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}ASSERT(FALSE);break;default: return FALSE; break;
-#line 4293 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}return TRUE;}BOOL CPlayerWeapons::H0x0192002c_Fire_19(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192002c
-Jump(STATE_CURRENT,0x0192002d, FALSE, EInternal());return TRUE;
-#line 4294 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}BOOL CPlayerWeapons::H0x0192002e_Fire_21(const CEntityEvent &__eeInput) {
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192002e
-
-#line 4297 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(m_iCurrentWeapon ){
-#line 4298 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : {Jump(STATE_CURRENT, STATE_CPlayerWeapons_TommyGunStop, TRUE, EVoid());return TRUE;break ;}
-#line 4299 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLECOLT : {Jump(STATE_CURRENT, STATE_CPlayerWeapons_DoubleColtStop, TRUE, EVoid());return TRUE;break ;}
-#line 4300 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_MINIGUN : {Jump(STATE_CURRENT, STATE_CPlayerWeapons_MiniGunSpinDown, TRUE, EVoid());return TRUE;break ;}
-#line 4301 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_FLAMER : {Jump(STATE_CURRENT, STATE_CPlayerWeapons_FlamerStop, TRUE, EVoid());return TRUE;break ;}
-#line 4303 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_LASER : {
-#line 4304 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-GetAnimator  () -> FireAnimationOff  ();
-#line 4305 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE;
 #line 4306 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+UnsetTimer();Jump(STATE_CURRENT,0x01920034, FALSE, EInternal());return TRUE;
 #line 4307 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-default  :{Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE;}
+}ASSERT(FALSE);break;default: return FALSE; break;
 #line 4308 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}return TRUE;}BOOL CPlayerWeapons::H0x01920034_Fire_27(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920034
+Jump(STATE_CURRENT,0x01920035, FALSE, EInternal());return TRUE;
+#line 4309 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}BOOL CPlayerWeapons::H0x01920036_Fire_29(const CEntityEvent &__eeInput) {
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920036
+
+#line 4312 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(m_iCurrentWeapon ){
+#line 4313 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_TOMMYGUN : {Jump(STATE_CURRENT, STATE_CPlayerWeapons_TommyGunStop, TRUE, EVoid());return TRUE;break ;}
+#line 4314 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLECOLT : {Jump(STATE_CURRENT, STATE_CPlayerWeapons_DoubleColtStop, TRUE, EVoid());return TRUE;break ;}
+#line 4315 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_MINIGUN : {Jump(STATE_CURRENT, STATE_CPlayerWeapons_MiniGunSpinDown, TRUE, EVoid());return TRUE;break ;}
+#line 4316 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_FLAMER : {Jump(STATE_CURRENT, STATE_CPlayerWeapons_FlamerStop, TRUE, EVoid());return TRUE;break ;}
+#line 4318 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_LASER : {
+#line 4319 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+GetAnimator  () -> FireAnimationOff  ();
+#line 4320 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE;
+#line 4321 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4322 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+default  :{Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE;}
+#line 4323 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 } ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 4311 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4328 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 AltFire(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_AltFire
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::AltFire expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 4312 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4329 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4313 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon0  , SOUND_SILENCE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4315 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_tmWeaponChangeRequired  = 0;
-#line 4317 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_bAltFire  = TRUE ;
-#line 4319 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_bHasAmmo  = HasAmmo  (m_iCurrentWeapon );
-#line 4322 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(! m_bHasAmmo ){
-#line 4323 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SelectNewWeapon  ();
-#line 4324 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE;
-#line 4325 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 4328 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Setup3DSoundParameters  ();
 #line 4330 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if((m_iCurrentWeapon  == WEAPON_IRONCANNON )){
-#line 4331 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT, STATE_CPlayerWeapons_CannonFireStart, TRUE, EVoid());return TRUE;
+PlaySound  (pl  . m_soWeapon0  , SOUND_SILENCE  , SOF_3D  | SOF_VOLUMETRIC );
 #line 4332 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+m_tmWeaponChangeRequired  = 0;
 #line 4334 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT,0x01920032, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920032_AltFire_03(const CEntityEvent &__eeInput){
+m_bAltFire  = TRUE ;
+#line 4336 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_bHasAmmo  = HasAmmo  (m_iCurrentWeapon );
+#line 4339 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(! m_bHasAmmo ){
+#line 4340 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SelectNewWeapon  ();
+#line 4341 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE;
+#line 4342 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4345 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Setup3DSoundParameters  ();
+#line 4347 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if((m_iCurrentWeapon  == WEAPON_IRONCANNON )){
+#line 4348 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT, STATE_CPlayerWeapons_CannonFireStart, TRUE, EVoid());return TRUE;
+#line 4349 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4351 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT,0x0192003a, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192003a_AltFire_03(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920032
-if(!(HoldingAltFire  () && m_bHasAmmo )){ Jump(STATE_CURRENT,0x01920033, FALSE, EInternal());return TRUE;}
-#line 4336 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#define STATE_CURRENT 0x0192003a
+if(!(HoldingAltFire  () && m_bHasAmmo )){ Jump(STATE_CURRENT,0x0192003b, FALSE, EInternal());return TRUE;}
+#line 4353 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ((CPlayerAnimator  &) * ((CPlayer  &) * m_penPlayer ) . m_penAnimator ) . m_fLastActionTime  = _pTimer  -> CurrentTick  ();
-#line 4337 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4354 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAt(THINKTIME_NEVER);
-Jump(STATE_CURRENT, 0x01920030, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920030_AltFire_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01920038, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920038_AltFire_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920030
+#define STATE_CURRENT 0x01920038
 switch(__eeInput.ee_slEvent){case(EVENTCODE_EBegin):{const EBegin&e= (EBegin&)__eeInput;
 
-#line 4340 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(m_iCurrentWeapon ){
-#line 4341 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_KNIFE : Call(STATE_CURRENT, STATE_CPlayerWeapons_SwingKnife, TRUE, EVoid());return TRUE;break ;
-#line 4342 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_COLT : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireColt, TRUE, EVoid());return TRUE;break ;
-#line 4343 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLECOLT : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireDoubleColt, TRUE, EVoid());return TRUE;break ;
-#line 4344 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SINGLESHOTGUN : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireSingleShotgun, TRUE, EVoid());return TRUE;break ;
-#line 4345 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_DOUBLESHOTGUN : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireDoubleShotgun, TRUE, EVoid());return TRUE;break ;
-#line 4346 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_TOMMYGUN : Call(STATE_CURRENT, STATE_CPlayerWeapons_AltFireTommyGun, TRUE, EVoid());return TRUE;break ;
-#line 4347 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_MINIGUN : Call(STATE_CURRENT, STATE_CPlayerWeapons_MiniGunFire, TRUE, EVoid());return TRUE;break ;
-#line 4348 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_SNIPER : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireSniper, TRUE, EVoid());return TRUE;break ;
-#line 4349 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_ROCKETLAUNCHER : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireRocketLauncher, TRUE, EVoid());return TRUE;break ;
-#line 4350 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_GRENADELAUNCHER : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireGrenadeLauncher, TRUE, EVoid());return TRUE;break ;
-#line 4351 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_LASER : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireLaser, TRUE, EVoid());return TRUE;break ;
-#line 4352 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case WEAPON_IRONCANNON : Call(STATE_CURRENT, STATE_CPlayerWeapons_CannonFireStart, TRUE, EVoid());return TRUE;break ;
-#line 4354 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-default  : ASSERTALWAYS  ("Unknown weapon.");
-#line 4355 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 4356 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return TRUE;
 #line 4357 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(m_iCurrentWeapon ){
+#line 4358 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_KNIFE : Call(STATE_CURRENT, STATE_CPlayerWeapons_SwingKnife, TRUE, EVoid());return TRUE;break ;
+#line 4359 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_COLT : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireColt, TRUE, EVoid());return TRUE;break ;
+#line 4360 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLECOLT : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireDoubleColt, TRUE, EVoid());return TRUE;break ;
+#line 4361 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SINGLESHOTGUN : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireSingleShotgun, TRUE, EVoid());return TRUE;break ;
+#line 4362 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_DOUBLESHOTGUN : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireDoubleShotgun, TRUE, EVoid());return TRUE;break ;
+#line 4363 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_TOMMYGUN : Call(STATE_CURRENT, STATE_CPlayerWeapons_AltFireTommyGun, TRUE, EVoid());return TRUE;break ;
+#line 4364 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_MINIGUN : Call(STATE_CURRENT, STATE_CPlayerWeapons_MiniGunFire, TRUE, EVoid());return TRUE;break ;
+#line 4365 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_SNIPER : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireSniper, TRUE, EVoid());return TRUE;break ;
+#line 4366 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_ROCKETLAUNCHER : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireRocketLauncher, TRUE, EVoid());return TRUE;break ;
+#line 4367 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_GRENADELAUNCHER : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireGrenadeLauncher, TRUE, EVoid());return TRUE;break ;
+#line 4368 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_LASER : Call(STATE_CURRENT, STATE_CPlayerWeapons_FireLaser, TRUE, EVoid());return TRUE;break ;
+#line 4369 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case WEAPON_IRONCANNON : Call(STATE_CURRENT, STATE_CPlayerWeapons_CannonFireStart, TRUE, EVoid());return TRUE;break ;
+#line 4371 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+default  : ASSERTALWAYS  ("Unknown weapon.");
+#line 4372 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4373 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return TRUE;
+#line 4374 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EEnd):{const EEnd&e= (EEnd&)__eeInput;
 
-#line 4359 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-UnsetTimer();Jump(STATE_CURRENT,0x01920031, FALSE, EInternal());return TRUE;
-#line 4360 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}ASSERT(FALSE);break;default: return FALSE; break;
-#line 4361 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}return TRUE;}BOOL CPlayerWeapons::H0x01920031_AltFire_02(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920031
-Jump(STATE_CURRENT,0x01920032, FALSE, EInternal());return TRUE;
-#line 4362 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}BOOL CPlayerWeapons::H0x01920033_AltFire_04(const CEntityEvent &__eeInput) {
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920033
-
-#line 4371 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
 #line 4376 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+UnsetTimer();Jump(STATE_CURRENT,0x01920039, FALSE, EInternal());return TRUE;
+#line 4377 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}ASSERT(FALSE);break;default: return FALSE; break;
+#line 4378 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}return TRUE;}BOOL CPlayerWeapons::H0x01920039_AltFire_02(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920039
+Jump(STATE_CURRENT,0x0192003a, FALSE, EInternal());return TRUE;
+#line 4379 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}BOOL CPlayerWeapons::H0x0192003b_AltFire_04(const CEntityEvent &__eeInput) {
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0192003b
+
+#line 4388 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
+#line 4393 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SwingKnife(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_SwingKnife
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::SwingKnife expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 4377 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iSwing ;
-#line 4380 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-GetAnimator  () -> FireAnimation  (BODY_ANIM_KNIFE_ATTACK  , 0);
-#line 4382 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4384 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(m_iKnifeStand ){
-#line 4385 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 1: 
-#line 4386 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iSwing  = IRnd  () % 2;
-#line 4387 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(iSwing ){
-#line 4388 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 0: m_iAnim  = KNIFE_ANIM_ATTACK01 ;m_fAnimWaitTime  = 0.25f;
-#line 4389 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon0  , SOUND_KNIFE_BACK  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4390 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Knife_back");}
-#line 4391 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 4392 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 1: m_iAnim  = KNIFE_ANIM_ATTACK02 ;m_fAnimWaitTime  = 0.35f;
-#line 4393 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon1  , SOUND_KNIFE_BACK  , SOF_3D  | SOF_VOLUMETRIC );
 #line 4394 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Knife_back");}
-#line 4395 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 4396 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+INDEX iSwing ;
 #line 4397 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
-#line 4398 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 3: 
+GetAnimator  () -> FireAnimation  (BODY_ANIM_KNIFE_ATTACK  , 0);
 #line 4399 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-iSwing  = IRnd  () % 2;
-#line 4400 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(iSwing ){
+CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
 #line 4401 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 0: m_iAnim  = KNIFE_ANIM_ATTACK01 ;m_fAnimWaitTime  = 0.50f;
+switch(m_iKnifeStand ){
 #line 4402 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon1  , SOUND_KNIFE_BACK  , SOF_3D  | SOF_VOLUMETRIC );
+case 1: 
 #line 4403 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Knife_back");}
+iSwing  = IRnd  () % 2;
 #line 4404 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+switch(iSwing ){
 #line 4405 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 1: m_iAnim  = KNIFE_ANIM_ATTACK02 ;m_fAnimWaitTime  = 0.50f;
+case 0: m_iAnim  = KNIFE_ANIM_ATTACK01 ;m_fAnimWaitTime  = 0.25f;
 #line 4406 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon3  , SOUND_KNIFE_BACK  , SOF_3D  | SOF_VOLUMETRIC );
+PlaySound  (pl  . m_soWeapon0  , SOUND_KNIFE_BACK  , SOF_3D  | SOF_VOLUMETRIC );
 #line 4407 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Knife_back");}
 #line 4408 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;
 #line 4409 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+case 1: m_iAnim  = KNIFE_ANIM_ATTACK02 ;m_fAnimWaitTime  = 0.35f;
 #line 4410 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-break ;
+PlaySound  (pl  . m_soWeapon1  , SOUND_KNIFE_BACK  , SOF_3D  | SOF_VOLUMETRIC );
 #line 4411 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Knife_back");}
 #line 4412 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (m_iAnim  , 0);
+break ;
 #line 4413 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(CutWithKnife  (0 , 0 , 3.0f , 2.0f , 0.5f , ((GetSP  () -> sp_bCooperative ) ? 100.0f : 50.0f)))){ Jump(STATE_CURRENT,0x0192003d, FALSE, EInternal());return TRUE;}
+}
 #line 4414 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 4415 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 3: 
+#line 4416 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+iSwing  = IRnd  () % 2;
+#line 4417 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+switch(iSwing ){
+#line 4418 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 0: m_iAnim  = KNIFE_ANIM_ATTACK01 ;m_fAnimWaitTime  = 0.50f;
+#line 4419 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+PlaySound  (pl  . m_soWeapon1  , SOUND_KNIFE_BACK  , SOF_3D  | SOF_VOLUMETRIC );
+#line 4420 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Knife_back");}
+#line 4421 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 4422 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 1: m_iAnim  = KNIFE_ANIM_ATTACK02 ;m_fAnimWaitTime  = 0.50f;
+#line 4423 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+PlaySound  (pl  . m_soWeapon3  , SOUND_KNIFE_BACK  , SOF_3D  | SOF_VOLUMETRIC );
+#line 4424 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Knife_back");}
+#line 4425 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 4426 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4427 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+break ;
+#line 4428 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4429 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_moWeapon  . PlayAnim  (m_iAnim  , 0);
+#line 4430 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(CutWithKnife  (0 , 0 , 3.0f , 2.0f , 0.5f , ((GetSP  () -> sp_bCooperative ) ? 100.0f : 50.0f)))){ Jump(STATE_CURRENT,0x01920045, FALSE, EInternal());return TRUE;}
+#line 4431 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_fAnimWaitTime );
-Jump(STATE_CURRENT, 0x01920035, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920035_SwingKnife_01(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920035
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920036, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920036_SwingKnife_02(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920036
-;Jump(STATE_CURRENT,0x0192003c, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192003d_SwingKnife_09(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+Jump(STATE_CURRENT, 0x0192003d, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192003d_SwingKnife_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0192003d
-if(!(TRUE )){ Jump(STATE_CURRENT,0x0192003b, FALSE, EInternal());return TRUE;}
-#line 4416 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(m_fAnimWaitTime  / 2);
-Jump(STATE_CURRENT, 0x01920037, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920037_SwingKnife_03(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920037
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920038, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920038_SwingKnife_04(const CEntityEvent &__eeInput){
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192003e, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192003e_SwingKnife_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920038
-;
-#line 4417 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CutWithKnife  (0 , 0 , 3.0f , 2.0f , 0.5f , ((GetSP  () -> sp_bCooperative ) ? 100.0f : 50.0f));
-#line 4418 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(m_fAnimWaitTime  / 2);
-Jump(STATE_CURRENT, 0x01920039, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920039_SwingKnife_05(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920039
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192003a, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192003a_SwingKnife_06(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192003a
-;Jump(STATE_CURRENT,0x0192003b, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192003b_SwingKnife_07(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192003b
-Jump(STATE_CURRENT,0x0192003c, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x0192003c_SwingKnife_08(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192003c
-
-#line 4421 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_moWeapon  . GetAnimLength  (m_iAnim ) - m_fAnimWaitTime  >= _pTimer  -> TickQuantum )){ Jump(STATE_CURRENT,0x01920040, FALSE, EInternal());return TRUE;}
-#line 4422 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(m_moWeapon  . GetAnimLength  (m_iAnim ) - m_fAnimWaitTime );
-Jump(STATE_CURRENT, 0x0192003e, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192003e_SwingKnife_10(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x0192003e
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192003f, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192003f_SwingKnife_11(const CEntityEvent &__eeInput){
+;Jump(STATE_CURRENT,0x01920044, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920045_SwingKnife_09(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
+#define STATE_CURRENT 0x01920045
+if(!(TRUE )){ Jump(STATE_CURRENT,0x01920043, FALSE, EInternal());return TRUE;}
+#line 4433 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetTimerAfter(m_fAnimWaitTime  / 2);
+Jump(STATE_CURRENT, 0x0192003f, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192003f_SwingKnife_03(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
 #define STATE_CURRENT 0x0192003f
-;Jump(STATE_CURRENT,0x01920040, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920040_SwingKnife_12(const CEntityEvent &__eeInput){
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920040, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920040_SwingKnife_04(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01920040
+;
+#line 4434 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CutWithKnife  (0 , 0 , 3.0f , 2.0f , 0.5f , ((GetSP  () -> sp_bCooperative ) ? 100.0f : 50.0f));
+#line 4435 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetTimerAfter(m_fAnimWaitTime  / 2);
+Jump(STATE_CURRENT, 0x01920041, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920041_SwingKnife_05(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920041
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920042, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920042_SwingKnife_06(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920042
+;Jump(STATE_CURRENT,0x01920043, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920043_SwingKnife_07(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920043
+Jump(STATE_CURRENT,0x01920044, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x01920044_SwingKnife_08(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920044
 
-#line 4424 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4438 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(m_moWeapon  . GetAnimLength  (m_iAnim ) - m_fAnimWaitTime  >= _pTimer  -> TickQuantum )){ Jump(STATE_CURRENT,0x01920048, FALSE, EInternal());return TRUE;}
+#line 4439 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetTimerAfter(m_moWeapon  . GetAnimLength  (m_iAnim ) - m_fAnimWaitTime );
+Jump(STATE_CURRENT, 0x01920046, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920046_SwingKnife_10(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920046
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920047, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920047_SwingKnife_11(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920047
+;Jump(STATE_CURRENT,0x01920048, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920048_SwingKnife_12(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920048
+
+#line 4441 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 4424 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4441 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 4428 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4445 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ColtStart(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_ColtStart
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::ColtStart expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 4429 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iPistolMagazin  == 0)
-#line 4430 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 4431 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT, STATE_CPlayerWeapons_ReloadColt, TRUE, EVoid());return TRUE;
-#line 4432 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4446 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_bColtNeedsInit ){
+#line 4447 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iPistolMagazin  < 7 && m_iPistol  > 0){
+#line 4448 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iNeeded  = 7 - m_iPistolMagazin ;
+#line 4449 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iToAdd  = (m_iPistol  >= iNeeded ) ? iNeeded  : m_iPistol ;
+#line 4451 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iPistolMagazin  += iToAdd ;
+#line 4452 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iPistol  -= iToAdd ;
+#line 4453 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4433 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4454 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_bColtNeedsInit  = FALSE ;
+#line 4455 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4457 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iPistolMagazin  == 0){
+#line 4458 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT, STATE_CPlayerWeapons_ReloadColt, TRUE, EVoid());return TRUE;
+#line 4459 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4461 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_iPistolOnFireStart  = m_iPistolMagazin ;
-#line 4434 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4462 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4435 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4464 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_SILENCE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4436 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4465 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Set3DParameters  (50.0f , 5.0f , 0.5f , 1.0f);
-#line 4437 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4466 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_COLT_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4438 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlayLightAnim  (LIGHT_ANIM_COLT_SHOTGUN  , AOF_LOOPING );
-#line 4439 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4468 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+PlayLightAnim  (LIGHT_ANIM_COLT_SHOTGUN  , 0);
+#line 4469 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimation  (BODY_ANIM_COLT_FIRERIGHT  , 0);
-#line 4440 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4471 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 4440 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4471 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 4443 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4474 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ColtStop(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_ColtStop
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::ColtStop expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 4444 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4475 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4445 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4476 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(pl  . m_pstState  != PST_DIVE  && hud_bShowWeapon )
-#line 4446 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4477 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 4447 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4478 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX ctPistolFired  = ClampUp  (m_iPistolOnFireStart  - m_iPistol  , INDEX (100));
-#line 4448 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4479 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 for(INDEX iSmoke  = 0;iSmoke  < ctPistolFired  / 6.0;iSmoke  ++)
-#line 4449 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4480 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 4451 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4482 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShellLaunchData  & sldRight  = pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
-#line 4452 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4483 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldRight  . sld_vPos  = FLOAT3D (afRightColtPipe  [ 0 ] , afRightColtPipe  [ 1 ] , afRightColtPipe  [ 2 ]);
-#line 4453 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4484 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldRight  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
-#line 4454 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4485 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldRight  . sld_estType  = ESL_COLT_SMOKE ;
-#line 4455 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4486 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 4456 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4487 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4457 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4488 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4458 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4489 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Set3DParameters  (500.0f , 5.0f , 0.0f , 1.0f);
-#line 4459 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4490 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlayLightAnim  (LIGHT_ANIM_NONE  , 0);
-#line 4460 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4491 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimationOff  ();
-#line 4461 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4492 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 4464 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4495 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireColt(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_FireColt
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::FireColt expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 4466 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iPistolMagazin  > 0)){ Jump(STATE_CURRENT,0x01920047, FALSE, EInternal());return TRUE;}
-#line 4467 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FireOneBullet  (wpn_fFX  [ WEAPON_COLT  ] , wpn_fFY  [ WEAPON_COLT  ] , 500.0f , 
-#line 4468 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((GetSP  () -> sp_bCooperative ) ? 25.0f : 25.0f));
-#line 4470 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShakeBullet  (0.2f , 0.2f , 1.0f , 0.055f);
-#line 4471 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SpawnRangeSound  (40.0f);
-#line 4472 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Colt_fire");}
-#line 4473 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-DecAmmo  (m_iPistolMagazin  , 1);
-#line 4474 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetFlare  (0 , FLARE_ADD );
-#line 4476 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-INDEX iAnim ;
-#line 4477 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-switch(IRnd  () % 3){
-#line 4478 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 0: iAnim  = COLT_ANIM_FIRE1 ;break ;
-#line 4479 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 1: iAnim  = COLT_ANIM_FIRE2 ;break ;
-#line 4480 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-case 2: iAnim  = COLT_ANIM_FIRE3 ;break ;
-#line 4481 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 4482 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (iAnim  , AOF_LOOPING  | AOF_NORESTART );
-#line 4487 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4488 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon0  , SOUND_COLT_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4490 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plShell ;
-#line 4491 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPosition  (FLOAT3D (afTommygunShellPos  [ 0 ] , afTommygunShellPos  [ 1 ] , afTommygunShellPos  [ 2 ]) , plShell  , FALSE );
-#line 4492 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOATmatrix3D mRot ;
-#line 4493 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-MakeRotationMatrixFast  (mRot  , plShell  . pl_OrientationAngle );
-#line 4495 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(hud_bShowWeapon )
 #line 4496 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+if(!(m_iPistolMagazin  > 0)){ Jump(STATE_CURRENT,0x0192004f, FALSE, EInternal());return TRUE;}
+#line 4497 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FireOneBullet  (wpn_fFX  [ WEAPON_COLT  ] , wpn_fFY  [ WEAPON_COLT  ] , 500.0f , 
 #line 4498 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = * GetPlayer  ();
-#line 4499 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShellLaunchData  & sld  = pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
+((GetSP  () -> sp_bCooperative ) ? 25.0f : 25.0f));
 #line 4500 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sld  . sld_vPos  = plShell  . pl_PositionVector ;
+ApplyWeaponKick  (0.05f , 1.5f);
 #line 4501 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vSpeedRelative  = FLOAT3D (FRnd  () + 2.0f , FRnd  () + 5.0f , - FRnd  () - 2.0f);
+SpawnRangeSound  (40.0f);
 #line 4502 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOATmatrix3D & m  = pl  . GetRotationMatrix  ();
+if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Colt_fire");}
 #line 4503 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
+DecAmmo  (m_iPistolMagazin  , 1);
 #line 4504 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sld  . sld_vUp  = vUp ;
-#line 4505 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sld  . sld_vSpeed  = vSpeedRelative  * mRot ;
+SetFlare  (0 , FLARE_ADD );
 #line 4506 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sld  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
+INDEX iAnim ;
 #line 4507 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sld  . sld_estType  = ESL_BULLET ;
+switch(IRnd  () % 3){
 #line 4508 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
+case 0: iAnim  = COLT_ANIM_FIRE1 ;break ;
+#line 4509 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 1: iAnim  = COLT_ANIM_FIRE2 ;break ;
+#line 4510 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+case 2: iAnim  = COLT_ANIM_FIRE3 ;break ;
 #line 4511 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(pl  . m_pstState  == PST_DIVE )
-#line 4512 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
+}
 #line 4513 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShellLaunchData  & sldBubble  = pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
+m_moWeapon  . PlayAnim  (iAnim  , 0);
+#line 4515 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
 #line 4516 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sldBubble  . sld_vPos  = plShell  . pl_PositionVector ;
-#line 4517 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sldBubble  . sld_vUp  = vUp ;
+PlaySound  (pl  . m_soWeapon0  , SOUND_COLT_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
 #line 4518 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sldBubble  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
+CPlacement3D plShell ;
 #line 4519 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sldBubble  . sld_estType  = ESL_BUBBLE ;
+CalcWeaponPosition  (FLOAT3D (afTommygunShellPos  [ 0 ] , afTommygunShellPos  [ 1 ] , afTommygunShellPos  [ 2 ]) , plShell  , FALSE );
 #line 4520 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-vSpeedRelative  = FLOAT3D (0.3f , 0.0f , 0.0f);
+FLOATmatrix3D mRot ;
 #line 4521 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sldBubble  . sld_vSpeed  = vSpeedRelative  * mRot ;
-#line 4522 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
+MakeRotationMatrixFast  (mRot  , plShell  . pl_OrientationAngle );
 #line 4523 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+if(hud_bShowWeapon ){
 #line 4524 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
+CPlayer  & plInner  = * GetPlayer  ();
 #line 4525 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(m_moWeapon  . GetAnimLength  (iAnim ) - 0.05f);
-Jump(STATE_CURRENT, 0x01920044, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920044_FireColt_01(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920044
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920045, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920045_FireColt_02(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920045
-;
+ShellLaunchData  & sld  = plInner  . m_asldData  [ plInner  . m_iFirstEmptySLD  ];
+#line 4526 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sld  . sld_vPos  = plShell  . pl_PositionVector ;
 #line 4527 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iPistol  <= 0 && m_iPistolMagazin  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x01920046, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920047_FireColt_04(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920047
-{
+FLOAT3D vSpeedRelative  = FLOAT3D (FRnd  () + 2.0f , FRnd  () + 5.0f , - FRnd  () - 2.0f);
+#line 4528 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOATmatrix3D & m  = plInner  . GetRotationMatrix  ();
 #line 4529 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ASSERTALWAYS  ("Desert eagle - Auto weapon change not working.");
+FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
 #line 4530 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_bFireWeapon  = m_bHasAmmo  = FALSE ;
+sld  . sld_vUp  = vUp ;
 #line 4531 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}Jump(STATE_CURRENT,0x01920046, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x01920046_FireColt_03(const CEntityEvent &__eeInput){
+sld  . sld_vSpeed  = vSpeedRelative  * mRot ;
+#line 4532 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sld  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
+#line 4533 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sld  . sld_estType  = ESL_BULLET ;
+#line 4534 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plInner  . m_iFirstEmptySLD  = (plInner  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
+#line 4536 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(plInner  . m_pstState  == PST_DIVE ){
+#line 4537 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ShellLaunchData  & sldBubble  = plInner  . m_asldData  [ plInner  . m_iFirstEmptySLD  ];
+#line 4538 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sldBubble  . sld_vPos  = plShell  . pl_PositionVector ;
+#line 4539 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sldBubble  . sld_vUp  = vUp ;
+#line 4540 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sldBubble  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
+#line 4541 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sldBubble  . sld_estType  = ESL_BUBBLE ;
+#line 4542 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+vSpeedRelative  = FLOAT3D (0.3f , 0.0f , 0.0f);
+#line 4543 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sldBubble  . sld_vSpeed  = vSpeedRelative  * mRot ;
+#line 4544 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+plInner  . m_iFirstEmptySLD  = (plInner  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
+#line 4545 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4546 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4548 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetTimerAfter(m_moWeapon  . GetAnimLength  (iAnim ) - 0.05f);
+Jump(STATE_CURRENT, 0x0192004c, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192004c_FireColt_01(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0192004c
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192004d, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192004d_FireColt_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920046
+#define STATE_CURRENT 0x0192004d
+;
+#line 4550 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iPistol  <= 0 && m_iPistolMagazin  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x0192004e, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192004f_FireColt_04(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0192004f
+{
+#line 4552 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ASSERTALWAYS  ("Desert eagle - Auto weapon change not working.");
+#line 4553 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_bFireWeapon  = m_bHasAmmo  = FALSE ;
+#line 4554 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}Jump(STATE_CURRENT,0x0192004e, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x0192004e_FireColt_03(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x0192004e
 
-#line 4533 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4556 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_iPistolMagazin  == 0){
-#line 4534 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4557 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_ReloadColt, TRUE, EVoid());return TRUE;
-#line 4535 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4558 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4536 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4559 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 4536 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4559 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 4586 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4609 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ReloadColt(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_ReloadColt
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::ReloadColt expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 4600 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iPistolMagazin  >= 7){
-#line 4601 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Return(STATE_CURRENT,EEnd  ());
-#line 4601 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-return TRUE;
-#line 4602 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 4604 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iPistolMagazin  < 7 && m_iPistolMagazin  != 0 && m_iPistol  >= 7)){ Jump(STATE_CURRENT,0x01920057, FALSE, EInternal());return TRUE;}
-#line 4605 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistol  -= (7 - m_iPistolMagazin );
-#line 4606 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistolMagazin  = 7;
-#line 4608 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4609 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon1  , SOUND_COLT_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
+#line 4610 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iPistolMagazin  >= 7 || m_iPistol  <= 0){
 #line 4611 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (COLT_ANIM_RELOAD  , 0);
+Return(STATE_CURRENT,EEnd  ());
+#line 4611 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+return TRUE;
 #line 4612 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Colt_reload");}
-#line 4613 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(m_moWeapon  . GetAnimLength  (COLT_ANIM_RELOAD ));
-Jump(STATE_CURRENT, 0x01920049, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920049_ReloadColt_01(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920049
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192004a, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192004a_ReloadColt_02(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192004a
-;Jump(STATE_CURRENT,0x01920056, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920057_ReloadColt_15(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920057
-if(!(m_iPistol  >= 7)){ Jump(STATE_CURRENT,0x01920055, FALSE, EInternal());return TRUE;}
-#line 4616 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistolMagazin  = 7;
-#line 4617 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistol  -= 7;
-#line 4619 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4620 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon1  , SOUND_COLT_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4622 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (COLT_ANIM_RELOAD  , 0);
-#line 4623 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Colt_reload");}
-#line 4624 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(m_moWeapon  . GetAnimLength  (COLT_ANIM_RELOAD ));
-Jump(STATE_CURRENT, 0x0192004b, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192004b_ReloadColt_03(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192004b
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192004c, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192004c_ReloadColt_04(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192004c
-;Jump(STATE_CURRENT,0x01920054, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920055_ReloadColt_13(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920055
-if(!(m_iPistolMagazin  < 7 && m_iPistolMagazin  != 0 && m_iPistol  < 7 && m_iPistol  != 0)){ Jump(STATE_CURRENT,0x01920053, FALSE, EInternal());return TRUE;}
-#line 4627 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if((m_iPistol  - (7 - m_iPistol )) <= 0){
-#line 4628 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistolMagazin  += m_iPistol ;
-#line 4629 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistol  = 0;
-#line 4630 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
-#line 4631 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistol  -= (7 - m_iPistolMagazin );
-#line 4632 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistolMagazin  = 7;
-#line 4633 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4635 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4614 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iNeeded  = 7 - m_iPistolMagazin ;
+#line 4615 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iToAdd  = (m_iPistol  >= iNeeded ) ? iNeeded  : m_iPistol ;
+#line 4617 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iPistolMagazin  += iToAdd ;
+#line 4618 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iPistol  -= iToAdd ;
+#line 4620 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4636 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon1  , SOUND_COLT_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4638 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4622 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+PlayLightAnim  (LIGHT_ANIM_NONE  , 0);
+#line 4624 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+PlaySound  (pl  . m_soWeapon2  , SOUND_COLT_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
+#line 4626 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (COLT_ANIM_RELOAD  , 0);
-#line 4639 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4627 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Colt_reload");}
-#line 4640 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4629 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (COLT_ANIM_RELOAD ));
-Jump(STATE_CURRENT, 0x0192004d, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192004d_ReloadColt_05(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192004d
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192004e, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192004e_ReloadColt_06(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192004e
-;Jump(STATE_CURRENT,0x01920052, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920053_ReloadColt_11(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920053
-if(!(m_iPistol  < 7 , m_iPistol  != 0)){ Jump(STATE_CURRENT,0x01920051, FALSE, EInternal());return TRUE;}
-#line 4642 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistolMagazin  = m_iPistol ;
-#line 4643 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iPistol  = 0;
-#line 4645 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4646 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon1  , SOUND_COLT_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4648 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (COLT_ANIM_RELOAD  , 0);
-#line 4649 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Colt_reload");}
-#line 4650 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(m_moWeapon  . GetAnimLength  (COLT_ANIM_RELOAD ));
-Jump(STATE_CURRENT, 0x0192004f, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192004f_ReloadColt_07(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192004f
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920050, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920050_ReloadColt_08(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920050
-;Jump(STATE_CURRENT,0x01920051, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920051_ReloadColt_09(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+Jump(STATE_CURRENT, 0x01920051, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920051_ReloadColt_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01920051
-Jump(STATE_CURRENT,0x01920052, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x01920052_ReloadColt_10(const CEntityEvent &__eeInput){
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920052, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920052_ReloadColt_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
 #define STATE_CURRENT 0x01920052
-Jump(STATE_CURRENT,0x01920054, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x01920054_ReloadColt_12(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920054
-Jump(STATE_CURRENT,0x01920056, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x01920056_ReloadColt_14(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920056
-
-#line 4658 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(0.1f);
-Jump(STATE_CURRENT, 0x01920058, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920058_ReloadColt_16(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920058
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920059, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920059_ReloadColt_17(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920059
 ;
-#line 4659 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4630 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 4659 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4630 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 4663 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4634 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DoubleColtStart(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_DoubleColtStart
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::DoubleColtStart expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 4664 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iSMGMagazin  == 0)
-#line 4665 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 4666 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT, STATE_CPlayerWeapons_ReloadDoubleColt, TRUE, EVoid());return TRUE;
-#line 4667 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4636 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_bDoubleColtNeedsInit ){
+#line 4637 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iSMGMagazin  < 50 && m_iSMG  > 0){
+#line 4638 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iNeeded  = 50 - m_iSMGMagazin ;
+#line 4639 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iToAdd  = (m_iSMG  >= iNeeded ) ? iNeeded  : m_iSMG ;
+#line 4641 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iSMGMagazin  += iToAdd ;
+#line 4642 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iSMG  -= iToAdd ;
+#line 4643 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4668 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4644 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_bDoubleColtNeedsInit  = FALSE ;
+#line 4645 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4648 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iSMGMagazin  == 0){
+#line 4649 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT, STATE_CPlayerWeapons_ReloadDoubleColt, TRUE, EVoid());return TRUE;
+#line 4650 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4652 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_iSMGOnFireStart  = m_iSMGMagazin ;
-#line 4669 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4653 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4671 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4655 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Set3DParameters  (50.0f , 5.0f , 0.5f , 1.0f);
-#line 4673 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4656 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlayLightAnim  (LIGHT_ANIM_TOMMYGUN  , AOF_LOOPING );
-#line 4674 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4657 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimation  (BODY_ANIM_SHOTGUN_FIRESHORT  , AOF_LOOPING );
-#line 4675 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4659 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 4675 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4659 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 4678 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4662 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DoubleColtStop(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_DoubleColtStop
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::DoubleColtStop expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 4680 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4664 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4681 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4665 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(pl  . m_pstState  != PST_DIVE  && hud_bShowWeapon )
-#line 4682 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4666 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 4683 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4667 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX ctSMGFired  = ClampUp  (m_iSMGOnFireStart  - m_iSMG  , INDEX (100));
-#line 4684 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4668 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 for(INDEX iSmoke  = 0;iSmoke  < ctSMGFired  / 6.0;iSmoke  ++)
-#line 4685 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4669 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 4686 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4670 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShellLaunchData  * psldSmoke  = & pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
-#line 4687 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4671 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlacement3D plPipe ;
-#line 4688 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4672 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CalcWeaponPosition  (FLOAT3D (afDoubleColtPipe  [ 0 ] , afDoubleColtPipe  [ 1 ] , afDoubleColtPipe  [ 2 ]) , plPipe  , FALSE );
-#line 4689 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4673 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOATmatrix3D m ;
-#line 4690 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4674 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MakeRotationMatrixFast  (m  , plPipe  . pl_OrientationAngle );
-#line 4691 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4675 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_vPos  = plPipe  . pl_PositionVector  + pl  . en_vCurrentTranslationAbsolute  * iSmoke  * _pTimer  -> TickQuantum ;
-#line 4692 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4676 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
-#line 4693 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4677 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_vUp  = vUp ;
-#line 4694 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4678 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_tmLaunch  = _pTimer  -> CurrentTick  () + iSmoke  * _pTimer  -> TickQuantum ;
-#line 4695 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4679 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_estType  = ESL_BULLET_SMOKE ;
-#line 4696 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4680 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_fSize  = 0.5f + ctSMGFired  / 75.0f;
-#line 4697 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4681 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vSpeedRelative  = FLOAT3D (- 0.06f , 0.0f , - 0.06f);
-#line 4698 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4682 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_vSpeed  = vSpeedRelative  * m  + pl  . en_vCurrentTranslationAbsolute ;
-#line 4699 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4683 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 4700 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4684 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4701 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4685 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4703 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4687 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Set3DParameters  (500.0f , 5.0f , 0.0f , 1.0f);
-#line 4704 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4688 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlayLightAnim  (LIGHT_ANIM_NONE  , 0);
-#line 4705 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4689 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimationOff  ();
-#line 4706 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4690 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 4709 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4693 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireDoubleColt(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_FireDoubleColt
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::FireDoubleColt expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 4711 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iSMGMagazin  > 0)){ Jump(STATE_CURRENT,0x01920060, FALSE, EInternal());return TRUE;}
-#line 4712 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4695 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(m_iSMGMagazin  > 0)){ Jump(STATE_CURRENT,0x01920059, FALSE, EInternal());return TRUE;}
+#line 4696 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireOneBullet  (wpn_fFX  [ WEAPON_DOUBLECOLT  ] , wpn_fFY  [ WEAPON_DOUBLECOLT  ] , 500.0f , 
-#line 4713 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4697 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ((GetSP  () -> sp_bCooperative ) ? 10.0f : 10.0f));
-#line 4714 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShakeBullet  (0.2f , 0.2f , 1.0f , 0.055f);
-#line 4715 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4699 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ApplyWeaponKick  (0.05f , 0.5f);
+#line 4700 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SpawnRangeSound  (40.0f);
-#line 4716 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4701 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("DoubleColt_fire");}
-#line 4717 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4702 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DecAmmo  (m_iSMGMagazin  , 1);
-#line 4718 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4703 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetFlare  (0 , FLARE_ADD );
-#line 4719 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4704 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX iAnim  = P90_ANIM_P90_ANIM_FIRE ;
-#line 4720 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4705 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (iAnim  , AOF_LOOPING  | AOF_NORESTART );
-#line 4723 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4708 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4724 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4709 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_P90_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4726 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4711 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlacement3D plShell ;
-#line 4727 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4712 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CalcWeaponPosition  (FLOAT3D (afDoubleColtShellPos  [ 0 ] , afDoubleColtShellPos  [ 1 ] , afDoubleColtShellPos  [ 2 ]) , plShell  , FALSE );
-#line 4728 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4713 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOATmatrix3D mRot ;
-#line 4729 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4714 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MakeRotationMatrixFast  (mRot  , plShell  . pl_OrientationAngle );
-#line 4731 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4716 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(hud_bShowWeapon )
+#line 4717 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 4719 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlayer  & pl  = * GetPlayer  ();
+#line 4720 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ShellLaunchData  & sld  = pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
+#line 4721 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sld  . sld_vPos  = plShell  . pl_PositionVector ;
+#line 4722 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT3D vSpeedRelative  = FLOAT3D (FRnd  () + 2.0f , FRnd  () + 5.0f , - FRnd  () - 2.0f);
+#line 4723 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+const FLOATmatrix3D & m  = pl  . GetRotationMatrix  ();
+#line 4724 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
+#line 4725 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sld  . sld_vUp  = vUp ;
+#line 4726 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sld  . sld_vSpeed  = vSpeedRelative  * mRot ;
+#line 4727 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sld  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
+#line 4728 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sld  . sld_estType  = ESL_BULLET ;
+#line 4729 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
 #line 4732 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(pl  . m_pstState  == PST_DIVE )
+#line 4733 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
 #line 4734 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = * GetPlayer  ();
-#line 4735 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShellLaunchData  & sld  = pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
-#line 4736 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sld  . sld_vPos  = plShell  . pl_PositionVector ;
-#line 4737 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vSpeedRelative  = FLOAT3D (FRnd  () + 2.0f , FRnd  () + 5.0f , - FRnd  () - 2.0f);
-#line 4738 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-const FLOATmatrix3D & m  = pl  . GetRotationMatrix  ();
-#line 4739 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
-#line 4740 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sld  . sld_vUp  = vUp ;
-#line 4741 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sld  . sld_vSpeed  = vSpeedRelative  * mRot ;
-#line 4742 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sld  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
-#line 4743 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sld  . sld_estType  = ESL_BULLET ;
-#line 4744 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 4747 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(pl  . m_pstState  == PST_DIVE )
-#line 4748 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 4749 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShellLaunchData  & sldBubble  = pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
-#line 4752 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4737 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_vPos  = plShell  . pl_PositionVector ;
-#line 4753 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4738 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_vUp  = vUp ;
-#line 4754 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4739 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
-#line 4755 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4740 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_estType  = ESL_BUBBLE ;
-#line 4756 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4741 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 vSpeedRelative  = FLOAT3D (0.3f , 0.0f , 0.0f);
-#line 4757 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4742 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_vSpeed  = vSpeedRelative  * mRot ;
-#line 4758 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4743 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 4759 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4744 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4760 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4745 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4761 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4746 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (iAnim ) - 0.05f);
-Jump(STATE_CURRENT, 0x0192005d, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192005d_FireDoubleColt_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01920056, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920056_FireDoubleColt_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192005d
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192005e, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192005e_FireDoubleColt_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01920056
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920057, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920057_FireDoubleColt_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192005e
+#define STATE_CURRENT 0x01920057
 ;
-#line 4763 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iSMG  <= 0 && m_iSMGMagazin  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x0192005f, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920060_FireDoubleColt_04(const CEntityEvent &__eeInput){
+#line 4748 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iSMG  <= 0 && m_iSMGMagazin  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x01920058, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920059_FireDoubleColt_04(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920060
+#define STATE_CURRENT 0x01920059
 {
-#line 4765 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4750 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ASSERTALWAYS  ("Desert eagle - Auto weapon change not working.");
-#line 4766 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4751 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bFireWeapon  = m_bHasAmmo  = FALSE ;
-#line 4767 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}Jump(STATE_CURRENT,0x0192005f, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x0192005f_FireDoubleColt_03(const CEntityEvent &__eeInput){
+#line 4752 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}Jump(STATE_CURRENT,0x01920058, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x01920058_FireDoubleColt_03(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192005f
+#define STATE_CURRENT 0x01920058
 
-#line 4769 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4754 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_iSMGMagazin  == 0){
-#line 4770 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4755 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_ReloadDoubleColt, TRUE, EVoid());return TRUE;
-#line 4771 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4756 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4772 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4757 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 4772 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4757 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 4777 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4762 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ReloadDoubleColt(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_ReloadDoubleColt
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::ReloadDoubleColt expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 4778 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iSMGMagazin  >= 50){
-#line 4779 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4763 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iSMGMagazin  >= 50 || m_iSMG  <= 0){
+#line 4764 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 4779 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4764 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE;
-#line 4780 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4765 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4782 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iSMGMagazin  < 50 && m_iSMGMagazin  != 0 && m_iSMG  >= 50)){ Jump(STATE_CURRENT,0x01920070, FALSE, EInternal());return TRUE;}
-#line 4783 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMG  -= (50 - m_iSMGMagazin );
-#line 4784 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMGMagazin  = 50;
-#line 4786 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4767 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iNeeded  = 50 - m_iSMGMagazin ;
+#line 4768 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iToAdd  = (m_iSMG  >= iNeeded ) ? iNeeded  : m_iSMG ;
+#line 4770 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iSMGMagazin  += iToAdd ;
+#line 4771 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iSMG  -= iToAdd ;
+#line 4773 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4787 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4774 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon1  , SOUND_P90_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4789 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4776 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (P90_ANIM_P90_ANIM_RELOAD  , 0);
-#line 4790 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4777 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("DoubleColt_reload");}
-#line 4791 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4779 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (P90_ANIM_P90_ANIM_RELOAD ));
-Jump(STATE_CURRENT, 0x01920062, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920062_ReloadDoubleColt_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x0192005b, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192005b_ReloadDoubleColt_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920062
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920063, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920063_ReloadDoubleColt_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x0192005b
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192005c, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192005c_ReloadDoubleColt_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920063
-;Jump(STATE_CURRENT,0x0192006f, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920070_ReloadDoubleColt_15(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920070
-if(!(m_iSMG  >= 50)){ Jump(STATE_CURRENT,0x0192006e, FALSE, EInternal());return TRUE;}
-#line 4794 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMGMagazin  = 50;
-#line 4795 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMG  -= 50;
-#line 4797 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4798 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon1  , SOUND_P90_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4800 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (P90_ANIM_P90_ANIM_RELOAD  , 0);
-#line 4801 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("DoubleColt_reload");}
-#line 4802 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(m_moWeapon  . GetAnimLength  (P90_ANIM_P90_ANIM_RELOAD ));
-Jump(STATE_CURRENT, 0x01920064, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920064_ReloadDoubleColt_03(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920064
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920065, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920065_ReloadDoubleColt_04(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920065
-;Jump(STATE_CURRENT,0x0192006d, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192006e_ReloadDoubleColt_13(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192006e
-if(!(m_iSMGMagazin  < 50 && m_iSMGMagazin  != 0 && m_iSMG  < 50 && m_iSMG  != 0)){ Jump(STATE_CURRENT,0x0192006c, FALSE, EInternal());return TRUE;}
-#line 4805 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if((m_iSMG  - (50 - m_iSMGMagazin )) <= 0){
-#line 4806 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMGMagazin  += m_iSMG ;
-#line 4807 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMG  = 0;
-#line 4808 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
-#line 4809 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMG  -= (50 - m_iSMGMagazin );
-#line 4810 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMGMagazin  = 50;
-#line 4811 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 4813 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4814 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon1  , SOUND_P90_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4816 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (P90_ANIM_P90_ANIM_RELOAD  , 0);
-#line 4817 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("DoubleColt_reload");}
-#line 4818 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(m_moWeapon  . GetAnimLength  (P90_ANIM_P90_ANIM_RELOAD ));
-Jump(STATE_CURRENT, 0x01920066, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920066_ReloadDoubleColt_05(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920066
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920067, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920067_ReloadDoubleColt_06(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920067
-;Jump(STATE_CURRENT,0x0192006b, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192006c_ReloadDoubleColt_11(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192006c
-if(!(m_iSMG  < 50 , m_iSMG  != 0)){ Jump(STATE_CURRENT,0x0192006a, FALSE, EInternal());return TRUE;}
-#line 4820 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMGMagazin  = m_iSMG ;
-#line 4821 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iSMG  = 0;
-#line 4823 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4824 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon1  , SOUND_P90_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4826 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (P90_ANIM_P90_ANIM_RELOAD  , 0);
-#line 4827 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("DoubleColt_reload");}
-#line 4828 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(m_moWeapon  . GetAnimLength  (P90_ANIM_P90_ANIM_RELOAD ));
-Jump(STATE_CURRENT, 0x01920068, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920068_ReloadDoubleColt_07(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920068
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920069, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920069_ReloadDoubleColt_08(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920069
-;Jump(STATE_CURRENT,0x0192006a, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192006a_ReloadDoubleColt_09(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192006a
-Jump(STATE_CURRENT,0x0192006b, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x0192006b_ReloadDoubleColt_10(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192006b
-Jump(STATE_CURRENT,0x0192006d, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x0192006d_ReloadDoubleColt_12(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192006d
-Jump(STATE_CURRENT,0x0192006f, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x0192006f_ReloadDoubleColt_14(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192006f
-
-#line 4830 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(0.1f);
-Jump(STATE_CURRENT, 0x01920071, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920071_ReloadDoubleColt_16(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920071
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920072, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920072_ReloadDoubleColt_17(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920072
+#define STATE_CURRENT 0x0192005c
 ;
-#line 4831 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4780 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 4831 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4780 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 4835 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4784 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 StartSingleShotgun(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_StartSingleShotgun
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::StartSingleShotgun expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 4837 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iShellsMagazin  == 0)
-#line 4838 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 4839 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT, STATE_CPlayerWeapons_ReloadSingleShotgun, TRUE, EVoid());return TRUE;
-#line 4840 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4786 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_bSingleShotgunNeedsInit ){
+#line 4788 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iShellsMagazin  < 20 && m_iShells  > 0){
+#line 4789 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iNeeded  = 20 - m_iShellsMagazin ;
+#line 4790 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iToAdd  = (m_iShells  >= iNeeded ) ? iNeeded  : m_iShells ;
+#line 4792 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iShellsMagazin  += iToAdd ;
+#line 4793 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iShells  -= iToAdd ;
+#line 4794 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4841 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4796 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_bSingleShotgunNeedsInit  = FALSE ;
+#line 4797 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4802 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iShellsMagazin  == 0){
+#line 4803 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT, STATE_CPlayerWeapons_ReloadSingleShotgun, TRUE, EVoid());return TRUE;
+#line 4804 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4806 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_iShellsOnFireStart  = m_iShellsMagazin ;
-#line 4842 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4807 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4843 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4809 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_SILENCE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4844 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4810 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Set3DParameters  (50.0f , 5.0f , 0.5f , 1.0f);
-#line 4845 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon0  , SOUND_SINGLESHOTGUN_FIRE  , SOF_3D  | SOF_VOLUMETRIC );;
-#line 4846 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4811 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+PlaySound  (pl  . m_soWeapon0  , SOUND_SINGLESHOTGUN_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
+#line 4812 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlayLightAnim  (LIGHT_ANIM_COLT_SHOTGUN  , 0);
-#line 4847 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-GetAnimator  () -> FireAnimation  (BODY_ANIM_SHOTGUN_FIRELONG  , 0);;
-#line 4848 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4813 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+GetAnimator  () -> FireAnimation  (BODY_ANIM_SHOTGUN_FIRELONG  , 0);
+#line 4815 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 4848 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4815 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 4851 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4818 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SingleShotgunStop(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_SingleShotgunStop
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::SingleShotgunStop expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 4852 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4819 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4853 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4820 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(pl  . m_pstState  != PST_DIVE  && hud_bShowWeapon )
-#line 4854 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4821 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 4855 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4822 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX ctSingleShotgunFired  = ClampUp  (m_iShellsOnFireStart  - m_iShells  , INDEX (100));
-#line 4856 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4823 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 for(INDEX iSmoke  = 0;iSmoke  < ctSingleShotgunFired  / 6.0;iSmoke  ++)
-#line 4857 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4824 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 4859 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4826 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShellLaunchData  & sldPipe1  = pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
-#line 4860 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4827 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlacement3D plPipe ;
-#line 4861 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4828 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CalcWeaponPosition  (FLOAT3D (afSingleShotgunPipe  [ 0 ] , afSingleShotgunPipe  [ 1 ] , afSingleShotgunPipe  [ 2 ]) , plPipe  , FALSE );
-#line 4862 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4829 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOATmatrix3D m ;
-#line 4863 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4830 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MakeRotationMatrixFast  (m  , plPipe  . pl_OrientationAngle );
-#line 4864 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4831 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
-#line 4865 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4832 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldPipe1  . sld_vPos  = plPipe  . pl_PositionVector ;
-#line 4866 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4833 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldPipe1  . sld_vUp  = vUp ;
-#line 4867 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4834 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldPipe1  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
-#line 4868 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4835 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldPipe1  . sld_estType  = ESL_SHOTGUN_SMOKE ;
-#line 4869 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4836 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vSpeedRelative  = FLOAT3D (0 , 0.0f , - 12.5f);
-#line 4870 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4837 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldPipe1  . sld_vSpeed  = vSpeedRelative  * m ;
-#line 4871 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4838 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 4872 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4839 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4873 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4840 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4874 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4841 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Set3DParameters  (500.0f , 5.0f , 0.0f , 1.0f);
-#line 4875 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4842 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlayLightAnim  (LIGHT_ANIM_NONE  , 0);
-#line 4876 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4843 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimationOff  ();
-#line 4877 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4844 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 4880 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4847 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireSingleShotgun(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_FireSingleShotgun
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::FireSingleShotgun expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 4882 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iShellsMagazin  > 0)){ Jump(STATE_CURRENT,0x0192007b, FALSE, EInternal());return TRUE;}
-#line 4884 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4849 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(m_iShellsMagazin  > 0)){ Jump(STATE_CURRENT,0x01920065, FALSE, EInternal());return TRUE;}
+#line 4851 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireBullets  (wpn_fFX  [ WEAPON_SINGLESHOTGUN  ] , wpn_fFY  [ WEAPON_SINGLESHOTGUN  ] , 
-#line 4885 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4852 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 500.0f , 10.0f , 10 , afSingleShotgunPellets  , 0.1f , 0.03f);
-#line 4887 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShakeBullet  (0.1f , 0.2f , 2.0f , 0.075f);
-#line 4888 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4855 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ApplyWeaponKick  (0.1f , 3.0f);
+#line 4856 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DoRecoil  ();
-#line 4889 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4857 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SpawnRangeSound  (60.0f);
-#line 4890 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4858 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Snglshotgun_fire");}
-#line 4891 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4859 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DecAmmo  (m_iShellsMagazin  , 1);
-#line 4892 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4860 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetFlare  (0 , FLARE_ADD );
-#line 4893 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4861 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlayLightAnim  (LIGHT_ANIM_COLT_SHOTGUN  , 0);
-#line 4894 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4862 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (GetSP  () -> sp_bCooperative  ? SINGLESHOTGUN_ANIM_FIRE1  : SINGLESHOTGUN_ANIM_FIRE1FAST  , 0);
-#line 4896 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4864 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4897 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4865 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_SINGLESHOTGUN_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
+#line 4867 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(hud_bShowWeapon )
+#line 4868 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 4869 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(pl  . m_pstState  == PST_DIVE )
+#line 4870 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+{
+#line 4872 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ShellLaunchData  & sldBubble  = pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
+#line 4873 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlacement3D plShell ;
+#line 4874 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CalcWeaponPosition  (FLOAT3D (afSingleShotgunShellPos  [ 0 ] , 
+#line 4875 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+afSingleShotgunShellPos  [ 1 ] , afSingleShotgunShellPos  [ 2 ]) , plShell  , FALSE );
+#line 4876 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOATmatrix3D m ;
+#line 4877 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+MakeRotationMatrixFast  (m  , plShell  . pl_OrientationAngle );
+#line 4878 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
+#line 4879 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sldBubble  . sld_vPos  = plShell  . pl_PositionVector ;
+#line 4880 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sldBubble  . sld_vUp  = vUp ;
+#line 4881 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sldBubble  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
+#line 4882 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sldBubble  . sld_estType  = ESL_BUBBLE ;
+#line 4883 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOAT3D vSpeedRelative  = FLOAT3D (0.3f , 0.0f , 0.0f);
+#line 4884 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+sldBubble  . sld_vSpeed  = vSpeedRelative  * m ;
+#line 4885 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
+#line 4886 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4887 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 4889 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetTimerAfter(GetSP  () -> sp_bCooperative  ? 0.3f : 0.375);
+Jump(STATE_CURRENT, 0x01920060, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920060_FireSingleShotgun_01(const CEntityEvent &__eeInput) {
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920060
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920061, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920061_FireSingleShotgun_02(const CEntityEvent &__eeInput){
+ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
+#undef STATE_CURRENT
+#define STATE_CURRENT 0x01920061
+;
+#line 4893 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CPlacement3D plShell ;
+#line 4894 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+CalcWeaponPosition  (FLOAT3D (afSingleShotgunShellPos  [ 0 ] , afSingleShotgunShellPos  [ 1 ] , afSingleShotgunShellPos  [ 2 ]) , plShell  , FALSE );
+#line 4896 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+FLOATmatrix3D mRot ;
+#line 4897 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+MakeRotationMatrixFast  (mRot  , plShell  . pl_OrientationAngle );
 #line 4899 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(hud_bShowWeapon )
 #line 4900 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
 #line 4901 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(pl  . m_pstState  == PST_DIVE )
-#line 4902 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 4904 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShellLaunchData  & sldBubble  = pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
-#line 4905 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plShell ;
-#line 4906 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPosition  (FLOAT3D (afSingleShotgunShellPos  [ 0 ] , 
-#line 4907 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-afSingleShotgunShellPos  [ 1 ] , afSingleShotgunShellPos  [ 2 ]) , plShell  , FALSE );
-#line 4908 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOATmatrix3D m ;
-#line 4909 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-MakeRotationMatrixFast  (m  , plShell  . pl_OrientationAngle );
-#line 4910 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
-#line 4911 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sldBubble  . sld_vPos  = plShell  . pl_PositionVector ;
-#line 4912 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sldBubble  . sld_vUp  = vUp ;
-#line 4913 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sldBubble  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
-#line 4914 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sldBubble  . sld_estType  = ESL_BUBBLE ;
-#line 4915 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOAT3D vSpeedRelative  = FLOAT3D (0.3f , 0.0f , 0.0f);
-#line 4916 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-sldBubble  . sld_vSpeed  = vSpeedRelative  * m ;
-#line 4917 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 4918 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 4919 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 4921 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(GetSP  () -> sp_bCooperative  ? 0.5f : 0.375);
-Jump(STATE_CURRENT, 0x01920076, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920076_FireSingleShotgun_01(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920076
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920077, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920077_FireSingleShotgun_02(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920077
-;
-#line 4925 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlacement3D plShell ;
-#line 4926 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CalcWeaponPosition  (FLOAT3D (afSingleShotgunShellPos  [ 0 ] , afSingleShotgunShellPos  [ 1 ] , afSingleShotgunShellPos  [ 2 ]) , plShell  , FALSE );
-#line 4928 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-FLOATmatrix3D mRot ;
-#line 4929 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-MakeRotationMatrixFast  (mRot  , plShell  . pl_OrientationAngle );
-#line 4931 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(hud_bShowWeapon )
-#line 4932 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 4933 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  * penPlayer  = GetPlayer  ();
-#line 4934 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4902 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShellLaunchData  & sld  = penPlayer  -> m_asldData  [ penPlayer  -> m_iFirstEmptySLD  ];
-#line 4935 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4903 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_vPos  = plShell  . pl_PositionVector ;
-#line 4936 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4904 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vSpeedRelative  = FLOAT3D (FRnd  () + 2.0f , FRnd  () + 5.0f , - FRnd  () - 2.0f);
-#line 4937 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4905 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_vSpeed  = vSpeedRelative  * mRot ;
-#line 4939 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4907 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 const FLOATmatrix3D & m  = penPlayer  -> GetRotationMatrix  ();
-#line 4940 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4908 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
-#line 4941 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4909 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_vUp  = vUp ;
-#line 4942 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4910 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
-#line 4943 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4911 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_estType  = ESL_SHOTGUN ;
-#line 4945 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4913 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 penPlayer  -> m_iFirstEmptySLD  = (penPlayer  -> m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 4946 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4914 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4949 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4917 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (
-#line 4950 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4918 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 (GetSP  () -> sp_bCooperative  ? SINGLESHOTGUN_ANIM_FIRE1  : SINGLESHOTGUN_ANIM_FIRE1FAST )) - 
-#line 4951 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4919 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 (GetSP  () -> sp_bCooperative  ? 2.5f : 0.375f));
-Jump(STATE_CURRENT, 0x01920078, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920078_FireSingleShotgun_03(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01920062, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920062_FireSingleShotgun_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920078
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920079, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920079_FireSingleShotgun_04(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01920062
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920063, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920063_FireSingleShotgun_04(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920079
+#define STATE_CURRENT 0x01920063
 ;
-#line 4953 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iShells  <= 0 && m_iShellsMagazin  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x0192007a, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192007b_FireSingleShotgun_06(const CEntityEvent &__eeInput){
+#line 4921 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iShells  <= 0 && m_iShellsMagazin  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x01920064, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920065_FireSingleShotgun_06(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192007b
+#define STATE_CURRENT 0x01920065
 {
-#line 4955 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4923 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ASSERTALWAYS  ("Pancor - Auto weapon change not working.");
-#line 4956 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4924 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bFireWeapon  = m_bHasAmmo  = FALSE ;
-#line 4957 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}Jump(STATE_CURRENT,0x0192007a, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x0192007a_FireSingleShotgun_05(const CEntityEvent &__eeInput){
+#line 4925 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}Jump(STATE_CURRENT,0x01920064, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x01920064_FireSingleShotgun_05(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192007a
+#define STATE_CURRENT 0x01920064
 
-#line 4959 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4927 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_iShellsMagazin  == 0){
-#line 4960 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4928 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_ReloadSingleShotgun, TRUE, EVoid());return TRUE;
-#line 4961 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4929 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4962 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4930 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 4962 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4930 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 4965 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4933 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ReloadSingleShotgun(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_ReloadSingleShotgun
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::ReloadSingleShotgun expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 4966 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iShellsMagazin  >= 20){
-#line 4967 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4934 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iShellsMagazin  >= 20 || m_iShells  <= 0){
+#line 4935 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 4967 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4935 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE;
-#line 4968 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4936 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 4970 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iShellsMagazin  < 20 && m_iShellsMagazin  != 0 && m_iShells  >= 20)){ Jump(STATE_CURRENT,0x0192008b, FALSE, EInternal());return TRUE;}
-#line 4971 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShells  -= (20 - m_iShellsMagazin );
-#line 4972 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShellsMagazin  = 20;
-#line 4974 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4938 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iNeeded  = 20 - m_iShellsMagazin ;
+#line 4939 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iToAdd  = (m_iShells  >= iNeeded ) ? iNeeded  : m_iShells ;
+#line 4941 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iShellsMagazin  += iToAdd ;
+#line 4942 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iShells  -= iToAdd ;
+#line 4944 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4975 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4945 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon1  , SOUND_SINGLESHOTGUN_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4977 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4947 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (SINGLESHOTGUN_ANIM_RELOAD  , 0);
-#line 4978 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4948 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Pancor_reload");}
-#line 4979 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4950 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (SINGLESHOTGUN_ANIM_RELOAD ));
-Jump(STATE_CURRENT, 0x0192007d, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192007d_ReloadSingleShotgun_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01920067, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920067_ReloadSingleShotgun_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192007d
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192007e, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192007e_ReloadSingleShotgun_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01920067
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920068, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920068_ReloadSingleShotgun_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192007e
-;Jump(STATE_CURRENT,0x0192008a, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192008b_ReloadSingleShotgun_15(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192008b
-if(!(m_iShells  >= 20)){ Jump(STATE_CURRENT,0x01920089, FALSE, EInternal());return TRUE;}
-#line 4982 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShellsMagazin  = 20;
-#line 4983 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShells  -= 20;
-#line 4985 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 4986 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon1  , SOUND_SINGLESHOTGUN_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
-#line 4988 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (SINGLESHOTGUN_ANIM_RELOAD  , 0);
-#line 4989 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Pancor_reload");}
-#line 4990 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(m_moWeapon  . GetAnimLength  (SINGLESHOTGUN_ANIM_RELOAD ));
-Jump(STATE_CURRENT, 0x0192007f, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192007f_ReloadSingleShotgun_03(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192007f
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920080, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920080_ReloadSingleShotgun_04(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920080
-;Jump(STATE_CURRENT,0x01920088, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920089_ReloadSingleShotgun_13(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920089
-if(!(m_iShellsMagazin  < 20 && m_iShellsMagazin  != 0 && m_iShells  < 20 && m_iShells  != 0)){ Jump(STATE_CURRENT,0x01920087, FALSE, EInternal());return TRUE;}
-#line 4993 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if((m_iShells  - (20 - m_iShellsMagazin )) <= 0){
-#line 4994 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShellsMagazin  += m_iShells ;
-#line 4995 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShells  = 0;
-#line 4996 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
-#line 4997 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShells  -= (20 - m_iShellsMagazin );
-#line 4998 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShellsMagazin  = 20;
-#line 4999 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 5001 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5002 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon1  , SOUND_SINGLESHOTGUN_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5004 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (SINGLESHOTGUN_ANIM_RELOAD  , 0);
-#line 5005 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Pancor_reload");}
-#line 5006 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(m_moWeapon  . GetAnimLength  (SINGLESHOTGUN_ANIM_RELOAD ));
-Jump(STATE_CURRENT, 0x01920081, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920081_ReloadSingleShotgun_05(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920081
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920082, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920082_ReloadSingleShotgun_06(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920082
-;Jump(STATE_CURRENT,0x01920086, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920087_ReloadSingleShotgun_11(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920087
-if(!(m_iShells  < 20 && m_iShells  != 0)){ Jump(STATE_CURRENT,0x01920085, FALSE, EInternal());return TRUE;}
-#line 5008 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShellsMagazin  = m_iShells ;
-#line 5009 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iShells  = 0;
-#line 5011 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5012 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon1  , SOUND_SINGLESHOTGUN_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5014 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (SINGLESHOTGUN_ANIM_RELOAD  , 0);
-#line 5015 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Pancor_reload");}
-#line 5016 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(m_moWeapon  . GetAnimLength  (SINGLESHOTGUN_ANIM_RELOAD ));
-Jump(STATE_CURRENT, 0x01920083, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920083_ReloadSingleShotgun_07(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920083
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920084, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920084_ReloadSingleShotgun_08(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920084
-;Jump(STATE_CURRENT,0x01920085, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920085_ReloadSingleShotgun_09(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920085
-Jump(STATE_CURRENT,0x01920086, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x01920086_ReloadSingleShotgun_10(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920086
-Jump(STATE_CURRENT,0x01920088, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x01920088_ReloadSingleShotgun_12(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x01920088
-Jump(STATE_CURRENT,0x0192008a, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x0192008a_ReloadSingleShotgun_14(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192008a
-
-#line 5024 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(0.1f);
-Jump(STATE_CURRENT, 0x0192008c, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192008c_ReloadSingleShotgun_16(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192008c
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192008d, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192008d_ReloadSingleShotgun_17(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x0192008d
+#define STATE_CURRENT 0x01920068
 ;
-#line 5025 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4951 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 5025 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 4951 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 5126 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5052 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireDoubleShotgun(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_FireDoubleShotgun
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::FireDoubleShotgun expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5128 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iShells  > 0)){ Jump(STATE_CURRENT,0x01920094, FALSE, EInternal());return TRUE;}
-#line 5129 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5054 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(m_iShells  > 0)){ Jump(STATE_CURRENT,0x0192006f, FALSE, EInternal());return TRUE;}
+#line 5055 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimation  (BODY_ANIM_SHOTGUN_FIRELONG  , 0);
-#line 5130 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5056 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireBullets  (wpn_fFX  [ WEAPON_DOUBLESHOTGUN  ] , wpn_fFY  [ WEAPON_DOUBLESHOTGUN  ] , 
-#line 5131 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5057 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 500.0f , 15.0f , 10 , afDoubleShotgunPellets  , 0.25f , 0.03f);
-#line 5132 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShakeBullet  (0.1f , 0.2f , 1.0f , 0.03f);
-#line 5133 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5059 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ApplyWeaponKick  (0.1f , 3.5f);
+#line 5060 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DoRecoil  ();
-#line 5134 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5061 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SpawnRangeSound  (70.0f);
-#line 5135 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5062 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Dblshotgun_fire");}
-#line 5136 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5063 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DecAmmo  (m_iShells  , 1);
-#line 5137 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5064 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetFlare  (0 , FLARE_ADD );
-#line 5138 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5065 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlayLightAnim  (LIGHT_ANIM_COLT_SHOTGUN  , 0);
-#line 5139 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5066 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (GetSP  () -> sp_bCooperative  ? SINGLESHOTGUN_ANIM_FIRE1  : SINGLESHOTGUN_ANIM_FIRE1FAST  , 0);
-#line 5142 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5069 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5143 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5070 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Set3DParameters  (50.0f , 5.0f , 1.5f , 1.0f);
-#line 5144 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5071 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_DOUBLESHOTGUN_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5146 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5073 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(hud_bShowWeapon )
-#line 5147 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5074 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 5148 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5075 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(pl  . m_pstState  == PST_DIVE )
-#line 5149 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5076 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 5151 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5078 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShellLaunchData  & sldBubble1  = pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
-#line 5152 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5079 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlacement3D plShell ;
-#line 5153 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5080 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CalcWeaponPosition  (FLOAT3D (- 0.11f , 0.1f , - 0.3f) , plShell  , FALSE );
-#line 5156 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5083 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOATmatrix3D m ;
-#line 5157 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5084 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MakeRotationMatrixFast  (m  , plShell  . pl_OrientationAngle );
-#line 5158 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5085 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
-#line 5159 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5086 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble1  . sld_vPos  = plShell  . pl_PositionVector ;
-#line 5160 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5087 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble1  . sld_vUp  = vUp ;
-#line 5161 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5088 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble1  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
-#line 5162 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5089 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble1  . sld_estType  = ESL_BUBBLE ;
-#line 5163 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5090 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vSpeedRelative  = FLOAT3D (- 0.1f , 0.0f , 0.01f);
-#line 5164 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5091 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble1  . sld_vSpeed  = vSpeedRelative  * m ;
-#line 5165 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5092 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 5166 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5093 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShellLaunchData  & sldBubble2  = pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
-#line 5168 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5095 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble2  = sldBubble1 ;
-#line 5169 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5096 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 vSpeedRelative  = FLOAT3D (0.1f , 0.0f , - 0.2f);
-#line 5170 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5097 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble2  . sld_vSpeed  = vSpeedRelative  * m ;
-#line 5171 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5098 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 5172 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5099 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5173 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5100 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 else 
-#line 5174 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5101 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 5176 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5103 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShellLaunchData  & sldPipe1  = pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
-#line 5177 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5104 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlacement3D plPipe ;
-#line 5178 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5105 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CalcWeaponPosition  (FLOAT3D (afDoubleShotgunPipe  [ 0 ] , afDoubleShotgunPipe  [ 1 ] , afDoubleShotgunPipe  [ 2 ]) , plPipe  , FALSE );
-#line 5179 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5106 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOATmatrix3D m ;
-#line 5180 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5107 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MakeRotationMatrixFast  (m  , plPipe  . pl_OrientationAngle );
-#line 5181 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5108 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
-#line 5182 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5109 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldPipe1  . sld_vPos  = plPipe  . pl_PositionVector ;
-#line 5183 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5110 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldPipe1  . sld_vUp  = vUp ;
-#line 5184 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5111 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldPipe1  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
-#line 5185 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5112 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldPipe1  . sld_estType  = ESL_SHOTGUN_SMOKE ;
-#line 5186 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5113 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vSpeedRelative  = FLOAT3D (- 1 , 0.0f , - 12.5f);
-#line 5187 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5114 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldPipe1  . sld_vSpeed  = vSpeedRelative  * m ;
-#line 5188 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5115 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 5190 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5117 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShellLaunchData  & sldPipe2  = pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
-#line 5191 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5118 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldPipe2  = sldPipe1 ;
-#line 5192 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5119 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 vSpeedRelative  = FLOAT3D (1 , 0.0f , - 12.5f);
-#line 5193 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5120 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldPipe2  . sld_vSpeed  = vSpeedRelative  * m ;
-#line 5194 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5121 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 5195 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5122 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5196 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5123 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5198 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5125 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(GetSP  () -> sp_bCooperative  ? 0.9f : 0.9f);
-Jump(STATE_CURRENT, 0x0192008f, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192008f_FireDoubleShotgun_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x0192006a, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192006a_FireDoubleShotgun_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192008f
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920090, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920090_FireDoubleShotgun_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x0192006a
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192006b, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192006b_FireDoubleShotgun_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920090
+#define STATE_CURRENT 0x0192006b
 ;
-#line 5203 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5130 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (
-#line 5204 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5131 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 (GetSP  () -> sp_bCooperative  ? SINGLESHOTGUN_ANIM_FIRE1  : SINGLESHOTGUN_ANIM_FIRE1FAST )) - 
-#line 5205 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5132 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 (GetSP  () -> sp_bCooperative  ? 0.8f : 0.15f));
-Jump(STATE_CURRENT, 0x01920091, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920091_FireDoubleShotgun_03(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x0192006c, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192006c_FireDoubleShotgun_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920091
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920092, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920092_FireDoubleShotgun_04(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x0192006c
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192006d, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192006d_FireDoubleShotgun_04(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920092
+#define STATE_CURRENT 0x0192006d
 ;
-#line 5207 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iShells  <= 1){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x01920093, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920094_FireDoubleShotgun_06(const CEntityEvent &__eeInput){
+#line 5134 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iShells  <= 1){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x0192006e, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192006f_FireDoubleShotgun_06(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920094
+#define STATE_CURRENT 0x0192006f
 {
-#line 5209 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5136 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ASSERTALWAYS  ("DoubleShotgun - Auto weapon change not working.");
-#line 5210 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5137 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bFireWeapon  = m_bHasAmmo  = FALSE ;
-#line 5211 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}Jump(STATE_CURRENT,0x01920093, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x01920093_FireDoubleShotgun_05(const CEntityEvent &__eeInput){
+#line 5138 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}Jump(STATE_CURRENT,0x0192006e, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x0192006e_FireDoubleShotgun_05(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920093
+#define STATE_CURRENT 0x0192006e
 
-#line 5212 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5139 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 5212 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5139 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 5216 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5143 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 TommyGunStart(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_TommyGunStart
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::TommyGunStart expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5217 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iBulletsMagazin  == 0)
-#line 5218 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-{
-#line 5219 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT, STATE_CPlayerWeapons_ReloadTommyGun, TRUE, EVoid());return TRUE;
-#line 5220 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5145 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_bTommyGunNeedsInit ){
+#line 5146 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iBulletsMagazin  < 50 && m_iBullets  > 0){
+#line 5147 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iNeeded  = 50 - m_iBulletsMagazin ;
+#line 5148 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iToAdd  = (m_iBullets  >= iNeeded ) ? iNeeded  : m_iBullets ;
+#line 5150 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iBulletsMagazin  += iToAdd ;
+#line 5151 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iBullets  -= iToAdd ;
+#line 5152 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5222 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5155 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_bTommyGunNeedsInit  = FALSE ;
+#line 5156 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 5161 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iBulletsMagazin  == 0){
+#line 5162 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT, STATE_CPlayerWeapons_ReloadTommyGun, TRUE, EVoid());return TRUE;
+#line 5163 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}
+#line 5165 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_iBulletsOnFireStart  = m_iBulletsMagazin ;
-#line 5223 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5166 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5225 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5168 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Set3DParameters  (50.0f , 5.0f , 0.5f , 1.0f);
-#line 5227 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5169 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlayLightAnim  (LIGHT_ANIM_TOMMYGUN  , AOF_LOOPING );
-#line 5228 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5170 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimation  (BODY_ANIM_SHOTGUN_FIRESHORT  , AOF_LOOPING );
-#line 5229 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5172 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 5229 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5172 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 5232 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5175 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 TommyGunStop(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_TommyGunStop
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::TommyGunStop expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5234 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5177 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5235 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5178 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(pl  . m_pstState  != PST_DIVE  && hud_bShowWeapon )
-#line 5236 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5179 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 5237 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5180 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX ctBulletsFired  = ClampUp  (m_iBulletsOnFireStart  - m_iBullets  , INDEX (100));
-#line 5238 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5181 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 for(INDEX iSmoke  = 0;iSmoke  < ctBulletsFired  / 6.0;iSmoke  ++)
-#line 5239 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5182 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 5240 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5183 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShellLaunchData  * psldSmoke  = & pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
-#line 5241 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5184 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlacement3D plPipe ;
-#line 5242 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5185 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CalcWeaponPosition  (FLOAT3D (afTommygunPipe  [ 0 ] , afTommygunPipe  [ 1 ] , afTommygunPipe  [ 2 ]) , plPipe  , FALSE );
-#line 5243 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5186 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOATmatrix3D m ;
-#line 5244 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5187 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MakeRotationMatrixFast  (m  , plPipe  . pl_OrientationAngle );
-#line 5245 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5188 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_vPos  = plPipe  . pl_PositionVector  + pl  . en_vCurrentTranslationAbsolute  * iSmoke  * _pTimer  -> TickQuantum ;
-#line 5246 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5189 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
-#line 5247 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5190 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_vUp  = vUp ;
-#line 5248 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5191 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_tmLaunch  = _pTimer  -> CurrentTick  () + iSmoke  * _pTimer  -> TickQuantum ;
-#line 5249 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5192 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_estType  = ESL_BULLET_SMOKE ;
-#line 5250 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5193 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_fSize  = 0.5f + ctBulletsFired  / 75.0f;
-#line 5251 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5194 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vSpeedRelative  = FLOAT3D (- 0.06f , 0.0f , - 0.06f);
-#line 5252 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5195 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_vSpeed  = vSpeedRelative  * m  + pl  . en_vCurrentTranslationAbsolute ;
-#line 5253 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5196 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 5254 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5197 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5255 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5198 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5257 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5200 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Set3DParameters  (500.0f , 5.0f , 0.0f , 1.0f);
-#line 5258 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5201 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlayLightAnim  (LIGHT_ANIM_NONE  , 0);
-#line 5259 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5202 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimationOff  ();
-#line 5260 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5203 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 5263 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5206 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireTommyGun(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_FireTommyGun
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::FireTommyGun expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5265 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iBulletsMagazin  > 0)){ Jump(STATE_CURRENT,0x0192009b, FALSE, EInternal());return TRUE;}
-#line 5266 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5208 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(m_iBulletsMagazin  > 0)){ Jump(STATE_CURRENT,0x01920076, FALSE, EInternal());return TRUE;}
+#line 5209 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_bSniping ){
-#line 5267 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5210 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireSniperBullet  (0.0f , 0.0f , 500.0f , 
-#line 5268 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5211 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 (GetSP  () -> sp_bCooperative ) ? 10.0f : 20.0f , 0.0f);
-#line 5269 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5212 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5270 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5213 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 else {
-#line 5271 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5214 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireSniperBullet  (wpn_fFX  [ WEAPON_TOMMYGUN  ] , wpn_fFY  [ WEAPON_TOMMYGUN  ] , 500.0f , 
-#line 5272 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5215 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 (GetSP  () -> sp_bCooperative ) ? 10.0f : 20.0f , 3.0f);
-#line 5273 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShakeBullet  (0.1f , 0.3f , 1.1f , 0.025f);
-#line 5274 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5217 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ApplyWeaponKick  (0.1f , 1.0f);
+#line 5218 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlayLightAnim  (LIGHT_ANIM_COLT_SHOTGUN  , 0);
-#line 5275 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5219 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5276 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5220 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SpawnRangeSound  (50.0f);
-#line 5277 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5221 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Tommygun_fire");}
-#line 5278 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5222 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DecAmmo  (m_iBulletsMagazin  , 1);
-#line 5279 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5223 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetFlare  (0 , FLARE_ADD );
-#line 5280 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5224 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (TOMMYGUN_ANIM_FIRE  , 0);
-#line 5283 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5227 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlacement3D plShell ;
-#line 5284 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5228 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CalcWeaponPosition  (FLOAT3D (afTommygunShellPos  [ 0 ] , afTommygunShellPos  [ 1 ] , afTommygunShellPos  [ 2 ]) , plShell  , FALSE );
-#line 5285 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5229 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOATmatrix3D mRot ;
-#line 5286 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5230 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MakeRotationMatrixFast  (mRot  , plShell  . pl_OrientationAngle );
-#line 5288 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5232 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5289 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5233 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon1  , SOUND_TOMMYGUN_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5291 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5235 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(hud_bShowWeapon )
-#line 5292 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5236 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 5294 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5238 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = * GetPlayer  ();
-#line 5295 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5239 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShellLaunchData  & sld  = pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
-#line 5296 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5240 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_vPos  = plShell  . pl_PositionVector ;
-#line 5297 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5241 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vSpeedRelative  = FLOAT3D (FRnd  () + 2.0f , FRnd  () + 5.0f , - FRnd  () - 2.0f);
-#line 5298 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5242 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 const FLOATmatrix3D & m  = pl  . GetRotationMatrix  ();
-#line 5299 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5243 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
-#line 5300 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5244 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_vUp  = vUp ;
-#line 5301 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5245 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_vSpeed  = vSpeedRelative  * mRot ;
-#line 5302 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5246 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
-#line 5303 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5247 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_estType  = ESL_BULLET ;
-#line 5304 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5248 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 5307 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5251 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(pl  . m_pstState  == PST_DIVE )
-#line 5308 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5252 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 5309 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5253 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShellLaunchData  & sldBubble  = pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
-#line 5310 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5254 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CalcWeaponPosition  (FLOAT3D (afTommygunShellPos  [ 0 ] , afTommygunShellPos  [ 1 ] , afTommygunShellPos  [ 2 ]) , plShell  , FALSE );
-#line 5311 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5255 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MakeRotationMatrixFast  (mRot  , plShell  . pl_OrientationAngle );
-#line 5312 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5256 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_vPos  = plShell  . pl_PositionVector ;
-#line 5313 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5257 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_vUp  = vUp ;
-#line 5314 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5258 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
-#line 5315 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5259 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_estType  = ESL_BUBBLE ;
-#line 5316 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5260 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 vSpeedRelative  = FLOAT3D (0.3f , 0.0f , 0.0f);
-#line 5317 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5261 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_vSpeed  = vSpeedRelative  * mRot ;
-#line 5318 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5262 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 5319 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5263 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5320 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5264 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5322 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(0.1f);
-Jump(STATE_CURRENT, 0x01920098, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920098_FireTommyGun_01(const CEntityEvent &__eeInput) {
+#line 5266 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SetTimerAfter(m_moWeapon  . GetAnimLength  (TOMMYGUN_ANIM_FIRE ) * 0.85f);
+Jump(STATE_CURRENT, 0x01920073, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920073_FireTommyGun_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920098
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920099, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920099_FireTommyGun_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01920073
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920074, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920074_FireTommyGun_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920099
+#define STATE_CURRENT 0x01920074
 ;
-#line 5324 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if((m_iBullets  <= 0 && m_iBulletsMagazin  <= 0) && m_iGrenades  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x0192009a, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192009b_FireTommyGun_04(const CEntityEvent &__eeInput){
+#line 5268 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if((m_iBullets  <= 0 && m_iBulletsMagazin  <= 0) && m_iGrenades  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x01920075, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920076_FireTommyGun_04(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192009b
+#define STATE_CURRENT 0x01920076
 {
-#line 5326 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5270 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ASSERTALWAYS  ("TommyGun - Auto weapon change not working.");
-#line 5327 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5271 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bFireWeapon  = m_bHasAmmo  = FALSE ;
-#line 5328 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}Jump(STATE_CURRENT,0x0192009a, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x0192009a_FireTommyGun_03(const CEntityEvent &__eeInput){
+#line 5272 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}Jump(STATE_CURRENT,0x01920075, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x01920075_FireTommyGun_03(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192009a
+#define STATE_CURRENT 0x01920075
 
-#line 5331 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5275 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_iBulletsMagazin  == 0){
-#line 5332 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5276 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_ReloadTommyGun, TRUE, EVoid());return TRUE;
-#line 5333 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5277 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5344 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5288 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 5344 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5288 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 5347 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5291 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 AltFireTommyGun(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_AltFireTommyGun
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::AltFireTommyGun expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5350 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5294 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 TM_START  = _pTimer  -> CurrentTick  ();
-#line 5352 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5296 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 F_TEMP  = _pTimer  -> CurrentTick  ();
-#line 5354 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5298 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 F_OFFSET_CHG  = 0.0f;
-#line 5355 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5299 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPower  = 0.0f;
-#line 5356 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5300 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_tmDrawStartTime  = _pTimer  -> CurrentTick  ();
-#line 5357 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT,0x0192009f, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192009f_AltFireTommyGun_03(const CEntityEvent &__eeInput)
-#line 5358 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5301 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT,0x0192007a, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192007a_AltFireTommyGun_03(const CEntityEvent &__eeInput)
+#line 5302 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192009f
-if(!(HoldingFire  () && ((_pTimer  -> CurrentTick  () - TM_START ) < 0.75f))){ Jump(STATE_CURRENT,0x019200a0, FALSE, EInternal());return TRUE;}
-#line 5359 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#define STATE_CURRENT 0x0192007a
+if(!(HoldingFire  () && ((_pTimer  -> CurrentTick  () - TM_START ) < 0.75f))){ Jump(STATE_CURRENT,0x0192007b, FALSE, EInternal());return TRUE;}
+#line 5303 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(_pTimer  -> TickQuantum );
-Jump(STATE_CURRENT, 0x0192009d, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192009d_AltFireTommyGun_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01920078, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920078_AltFireTommyGun_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192009d
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192009e, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192009e_AltFireTommyGun_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01920078
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920079, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920079_AltFireTommyGun_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192009e
+#define STATE_CURRENT 0x01920079
 ;
-#line 5360 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5304 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX iPower  = INDEX ((_pTimer  -> CurrentTick  () - TM_START ) / _pTimer  -> TickQuantum );
-#line 5361 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5305 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 F_OFFSET_CHG  = 0.125f / (iPower  + 2);
-#line 5362 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5306 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPowerOld  = m_fWeaponDrawPower ;
-#line 5363 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fWeaponDrawPower  += F_OFFSET_CHG ;Jump(STATE_CURRENT,0x0192009f, FALSE, EInternal());return TRUE;
-#line 5364 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}BOOL CPlayerWeapons::H0x019200a0_AltFireTommyGun_04(const CEntityEvent &__eeInput) {
+#line 5307 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_fWeaponDrawPower  += F_OFFSET_CHG ;Jump(STATE_CURRENT,0x0192007a, FALSE, EInternal());return TRUE;
+#line 5308 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}BOOL CPlayerWeapons::H0x0192007b_AltFireTommyGun_04(const CEntityEvent &__eeInput) {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200a0
+#define STATE_CURRENT 0x0192007b
 
-#line 5365 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5309 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_tmDrawStartTime  = 0.0f;
-#line 5368 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iGrenades  > 0)){ Jump(STATE_CURRENT,0x019200aa, FALSE, EInternal());return TRUE;}
-#line 5369 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5312 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(m_iGrenades  > 0)){ Jump(STATE_CURRENT,0x01920085, FALSE, EInternal());return TRUE;}
+#line 5313 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimation  (BODY_ANIM_MINIGUN_FIRELONG  , 0);
-#line 5370 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5314 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (TOMMYGUN_ANIM_RELOADG  , 0);
-#line 5371 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5315 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX iPower  = INDEX ((_pTimer  -> CurrentTick  () - F_TEMP ) / _pTimer  -> TickQuantum );
-#line 5372 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5316 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 AltFireGrenade  (90 * iPower );
-#line 5374 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5318 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SpawnRangeSound  (10.0f);
-#line 5375 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5319 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("TommyGun");}
-#line 5376 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5320 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DecAmmo  (m_iGrenades  , 1);
-#line 5378 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5322 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5379 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon0  , SOUND_GRENADELAUNCHER_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5380 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5323 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+PlaySound  (pl  . m_soWeapon1  , SOUND_GRENADELAUNCHER_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
+#line 5324 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimation  (BODY_ANIM_MINIGUN_FIRELONG  , 0);
-#line 5383 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5327 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 TM_START  = _pTimer  -> CurrentTick  ();
-#line 5384 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5328 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPowerOld  = m_fWeaponDrawPower ;
-#line 5385 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT,0x019200a3, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200a3_AltFireTommyGun_07(const CEntityEvent &__eeInput)
-#line 5386 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5329 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT,0x0192007e, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192007e_AltFireTommyGun_07(const CEntityEvent &__eeInput)
+#line 5330 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200a3
-if(!(m_fWeaponDrawPower  > 0.0f)){ Jump(STATE_CURRENT,0x019200a4, FALSE, EInternal());return TRUE;}
-#line 5387 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#define STATE_CURRENT 0x0192007e
+if(!(m_fWeaponDrawPower  > 0.0f)){ Jump(STATE_CURRENT,0x0192007f, FALSE, EInternal());return TRUE;}
+#line 5331 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(_pTimer  -> TickQuantum );
-Jump(STATE_CURRENT, 0x019200a1, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200a1_AltFireTommyGun_05(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x0192007c, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192007c_AltFireTommyGun_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200a1
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200a2, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200a2_AltFireTommyGun_06(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x0192007c
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192007d, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192007d_AltFireTommyGun_06(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200a2
+#define STATE_CURRENT 0x0192007d
 ;
-#line 5388 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5332 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPowerOld  = m_fWeaponDrawPower ;
-#line 5389 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5333 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPower  -= F_OFFSET_CHG ;
-#line 5390 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5334 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPower  = ClampDn  (m_fWeaponDrawPower  , 0.0f);
-#line 5391 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-F_OFFSET_CHG  = F_OFFSET_CHG  * 10;Jump(STATE_CURRENT,0x019200a3, FALSE, EInternal());return TRUE;
-#line 5392 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}BOOL CPlayerWeapons::H0x019200a4_AltFireTommyGun_08(const CEntityEvent &__eeInput) {
+#line 5335 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+F_OFFSET_CHG  = F_OFFSET_CHG  * 10;Jump(STATE_CURRENT,0x0192007e, FALSE, EInternal());return TRUE;
+#line 5336 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}BOOL CPlayerWeapons::H0x0192007f_AltFireTommyGun_08(const CEntityEvent &__eeInput) {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200a4
+#define STATE_CURRENT 0x0192007f
 
-#line 5394 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5338 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(0.05f);
-Jump(STATE_CURRENT, 0x019200a5, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200a5_AltFireTommyGun_09(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01920080, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920080_AltFireTommyGun_09(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200a5
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200a6, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200a6_AltFireTommyGun_10(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01920080
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920081, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920081_AltFireTommyGun_10(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200a6
+#define STATE_CURRENT 0x01920081
 ;
-#line 5397 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5341 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (TOMMYGUN_ANIM_RELOADG ) - 0.05f);
-Jump(STATE_CURRENT, 0x019200a7, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200a7_AltFireTommyGun_11(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01920082, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920082_AltFireTommyGun_11(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200a7
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200a8, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200a8_AltFireTommyGun_12(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01920082
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920083, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920083_AltFireTommyGun_12(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200a8
+#define STATE_CURRENT 0x01920083
 ;
-#line 5401 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if((m_iBullets  <= 0 && m_iBulletsMagazin  <= 0) && m_iGrenades  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x019200a9, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200aa_AltFireTommyGun_14(const CEntityEvent &__eeInput){
+#line 5345 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if((m_iBullets  <= 0 && m_iBulletsMagazin  <= 0) && m_iGrenades  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x01920084, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920085_AltFireTommyGun_14(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200aa
+#define STATE_CURRENT 0x01920085
 {
-#line 5403 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5347 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ASSERTALWAYS  ("TommyGun - Auto weapon change not working.");
-#line 5404 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5348 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bAltFire  = m_bHasAmmo  = FALSE ;
-#line 5405 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}Jump(STATE_CURRENT,0x019200a9, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x019200a9_AltFireTommyGun_13(const CEntityEvent &__eeInput){
+#line 5349 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}Jump(STATE_CURRENT,0x01920084, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x01920084_AltFireTommyGun_13(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200a9
+#define STATE_CURRENT 0x01920084
 
-#line 5406 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5350 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 5406 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5350 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 5410 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5354 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ReloadTommyGun(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_ReloadTommyGun
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::ReloadTommyGun expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5411 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iBulletsMagazin  >= 50){
-#line 5412 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5355 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iBulletsMagazin  >= 50 || m_iBullets  <= 0){
+#line 5356 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 5412 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5356 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE;
-#line 5413 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5357 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5415 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iBulletsMagazin  < 50 && m_iBulletsMagazin  != 0 && m_iBullets  >= 50)){ Jump(STATE_CURRENT,0x019200ba, FALSE, EInternal());return TRUE;}
-#line 5416 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBullets  -= (50 - m_iBulletsMagazin );
-#line 5417 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBulletsMagazin  = 50;
-#line 5419 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5359 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iNeeded  = 50 - m_iBulletsMagazin ;
+#line 5360 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+INDEX iToAdd  = (m_iBullets  >= iNeeded ) ? iNeeded  : m_iBullets ;
+#line 5362 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iBulletsMagazin  += iToAdd ;
+#line 5363 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_iBullets  -= iToAdd ;
+#line 5365 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5420 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5366 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon1  , SOUND_TOMMYGUN_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5422 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5368 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (TOMMYGUN_ANIM_RELOAD  , 0);
-#line 5423 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5369 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("TommyGun_reload");}
-#line 5424 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5371 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (TOMMYGUN_ANIM_RELOAD ));
-Jump(STATE_CURRENT, 0x019200ac, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200ac_ReloadTommyGun_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01920087, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920087_ReloadTommyGun_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200ac
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200ad, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200ad_ReloadTommyGun_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01920087
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920088, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920088_ReloadTommyGun_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200ad
-;Jump(STATE_CURRENT,0x019200b9, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200ba_ReloadTommyGun_15(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x019200ba
-if(!(m_iBullets  >= 50)){ Jump(STATE_CURRENT,0x019200b8, FALSE, EInternal());return TRUE;}
-#line 5427 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBulletsMagazin  = 50;
-#line 5428 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBullets  -= 50;
-#line 5430 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5431 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon1  , SOUND_TOMMYGUN_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5433 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (TOMMYGUN_ANIM_RELOAD  , 0);
-#line 5434 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("TommyGun_reload");}
-#line 5435 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(m_moWeapon  . GetAnimLength  (TOMMYGUN_ANIM_RELOAD ));
-Jump(STATE_CURRENT, 0x019200ae, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200ae_ReloadTommyGun_03(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x019200ae
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200af, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200af_ReloadTommyGun_04(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x019200af
-;Jump(STATE_CURRENT,0x019200b7, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200b8_ReloadTommyGun_13(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x019200b8
-if(!(m_iBulletsMagazin  < 50 && m_iBulletsMagazin  != 0 && m_iBullets  < 50 && m_iBullets  != 0)){ Jump(STATE_CURRENT,0x019200b6, FALSE, EInternal());return TRUE;}
-#line 5438 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if((m_iBullets  - (50 - m_iBulletsMagazin )) <= 0){
-#line 5439 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBulletsMagazin  += m_iBullets ;
-#line 5440 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBullets  = 0;
-#line 5441 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}else {
-#line 5442 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBullets  -= (50 - m_iBulletsMagazin );
-#line 5443 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBulletsMagazin  = 50;
-#line 5444 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}
-#line 5446 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5447 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon1  , SOUND_TOMMYGUN_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5449 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (TOMMYGUN_ANIM_RELOAD  , 0);
-#line 5450 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("TommyGun_reload");}
-#line 5451 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(m_moWeapon  . GetAnimLength  (TOMMYGUN_ANIM_RELOAD ));
-Jump(STATE_CURRENT, 0x019200b0, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200b0_ReloadTommyGun_05(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x019200b0
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200b1, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200b1_ReloadTommyGun_06(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x019200b1
-;Jump(STATE_CURRENT,0x019200b5, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200b6_ReloadTommyGun_11(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x019200b6
-if(!(m_iBullets  < 50 , m_iBullets  != 0)){ Jump(STATE_CURRENT,0x019200b4, FALSE, EInternal());return TRUE;}
-#line 5453 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBulletsMagazin  = m_iBullets ;
-#line 5454 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_iBullets  = 0;
-#line 5456 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5457 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-PlaySound  (pl  . m_soWeapon1  , SOUND_TOMMYGUN_RELOAD  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5459 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_moWeapon  . PlayAnim  (TOMMYGUN_ANIM_RELOAD  , 0);
-#line 5460 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("TommyGun_reload");}
-#line 5461 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(m_moWeapon  . GetAnimLength  (TOMMYGUN_ANIM_RELOAD ));
-Jump(STATE_CURRENT, 0x019200b2, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200b2_ReloadTommyGun_07(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x019200b2
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200b3, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200b3_ReloadTommyGun_08(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x019200b3
-;Jump(STATE_CURRENT,0x019200b4, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200b4_ReloadTommyGun_09(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x019200b4
-Jump(STATE_CURRENT,0x019200b5, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x019200b5_ReloadTommyGun_10(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x019200b5
-Jump(STATE_CURRENT,0x019200b7, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x019200b7_ReloadTommyGun_12(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x019200b7
-Jump(STATE_CURRENT,0x019200b9, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x019200b9_ReloadTommyGun_14(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x019200b9
-
-#line 5469 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SetTimerAfter(0.1f);
-Jump(STATE_CURRENT, 0x019200bb, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200bb_ReloadTommyGun_16(const CEntityEvent &__eeInput) {
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x019200bb
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200bc, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200bc_ReloadTommyGun_17(const CEntityEvent &__eeInput){
-ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
-#undef STATE_CURRENT
-#define STATE_CURRENT 0x019200bc
+#define STATE_CURRENT 0x01920088
 ;
-#line 5470 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5372 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 5470 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5372 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 5504 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5406 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireSniper(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_FireSniper
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::FireSniper expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5505 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iSniperBullets  > 0)){ Jump(STATE_CURRENT,0x019200c3, FALSE, EInternal());return TRUE;}
-#line 5507 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5407 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(m_iSniperBullets  > 0)){ Jump(STATE_CURRENT,0x0192008f, FALSE, EInternal());return TRUE;}
+#line 5409 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_bSniping ){
-#line 5508 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5410 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireSniperBullet  (0.0f , 0.0f , 1500.0f , 
-#line 5509 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5411 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 (GetSP  () -> sp_bCooperative ) ? 300.0f : 90.0f , 0.0f);
-#line 5510 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5412 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5511 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5413 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 else {
-#line 5512 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5414 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireSniperBullet  (wpn_fFX  [ WEAPON_SNIPER  ] , wpn_fFY  [ WEAPON_SNIPER  ] , 1000.0f , 
-#line 5513 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5415 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 (GetSP  () -> sp_bCooperative ) ? 75.0f : 30.0f , 5.0f);
-#line 5514 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShakeBullet  (0.1f , 0.2f , 1.0f , 0.03f);
-#line 5515 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5417 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ApplyWeaponKick  (0.1f , 3.5f);
+#line 5418 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5516 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5419 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_tmLastSniperFire  = _pTimer  -> CurrentTick  ();
-#line 5518 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5421 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SpawnRangeSound  (50.0f);
-#line 5519 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5422 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DecAmmo  (m_iSniperBullets  , 1);
-#line 5520 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5423 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(! m_bSniping ){
-#line 5521 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5424 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetFlare  (0 , FLARE_ADD );
-#line 5522 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5425 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5523 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5426 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlayLightAnim  (LIGHT_ANIM_COLT_SHOTGUN  , 0);
-#line 5526 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5429 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5527 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5430 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(GetSP  () -> sp_bCooperative ){
-#line 5528 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5431 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Set3DParameters  (50.0f , 5.0f , 1.5f , 1.0f);
-#line 5529 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5432 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }else if(TRUE ){
-#line 5530 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5433 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Set3DParameters  (250.0f , 75.0f , 1.5f , 1.0f);
-#line 5531 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5434 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5532 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5435 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_SNIPER_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5533 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5436 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("SniperFire");}
-#line 5536 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5439 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (SNIPER_ANIM_FIRE  , 0);
-#line 5538 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5441 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(1.0f);
-Jump(STATE_CURRENT, 0x019200be, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200be_FireSniper_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x0192008a, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192008a_FireSniper_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200be
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200bf, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200bf_FireSniper_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x0192008a
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192008b, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192008b_FireSniper_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200bf
+#define STATE_CURRENT 0x0192008b
 ;
-#line 5541 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5444 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlacement3D plShell ;
-#line 5542 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5445 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CalcWeaponPosition  (FLOAT3D (afSniperShellPos  [ 0 ] , afSniperShellPos  [ 1 ] , afSniperShellPos  [ 2 ]) , plShell  , FALSE );
-#line 5543 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5446 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOATmatrix3D mRot ;
-#line 5544 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5447 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MakeRotationMatrixFast  (mRot  , plShell  . pl_OrientationAngle );
-#line 5546 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5449 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(hud_bShowWeapon )
-#line 5547 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5450 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 5548 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5451 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  * penPlayer  = GetPlayer  ();
-#line 5549 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5452 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShellLaunchData  & sld  = penPlayer  -> m_asldData  [ penPlayer  -> m_iFirstEmptySLD  ];
-#line 5550 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5453 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_vPos  = plShell  . pl_PositionVector ;
-#line 5551 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5454 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vSpeedRelative  = FLOAT3D (FRnd  () + 2.0f , FRnd  () + 5.0f , - FRnd  () - 2.0f);
-#line 5552 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5455 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_vSpeed  = vSpeedRelative  * mRot ;
-#line 5554 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5457 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 const FLOATmatrix3D & m  = penPlayer  -> GetRotationMatrix  ();
-#line 5555 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5458 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
-#line 5556 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5459 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_vUp  = vUp ;
-#line 5557 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5460 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
-#line 5558 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5461 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_estType  = ESL_BULLET ;
-#line 5560 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5463 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 penPlayer  -> m_iFirstEmptySLD  = (penPlayer  -> m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 5563 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5466 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(penPlayer  -> m_pstState  == PST_DIVE )
-#line 5564 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5467 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 5565 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5468 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShellLaunchData  & sldBubble  = penPlayer  -> m_asldData  [ penPlayer  -> m_iFirstEmptySLD  ];
-#line 5566 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5469 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CalcWeaponPosition  (FLOAT3D (afTommygunShellPos  [ 0 ] , afTommygunShellPos  [ 1 ] , afTommygunShellPos  [ 2 ]) , plShell  , FALSE );
-#line 5567 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5470 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MakeRotationMatrixFast  (mRot  , plShell  . pl_OrientationAngle );
-#line 5568 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5471 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_vPos  = plShell  . pl_PositionVector ;
-#line 5569 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5472 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_vUp  = vUp ;
-#line 5570 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5473 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
-#line 5571 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5474 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_estType  = ESL_BUBBLE ;
-#line 5572 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5475 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 vSpeedRelative  = FLOAT3D (0.3f , 0.0f , 0.0f);
-#line 5573 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5476 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_vSpeed  = vSpeedRelative  * mRot ;
-#line 5574 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5477 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 penPlayer  -> m_iFirstEmptySLD  = (penPlayer  -> m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 5575 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5478 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5576 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5479 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5578 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5481 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(1.35f - 1.0f);
-Jump(STATE_CURRENT, 0x019200c0, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200c0_FireSniper_03(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x0192008c, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192008c_FireSniper_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200c0
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200c1, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200c1_FireSniper_04(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x0192008c
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192008d, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192008d_FireSniper_04(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200c1
+#define STATE_CURRENT 0x0192008d
 ;
-#line 5581 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iSniperBullets  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x019200c2, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200c3_FireSniper_06(const CEntityEvent &__eeInput){
+#line 5484 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iSniperBullets  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x0192008e, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192008f_FireSniper_06(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200c3
+#define STATE_CURRENT 0x0192008f
 {
-#line 5584 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5487 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ASSERTALWAYS  ("Sniper - Auto weapon change not working.");
-#line 5585 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5488 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bFireWeapon  = m_bHasAmmo  = FALSE ;
-#line 5586 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}Jump(STATE_CURRENT,0x019200c2, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x019200c2_FireSniper_05(const CEntityEvent &__eeInput){
+#line 5489 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}Jump(STATE_CURRENT,0x0192008e, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x0192008e_FireSniper_05(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200c2
+#define STATE_CURRENT 0x0192008e
 
-#line 5587 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5490 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 5587 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5490 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 5592 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5495 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MiniGunSpinUp(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_MiniGunSpinUp
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::MiniGunSpinUp expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5593 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5496 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_iBulletsOnFireStart  = m_iBullets ;
-#line 5594 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5497 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5596 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5499 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Set3DParameters  (50.0f , 5.0f , 1.5f , 1.0f);
-#line 5597 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5500 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_MINIGUN_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5598 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5501 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlayLightAnim  (LIGHT_ANIM_MINIGUN  , AOF_LOOPING );
-#line 5599 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5502 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimation  (BODY_ANIM_SHOTGUN_FIRESHORT  , AOF_LOOPING );
-#line 5600 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5503 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 5600 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5503 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 5603 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5506 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MiniGunSpinDown(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_MiniGunSpinDown
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::MiniGunSpinDown expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5605 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5508 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5606 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5509 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(pl  . m_pstState  != PST_DIVE  && hud_bShowWeapon )
-#line 5607 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5510 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 5608 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5511 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX ctBulletsFired  = ClampUp  (m_iBulletsOnFireStart  - m_iBullets  , INDEX (100));
-#line 5609 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5512 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 for(INDEX iSmoke  = 0;iSmoke  < ctBulletsFired  / 6.0;iSmoke  ++)
-#line 5610 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5513 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 5611 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5514 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShellLaunchData  * psldSmoke  = & pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
-#line 5612 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5515 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlacement3D plPipe ;
-#line 5613 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5516 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CalcWeaponPosition  (FLOAT3D (afMinigunPipe  [ 0 ] , afMinigunPipe  [ 1 ] , afMinigunPipe  [ 2 ]) , plPipe  , FALSE );
-#line 5614 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5517 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOATmatrix3D m ;
-#line 5615 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5518 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MakeRotationMatrixFast  (m  , plPipe  . pl_OrientationAngle );
-#line 5616 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5519 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_vPos  = plPipe  . pl_PositionVector  + pl  . en_vCurrentTranslationAbsolute  * iSmoke  * _pTimer  -> TickQuantum ;
-#line 5617 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5520 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
-#line 5618 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5521 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_vUp  = vUp ;
-#line 5619 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5522 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_tmLaunch  = _pTimer  -> CurrentTick  () + iSmoke  * _pTimer  -> TickQuantum ;
-#line 5620 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5523 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_estType  = ESL_BULLET_SMOKE ;
-#line 5621 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5524 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_fSize  = 0.5f + ctBulletsFired  / 75.0f;
-#line 5622 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5525 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vSpeedRelative  = FLOAT3D (- 0.06f , 0.0f , - 0.06f);
-#line 5623 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5526 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 psldSmoke  -> sld_vSpeed  = vSpeedRelative  * m  + pl  . en_vCurrentTranslationAbsolute ;
-#line 5624 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5527 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 5625 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5528 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5626 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5529 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5628 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5531 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Set3DParameters  (50.0f , 5.0f , 0.0f , 1.0f);
-#line 5629 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5532 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlayLightAnim  (LIGHT_ANIM_NONE  , 0);
-#line 5630 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5533 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimationOff  ();
-#line 5631 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5534 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 5634 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5537 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MiniGunFire(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_MiniGunFire
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::MiniGunFire expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5636 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iBullets  > 0)){ Jump(STATE_CURRENT,0x019200ca, FALSE, EInternal());return TRUE;}
-#line 5637 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5539 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(m_iBullets  > 0)){ Jump(STATE_CURRENT,0x01920096, FALSE, EInternal());return TRUE;}
+#line 5540 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireMachineBullet  (wpn_fFX  [ WEAPON_MINIGUN  ] , wpn_fFY  [ WEAPON_MINIGUN  ] , 
-#line 5638 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5541 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 750.0f , 14.0f , (GetSP  () -> sp_bCooperative ) ? 0.01f : 0.03f , 
-#line 5639 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5542 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ((GetSP  () -> sp_bCooperative ) ? 0.5f : 0.0f));
-#line 5640 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-ShakeBullet  (0.1f , 0.3f , 1.1f , 0.025f);
-#line 5641 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5544 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+ApplyWeaponKick  (0.1f , 1.3f);
+#line 5545 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SpawnRangeSound  (50.0f);
-#line 5642 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5546 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Tommygun_fire");}
-#line 5643 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5547 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DecAmmo  (m_iBullets  , 1);
-#line 5644 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5548 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetFlare  (0 , FLARE_ADD );
-#line 5645 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5549 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5646 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5550 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_MINIGUN_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5647 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5551 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (MINIGUN_ANIM_FIRE  , AOF_LOOPING );
-#line 5650 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5554 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlacement3D plShell ;
-#line 5651 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5555 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CalcWeaponPosition  (FLOAT3D (afMinigunShellPos  [ 0 ] , afMinigunShellPos  [ 1 ] , afMinigunShellPos  [ 2 ]) , plShell  , FALSE );
-#line 5652 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5556 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOATmatrix3D mRot ;
-#line 5653 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5557 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MakeRotationMatrixFast  (mRot  , plShell  . pl_OrientationAngle );
-#line 5655 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5559 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(hud_bShowWeapon )
-#line 5656 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5560 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 5658 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5562 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = * GetPlayer  ();
-#line 5659 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5563 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShellLaunchData  & sld  = pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
-#line 5660 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5564 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_vPos  = plShell  . pl_PositionVector ;
-#line 5661 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5565 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vSpeedRelative  = FLOAT3D (FRnd  () + 2.0f , FRnd  () + 5.0f , - FRnd  () - 2.0f);
-#line 5662 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5566 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 const FLOATmatrix3D & m  = pl  . GetRotationMatrix  ();
-#line 5663 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5567 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT3D vUp  (m  (1 , 2) , m  (2 , 2) , m  (3 , 2));
-#line 5664 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5568 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_vUp  = vUp ;
-#line 5665 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5569 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_vSpeed  = vSpeedRelative  * mRot ;
-#line 5666 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5570 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
-#line 5667 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5571 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sld  . sld_estType  = ESL_BULLET ;
-#line 5668 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5572 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 5671 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5575 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(pl  . m_pstState  == PST_DIVE )
-#line 5672 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5576 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 5673 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5577 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ShellLaunchData  & sldBubble  = pl  . m_asldData  [ pl  . m_iFirstEmptySLD  ];
-#line 5674 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5578 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CalcWeaponPosition  (FLOAT3D (afMinigunShellPos  [ 0 ] , afMinigunShellPos  [ 1 ] , afMinigunShellPos  [ 2 ]) , plShell  , FALSE );
-#line 5675 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5579 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 MakeRotationMatrixFast  (mRot  , plShell  . pl_OrientationAngle );
-#line 5676 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5580 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_vPos  = plShell  . pl_PositionVector ;
-#line 5677 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5581 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_vUp  = vUp ;
-#line 5678 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5582 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_tmLaunch  = _pTimer  -> CurrentTick  ();
-#line 5679 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5583 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_estType  = ESL_BUBBLE ;
-#line 5680 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5584 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 vSpeedRelative  = FLOAT3D (0.3f , 0.0f , 0.0f);
-#line 5681 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5585 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 sldBubble  . sld_vSpeed  = vSpeedRelative  * mRot ;
-#line 5682 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5586 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_iFirstEmptySLD  = (pl  . m_iFirstEmptySLD  + 1) % MAX_FLYING_SHELLS ;
-#line 5683 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5587 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5684 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5588 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5686 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5590 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(0.1f);
-Jump(STATE_CURRENT, 0x019200c7, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200c7_MiniGunFire_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01920093, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920093_MiniGunFire_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200c7
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200c8, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200c8_MiniGunFire_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01920093
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920094, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920094_MiniGunFire_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200c8
+#define STATE_CURRENT 0x01920094
 ;
-#line 5688 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iBullets  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x019200c9, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200ca_MiniGunFire_04(const CEntityEvent &__eeInput){
+#line 5592 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iBullets  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x01920095, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920096_MiniGunFire_04(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200ca
+#define STATE_CURRENT 0x01920096
 {
-#line 5690 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5594 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ASSERTALWAYS  ("TommyGun - Auto weapon change not working.");
-#line 5691 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5595 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bFireWeapon  = m_bHasAmmo  = FALSE ;
-#line 5692 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}Jump(STATE_CURRENT,0x019200c9, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x019200c9_MiniGunFire_03(const CEntityEvent &__eeInput){
+#line 5596 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}Jump(STATE_CURRENT,0x01920095, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x01920095_MiniGunFire_03(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200c9
+#define STATE_CURRENT 0x01920095
 
-#line 5693 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5597 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 5693 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5597 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 5697 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5601 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireRocketLauncher(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_FireRocketLauncher
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::FireRocketLauncher expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5699 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iRockets  > 0)){ Jump(STATE_CURRENT,0x019200d1, FALSE, EInternal());return TRUE;}
-#line 5700 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5603 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(m_iRockets  > 0)){ Jump(STATE_CURRENT,0x0192009d, FALSE, EInternal());return TRUE;}
+#line 5604 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimation  (BODY_ANIM_MINIGUN_FIRELONG  , 0);
-#line 5701 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5605 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (ROCKETLAUNCHER_ANIM_FIRE  , 0);
-#line 5702 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5606 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireRocket  ();
-#line 5704 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5608 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DoRecoil  ();
-#line 5705 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5609 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SpawnRangeSound  (20.0f);
-#line 5706 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5610 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Rocketlauncher_fire");}
-#line 5707 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5611 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DecAmmo  (m_iRockets  , 1);
-#line 5709 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5613 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5710 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5614 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(pl  . m_soWeapon0  . IsPlaying  ())
-#line 5711 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5615 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 5712 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5616 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon1  , SOUND_ROCKETLAUNCHER_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5713 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5617 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5714 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5618 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 else 
-#line 5715 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5619 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 5716 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5620 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_ROCKETLAUNCHER_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5717 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5621 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5719 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5623 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(0.05f);
-Jump(STATE_CURRENT, 0x019200cc, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200cc_FireRocketLauncher_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x01920098, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920098_FireRocketLauncher_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200cc
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200cd, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200cd_FireRocketLauncher_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x01920098
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920099, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920099_FireRocketLauncher_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200cd
+#define STATE_CURRENT 0x01920099
 ;
-#line 5721 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5625 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CModelObject * pmo  = & (m_moWeapon  . GetAttachmentModel  (ROCKETLAUNCHER_ATTACHMENT_ROCKET1 ) -> amo_moModelObject );
-#line 5722 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5626 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pmo  -> StretchModel  (FLOAT3D (0 , 0 , 0));
-#line 5724 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5628 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (ROCKETLAUNCHER_ANIM_FIRE ) - 0.05f);
-Jump(STATE_CURRENT, 0x019200ce, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200ce_FireRocketLauncher_03(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x0192009a, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192009a_FireRocketLauncher_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200ce
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200cf, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200cf_FireRocketLauncher_04(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x0192009a
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192009b, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192009b_FireRocketLauncher_04(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200cf
+#define STATE_CURRENT 0x0192009b
 ;
-#line 5726 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5630 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CModelObject * pmo  = & (m_moWeapon  . GetAttachmentModel  (ROCKETLAUNCHER_ATTACHMENT_ROCKET1 ) -> amo_moModelObject );
-#line 5727 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5631 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pmo  -> StretchModel  (FLOAT3D (1 , 1 , 1));
-#line 5730 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iRockets  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x019200d0, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200d1_FireRocketLauncher_06(const CEntityEvent &__eeInput){
+#line 5634 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iRockets  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x0192009c, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192009d_FireRocketLauncher_06(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200d1
+#define STATE_CURRENT 0x0192009d
 {
-#line 5732 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5636 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ASSERTALWAYS  ("RocketLauncher - Auto weapon change not working.");
-#line 5733 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5637 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bFireWeapon  = m_bHasAmmo  = FALSE ;
-#line 5734 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}Jump(STATE_CURRENT,0x019200d0, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x019200d0_FireRocketLauncher_05(const CEntityEvent &__eeInput){
+#line 5638 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}Jump(STATE_CURRENT,0x0192009c, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x0192009c_FireRocketLauncher_05(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200d0
+#define STATE_CURRENT 0x0192009c
 
-#line 5735 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5639 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 5735 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5639 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 5739 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5643 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireGrenadeLauncher(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_FireGrenadeLauncher
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::FireGrenadeLauncher expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5741 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5645 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 TM_START  = _pTimer  -> CurrentTick  ();
-#line 5743 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5647 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 F_TEMP  = _pTimer  -> CurrentTick  ();
-#line 5745 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5649 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 F_OFFSET_CHG  = 0.0f;
-#line 5746 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5650 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPower  = 0.0f;
-#line 5747 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5651 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_tmDrawStartTime  = _pTimer  -> CurrentTick  ();
-#line 5748 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT,0x019200d5, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200d5_FireGrenadeLauncher_03(const CEntityEvent &__eeInput)
-#line 5749 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5652 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT,0x019200a1, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200a1_FireGrenadeLauncher_03(const CEntityEvent &__eeInput)
+#line 5653 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200d5
-if(!(HoldingFire  () && ((_pTimer  -> CurrentTick  () - TM_START ) < 0.75f))){ Jump(STATE_CURRENT,0x019200d6, FALSE, EInternal());return TRUE;}
-#line 5750 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#define STATE_CURRENT 0x019200a1
+if(!(HoldingFire  () && ((_pTimer  -> CurrentTick  () - TM_START ) < 0.75f))){ Jump(STATE_CURRENT,0x019200a2, FALSE, EInternal());return TRUE;}
+#line 5654 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(_pTimer  -> TickQuantum );
-Jump(STATE_CURRENT, 0x019200d3, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200d3_FireGrenadeLauncher_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x0192009f, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192009f_FireGrenadeLauncher_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200d3
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200d4, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200d4_FireGrenadeLauncher_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x0192009f
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200a0, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200a0_FireGrenadeLauncher_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200d4
+#define STATE_CURRENT 0x019200a0
 ;
-#line 5751 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5655 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX iPower  = INDEX ((_pTimer  -> CurrentTick  () - TM_START ) / _pTimer  -> TickQuantum );
-#line 5752 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5656 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 F_OFFSET_CHG  = 0.125f / (iPower  + 2);
-#line 5753 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5657 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPowerOld  = m_fWeaponDrawPower ;
-#line 5754 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fWeaponDrawPower  += F_OFFSET_CHG ;Jump(STATE_CURRENT,0x019200d5, FALSE, EInternal());return TRUE;
-#line 5755 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}BOOL CPlayerWeapons::H0x019200d6_FireGrenadeLauncher_04(const CEntityEvent &__eeInput) {
+#line 5658 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_fWeaponDrawPower  += F_OFFSET_CHG ;Jump(STATE_CURRENT,0x019200a1, FALSE, EInternal());return TRUE;
+#line 5659 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}BOOL CPlayerWeapons::H0x019200a2_FireGrenadeLauncher_04(const CEntityEvent &__eeInput) {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200d6
+#define STATE_CURRENT 0x019200a2
 
-#line 5756 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5660 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_tmDrawStartTime  = 0.0f;
-#line 5760 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iGrenades  > 0)){ Jump(STATE_CURRENT,0x019200e1, FALSE, EInternal());return TRUE;}
-#line 5763 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5664 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(m_iGrenades  > 0)){ Jump(STATE_CURRENT,0x019200ad, FALSE, EInternal());return TRUE;}
+#line 5667 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX iPower  = INDEX ((_pTimer  -> CurrentTick  () - F_TEMP ) / _pTimer  -> TickQuantum );
-#line 5764 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5668 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireGrenade  (iPower );
-#line 5765 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5669 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SpawnRangeSound  (10.0f);
-#line 5766 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5670 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Gnadelauncher");}
-#line 5767 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5671 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DecAmmo  (m_iGrenades  , 1);
-#line 5769 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5673 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5770 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5674 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_GRENADELAUNCHER_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5771 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5675 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimation  (BODY_ANIM_MINIGUN_FIRELONG  , 0);
-#line 5774 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5678 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 TM_START  = _pTimer  -> CurrentTick  ();
-#line 5775 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5679 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPowerOld  = m_fWeaponDrawPower ;
-#line 5776 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT,0x019200d9, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200d9_FireGrenadeLauncher_07(const CEntityEvent &__eeInput)
-#line 5777 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5680 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT,0x019200a5, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200a5_FireGrenadeLauncher_07(const CEntityEvent &__eeInput)
+#line 5681 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200d9
-if(!(m_fWeaponDrawPower  > 0.0f)){ Jump(STATE_CURRENT,0x019200da, FALSE, EInternal());return TRUE;}
-#line 5778 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#define STATE_CURRENT 0x019200a5
+if(!(m_fWeaponDrawPower  > 0.0f)){ Jump(STATE_CURRENT,0x019200a6, FALSE, EInternal());return TRUE;}
+#line 5682 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(_pTimer  -> TickQuantum );
-Jump(STATE_CURRENT, 0x019200d7, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200d7_FireGrenadeLauncher_05(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200a3, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200a3_FireGrenadeLauncher_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200d7
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200d8, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200d8_FireGrenadeLauncher_06(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200a3
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200a4, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200a4_FireGrenadeLauncher_06(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200d8
+#define STATE_CURRENT 0x019200a4
 ;
-#line 5779 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5683 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPowerOld  = m_fWeaponDrawPower ;
-#line 5780 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5684 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPower  -= F_OFFSET_CHG ;
-#line 5781 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5685 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPower  = ClampDn  (m_fWeaponDrawPower  , 0.0f);
-#line 5782 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-F_OFFSET_CHG  = F_OFFSET_CHG  * 10;Jump(STATE_CURRENT,0x019200d9, FALSE, EInternal());return TRUE;
-#line 5783 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}BOOL CPlayerWeapons::H0x019200da_FireGrenadeLauncher_08(const CEntityEvent &__eeInput) {
+#line 5686 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+F_OFFSET_CHG  = F_OFFSET_CHG  * 10;Jump(STATE_CURRENT,0x019200a5, FALSE, EInternal());return TRUE;
+#line 5687 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}BOOL CPlayerWeapons::H0x019200a6_FireGrenadeLauncher_08(const CEntityEvent &__eeInput) {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200da
+#define STATE_CURRENT 0x019200a6
 
-#line 5786 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5690 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ResetWeaponMovingOffset  ();
-#line 5789 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iGrenades  <= 0)){ Jump(STATE_CURRENT,0x019200df, FALSE, EInternal());return TRUE;}
-#line 5791 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-SelectNewWeapon  ();Jump(STATE_CURRENT,0x019200de, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200df_FireGrenadeLauncher_13(const CEntityEvent &__eeInput){
+#line 5693 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(m_iGrenades  <= 0)){ Jump(STATE_CURRENT,0x019200ab, FALSE, EInternal());return TRUE;}
+#line 5695 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+SelectNewWeapon  ();Jump(STATE_CURRENT,0x019200aa, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200ab_FireGrenadeLauncher_13(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200df
-if(!(TRUE )){ Jump(STATE_CURRENT,0x019200dd, FALSE, EInternal());return TRUE;}
-#line 5795 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#define STATE_CURRENT 0x019200ab
+if(!(TRUE )){ Jump(STATE_CURRENT,0x019200a9, FALSE, EInternal());return TRUE;}
+#line 5699 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(0.25f);
-Jump(STATE_CURRENT, 0x019200db, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200db_FireGrenadeLauncher_09(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200a7, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200a7_FireGrenadeLauncher_09(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200db
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200dc, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200dc_FireGrenadeLauncher_10(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200a7
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200a8, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200a8_FireGrenadeLauncher_10(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200dc
-;Jump(STATE_CURRENT,0x019200dd, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200dd_FireGrenadeLauncher_11(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200a8
+;Jump(STATE_CURRENT,0x019200a9, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200a9_FireGrenadeLauncher_11(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200dd
-Jump(STATE_CURRENT,0x019200de, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x019200de_FireGrenadeLauncher_12(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200a9
+Jump(STATE_CURRENT,0x019200aa, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x019200aa_FireGrenadeLauncher_12(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200de
-Jump(STATE_CURRENT,0x019200e0, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200e1_FireGrenadeLauncher_15(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200aa
+Jump(STATE_CURRENT,0x019200ac, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200ad_FireGrenadeLauncher_15(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200e1
+#define STATE_CURRENT 0x019200ad
 {
-#line 5798 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5702 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ASSERTALWAYS  ("GrenadeLauncher - Auto weapon change not working.");
-#line 5799 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5703 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bFireWeapon  = m_bHasAmmo  = FALSE ;
-#line 5800 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}Jump(STATE_CURRENT,0x019200e0, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x019200e0_FireGrenadeLauncher_14(const CEntityEvent &__eeInput){
+#line 5704 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}Jump(STATE_CURRENT,0x019200ac, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x019200ac_FireGrenadeLauncher_14(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200e0
+#define STATE_CURRENT 0x019200ac
 
-#line 5802 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5706 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 5802 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5706 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 5884 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5788 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FlamerStart(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_FlamerStart
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::FlamerStart expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5885 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5789 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_tmFlamerStart  = _pTimer  -> CurrentTick  ();
-#line 5886 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5790 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_tmFlamerStop  = 1e9;
-#line 5888 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5792 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (FLAMER_ANIM_FIRESTART  , 0);
-#line 5889 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5793 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (FLAMER_ANIM_FIRESTART ));
-Jump(STATE_CURRENT, 0x019200e3, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200e3_FlamerStart_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200af, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200af_FlamerStart_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200e3
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200e4, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200e4_FlamerStart_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200af
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200b0, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200b0_FlamerStart_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200e4
+#define STATE_CURRENT 0x019200b0
 ;
-#line 5891 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5795 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5892 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5796 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Set3DParameters  (50.0f , 5.0f , 2.0f , 0.31f);
-#line 5893 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5797 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon2  . Set3DParameters  (50.0f , 5.0f , 2.0f , 0.3f);
-#line 5894 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5798 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_FL_FIRE  , SOF_3D  | SOF_LOOP  | SOF_VOLUMETRIC );
-#line 5895 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5799 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("FlamethrowerFire");}
-#line 5896 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5800 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon2  , SOUND_FL_START  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5897 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5801 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("FlamethrowerStart");}
-#line 5898 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5802 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireFlame  ();
-#line 5899 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5803 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DecAmmo  (m_iNapalm  , 1);
-#line 5900 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5804 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(0.05f);
-Jump(STATE_CURRENT, 0x019200e5, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200e5_FlamerStart_03(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200b1, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200b1_FlamerStart_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200e5
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200e6, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200e6_FlamerStart_04(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200b1
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200b2, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200b2_FlamerStart_04(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200e6
+#define STATE_CURRENT 0x019200b2
 ;
-#line 5901 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5805 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_FlamerFire, TRUE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 5904 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5808 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FlamerFire(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_FlamerFire
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::FlamerFire expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5906 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT,0x019200ea, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200ea_FlamerFire_03(const CEntityEvent &__eeInput){
+#line 5810 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT,0x019200b6, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200b6_FlamerFire_03(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200ea
-if(!(HoldingFire  () && m_iNapalm  > 0)){ Jump(STATE_CURRENT,0x019200eb, FALSE, EInternal());return TRUE;}
-#line 5908 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#define STATE_CURRENT 0x019200b6
+if(!(HoldingFire  () && m_iNapalm  > 0)){ Jump(STATE_CURRENT,0x019200b7, FALSE, EInternal());return TRUE;}
+#line 5812 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireFlame  ();
-#line 5909 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5813 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DecAmmo  (m_iNapalm  , 1);
-#line 5910 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5814 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SpawnRangeSound  (30.0f);
-#line 5911 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5815 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(0.1f);
-Jump(STATE_CURRENT, 0x019200e8, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200e8_FlamerFire_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200b4, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200b4_FlamerFire_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200e8
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200e9, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200e9_FlamerFire_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200b4
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200b5, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200b5_FlamerFire_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200e9
-;Jump(STATE_CURRENT,0x019200ea, FALSE, EInternal());return TRUE;
-#line 5912 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}BOOL CPlayerWeapons::H0x019200eb_FlamerFire_04(const CEntityEvent &__eeInput) {
+#define STATE_CURRENT 0x019200b5
+;Jump(STATE_CURRENT,0x019200b6, FALSE, EInternal());return TRUE;
+#line 5816 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}BOOL CPlayerWeapons::H0x019200b7_FlamerFire_04(const CEntityEvent &__eeInput) {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200eb
+#define STATE_CURRENT 0x019200b7
 
-#line 5914 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5818 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_iNapalm  <= 0){
-#line 5915 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5819 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bHasAmmo  = FALSE ;
-#line 5916 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5820 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5918 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5822 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_FlamerStop, TRUE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 5921 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5825 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FlamerStop(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_FlamerStop
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::FlamerStop expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5922 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5826 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_tmFlamerStop  = _pTimer  -> CurrentTick  ();
-#line 5923 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5827 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5924 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5828 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_FL_STOP  , SOF_3D  | SOF_VOLUMETRIC  | SOF_SMOOTHCHANGE );
-#line 5925 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5829 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_StopEffect  ("FlamethrowerFire");}
-#line 5926 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5830 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("FlamethrowerStop");}
-#line 5928 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5832 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireFlame  ();
-#line 5930 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5834 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_penFlame  != NULL  && ! (m_penFlame  -> GetFlags  () & ENF_DELETED )){
-#line 5931 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5835 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ((CProjectile  &) * m_penFlame ) . m_penParticles  = NULL ;
-#line 5932 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5836 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_penFlame  = NULL ;
-#line 5933 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5837 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5935 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5839 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (FLAMER_ANIM_FIREEND  , 0);
-#line 5936 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5840 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (FLAMER_ANIM_FIREEND ));
-Jump(STATE_CURRENT, 0x019200ed, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200ed_FlamerStop_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200b9, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200b9_FlamerStop_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200ed
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200ee, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200ee_FlamerStop_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200b9
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200ba, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200ba_FlamerStop_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200ee
+#define STATE_CURRENT 0x019200ba
 ;
-#line 5938 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5842 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_iNapalm  <= 0){
-#line 5940 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5844 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SelectNewWeapon  ();
-#line 5941 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5845 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5942 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5846 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 5946 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5850 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ChainsawFire(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_ChainsawFire
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::ChainsawFire expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 5948 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5852 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5951 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5855 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Set3DParameters  (50.0f , 5.0f , 1.5f , 1.0f);
-#line 5952 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5856 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_CS_BEGINFIRE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 5953 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5857 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("ChainsawBeginFire");}
-#line 5957 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5861 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (CHAINSAW_ANIM_WAIT2FIRE  , 0);
-#line 5958 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5862 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (CHAINSAW_ANIM_WAIT2FIRE ) - 0.05f);
-Jump(STATE_CURRENT, 0x019200f0, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200f0_ChainsawFire_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200bc, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200bc_ChainsawFire_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200f0
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200f1, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200f1_ChainsawFire_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200bc
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200bd, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200bd_ChainsawFire_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200f1
+#define STATE_CURRENT 0x019200bd
 ;
-#line 5960 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5864 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayerAnimator  & pa  = * GetAnimator  ();
-#line 5961 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5865 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pa  . FireAnimation  (BODY_ANIM_MINIGUN_FIRELONG  , 0);
-#line 5963 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5867 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CModelObject * pmoTeeth  = GetChainSawTeeth  ();
-#line 5964 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5868 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(pmoTeeth  != NULL )
-#line 5965 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5869 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 5966 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5870 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pmoTeeth  -> PlayAnim  (TEETH_ANIM_ROTATE  , AOF_LOOPING  | AOF_NORESTART );
-#line 5967 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5871 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 5970 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5874 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5972 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5876 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeaponAmbient  . Set3DParameters  (30.0f , 3.0f , 0.5f , 1.0f);
-#line 5974 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5878 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_CS_FIRE  , SOF_3D  | SOF_LOOP  | SOF_VOLUMETRIC  | SOF_SMOOTHCHANGE );
-#line 5975 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5879 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_StopEffect  ("ChainsawIdle");}
-#line 5976 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5880 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("ChainsawFire");}
-#line 5978 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5882 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (CHAINSAW_ANIM_FIRE  , AOF_LOOPING  | AOF_NORESTART );
-#line 5981 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5885 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CModelObject * pmo1  = & (m_moWeapon  . GetAttachmentModel  (CHAINSAW_ATTACHMENT_BLADE ) -> amo_moModelObject );
-#line 5982 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5886 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CModelObject * pmo2  = & (pmo1  -> GetAttachmentModel  (BLADE_ATTACHMENT_TEETH ) -> amo_moModelObject );
-#line 5983 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5887 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pmo2  -> PlayAnim  (TEETH_ANIM_ROTATE  , AOF_LOOPING );
-#line 5985 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT,0x019200f4, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200f4_ChainsawFire_05(const CEntityEvent &__eeInput)
-#line 5986 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5889 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT,0x019200c0, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200c0_ChainsawFire_05(const CEntityEvent &__eeInput)
+#line 5890 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200f4
-if(!(HoldingFire  ())){ Jump(STATE_CURRENT,0x019200f5, FALSE, EInternal());return TRUE;}
-#line 5987 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#define STATE_CURRENT 0x019200c0
+if(!(HoldingFire  ())){ Jump(STATE_CURRENT,0x019200c1, FALSE, EInternal());return TRUE;}
+#line 5891 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(CHAINSAW_UPDATETIME );
-Jump(STATE_CURRENT, 0x019200f2, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200f2_ChainsawFire_03(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200be, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200be_ChainsawFire_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200f2
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200f3, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200f3_ChainsawFire_04(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200be
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200bf, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200bf_ChainsawFire_04(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200f3
+#define STATE_CURRENT 0x019200bf
 ;
-#line 5989 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5893 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CutWithChainsaw  (0 , 0 , 3.0f , 2.0f , 1.0f , 
-#line 5990 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((GetSP  () -> sp_bCooperative ) ? 200.0f : 250.0f) * CHAINSAW_UPDATETIME );Jump(STATE_CURRENT,0x019200f4, FALSE, EInternal());return TRUE;
-#line 5992 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}BOOL CPlayerWeapons::H0x019200f5_ChainsawFire_06(const CEntityEvent &__eeInput) {
+#line 5894 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((GetSP  () -> sp_bCooperative ) ? 200.0f : 250.0f) * CHAINSAW_UPDATETIME );Jump(STATE_CURRENT,0x019200c0, FALSE, EInternal());return TRUE;
+#line 5896 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}BOOL CPlayerWeapons::H0x019200c1_ChainsawFire_06(const CEntityEvent &__eeInput) {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200f5
+#define STATE_CURRENT 0x019200c1
 
-#line 5996 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5900 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 5997 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5901 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_CS_ENDFIRE  , SOF_3D  | SOF_VOLUMETRIC  | SOF_SMOOTHCHANGE );
-#line 5998 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5902 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_StopEffect  ("ChainsawFire");}
-#line 5999 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5903 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("ChainsawEnd");}
-#line 6000 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5904 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("ChainsawIdle");}
-#line 6003 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5907 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeaponAmbient  . Set3DParameters  (30.0f , 3.0f , 1.0f , 1.0f);
-#line 6005 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5909 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (CHAINSAW_ANIM_FIRE2WAIT  , 0);
-#line 6006 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5910 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (CHAINSAW_ANIM_FIRE2WAIT ));
-Jump(STATE_CURRENT, 0x019200f6, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200f6_ChainsawFire_07(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200c2, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200c2_ChainsawFire_07(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200f6
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200f7, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200f7_ChainsawFire_08(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200c2
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200c3, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200c3_ChainsawFire_08(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200f7
+#define STATE_CURRENT 0x019200c3
 ;
-#line 6009 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5913 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CModelObject * pmo1  = & (m_moWeapon  . GetAttachmentModel  (CHAINSAW_ATTACHMENT_BLADE ) -> amo_moModelObject );
-#line 6010 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5914 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CModelObject * pmo2  = & (pmo1  -> GetAttachmentModel  (BLADE_ATTACHMENT_TEETH ) -> amo_moModelObject );
-#line 6011 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5915 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pmo2  -> PlayAnim  (TEETH_ANIM_DEFAULT  , 0);
-#line 6013 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5917 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CModelObject * pmoTeeth  = GetChainSawTeeth  ();
-#line 6014 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5918 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(pmoTeeth  != NULL )
-#line 6015 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5919 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 6016 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5920 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pmoTeeth  -> PlayAnim  (TEETH_ANIM_DEFAULT  , 0);
-#line 6017 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5921 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 6019 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5923 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 6022 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5926 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ChainsawBringUp(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_ChainsawBringUp
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::ChainsawBringUp expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6025 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5929 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (CHAINSAW_ANIM_FIRE2WAIT  , 0);
-#line 6026 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5930 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (CHAINSAW_ANIM_FIRE2WAIT ));
-Jump(STATE_CURRENT, 0x019200f9, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200f9_ChainsawBringUp_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200c5, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200c5_ChainsawBringUp_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200f9
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200fa, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200fa_ChainsawBringUp_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200c5
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200c6, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200c6_ChainsawBringUp_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200fa
+#define STATE_CURRENT 0x019200c6
 ;
-#line 6027 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5931 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 6031 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5935 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireLaser(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_FireLaser
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::FireLaser expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6033 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iElectricity  > 0)){ Jump(STATE_CURRENT,0x019200ff, FALSE, EInternal());return TRUE;}
-#line 6034 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5937 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(m_iElectricity  > 0)){ Jump(STATE_CURRENT,0x019200cb, FALSE, EInternal());return TRUE;}
+#line 5938 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(0.1f);
-Jump(STATE_CURRENT, 0x019200fc, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200fc_FireLaser_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200c8, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200c8_FireLaser_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200fc
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200fd, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200fd_FireLaser_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200c8
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200c9, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200c9_FireLaser_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200fd
+#define STATE_CURRENT 0x019200c9
 ;
-#line 6035 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5939 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (LASER_ANIM_FIRE  , AOF_LOOPING  | AOF_NORESTART );
-#line 6036 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5940 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireLaserRay  ();
-#line 6037 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5941 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Laser_fire");}
-#line 6038 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5942 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DecAmmo  (m_iElectricity  , 1);
-#line 6040 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5944 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SpawnRangeSound  (20.0f);
-#line 6041 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5945 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 6043 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5947 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 switch(m_iLaserBarrel ){
-#line 6044 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5948 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case 0: {
-#line 6045 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5949 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CModelObject * pmo  = & (m_moWeapon  . GetAttachmentModel  (LASER_ATTACHMENT_LEFTUP ) -> amo_moModelObject );
-#line 6046 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5950 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pmo  -> PlayAnim  (BARREL_ANIM_FIRE  , 0);
-#line 6047 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5951 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_LASER_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 6048 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5952 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;}
-#line 6049 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5953 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case 3: {
-#line 6050 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5954 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CModelObject * pmo  = & (m_moWeapon  . GetAttachmentModel  (LASER_ATTACHMENT_RIGHTDOWN ) -> amo_moModelObject );
-#line 6051 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5955 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pmo  -> PlayAnim  (BARREL_ANIM_FIRE  , 0);
-#line 6052 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5956 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon1  , SOUND_LASER_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 6053 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5957 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;}
-#line 6054 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5958 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case 1: {
-#line 6055 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5959 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CModelObject * pmo  = & (m_moWeapon  . GetAttachmentModel  (LASER_ATTACHMENT_LEFTDOWN ) -> amo_moModelObject );
-#line 6056 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5960 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pmo  -> PlayAnim  (BARREL_ANIM_FIRE  , 0);
-#line 6057 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5961 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon2  , SOUND_LASER_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 6058 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5962 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;}
-#line 6059 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5963 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case 2: {
-#line 6060 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5964 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CModelObject * pmo  = & (m_moWeapon  . GetAttachmentModel  (LASER_ATTACHMENT_RIGHTUP ) -> amo_moModelObject );
-#line 6061 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5965 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pmo  -> PlayAnim  (BARREL_ANIM_FIRE  , 0);
-#line 6062 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5966 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon3  , SOUND_LASER_FIRE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 6063 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5967 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 break ;}
-#line 6064 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5968 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 6066 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5970 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_iLaserBarrel  = (m_iLaserBarrel  + 1) & 3;
-#line 6068 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iElectricity  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x019200fe, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200ff_FireLaser_04(const CEntityEvent &__eeInput){
+#line 5972 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iElectricity  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x019200ca, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200cb_FireLaser_04(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200ff
+#define STATE_CURRENT 0x019200cb
 {
-#line 6070 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5974 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ASSERTALWAYS  ("Laser - Auto weapon change not working.");
-#line 6071 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5975 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bFireWeapon  = m_bHasAmmo  = FALSE ;
-#line 6072 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}Jump(STATE_CURRENT,0x019200fe, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x019200fe_FireLaser_03(const CEntityEvent &__eeInput){
+#line 5976 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}Jump(STATE_CURRENT,0x019200ca, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x019200ca_FireLaser_03(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x019200fe
+#define STATE_CURRENT 0x019200ca
 
-#line 6073 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5977 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 6073 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 5977 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 6122 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6026 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CannonFireStart(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_CannonFireStart
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::CannonFireStart expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6124 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6028 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_tmDrawStartTime  = _pTimer  -> CurrentTick  ();
-#line 6125 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6029 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 TM_START  = _pTimer  -> CurrentTick  ();
-#line 6126 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6030 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 F_OFFSET_CHG  = 0.0f;
-#line 6127 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6031 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPower  = 0.0f;
-#line 6128 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6032 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 6129 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6033 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_iIronBalls  & 1)
-#line 6130 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6034 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 6131 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6035 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Set3DParameters  (50.0f , 5.0f , 3.0f , 1.0f);
-#line 6132 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6036 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_CANNON_PREPARE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 6133 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6037 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 6134 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6038 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 else 
-#line 6135 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6039 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 6136 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6040 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon1  . Set3DParameters  (50.0f , 5.0f , 3.0f , 1.0f);
-#line 6137 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6041 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon1  , SOUND_CANNON_PREPARE  , SOF_3D  | SOF_VOLUMETRIC );
-#line 6138 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6042 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 6140 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6044 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Canon_prepare");}
-#line 6141 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT,0x01920103, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920103_CannonFireStart_03(const CEntityEvent &__eeInput)
-#line 6142 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6045 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT,0x019200cf, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200cf_CannonFireStart_03(const CEntityEvent &__eeInput)
+#line 6046 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920103
-if(!(HoldingAltFire  () && ((_pTimer  -> CurrentTick  () - TM_START ) < 1.0f))){ Jump(STATE_CURRENT,0x01920104, FALSE, EInternal());return TRUE;}
-#line 6143 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#define STATE_CURRENT 0x019200cf
+if(!(HoldingAltFire  () && ((_pTimer  -> CurrentTick  () - TM_START ) < 1.0f))){ Jump(STATE_CURRENT,0x019200d0, FALSE, EInternal());return TRUE;}
+#line 6047 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(_pTimer  -> TickQuantum );
-Jump(STATE_CURRENT, 0x01920101, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920101_CannonFireStart_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200cd, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200cd_CannonFireStart_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920101
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920102, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920102_CannonFireStart_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200cd
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200ce, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200ce_CannonFireStart_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920102
+#define STATE_CURRENT 0x019200ce
 ;
-#line 6144 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6048 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX iPower  = INDEX ((_pTimer  -> CurrentTick  () - TM_START ) / _pTimer  -> TickQuantum );
-#line 6145 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6049 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 F_OFFSET_CHG  = 0.25f / (iPower  + 2);
-#line 6146 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6050 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPowerOld  = m_fWeaponDrawPower ;
-#line 6147 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-m_fWeaponDrawPower  += F_OFFSET_CHG ;Jump(STATE_CURRENT,0x01920103, FALSE, EInternal());return TRUE;
-#line 6148 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}BOOL CPlayerWeapons::H0x01920104_CannonFireStart_04(const CEntityEvent &__eeInput) {
+#line 6051 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+m_fWeaponDrawPower  += F_OFFSET_CHG ;Jump(STATE_CURRENT,0x019200cf, FALSE, EInternal());return TRUE;
+#line 6052 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}BOOL CPlayerWeapons::H0x019200d0_CannonFireStart_04(const CEntityEvent &__eeInput) {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920104
+#define STATE_CURRENT 0x019200d0
 
-#line 6149 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6053 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_tmDrawStartTime  = 0.0f;
-#line 6150 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6054 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 6151 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6055 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_iIronBalls  & 1)
-#line 6152 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6056 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 6154 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6058 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Set3DParameters  (50.0f , 5.0f , 0.0f , 1.0f);
-#line 6155 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6059 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 6156 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6060 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 else 
-#line 6157 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6061 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 6159 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6063 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon1  . Set3DParameters  (50.0f , 5.0f , 0.0f , 1.0f);
-#line 6160 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6064 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 6163 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(((m_iIronBalls  > 0) && (m_iCurrentWeapon  == WEAPON_IRONCANNON )))){ Jump(STATE_CURRENT,0x0192010a, FALSE, EInternal());return TRUE;}
-#line 6165 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6067 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(((m_iIronBalls  < 3) && (m_iCurrentWeapon  == WEAPON_IRONCANNON )))){ Jump(STATE_CURRENT,0x019200d6, FALSE, EInternal());return TRUE;}
+#line 6069 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 INDEX iPower  = INDEX ((_pTimer  -> CurrentTick  () - TM_START ) / _pTimer  -> TickQuantum );
-#line 6166 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6070 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimation  (BODY_ANIM_MINIGUN_FIRELONG  , 0);
-#line 6168 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6072 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT fRange  , fFalloff ;
-#line 6169 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6073 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(GetSP  () -> sp_bCooperative ){
-#line 6170 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6074 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 fRange  = 100.0f;
-#line 6171 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6075 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 fFalloff  = 25.0f;
-#line 6172 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6076 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }else if(TRUE ){
-#line 6173 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6077 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 fRange  = 150.0f;
-#line 6174 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6078 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 fFalloff  = 30.0f;
-#line 6175 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6079 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 6178 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6082 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_iIronBalls  & 1)
-#line 6179 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6083 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 6180 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6084 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon2  . Set3DParameters  (fRange  , fFalloff  , 2.0f + iPower  * 0.05f , 1.0f);
-#line 6181 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6085 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon2  , SOUND_CANNON  , SOF_3D  | SOF_VOLUMETRIC );
-#line 6182 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6086 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 6183 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6087 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 else 
-#line 6184 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6088 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 6185 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6089 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon3  . Set3DParameters  (fRange  , fFalloff  , 2.0f + iPower  * 0.05f , 1.0f);
-#line 6186 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6090 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon3  , SOUND_CANNON  , SOF_3D  | SOF_VOLUMETRIC );
-#line 6187 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6091 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 6189 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6093 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (CANNON_ANIM_FIRE  , 0);
-#line 6190 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6094 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireCannonBall  (iPower );
-#line 6192 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6096 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Canon");}
-#line 6193 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6097 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DecAmmo  (m_iIronBalls  , 3);
-#line 6195 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6099 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SpawnRangeSound  (30.0f);
-#line 6197 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6101 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 TM_START  = _pTimer  -> CurrentTick  ();
-#line 6198 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6102 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPowerOld  = m_fWeaponDrawPower ;
-#line 6199 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-Jump(STATE_CURRENT,0x01920107, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920107_CannonFireStart_07(const CEntityEvent &__eeInput)
-#line 6201 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6103 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+Jump(STATE_CURRENT,0x019200d3, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200d3_CannonFireStart_07(const CEntityEvent &__eeInput)
+#line 6105 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920107
+#define STATE_CURRENT 0x019200d3
 if(!(m_fWeaponDrawPower  > 0.0f || 
-#line 6200 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-((_pTimer  -> CurrentTick  () - TM_START ) < m_moWeapon  . GetAnimLength  (CANNON_ANIM_FIRE )))){ Jump(STATE_CURRENT,0x01920108, FALSE, EInternal());return TRUE;}
-#line 6202 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6104 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+((_pTimer  -> CurrentTick  () - TM_START ) < m_moWeapon  . GetAnimLength  (CANNON_ANIM_FIRE )))){ Jump(STATE_CURRENT,0x019200d4, FALSE, EInternal());return TRUE;}
+#line 6106 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(_pTimer  -> TickQuantum );
-Jump(STATE_CURRENT, 0x01920105, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920105_CannonFireStart_05(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200d1, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200d1_CannonFireStart_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920105
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920106, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920106_CannonFireStart_06(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200d1
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200d2, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200d2_CannonFireStart_06(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920106
+#define STATE_CURRENT 0x019200d2
 ;
-#line 6203 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6107 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPowerOld  = m_fWeaponDrawPower ;
-#line 6204 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6108 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPower  -= F_OFFSET_CHG ;
-#line 6205 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6109 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_fWeaponDrawPower  = ClampDn  (m_fWeaponDrawPower  , 0.0f);
-#line 6206 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-F_OFFSET_CHG  = F_OFFSET_CHG  * 2;Jump(STATE_CURRENT,0x01920107, FALSE, EInternal());return TRUE;
-#line 6207 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}BOOL CPlayerWeapons::H0x01920108_CannonFireStart_08(const CEntityEvent &__eeInput) {
+#line 6110 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+F_OFFSET_CHG  = F_OFFSET_CHG  * 2;Jump(STATE_CURRENT,0x019200d3, FALSE, EInternal());return TRUE;
+#line 6111 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}BOOL CPlayerWeapons::H0x019200d4_CannonFireStart_08(const CEntityEvent &__eeInput) {
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920108
+#define STATE_CURRENT 0x019200d4
 
-#line 6210 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6114 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ResetWeaponMovingOffset  ();
-#line 6213 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6117 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(((m_iIronBalls  <= 0) && (m_iCurrentWeapon  == WEAPON_IRONCANNON ))
-#line 6214 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6118 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 )
-#line 6215 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6119 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 6216 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6120 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SelectNewWeapon  ();
-#line 6217 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}Jump(STATE_CURRENT,0x01920109, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192010a_CannonFireStart_10(const CEntityEvent &__eeInput){
+#line 6121 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}Jump(STATE_CURRENT,0x019200d5, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200d6_CannonFireStart_10(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192010a
+#define STATE_CURRENT 0x019200d6
 
-#line 6220 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6124 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 {
-#line 6221 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6125 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ASSERTALWAYS  ("Cannon - Auto weapon change not working.");
-#line 6222 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6126 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bAltFire  = m_bHasAmmo  = FALSE ;
-#line 6223 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}Jump(STATE_CURRENT,0x01920109, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x01920109_CannonFireStart_09(const CEntityEvent &__eeInput){
+#line 6127 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}Jump(STATE_CURRENT,0x019200d5, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x019200d5_CannonFireStart_09(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920109
+#define STATE_CURRENT 0x019200d5
 
-#line 6224 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6128 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 6226 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6130 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 AltCannonFire(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_AltCannonFire
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::AltCannonFire expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6228 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iIronBalls  > 0)){ Jump(STATE_CURRENT,0x01920111, FALSE, EInternal());return TRUE;}
-#line 6229 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6132 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(m_iIronBalls  > 0)){ Jump(STATE_CURRENT,0x019200dd, FALSE, EInternal());return TRUE;}
+#line 6133 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimation  (BODY_ANIM_SHOTGUN_FIRESHORT  , 0);
-#line 6230 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6134 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_moWeapon  . PlayAnim  (CANNON_ANIM_FIRE  , 0);
-#line 6232 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6136 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FireAltCannonRay  ();
-#line 6233 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6137 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SpawnRangeSound  (10.0f);
-#line 6234 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6138 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(_pNetwork  -> IsPlayerLocal  (m_penPlayer )){IFeel_PlayEffect  ("Canon");}
-#line 6235 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6139 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 DecAmmo  (m_iIronBalls  , 1);
-#line 6237 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6141 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 6238 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6142 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlaySound  (pl  . m_soWeapon0  , SOUND_CANNON  , SOF_3D  | SOF_VOLUMETRIC );
-#line 6239 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6143 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 GetAnimator  () -> FireAnimation  (BODY_ANIM_SHOTGUN_FIRESHORT  , 0);
-#line 6241 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6145 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(0.05f);
-Jump(STATE_CURRENT, 0x0192010c, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192010c_AltCannonFire_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200d8, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200d8_AltCannonFire_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192010c
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192010d, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192010d_AltCannonFire_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200d8
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200d9, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200d9_AltCannonFire_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192010d
+#define STATE_CURRENT 0x019200d9
 ;
-#line 6244 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6148 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAfter(m_moWeapon  . GetAnimLength  (CANNON_ANIM_FIRE ) - 0.05f);
-Jump(STATE_CURRENT, 0x0192010e, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192010e_AltCannonFire_03(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200da, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200da_AltCannonFire_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192010e
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x0192010f, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192010f_AltCannonFire_04(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200da
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200db, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200db_AltCannonFire_04(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192010f
+#define STATE_CURRENT 0x019200db
 ;
-#line 6248 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(m_iIronBalls  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x01920110, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920111_AltCannonFire_06(const CEntityEvent &__eeInput){
+#line 6152 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(m_iIronBalls  <= 0){SelectNewWeapon  ();}Jump(STATE_CURRENT,0x019200dc, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200dd_AltCannonFire_06(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920111
+#define STATE_CURRENT 0x019200dd
 {
-#line 6250 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6154 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ASSERTALWAYS  ("Cannon - Auto weapon change not working.");
-#line 6251 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6155 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bFireWeapon  = m_bHasAmmo  = FALSE ;
-#line 6252 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}Jump(STATE_CURRENT,0x01920110, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x01920110_AltCannonFire_05(const CEntityEvent &__eeInput){
+#line 6156 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}Jump(STATE_CURRENT,0x019200dc, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x019200dc_AltCannonFire_05(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920110
+#define STATE_CURRENT 0x019200dc
 
-#line 6253 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6157 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 6253 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6157 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 6260 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6164 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Reload(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_Reload
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::Reload expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6261 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6165 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bReloadWeapon  = FALSE ;
-#line 6264 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(m_iCurrentWeapon  == WEAPON_COLT )){ Jump(STATE_CURRENT,0x01920121, FALSE, EInternal());return TRUE;}
-#line 6265 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6168 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(m_iCurrentWeapon  == WEAPON_COLT )){ Jump(STATE_CURRENT,0x019200ed, FALSE, EInternal());return TRUE;}
+#line 6169 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 STATE_CPlayerWeapons_ReloadColt, TRUE;
-Jump(STATE_CURRENT, 0x01920113, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920113_Reload_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200df, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200df_Reload_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920113
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CPlayerWeapons_ReloadColt, TRUE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x01920114, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920114_Reload_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200df
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CPlayerWeapons_ReloadColt, TRUE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x019200e0, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200e0_Reload_02(const CEntityEvent &__eeInput){
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920114
+#define STATE_CURRENT 0x019200e0
 const EEnd&__e= (EEnd&)__eeInput;
-;Jump(STATE_CURRENT,0x01920120, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920121_Reload_15(const CEntityEvent &__eeInput){
+;Jump(STATE_CURRENT,0x019200ec, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200ed_Reload_15(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920121
-if(!(m_iCurrentWeapon  == WEAPON_DOUBLECOLT )){ Jump(STATE_CURRENT,0x0192011f, FALSE, EInternal());return TRUE;}
-#line 6267 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#define STATE_CURRENT 0x019200ed
+if(!(m_iCurrentWeapon  == WEAPON_DOUBLECOLT )){ Jump(STATE_CURRENT,0x019200eb, FALSE, EInternal());return TRUE;}
+#line 6171 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 STATE_CPlayerWeapons_ReloadDoubleColt, TRUE;
-Jump(STATE_CURRENT, 0x01920115, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920115_Reload_03(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200e1, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200e1_Reload_03(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920115
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CPlayerWeapons_ReloadDoubleColt, TRUE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x01920116, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920116_Reload_04(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200e1
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CPlayerWeapons_ReloadDoubleColt, TRUE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x019200e2, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200e2_Reload_04(const CEntityEvent &__eeInput){
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920116
+#define STATE_CURRENT 0x019200e2
 const EEnd&__e= (EEnd&)__eeInput;
-;Jump(STATE_CURRENT,0x0192011e, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192011f_Reload_13(const CEntityEvent &__eeInput){
+;Jump(STATE_CURRENT,0x019200ea, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200eb_Reload_13(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192011f
-if(!(m_iCurrentWeapon  == WEAPON_SINGLESHOTGUN )){ Jump(STATE_CURRENT,0x0192011d, FALSE, EInternal());return TRUE;}
-#line 6269 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#define STATE_CURRENT 0x019200eb
+if(!(m_iCurrentWeapon  == WEAPON_SINGLESHOTGUN )){ Jump(STATE_CURRENT,0x019200e9, FALSE, EInternal());return TRUE;}
+#line 6173 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 STATE_CPlayerWeapons_ReloadSingleShotgun, TRUE;
-Jump(STATE_CURRENT, 0x01920117, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920117_Reload_05(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200e3, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200e3_Reload_05(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920117
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CPlayerWeapons_ReloadSingleShotgun, TRUE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x01920118, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920118_Reload_06(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200e3
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CPlayerWeapons_ReloadSingleShotgun, TRUE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x019200e4, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200e4_Reload_06(const CEntityEvent &__eeInput){
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920118
+#define STATE_CURRENT 0x019200e4
 const EEnd&__e= (EEnd&)__eeInput;
-;Jump(STATE_CURRENT,0x0192011c, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192011d_Reload_11(const CEntityEvent &__eeInput){
+;Jump(STATE_CURRENT,0x019200e8, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200e9_Reload_11(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192011d
-if(!(m_iCurrentWeapon  == WEAPON_TOMMYGUN )){ Jump(STATE_CURRENT,0x0192011b, FALSE, EInternal());return TRUE;}
-#line 6273 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#define STATE_CURRENT 0x019200e9
+if(!(m_iCurrentWeapon  == WEAPON_TOMMYGUN )){ Jump(STATE_CURRENT,0x019200e7, FALSE, EInternal());return TRUE;}
+#line 6177 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 STATE_CPlayerWeapons_ReloadTommyGun, TRUE;
-Jump(STATE_CURRENT, 0x01920119, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920119_Reload_07(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200e5, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200e5_Reload_07(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920119
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CPlayerWeapons_ReloadTommyGun, TRUE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x0192011a, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x0192011a_Reload_08(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200e5
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: Call(STATE_CURRENT, STATE_CPlayerWeapons_ReloadTommyGun, TRUE, EVoid());return TRUE;case EVENTCODE_EEnd: Jump(STATE_CURRENT,0x019200e6, FALSE, __eeInput); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200e6_Reload_08(const CEntityEvent &__eeInput){
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192011a
+#define STATE_CURRENT 0x019200e6
 const EEnd&__e= (EEnd&)__eeInput;
-;Jump(STATE_CURRENT,0x0192011b, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x0192011b_Reload_09(const CEntityEvent &__eeInput){
+;Jump(STATE_CURRENT,0x019200e7, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200e7_Reload_09(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192011b
-Jump(STATE_CURRENT,0x0192011c, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x0192011c_Reload_10(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200e7
+Jump(STATE_CURRENT,0x019200e8, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x019200e8_Reload_10(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192011c
-Jump(STATE_CURRENT,0x0192011e, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x0192011e_Reload_12(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200e8
+Jump(STATE_CURRENT,0x019200ea, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x019200ea_Reload_12(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192011e
-Jump(STATE_CURRENT,0x01920120, FALSE, EInternal());return TRUE;}
-BOOL CPlayerWeapons::H0x01920120_Reload_14(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200ea
+Jump(STATE_CURRENT,0x019200ec, FALSE, EInternal());return TRUE;}
+BOOL CPlayerWeapons::H0x019200ec_Reload_14(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920120
+#define STATE_CURRENT 0x019200ec
 
-#line 6276 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6180 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 6283 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6187 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ChangeKnifeStand(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_ChangeKnifeStand
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::ChangeKnifeStand expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6296 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6200 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 6296 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6200 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 6299 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6203 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ChangeToIronCannon(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_ChangeToIronCannon
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::ChangeToIronCannon expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6310 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6214 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_iPreviousWeapon  = m_iCurrentWeapon ;
-#line 6311 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6215 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_iCurrentWeapon  = WEAPON_IRONCANNON ;
-#line 6312 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6216 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_iWantedWeapon  = m_iCurrentWeapon ;
-#line 6314 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6218 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EEnd  ());
-#line 6314 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6218 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 6338 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6242 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 BoringWeaponAnimation(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_BoringWeaponAnimation
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::BoringWeaponAnimation expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6340 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6244 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 FLOAT fWait  = 0.0f;
-#line 6341 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6245 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 switch(m_iCurrentWeapon ){
-#line 6342 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6246 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_KNIFE : fWait  = KnifeBoring  ();break ;
-#line 6343 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6247 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_COLT : fWait  = ColtBoring  ();break ;
-#line 6344 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6248 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_DOUBLECOLT : fWait  = DoubleColtBoring  ();break ;
-#line 6345 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6249 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_SINGLESHOTGUN : fWait  = SingleShotgunBoring  ();break ;
-#line 6346 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6250 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_DOUBLESHOTGUN : fWait  = DoubleShotgunBoring  ();break ;
-#line 6347 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6251 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_TOMMYGUN : fWait  = TommyGunBoring  ();break ;
-#line 6348 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6252 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_SNIPER : fWait  = SniperBoring  ();break ;
-#line 6349 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6253 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_MINIGUN : fWait  = MiniGunBoring  ();break ;
-#line 6350 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6254 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_ROCKETLAUNCHER : fWait  = RocketLauncherBoring  ();break ;
-#line 6351 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6255 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_GRENADELAUNCHER : fWait  = GrenadeLauncherBoring  ();break ;
-#line 6352 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6256 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_FLAMER : fWait  = FlamerBoring  ();break ;
-#line 6353 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6257 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_CHAINSAW : fWait  = ChainsawBoring  ();break ;
-#line 6354 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6258 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_LASER : fWait  = LaserBoring  ();break ;
-#line 6355 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6259 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 case WEAPON_IRONCANNON : fWait  = CannonBoring  ();break ;
-#line 6356 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6260 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 default  : ASSERTALWAYS  ("Unknown weapon.");
-#line 6357 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6261 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 6358 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-if(!(fWait  > 0.0f)){ Jump(STATE_CURRENT,0x01920127, FALSE, EInternal());return TRUE;}SetTimerAfter(fWait );
-Jump(STATE_CURRENT, 0x01920125, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920125_BoringWeaponAnimation_01(const CEntityEvent &__eeInput) {
+#line 6262 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+if(!(fWait  > 0.0f)){ Jump(STATE_CURRENT,0x019200f3, FALSE, EInternal());return TRUE;}SetTimerAfter(fWait );
+Jump(STATE_CURRENT, 0x019200f1, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200f1_BoringWeaponAnimation_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920125
-switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x01920126, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x01920126_BoringWeaponAnimation_02(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200f1
+switch(__eeInput.ee_slEvent) {case EVENTCODE_EBegin: return TRUE;case EVENTCODE_ETimer: Jump(STATE_CURRENT,0x019200f2, FALSE, EInternal()); return TRUE;default: return FALSE; }}BOOL CPlayerWeapons::H0x019200f2_BoringWeaponAnimation_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920126
-;Jump(STATE_CURRENT,0x01920127, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x01920127_BoringWeaponAnimation_03(const CEntityEvent &__eeInput){
+#define STATE_CURRENT 0x019200f2
+;Jump(STATE_CURRENT,0x019200f3, FALSE, EInternal());return TRUE;}BOOL CPlayerWeapons::H0x019200f3_BoringWeaponAnimation_03(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920127
+#define STATE_CURRENT 0x019200f3
 
-#line 6360 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6264 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EBegin  ());
-#line 6360 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6264 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 6368 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6272 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Idle(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_Idle
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::Idle expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6370 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6274 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAt(THINKTIME_NEVER);
-Jump(STATE_CURRENT, 0x01920129, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x01920129_Idle_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200f5, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200f5_Idle_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x01920129
+#define STATE_CURRENT 0x019200f5
 switch(__eeInput.ee_slEvent){case(EVENTCODE_EBegin):{const EBegin&e= (EBegin&)__eeInput;
 
-#line 6373 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6277 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlayDefaultAnim  ();
-#line 6376 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6280 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_bChangeWeapon ){
-#line 6377 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6281 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_ChangeWeapon, TRUE, EVoid());return TRUE;
-#line 6378 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6282 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 6380 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6284 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_bFireWeapon ){
-#line 6381 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6285 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_Fire, TRUE, EVoid());return TRUE;
-#line 6382 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6286 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 6384 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6288 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_bReloadWeapon ){
-#line 6385 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6289 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_Reload, TRUE, EVoid());return TRUE;
-#line 6386 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6290 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 6388 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6292 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_bAltFire ){
-#line 6389 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6293 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_AltFire, TRUE, EVoid());return TRUE;
-#line 6390 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6294 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 6392 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6296 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE;
-#line 6393 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6297 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }ASSERT(FALSE);break;case(EVENTCODE_ESelectWeapon):{const ESelectWeapon&eSelect= (ESelectWeapon&)__eeInput;
 
-#line 6397 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6301 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SelectWeaponChange  (eSelect  . iWeapon );
-#line 6398 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6302 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_bChangeWeapon ){
-#line 6399 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6303 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_ChangeWeapon, TRUE, EVoid());return TRUE;
-#line 6400 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6304 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 6401 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6305 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE;
-#line 6402 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6306 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EFireWeapon):{const EFireWeapon&e= (EFireWeapon&)__eeInput;
 
-#line 6405 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6309 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_Fire, TRUE, EVoid());return TRUE;
-#line 6406 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6310 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EReloadWeapon):{const EReloadWeapon&e= (EReloadWeapon&)__eeInput;
 
-#line 6409 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6313 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_Reload, TRUE, EVoid());return TRUE;
-#line 6410 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6314 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EAltFireWeapon):{const EAltFireWeapon&e= (EAltFireWeapon&)__eeInput;
 
-#line 6413 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6317 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Jump(STATE_CURRENT, STATE_CPlayerWeapons_AltFire, TRUE, EVoid());return TRUE;
-#line 6414 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6318 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EBoringWeapon):{const EBoringWeapon&e= (EBoringWeapon&)__eeInput;
 
-#line 6417 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6321 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Call(STATE_CURRENT, STATE_CPlayerWeapons_BoringWeaponAnimation, TRUE, EVoid());return TRUE;
-#line 6418 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6322 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }ASSERT(FALSE);break;default: return FALSE; break;
-#line 6419 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}return TRUE;}BOOL CPlayerWeapons::H0x0192012a_Idle_02(const CEntityEvent &__eeInput){
+#line 6323 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}return TRUE;}BOOL CPlayerWeapons::H0x019200f6_Idle_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192012a
+#define STATE_CURRENT 0x019200f6
  ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 6423 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6327 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Stopped(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_Stopped
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EVoid, "CPlayerWeapons::Stopped expects 'EVoid' as input!");  const EVoid &e = (const EVoid &)__eeInput;
-#line 6426 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6330 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(m_iCurrentWeapon  == WEAPON_ROCKETLAUNCHER ){
-#line 6427 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6331 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CModelObject * pmo  = & (m_moWeapon  . GetAttachmentModel  (ROCKETLAUNCHER_ATTACHMENT_ROCKET1 ) -> amo_moModelObject );
-#line 6428 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6332 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 if(pmo ){pmo  -> StretchModel  (FLOAT3D (1 , 1 , 1));}
-#line 6429 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6333 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }
-#line 6431 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6335 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ResetWeaponMovingOffset  ();
-#line 6432 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6336 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 CPlayer  & pl  = (CPlayer  &) * m_penPlayer ;
-#line 6433 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6337 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon0  . Stop  ();
-#line 6434 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6338 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon1  . Stop  ();
-#line 6435 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6339 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon2  . Stop  ();
-#line 6436 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6340 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 pl  . m_soWeapon3  . Stop  ();
-#line 6437 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6341 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlayLightAnim  (LIGHT_ANIM_NONE  , 0);
-#line 6438 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6342 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAt(THINKTIME_NEVER);
-Jump(STATE_CURRENT, 0x0192012c, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192012c_Stopped_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200f8, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200f8_Stopped_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192012c
+#define STATE_CURRENT 0x019200f8
 switch(__eeInput.ee_slEvent){case(EVENTCODE_EPostLevelChange):{const EPostLevelChange&e= (EPostLevelChange&)__eeInput;
 Return(STATE_CURRENT,EBegin  ());return TRUE;}ASSERT(FALSE);break;case(EVENTCODE_EStart):{const EStart&e= (EStart&)__eeInput;
 Return(STATE_CURRENT,EBegin  ());return TRUE;}ASSERT(FALSE);break;default:{return TRUE;}ASSERT(FALSE);break;
-#line 6443 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}return TRUE;}BOOL CPlayerWeapons::H0x0192012d_Stopped_02(const CEntityEvent &__eeInput){
+#line 6347 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}return TRUE;}BOOL CPlayerWeapons::H0x019200f9_Stopped_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192012d
+#define STATE_CURRENT 0x019200f9
  ASSERT(FALSE); return TRUE;};BOOL CPlayerWeapons::
-#line 6451 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6355 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Main(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
 #define STATE_CURRENT STATE_CPlayerWeapons_Main
   ASSERTMSG(__eeInput.ee_slEvent==EVENTCODE_EWeaponsInit, "CPlayerWeapons::Main expects 'EWeaponsInit' as input!");  const EWeaponsInit &eInit = (const EWeaponsInit &)__eeInput;
-#line 6453 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6357 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 ASSERT  (eInit  . penOwner  != NULL );
-#line 6454 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6358 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_penPlayer  = eInit  . penOwner ;
-#line 6457 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6361 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 InitAsVoid  ();
-#line 6458 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6362 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetFlags  (GetFlags  () | ENF_CROSSESLEVELS  | ENF_NOTIFYLEVELCHANGE );
-#line 6459 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6363 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetPhysicsFlags  (EPF_MODEL_IMMATERIAL );
-#line 6460 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6364 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetCollisionFlags  (ECF_IMMATERIAL );
-#line 6463 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6367 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetCurrentWeaponModel  ();
-#line 6466 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6370 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 PlayDefaultAnim  ();
-#line 6468 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6372 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SetTimerAt(THINKTIME_NEVER);
-Jump(STATE_CURRENT, 0x0192012e, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x0192012e_Main_01(const CEntityEvent &__eeInput) {
+Jump(STATE_CURRENT, 0x019200fa, FALSE, EBegin());return TRUE;}BOOL CPlayerWeapons::H0x019200fa_Main_01(const CEntityEvent &__eeInput) {
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192012e
+#define STATE_CURRENT 0x019200fa
 switch(__eeInput.ee_slEvent){case(EVENTCODE_EBegin):{const EBegin&e= (EBegin&)__eeInput;
 Call(STATE_CURRENT, STATE_CPlayerWeapons_Idle, TRUE, EVoid());return TRUE;}ASSERT(FALSE);break;case(EVENTCODE_ESelectWeapon):{const ESelectWeapon&eSelect= (ESelectWeapon&)__eeInput;
 
-#line 6472 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6376 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 SelectWeaponChange  (eSelect  . iWeapon );
-#line 6473 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6377 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE;
-#line 6474 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6378 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EPreLevelChange):{const EPreLevelChange&e= (EPreLevelChange&)__eeInput;
 
-#line 6478 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6382 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bFireWeapon  = FALSE ;
-#line 6479 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6383 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bAltFire  = FALSE ;
-#line 6480 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6384 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Call(STATE_CURRENT, STATE_CPlayerWeapons_Stopped, TRUE, EVoid());return TRUE;
-#line 6481 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6385 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE;
-#line 6482 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6386 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EFireWeapon):{const EFireWeapon&e= (EFireWeapon&)__eeInput;
 
-#line 6485 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6389 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bFireWeapon  = TRUE ;
-#line 6486 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6390 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE;
-#line 6487 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6391 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EReleaseWeapon):{const EReleaseWeapon&e= (EReleaseWeapon&)__eeInput;
 
-#line 6490 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6394 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bFireWeapon  = FALSE ;
-#line 6491 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6395 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE;
-#line 6492 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6396 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EReloadWeapon):{const EReloadWeapon&e= (EReloadWeapon&)__eeInput;
 
-#line 6495 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6399 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bReloadWeapon  = TRUE ;
-#line 6496 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6400 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE;
-#line 6497 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6401 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EAltFireWeapon):{const EAltFireWeapon&e= (EAltFireWeapon&)__eeInput;
 
-#line 6500 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6404 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bAltFire  = TRUE ;
-#line 6501 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6405 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE;
-#line 6502 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6406 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EReleaseWeaponAlt):{const EReleaseWeaponAlt&e= (EReleaseWeaponAlt&)__eeInput;
 
-#line 6505 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6409 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 m_bAltFire  = FALSE ;
-#line 6506 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6410 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE;
-#line 6507 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6411 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 }ASSERT(FALSE);break;case(EVENTCODE_EStop):{const EStop&e= (EStop&)__eeInput;
 Call(STATE_CURRENT, STATE_CPlayerWeapons_Stopped, TRUE, EVoid());return TRUE;}ASSERT(FALSE);break;case(EVENTCODE_EEnd):{const EEnd&e= (EEnd&)__eeInput;
-UnsetTimer();Jump(STATE_CURRENT,0x0192012f, FALSE, EInternal());return TRUE;}ASSERT(FALSE);break;default: return FALSE; break;
-#line 6510 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
-}return TRUE;}BOOL CPlayerWeapons::H0x0192012f_Main_02(const CEntityEvent &__eeInput){
+UnsetTimer();Jump(STATE_CURRENT,0x019200fb, FALSE, EInternal());return TRUE;}ASSERT(FALSE);break;default: return FALSE; break;
+#line 6414 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+}return TRUE;}BOOL CPlayerWeapons::H0x019200fb_Main_02(const CEntityEvent &__eeInput){
 ASSERT(__eeInput.ee_slEvent==EVENTCODE_EInternal);
 #undef STATE_CURRENT
-#define STATE_CURRENT 0x0192012f
+#define STATE_CURRENT 0x019200fb
 
-#line 6513 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6417 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Destroy  ();
-#line 6514 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6418 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 Return(STATE_CURRENT,EVoid());
-#line 6514 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
+#line 6418 "V:/Programs/SamSDK/Sources/EntitiesMP/PlayerWeapons.es"
 return TRUE; ASSERT(FALSE); return TRUE;};
